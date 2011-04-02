@@ -1,0 +1,40 @@
+@CHARSET "UTF-8";
+
+/*Reset*/
+* {margin:0; padding:0; font-family:Arial;}
+
+/*Global*/
+form input {padding:3px 7px;}
+
+/*Global*/
+header,footer {position:fixed; right:1px; left:1px; height:2em; line-height:2em; padding:0 1em; overflow:hidden;}
+header {top:0;}
+footer {bottom:0;}
+
+menu {display:inline-block;}
+command {display:inline-block; cursor:pointer;}
+#menu_home {background-image:url("images/potato.png"); width:100px; height:2em; max-height:40px;}
+#menu_home:hover {background-position:0 40px;}
+#search {float:right;}
+#target {width:24em;}
+#copyright {float:right; font-style:italic;}
+
+#_vph {position:absolute; top:3em; bottom:3em; width:100%;}
+#_hph {height:100%; width:96em; margin:0 auto;}
+#_hph>* {display:inline-block; vertical-align:top;}
+
+aside {position:relative; height:100%; margin:0 1em;}
+aside.left {width:30em;}
+aside.right {width:20em;}
+
+#categories {position:absolute; top:0; bottom:2em; left:0; right:0; border-width:0;}
+#categories>.ui-tabs-nav {font-size:70%;}
+#categories>.ui-tabs-panel {position:absolute; top:2.4em; bottom:0; left:.2em; right:.2em; padding:0;}
+#categories>.ui-tabs-panel>ul {overflow:auto; height:100%;}
+#categories>.ui-tabs-panel>ul>li {overflow:auto; margin:.5em 1em; padding:.5em; list-style:square inside; white-space: nowrap;}
+
+aside>nav {position:absolute; bottom:0; height:2em; line-height:2em; width:100%; margin:-1px;}
+aside>nav>form {float:right; margin:.3em 1.7em; font-size:.6em!important;}
+aside>nav>form>* {float:left; margin:0;}
+
+article {position:relative; height:100%; width:40em; margin:0;}

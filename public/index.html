@@ -1,0 +1,99 @@
+<!DOCTYPE HTML> 
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="robots" content="all" />
+		<meta name="author" content="bears.home" />
+		<meta name="Copyright" content="Copyright &copy; 2011 Bears Home" />
+		
+		<title></title>
+		
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/locale/en-us.js"></script>
+		<script type="text/javascript" src="js/potato.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui.start.css" />
+		<link rel="stylesheet" type="text/css" href="css/potato.css" />
+	</head>
+	<body class="ui-helper-hidden">
+		<header class="ui-widget-header ui-corner-bottom">
+			<menu type="toolbar">
+				<command id="menu_home"></command>
+			</menu>
+			<form id="search" action="search.php" method="post">
+				<label for="target">{%search%}</label>
+				<input id="target" name="target" type="search" placeholder="{%search_in_potato%}" class="ui-widget-content ui-corner-all" />
+			</form>
+		</header>
+		<div id="_vph">
+			<div id="_hph">
+				<aside class="left ui-widget-content ui-corner-all">
+					<div id="categories">
+						<ul>
+							<li><a href="#season_dead">{%season_dead%}</a></li>
+							<li><a href="#season_wait">{%season_wait%}</a></li>
+							<li><a href="#season_todo">{%season_todo%}</a></li>
+							<li><a href="#season_next">{%season_next%}</a></li>
+							<li><a href="#season_done">{%season_done%}</a></li>
+						</ul>
+						<div id="season_dead">
+						</div>
+						<div id="season_wait">
+						</div>
+						<div id="season_todo">
+							<ul title="{%season_todo%}">
+								<li class="ui-widget-content ui-corner-all">1 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxy</li>
+								<li class="ui-widget-content ui-corner-all">2 xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
+								<li class="ui-widget-content ui-corner-all">3 xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
+								<li class="ui-widget-content ui-corner-all">3 xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
+								<li class="ui-widget-content ui-corner-all">3 xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
+								<li class="ui-widget-content ui-corner-all">3 xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
+								<li class="ui-widget-content ui-corner-all">3 xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
+								<li class="ui-widget-content ui-corner-all">3 xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
+								<li class="ui-widget-content ui-corner-all">3 xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
+								<li class="ui-widget-content ui-corner-all">3 xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
+							</ul>
+						</div>
+						<div id="season_next">
+							<ul title="{%season_todo%}">
+								<li class="ui-widget-content ui-corner-all">2 yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
+								<li class="ui-widget-content ui-corner-all">3 yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
+								<li class="ui-widget-content ui-corner-all">3 yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
+								<li class="ui-widget-content ui-corner-all">3 yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
+								<li class="ui-widget-content ui-corner-all">3 yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
+								<li class="ui-widget-content ui-corner-all">1 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
+								<li class="ui-widget-content ui-corner-all">3 yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
+								<li class="ui-widget-content ui-corner-all">3 yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
+								<li class="ui-widget-content ui-corner-all">3 yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
+								<li class="ui-widget-content ui-corner-all">3 yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
+							</ul>
+						</div>
+						<div id="season_done">
+						</div>
+					</div>
+					<nav class="ui-widget-header ui-corner-bottom">
+						<form action="page" method="post">
+							<button type="button" name="first">{%first%}</button>
+							<button type="button" name="previous">{%previous%}</button>
+							<button type="button" name="next">{%next%}</button>
+							<button type="button" name="last">{%last%}</button>
+						</form>
+					</nav>
+				</aside>
+				<article class="ui-widget-content ui-corner-all">
+					<details>
+						<summary>HTML 5</summary>
+						This document teaches you everything you have to learn about HTML 5.
+					</details>
+				</article>
+				<aside class="right ui-widget-content ui-corner-all">
+				</aside>
+			</div>
+		</div>
+		<footer class="ui-widget-header ui-corner-top">
+			<code>1.0.0.0</code>
+			<label id="copyright">{%copyright%}</label>
+		</footer>
+	</body>
+</html>
