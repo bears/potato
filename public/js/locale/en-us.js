@@ -13,8 +13,7 @@ var POTATO = {
 //
 "season_dead": "Winter",
 "season_wait": "Spring",
-"season_todo": "Todo",
-"season_next": "Summer",
+"season_work": "Summer",
 "season_done": "Autumn",
 // footer
 "copyright": "Copyright &copy; 2011 Bears Home"

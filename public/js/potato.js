@@ -1,31 +1,32 @@
 $(function(){
+	// Localize
 	$('title').text(POTATO['title']);
 	$('body').html($('body').html().replace(/{%(\w+)%}/g, function(whole, key){
 		return POTATO[key];
 	})).removeClass('ui-helper-hidden');
 	
+	// Logo event
 	$('#menu_home').click(function(){
 		location = location.protocol + '//' + location.host + '/';
 	});
-//	$('aside.left>ul').sortable({
-//		placeholder: 'ui-state-highlight',
-//		container: 'parent',
-//		axis: 'y',
-//		revert: true
-//	});
-//	$('aside.left>ul>li').dblclick(function(){
-//		alert('hi');
-//	});
-//	$('aside.left>ul,aside.left>ul>li').disableSelection();
+
+	// Category interaction
+	var categories = $('#categories').tabs({selected: 2});
+	var stickers = $('.stickers>li', categories).droppable({
+		accept: '.category>li',
+		hoverClass: 'ui-state-highlight',
+		drop: function(event, ui){
+			var category = $('.category', $('a', this).attr('href'));
+			var sticker = $(this);
+			ui.draggable.hide('fast', function(){
+				categories.tabs('select', stickers.index(sticker));
+				$(this).appendTo(category).show('fast');
+			});
+		}
+	});
+	$('.category', categories).sortable({handle: '.handle', placeholder: 'ui-state-highlight'});
 	
-	/*var season = $('aside>div>form[action="season"]').buttonset()
-		.children('label')
-			.removeClass('ui-corner-left')
-			.removeClass('ui-corner-right')
-			.addClass('ui-corner-bottom')
-		.end();*/
-	$('#categories').tabs({selected: 2});
-	
+	// Category navigation
 	var page = $('aside>nav>form').buttonset();
 	$('[name="first"]', page).button('option', {
 		icons: {primary: 'ui-icon-seek-start'}
@@ -39,9 +40,4 @@ $(function(){
 	$('[name="last"]', page).button('option', {
 		icons: {primary: 'ui-icon-seek-end'}
 	});
-	
-	$("#tabs").tabs();
-	$(".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *") 
-		.removeClass("ui-corner-all ui-corner-top") 
-		.addClass("ui-corner-bottom");
 });

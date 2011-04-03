@@ -30,8 +30,10 @@ aside.right {width:20em;}
 #categories {position:absolute; top:0; bottom:2em; left:0; right:0; border-width:0;}
 #categories>.ui-tabs-nav {font-size:70%;}
 #categories>.ui-tabs-panel {position:absolute; top:2.4em; bottom:0; left:.2em; right:.2em; padding:0;}
-#categories>.ui-tabs-panel>ul {overflow:auto; height:100%;}
-#categories>.ui-tabs-panel>ul>li {overflow:auto; margin:.5em 1em; padding:.5em; list-style:square inside; white-space: nowrap;}
+#categories .category {overflow:auto; height:100%;}
+#categories .category>li {position:relative; overflow:auto; margin:.5em 1em; padding:.5em; list-style:square inside; white-space: nowrap;}
+#categories .category .handle {position:absolute; top:-4px; left:50%; margin-left:-8px; cursor:move; display:none;}
+#categories .category li:hover>.handle {display:block;}
 
 aside>nav {position:absolute; bottom:0; height:2em; line-height:2em; width:100%; margin:-1px;}
 aside>nav>form {float:right; margin:.3em 1.7em; font-size:.6em!important;}
