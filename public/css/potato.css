@@ -1,16 +1,17 @@
 @CHARSET "UTF-8";
 
-/*Reset*/
+/*reset*/
 * {margin:0; padding:0; font-family:Arial;}
 
-/*Global*/
+/*global*/
 form input {padding:3px 7px;}
 
-/*Global*/
+/*global*/
 header,footer {position:fixed; right:1px; left:1px; height:2em; line-height:2em; padding:0 1em; overflow:hidden;}
 header {top:0;}
 footer {bottom:0;}
 
+/*head & foot bar*/
 menu {display:inline-block;}
 command {display:inline-block; cursor:pointer;}
 #menu_home {background-image:url("images/potato.png"); width:100px; height:2em; max-height:40px;}
@@ -19,6 +20,7 @@ command {display:inline-block; cursor:pointer;}
 #target {width:24em;}
 #copyright {float:right; font-style:italic;}
 
+/*content place holder*/
 #_vph {position:absolute; top:3em; bottom:3em; width:100%;}
 #_hph {height:100%; width:96em; margin:0 auto;}
 #_hph>* {display:inline-block; vertical-align:top;}
@@ -31,12 +33,13 @@ aside.right {width:20em;}
 #categories>.ui-tabs-nav {font-size:70%;}
 #categories>.ui-tabs-panel {position:absolute; top:2.4em; bottom:0; left:.2em; right:.2em; padding:0;}
 #categories .category {overflow:auto; height:100%;}
-#categories .category>li {position:relative; overflow:auto; margin:.5em 1em; padding:.5em; list-style:square inside; white-space: nowrap;}
-#categories .category .handle {position:absolute; top:-4px; left:50%; margin-left:-8px; cursor:move; display:none;}
-#categories .category li:hover>.handle {display:block;}
+#categories .category>li {position:relative; overflow:auto; margin:.5em 1em; padding:.5em; white-space: nowrap;}
+#categories .category .handle {display:inline-block; cursor:move; margin-right:5px;}
 
 aside>nav {position:absolute; bottom:0; height:2em; line-height:2em; width:100%; margin:-1px;}
-aside>nav>form {float:right; margin:.3em 1.7em; font-size:.6em!important;}
-aside>nav>form>* {float:left; margin:0;}
+aside>nav>form {font-size:.6em!important; margin:.3em 1.7em!important;}
+aside>nav>form.item {float:left;}
+aside>nav>form.page {float:right;}
+aside>nav>form>button {float:left; margin:0;}
 
 article {position:relative; height:100%; width:40em; margin:0;}
