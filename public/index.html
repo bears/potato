@@ -11,6 +11,7 @@
 		<script type="text/javascript" src="js/jquery.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="js/locale/en-us.js"></script>
+		<script type="text/javascript" src="js/classes/factory.js"></script>
 		<script type="text/javascript" src="js/potato.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="css/jquery-ui.start.css" />
@@ -22,8 +23,8 @@
 				<command id="menu_home"></command>
 			</menu>
 			<form id="search" action="search.php" method="post">
-				<label for="target">{%search%}</label>
-				<input id="target" name="target" type="search" placeholder="{%search_in_potato%}" class="ui-widget-content ui-corner-all" />
+				<label for="search_target" accesskey="s">{%search%}</label>
+				<input id="search_target" name="search" type="search" placeholder="{%search_in_potato%}" class="ui-widget-content ui-corner-all" />
 			</form>
 		</header>
 		<div id="_vph">
@@ -31,84 +32,49 @@
 				<aside class="left ui-widget-content ui-corner-all">
 					<div id="categories">
 						<ul class="stickers">
-							<li><a href="#season_wait">{%season_wait%}</a></li>
-							<li><a href="#season_work">{%season_work%}</a></li>
-							<li><a href="#season_done">{%season_done%}</a></li>
-							<li><a href="#season_dead">{%season_dead%}</a></li>
+							<li><a href="#season_wait" accesskey="g">{%season_wait%}</a></li>
+							<li><a href="#season_work" accesskey="r">{%season_work%}</a></li>
+							<li><a href="#season_done" accesskey="a">{%season_done%}</a></li>
+							<li><a href="#season_dead" accesskey="w">{%season_dead%}</a></li>
 						</ul>
 						<div id="season_wait">
 							<ul title="{%season_wait%}" class="category">
-								<li class="ui-widget-content"><a class="handle ui-icon ui-icon-flag"></a>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxy</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>xxxxxxxxxxxxxxxxxxxxxxxxxxxx</li>
+								<li class="ui-widget-content"><a class="handle ui-icon ui-icon-flag"></a>yyyyyyyyyyyyyyyyyyyyyyy</li>
 							</ul>
 						</div>
 						<div id="season_work">
 							<ul title="{%season_work%}" class="category">
-								<li class="ui-widget-content"><a class="handle ui-icon ui-icon-star"></a>yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>yyyyyyyyyyyyyyyyyyyyyyyyyyyy</li>
+								<li class="ui-widget-content"><a class="handle ui-icon ui-icon-star"></a>WWWWWWWWWWWWWWWWWWWWWWWWW</li>
 							</ul>
 						</div>
 						<div id="season_done">
 							<ul title="{%season_done%}" class="category">
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWxy</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
+								<li class="ui-widget-content"><a class="handle ui-icon"></a>DDDDDDDDDDDDD</li>
 							</ul>
 						</div>
 						<div id="season_dead">
 							<ul title="{%season_dead%}" class="category">
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWxy</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
-								<li class="ui-widget-content"><a class="handle ui-icon"></a>WWWWWWWWWWWWWW</li>
+								<li class="ui-widget-content"><a class="handle ui-icon"></a>jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</li>
 							</ul>
 						</div>
 					</div>
 					<nav class="ui-widget-header ui-corner-bottom">
 						<form action="item" method="post" class="item">
-							<button type="button" name="more">{%item_more%}</button>
+							<button type="button" name="more" accesskey="+">{%item_more%}</button>
 						</form>
 						<form action="page" method="post" class="page">
-							<button type="button" name="first">{%page_first%}</button>
-							<button type="button" name="prev">{%page_prev%}</button>
-							<button type="button" name="next">{%page_next%}</button>
-							<button type="button" name="last">{%page_last%}</button>
+							<button type="button" name="first" accesskey="{">{%page_first%}</button>
+							<button type="button" name="prev" accesskey="<">{%page_prev%}</button>
+							<button type="button" name="next" accesskey=">">{%page_next%}</button>
+							<button type="button" name="last" accesskey="}">{%page_last%}</button>
 						</form>
 					</nav>
 				</aside>
 				<article class="ui-widget-content ui-corner-all">
+					<time datetime="2011-04-02 00:00:00"></time>
 					<details>
 						<summary>HTML 5</summary>
-						This document teaches you everything you have to learn about HTML 5.
+						<p>This document teaches you everything you have to learn about HTML 5.</p>
 					</details>
 				</article>
 				<aside class="right ui-widget-content ui-corner-all">

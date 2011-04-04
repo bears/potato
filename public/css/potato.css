@@ -17,7 +17,7 @@ command {display:inline-block; cursor:pointer;}
 #menu_home {background-image:url("images/potato.png"); width:100px; height:2em; max-height:40px;}
 #menu_home:hover {background-position:0 40px;}
 #search {float:right;}
-#target {width:24em;}
+#search_target {width:24em;}
 #copyright {float:right; font-style:italic;}
 
 /*content place holder*/
@@ -30,7 +30,7 @@ aside.left {width:30em;}
 aside.right {width:20em;}
 
 #categories {position:absolute; top:0; bottom:2em; left:0; right:0; border-width:0;}
-#categories>.ui-tabs-nav {font-size:70%;}
+#categories>.ui-tabs-nav>li {font-weight:bold; font-size:70%;}
 #categories>.ui-tabs-panel {position:absolute; top:2.4em; bottom:0; left:.2em; right:.2em; padding:0;}
 #categories .category {overflow:auto; height:100%;}
 #categories .category>li {position:relative; overflow:auto; margin:.5em 1em; padding:.5em; white-space: nowrap;}

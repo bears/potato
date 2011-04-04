@@ -1,4 +1,4 @@
-var POTATO = {
+var POTATO_L10N = {
 // page title
 "title": "Potato",
 // header

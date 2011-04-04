@@ -1,14 +1,10 @@
 $(function(){
 	// Localize
-	$('title').text(POTATO['title']);
-	$('body').html($('body').html().replace(/{%(\w+)%}/g, function(whole, key){
-		return POTATO[key];
-	})).removeClass('ui-helper-hidden');
+	$('title').text(POTATO_L10N['title']);
+	$('body').html($('body').html().replace(/{%(\w+)%}/g, function(whole, key){return POTATO_L10N[key]})).removeClass('ui-helper-hidden');
 	
 	// Logo event
-	$('#menu_home').click(function(){
-		location = location.protocol + '//' + location.host + '/';
-	});
+	$('#menu_home').click(function(){location = location.protocol + '//' + location.host + '/'});
 
 	// Category interaction
 	var categories = $('#categories').tabs({selected: 1});
@@ -43,19 +39,27 @@ $(function(){
 	
 	// Category navigation
 	$('nav>form').buttonset();
-	$('form.item>[name="more"]').button('option', {
-		icons: {primary: 'ui-icon-plusthick'}
-	});
-	$('form.page>[name="first"]').button('option', {
-		icons: {primary: 'ui-icon-seek-start'}
-	});
-	$('form.page>[name="prev"]').button('option', {
-		icons: {primary: 'ui-icon-seek-prev'}
-	});
-	$('form.page>[name="next"]').button('option', {
-		icons: {primary: 'ui-icon-seek-next'}
-	});
-	$('form.page>[name="last"]').button('option', {
-		icons: {primary: 'ui-icon-seek-end'}
-	});
+	$('form.item>[name="more"]').button('option', {icons: {primary: 'ui-icon-plusthick'}});
+	$('form.page>[name="first"]').button('option', {icons: {primary: 'ui-icon-seek-start'}});
+	$('form.page>[name="prev"]').button('option', {icons: {primary: 'ui-icon-seek-prev'}});
+	$('form.page>[name="next"]').button('option', {icons: {primary: 'ui-icon-seek-next'}});
+	$('form.page>[name="last"]').button('option', {icons: {primary: 'ui-icon-seek-end'}});
+	
+	// Test
+	(new bhFactory()).subscribe((new bhCategory('season_dead')), 'Task');
 });
+
+function bhCategory(id){
+	this.element = $('#' + id);
+}
+
+bhCategory.prototype.getName = function(){
+	return 'CategorySideBar';
+};
+
+bhCategory.prototype.notify = function(type, data){
+	if (bhFactory.NOTIFY_INSERT == type){
+		var template = '<li id="{%id%}" class="ui-widget-content"><a class="handle ui-icon"></a>{%summary%}</li>';
+		$(template.replace(/{%(\w+)%}/g, function(whole, key){return data[key]})).appendTo($('.category', this.element));
+	}
+};
