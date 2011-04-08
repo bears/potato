@@ -16,13 +16,13 @@ bhFactory.NOTIFY_DELETE = 'DELETE';
 /**
  * Subscribe to a subject
  * Will receive notify later
- * @param object subscriber The observer, MUST provide method getName() & notify(type, data)
+ * @param object subscriber The observer, MUST provide method notify(type, data)
  * @param string subject Element type
  * @param number id (optional) If omitted, receives notification about any item in the subject
  */
 bhFactory.prototype.subscribe = function(subscriber, subject, id){
 	// Add into notify list
-	var name = subscriber.getName();
+	var name = this._className(subscriber);
 	if (isNaN(parseInt(id))){
 		id = '';
 		var pool = bhFactory._instance[this.source].listSubscriber;
@@ -58,7 +58,7 @@ bhFactory.prototype._fetchItem = function(subscriber, subject, id){
 		$.getJSON('/ajaj/item/' + key, function(data){
 			window[this.source][key] = JSON.stringify(data);
 			subscriber.notify(bhFactory.NOTIFY_INSERT, data);
-			var exclude = subscriber.getName();
+			var exclude = this._className(subscriber);
 			var observers = bhFactory._instance[this.source].listSubscriber[subject];
 			for (var name in observers){
 				if (exclude != name){
@@ -91,6 +91,15 @@ bhFactory.prototype._fetchList = function(subscriber, subject){
 			this._fetchList(subscriber, subject);
 		}.bind(this));
 	}
+};
+
+/**
+ * Get class name of @a subscriber
+ * @param object subscriber
+ * @returns string
+ */
+bhFactory.prototype._className = function(subscriber){
+	return subscriber.constructor.toString().match(/function (\w+)/)[1];
 };
 
 /// Singleton
