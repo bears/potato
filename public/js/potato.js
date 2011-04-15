@@ -46,20 +46,19 @@ $(function(){
 	$('form.page>[name="last"]').button('option', {icons: {primary: 'ui-icon-seek-end'}});
 	
 	// Test
-	(new bhFactory()).subscribe((new bhCategory('season_dead')), 'Task');
+	(new bhFactory()).subscribe((new bhCategory()), 'Task');
 });
 
 function bhCategory(id){
-	this.element = $('#' + id);
 }
-
-bhCategory.prototype.getName = function(){
-	return 'CategorySideBar';
-};
 
 bhCategory.prototype.notify = function(type, data){
 	if (bhFactory.NOTIFY_INSERT == type){
 		var template = '<li id="{%id%}" class="ui-widget-content"><a class="handle ui-icon"></a>{%summary%}</li>';
-		$(template.replace(/{%(\w+)%}/g, function(whole, key){return data[key]})).appendTo($('.category', this.element));
+		$(template.replace(/{%(\w+)%}/g, function(whole, key){return data[key]})).appendTo($('#season_' + data.category + ' .category', this.element));
 	}
+};
+
+bhCategory.prototype.getIdentity = function(){
+	return 'bhCategory#singleton';
 };
