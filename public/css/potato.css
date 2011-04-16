@@ -14,16 +14,16 @@ footer {bottom:0;}
 /*head & foot bar*/
 menu {display:inline-block;}
 command {display:inline-block; cursor:pointer;}
-#menu_home {background-image:url("images/potato.png"); width:100px; height:2em; max-height:40px;}
-#menu_home:hover {background-position:0 40px;}
+#menu-home {background-image:url("images/potato.png"); width:100px; height:2em; max-height:40px;}
+#menu-home:hover {background-position:0 40px;}
 #search {float:right;}
-#search_target {width:24em;}
+#search-target {width:24em;}
 #copyright {float:right; font-style:italic;}
 
 /*content place holder*/
-#_vph {position:absolute; top:3em; bottom:3em; width:100%;}
-#_hph {height:100%; width:100em; margin:0 auto;}
-#_hph>* {display:inline-block; vertical-align:top; float:left;}
+#-vph {position:absolute; top:3em; bottom:3em; width:100%;}
+#-hph {height:100%; width:100em; margin:0 auto;}
+#-hph>* {display:inline-block; vertical-align:top; float:left;}
 
 aside {position:relative; height:100%; margin:0 1em;}
 aside.left {width:25em;}

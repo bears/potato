@@ -4,8 +4,8 @@ $(function(){
 	$('body').html($('body').html().replace(/{%(\w+)%}/g, function(whole, key){return POTATO_L10N[key]})).removeClass('ui-helper-hidden');
 	
 	// Logo event
-	$('#menu_home').click(function(){location = location.protocol + '//' + location.host + '/'});
-
+	$('#menu-home').click(function(){location = location.protocol + '//' + location.host + '/'});
+	
 	// Category interaction
 	var categories = $('#categories').tabs({selected: 1});
 	var stickers = $('.stickers>li', categories).droppable({
@@ -48,14 +48,22 @@ function bhCategory(id){
 }
 
 bhCategory.prototype.notify = function(type, data){
-	if (bhFactory.NOTIFY_INSERT == type){
-		var parent = $('#season_' + data.category + ' .category');
-		var template = '<li id="{%id%}" class="ui-widget-content"><a class="handle ui-icon ui-icon-{%icon%}"></a>{%summary%}</li>';
+	switch (type){
+	case bhFactory.NOTIFY_INSERT:
+		var parent = $('#season-' + data.category + ' .category');
+		var template = '<li id="task-{%id%}" class="ui-widget-content"><a class="handle ui-icon ui-icon-{%icon%}"></a>{%summary%}</li>';
 		$(template.replace(/{%(\w+)%}/g, function(whole, key){return data[key]})).appendTo(parent).click(function(){
 			var name = 'ui-state-highlight ui-corner-all';
 			var filter = '.ui-state-highlight.ui-corner-all';
 			$(this).toggleClass(name).siblings(filter).removeClass(name);
 		});
+		break;
+		
+	case bhFactory.NOTIFY_UPDATE:
+		break;
+		
+	case bhFactory.NOTIFY_DELETE:
+		break;
 	}
 };
 
