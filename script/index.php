@@ -9,8 +9,8 @@ switch ($action){
 	case 'list':
 		$type = array_shift($arguments);
 		$data = array(
-			'indices'=>array(1,2,3),
-			't'=>time(),
+			'indices' => array(1,2,3,4,5,6,7),
+			't' => time(),
 		);
 		echo json_encode($data);
 	break;
@@ -23,7 +23,8 @@ switch ($action){
 			'id' => $id,
 			'category' => $categories[$id % count($categories)],
 			'summary' => "Content for {$type}#{$id}",
-			't'=>time(),
+			'icon' => array_rand(array('pencil'=>'', 'refresh'=>'', 'shuffle'=>'', 'note'=>'', 'document'=>''), 1),
+			't' => time(),
 		);
 		echo json_encode($data);
 	break;

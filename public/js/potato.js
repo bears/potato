@@ -31,11 +31,6 @@ $(function(){
 			ui.item.removeAttr('style');
 		}
 	});
-	$('.category>li').click(function(){
-		var name = 'ui-state-highlight ui-corner-all';
-		var filter = '.ui-state-highlight.ui-corner-all';
-		$(this).toggleClass(name).siblings(filter).removeClass(name);
-	});
 	
 	// Category navigation
 	$('nav>form').buttonset();
@@ -54,8 +49,13 @@ function bhCategory(id){
 
 bhCategory.prototype.notify = function(type, data){
 	if (bhFactory.NOTIFY_INSERT == type){
-		var template = '<li id="{%id%}" class="ui-widget-content"><a class="handle ui-icon"></a>{%summary%}</li>';
-		$(template.replace(/{%(\w+)%}/g, function(whole, key){return data[key]})).appendTo($('#season_' + data.category + ' .category', this.element));
+		var parent = $('#season_' + data.category + ' .category');
+		var template = '<li id="{%id%}" class="ui-widget-content"><a class="handle ui-icon ui-icon-{%icon%}"></a>{%summary%}</li>';
+		$(template.replace(/{%(\w+)%}/g, function(whole, key){return data[key]})).appendTo(parent).click(function(){
+			var name = 'ui-state-highlight ui-corner-all';
+			var filter = '.ui-state-highlight.ui-corner-all';
+			$(this).toggleClass(name).siblings(filter).removeClass(name);
+		});
 	}
 };
 

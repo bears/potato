@@ -22,11 +22,11 @@ command {display:inline-block; cursor:pointer;}
 
 /*content place holder*/
 #_vph {position:absolute; top:3em; bottom:3em; width:100%;}
-#_hph {height:100%; width:96em; margin:0 auto;}
-#_hph>* {display:inline-block; vertical-align:top;}
+#_hph {height:100%; width:100em; margin:0 auto;}
+#_hph>* {display:inline-block; vertical-align:top; float:left;}
 
 aside {position:relative; height:100%; margin:0 1em;}
-aside.left {width:30em;}
+aside.left {width:25em;}
 aside.right {width:20em;}
 
 #categories {position:absolute; top:0; bottom:2em; left:0; right:0; border-width:0;}
@@ -42,4 +42,4 @@ aside>nav>form.item {float:left;}
 aside>nav>form.page {float:right;}
 aside>nav>form>button {float:left; margin:0;}
 
-article {position:relative; height:100%; width:40em; margin:0;}
+article {position:relative; height:100%; width:50em; margin:0;}
