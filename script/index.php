@@ -14,7 +14,7 @@ switch ($action){
 		);
 		echo json_encode($data);
 	break;
-	
+
 	case 'item':
 		$categories = array('wait', 'work', 'done', 'dead');
 		$type = array_shift($arguments);
@@ -25,6 +25,14 @@ switch ($action){
 			'summary' => "Content for {$type}#{$id}",
 			'icon' => array_rand(array('pencil'=>'', 'refresh'=>'', 'shuffle'=>'', 'note'=>'', 'document'=>''), 1),
 			't' => time(),
+		);
+		echo json_encode($data);
+	break;
+
+	case 'profile':
+		$data = array(
+			'locale' => 'en_US',
+			'cpp' => 20,
 		);
 		echo json_encode($data);
 	break;

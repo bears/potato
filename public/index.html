@@ -10,8 +10,8 @@
 		
 		<script type="text/javascript" src="js/jquery.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="js/locale/en-us.js"></script>
 		<script type="text/javascript" src="js/classes/factory.js"></script>
+		<script type="text/javascript" src="js/locale.js"></script>
 		<script type="text/javascript" src="js/potato.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="css/jquery-ui.start.css" />
@@ -55,13 +55,33 @@
 					</nav>
 				</aside>
 				<article class="ui-widget-content ui-corner-all">
-					<time datetime="2011-04-02 00:00:00"></time>
-					<details>
-						<summary>HTML 5</summary>
-						<p>This document teaches you everything you have to learn about HTML 5.</p>
-					</details>
+					<div id="details">
+						<ul><li><a href="#details-home" accesskey="h">{%details_home%}</a></li></ul>
+						<div id="details-home"><ul title="{%details_home%}"></ul>
+							<time datetime="2011-04-02 00:00:00"></time>
+							<details>
+								<summary>HTML 5</summary>
+								<p>This document teaches you everything you have to learn about HTML 5.</p>
+							</details>
+						</div>
+					</div>
 				</article>
 				<aside class="right ui-widget-content ui-corner-all">
+					<div id="calendar"></div>
+					<h3 class="ui-widget-header ui-corner-all ui-state-disabled">{%statistics%}</h3>
+					<div class="extra-info">
+						ddddddddddddddddddddddddddd
+						ddddddddddddddddddddddddddd
+						ddddddddddddddddddddddddddd
+					</div>
+					<h3 class="ui-widget-header ui-corner-all ui-state-disabled">{%statistics%}</h3>
+					<div class="extra-info">
+						eeeeeeeeeeeeeeeeeeeeeeeeeee
+						eeeeeeeeeeeeeeeeeeeeeeeeeee
+						eeeeeeeeeeeeeeeeeeeeeeeeeee
+						eeeeeeeeeeeeeeeeeeeeeeeeeee
+						eeeeeeeeeeeeeeeeeeeeeeeeeee
+					</div>
 				</aside>
 			</div>
 		</div>

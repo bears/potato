@@ -25,15 +25,17 @@ command {display:inline-block; cursor:pointer;}
 #-hph {height:100%; width:100em; margin:0 auto;}
 #-hph>* {display:inline-block; vertical-align:top; float:left;}
 
+.ui-tabs {position:absolute; top:0; bottom:0; left:0; right:0; border-width:0;}
+.ui-tabs-nav a {font-weight:bold; font-size:70%;}
+
 aside {position:relative; height:100%; margin:0 1em;}
 aside.left {width:25em;}
 aside.right {width:20em;}
 
-#categories {position:absolute; top:0; bottom:2em; left:0; right:0; border-width:0;}
-#categories>.ui-tabs-nav>li {font-weight:bold; font-size:70%;}
+#categories {bottom:2em;}
 #categories>.ui-tabs-panel {position:absolute; top:2.4em; bottom:0; left:.2em; right:.2em; padding:0;}
 #categories .category {overflow:auto; height:100%;}
-#categories .category>li {position:relative; overflow:auto; margin:.5em 1em; padding:.5em; white-space: nowrap;}
+#categories .category>li {position:relative; overflow:auto; margin:.5em; padding:.5em; white-space: nowrap;}
 #categories .category .handle {display:inline-block; cursor:move; margin-right:5px;}
 
 aside>nav {position:absolute; bottom:0; height:2em; line-height:2em; width:100%; margin:-1px;}
@@ -43,3 +45,8 @@ aside>nav>form.page {float:right;}
 aside>nav>form>button {float:left; margin:0;}
 
 article {position:relative; height:100%; width:50em; margin:0;}
+
+.ui-datepicker {margin:.2em auto .8em;}
+.ui-datepicker-header {font-size:75%;}
+aside.right h3 {margin:1.5em .5em .5em; padding:.3em .7em; font-size:100%;}
+.extra-info {margin:0 1em;}
