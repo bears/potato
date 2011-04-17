@@ -8,7 +8,7 @@ window.POTATO_PROFILE = {
 /**
  * Initialize page when profile ready
  */
-$(POTATO_PROFILE).bind('potato.ready', function() {
+$(POTATO_PROFILE).bind('ready.potato', function() {
 	// Localize
 	var locale = POTATO_L10N[POTATO_PROFILE.locale];
 	$('title').text(locale['title']);
@@ -21,11 +21,19 @@ $(POTATO_PROFILE).bind('potato.ready', function() {
 		location = location.protocol + '//' + location.host + '/'
 	});
 
+	/** Left side panel
+	 *********************************/
 	// Category interaction
-	var categories = $('#categories').tabs({
-		selected : 1
+	var categories = [];
+	$([ 'wait', 'work', 'done', 'dead' ]).each(function() {
+		categories.push(new bhCategory(this));
 	});
-	var stickers = $('.stickers>li', categories).droppable({
+	var categoryTabs = $('#categories').tabs({
+		select : function(event, ui) {
+			categories[ui.index].show();
+		}
+	}).tabs('select', 1);
+	var stickers = $('.stickers>li', categoryTabs).droppable({
 		accept : '.category>li',
 		hoverClass : 'ui-state-highlight',
 		tolerance : 'pointer',
@@ -33,14 +41,14 @@ $(POTATO_PROFILE).bind('potato.ready', function() {
 			var category = $('.category', $('a', this).attr('href'));
 			var sticker = $(this);
 			ui.draggable.hide('fast', function() {
-				categories.tabs('select', stickers.index(sticker));
+				categoryTabs.tabs('select', stickers.index(sticker));
 				$(this).appendTo(category).show('fast', function() {
 					$(this).removeAttr('style');
 				});
 			});
 		}
 	});
-	$('.category', categories).sortable({
+	$('.category', categoryTabs).sortable({
 		handle : '.handle',
 		placeholder : 'ui-state-disabled ui-state-hover ui-corner-all',
 		opacity : 0.5,
@@ -56,32 +64,21 @@ $(POTATO_PROFILE).bind('potato.ready', function() {
 			primary : 'ui-icon-plusthick'
 		}
 	});
-	$('form.page>[name="first"]').button('option', {
-		icons : {
-			primary : 'ui-icon-seek-start'
-		}
+	$([ 'start', 'prev', 'next', 'end' ]).each(function() {
+		$('form.page>[name="' + this + '"]').button('option', {
+			icons : {
+				primary : 'ui-icon-seek-' + this
+			}
+		});
 	});
-	$('form.page>[name="prev"]').button('option', {
-		icons : {
-			primary : 'ui-icon-seek-prev'
-		}
-	});
-	$('form.page>[name="next"]').button('option', {
-		icons : {
-			primary : 'ui-icon-seek-next'
-		}
-	});
-	$('form.page>[name="last"]').button('option', {
-		icons : {
-			primary : 'ui-icon-seek-end'
-		}
-	});
-
-	var details = $('#details').tabs();
+	
+	/** Right side panel
+	 *********************************/
 	$('#calendar').datepicker();
 
-	// Test
-	(new bhFactory()).subscribe((new bhCategory()), 'Task');
+	/** Main panel
+	 *********************************/
+	var detailTabs = $('#details').tabs();
 });
 
 /**
@@ -90,35 +87,6 @@ $(POTATO_PROFILE).bind('potato.ready', function() {
 $(function() {
 	$.getJSON('/ajaj/profile', function(profile) {
 		$.extend(POTATO_PROFILE, profile);
-		$(POTATO_PROFILE).trigger('potato.ready');
+		$(POTATO_PROFILE).trigger('ready.potato');
 	});
 });
-
-function bhCategory(id) {
-}
-
-bhCategory.prototype.notify = function(type, data) {
-	switch (type) {
-	case bhFactory.NOTIFY_INSERT:
-		var parent = $('#season-' + data.category + ' .category');
-		var template = '<li id="task-{%id%}" class="ui-widget-content"><a class="handle ui-icon ui-icon-{%icon%}"></a>{%summary%}</li>';
-		$(template.replace(/{%(\w+)%}/g, function(whole, key) {
-			return data[key]
-		})).appendTo(parent).click(function() {
-			var name = 'ui-state-highlight ui-corner-all';
-			var filter = '.ui-state-highlight.ui-corner-all';
-			$(this).toggleClass(name).siblings(filter).removeClass(name);
-		});
-		break;
-
-	case bhFactory.NOTIFY_UPDATE:
-		break;
-
-	case bhFactory.NOTIFY_DELETE:
-		break;
-	}
-};
-
-bhCategory.prototype.getIdentity = function() {
-	return 'bhCategory#singleton';
-};

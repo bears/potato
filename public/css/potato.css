@@ -23,7 +23,7 @@ command {display:inline-block; cursor:pointer;}
 /*content place holder*/
 #-vph {position:absolute; top:3em; bottom:3em; width:100%;}
 #-hph {height:100%; width:100em; margin:0 auto;}
-#-hph>* {display:inline-block; vertical-align:top; float:left;}
+#-hph>* {display:inline-block; vertical-align:top; float:left; overflow:hidden;}
 
 .ui-tabs {position:absolute; top:0; bottom:0; left:0; right:0; border-width:0;}
 .ui-tabs-nav a {font-weight:bold; font-size:70%;}
