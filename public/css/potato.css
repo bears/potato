@@ -46,7 +46,7 @@ aside>nav>form>button {float:left; margin:0;}
 
 article {position:relative; height:100%; width:50em; margin:0;}
 
-.ui-datepicker {margin:.2em auto .8em;}
-.ui-datepicker-header {font-size:75%;}
-aside.right h3 {margin:1.5em .5em .5em; padding:.3em .7em; font-size:100%;}
-.extra-info {margin:0 1em;}
+.ui-datepicker {margin:.2em auto .8em; border-width:0;}
+.ui-datepicker-header {font-size:77%;}
+aside.right h3 {margin:1.6em .8em .4em; padding:.3em .7em; font-size:100%;}
+.extra-info {margin:0 2em;}
