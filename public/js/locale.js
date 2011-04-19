@@ -7,18 +7,18 @@ window.POTATO_L10N = {
 		search : 'Search',
 		search_in_potato : 'Search in Potato',
 		// left panel
-		item_more : 'Add',
+		item_more : 'Seed',
 		page_first : 'First',
 		page_prev : 'Previous',
 		page_next : 'Next',
 		page_last : 'Last',
 		//
-		season_wait : 'Spring',
-		season_work : 'Summer',
-		season_done : 'Autumn',
-		season_dead : 'Winter',
+		season_spring : 'Spring',
+		season_summer : 'Summer',
+		season_autumn : 'Autumn',
+		season_winter : 'Winter',
 		//
-		details_home : 'Home',
+		details_depot : 'Depot',
 		//
 		statistics : 'Statistics',
 		// footer

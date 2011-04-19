@@ -4,14 +4,15 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="robots" content="all" />
 		<meta name="author" content="bears.home" />
-		<meta name="Copyright" content="Copyright &copy; 2011 Bears Home" />
+		<meta name="Copyright" content="&copy; 2011 Bears Home" />
 		
 		<title></title>
 		
 		<script type="text/javascript" src="js/jquery.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="ajaj/profile"></script>
 		<script type="text/javascript" src="js/classes/factory.js"></script>
-		<script type="text/javascript" src="js/classes/category.js"></script>
+		<script type="text/javascript" src="js/classes/season.js"></script>
 		<script type="text/javascript" src="js/locale.js"></script>
 		<script type="text/javascript" src="js/potato.js"></script>
 		
@@ -21,33 +22,33 @@
 	<body class="ui-helper-hidden">
 		<header class="ui-widget-header ui-corner-bottom">
 			<menu type="toolbar">
-				<command id="menu-home"></command>
+				<command id="menu_home"></command>
 			</menu>
 			<form id="search" action="search.php" method="post">
-				<label for="search-target" accesskey="s">{%search%}</label>
-				<input id="search-target" name="search" type="search" placeholder="{%search_in_potato%}" class="ui-widget-content ui-corner-all" />
+				<label for="search_target" accesskey="s">{%search%}</label>
+				<input id="search_target" name="search" type="search" placeholder="{%search_in_potato%}" class="ui-widget-content ui-corner-all" />
 			</form>
 		</header>
-		<div id="-vph">
-			<div id="-hph">
+		<div id="_vph">
+			<div id="_hph">
 				<aside class="left ui-widget-content ui-corner-all">
-					<div id="categories">
+					<div id="seasons">
 						<ul class="stickers">
-							<li><a href="#season-wait" accesskey="g">{%season_wait%}</a></li>
-							<li><a href="#season-work" accesskey="r">{%season_work%}</a></li>
-							<li><a href="#season-done" accesskey="a">{%season_done%}</a></li>
-							<li><a href="#season-dead" accesskey="w">{%season_dead%}</a></li>
+							<li><a href="#season_spring" accesskey="g">{%season_spring%}</a></li>
+							<li><a href="#season_summer" accesskey="r">{%season_summer%}</a></li>
+							<li><a href="#season_autumn" accesskey="a">{%season_autumn%}</a></li>
+							<li><a href="#season_winter" accesskey="w">{%season_winter%}</a></li>
 						</ul>
-						<div id="season-wait"><ul title="{%season_wait%}" class="category"></ul></div>
-						<div id="season-work"><ul title="{%season_work%}" class="category"></ul></div>
-						<div id="season-done"><ul title="{%season_done%}" class="category"></ul></div>
-						<div id="season-dead"><ul title="{%season_dead%}" class="category"></ul></div>
+						<div id="season_spring"><ul title="{%season_spring%}" class="season"></ul></div>
+						<div id="season_summer"><ul title="{%season_summer%}" class="season"></ul></div>
+						<div id="season_autumn"><ul title="{%season_autumn%}" class="season"></ul></div>
+						<div id="season_winter"><ul title="{%season_winter%}" class="season"></ul></div>
 					</div>
 					<nav class="ui-widget-header ui-corner-bottom">
-						<form action="item" method="post" class="item">
+						<form action="ajaj/seed" method="post" class="seed">
 							<button type="button" name="more" accesskey="+">{%item_more%}</button>
 						</form>
-						<form action="page" method="post" class="page">
+						<form action="ajaj/field" method="post" class="field">
 							<button type="button" name="start" accesskey="{">{%page_first%}</button>
 							<button type="button" name="prev" accesskey="<">{%page_prev%}</button>
 							<button type="button" name="next" accesskey=">">{%page_next%}</button>
@@ -57,8 +58,8 @@
 				</aside>
 				<article class="ui-widget-content ui-corner-all">
 					<div id="details">
-						<ul><li><a href="#details-home" accesskey="h">{%details_home%}</a></li></ul>
-						<div id="details-home"><ul title="{%details_home%}"></ul>
+						<ul><li><a href="#details_depot" accesskey="h">{%details_depot%}</a></li></ul>
+						<div id="details_depot"><ul title="{%details_home%}"></ul>
 							<time datetime="2011-04-02 00:00:00"></time>
 							<details>
 								<summary>HTML 5</summary>

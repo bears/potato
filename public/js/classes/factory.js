@@ -1,152 +1,108 @@
 /**
  * Class bhFactory
+ * 
  * @brief Element factory
  */
-function bhFactory(persistent){
-	this.source = persistent ? 'localStorage' : 'sessionStorage';
-	if ('object' != typeof bhFactory._instance.updater){
-		bhFactory._instance.updater = {};
-		this._update();
-	}
+function bhFactory() {
+	// Keep singleton
+	if ( null != bhFactory._singleton ) return bhFactory._singleton;
+	bhFactory._instance = this;
+
+	// Basic members
+	this.subscribers = {};
+	this.cache = {};
+
+	// Schedule updater
+	//this._update();
 }
 
-///@name Notify type constants
-//@{
+/**
+ * @name Notify type enumerations
+ */
+// @{
+// Data
 bhFactory.NOTIFY_INSERT = 'INSERT';
 bhFactory.NOTIFY_UPDATE = 'UPDATE';
 bhFactory.NOTIFY_DELETE = 'DELETE';
-//@
+// Operation
+bhFactory.NOTIFY_ATTACH = 'ATTACH';
+bhFactory.NOTIFY_DETACH = 'DETACH';
+// @}
 
 /**
- * Subscribe to a subject
- * Will receive notify later
- * @param object subscriber The observer, MUST provide method notify(type, data) & getIdentity()
- * @param string subject Element type
- * @param number id (optional) If omitted, receives notification about any item in the subject
+ * Subscribe to a subject Will receive notify later
+ * 
+ * @param subscriber
+ *        The observer, MUST provide method notify(subject, type, data) & getIdentity()
+ * @param subject
+ * @param id
+ *        Can be an array of several ID
  */
-bhFactory.prototype.subscribe = function(subscriber, subject, id){
+bhFactory.prototype.subscribe = function(subscriber, subject, id) {
 	// Add into notify list
 	var name = subscriber.getIdentity();
-	if (isNaN(parseInt(id))){
-		id = '';
-		var pool = bhFactory._instance[this.source].list.subscriber;
-		if ('object' != typeof pool[subject]){
-			pool[subject] = {};
-		}
-		pool[subject][name] = subscriber;
-		this._fetchList(subscriber, subject);
+	if ( 'object' != typeof this.subscribers[subject] ) {
+		this.subscribers[subject] = {};
 	}
-	else{
-		var pool = bhFactory._instance[this.source].item.subscriber;
-		if ('object' != typeof pool[subject]){
-			pool[subject] = {};
-		}
-		if ('object' != typeof pool[subject][id]){
-			pool[subject][id] = {};
-		}
-		pool[subject][id][name] = subscriber;
-		this._fetchItem(subscriber, subject, id);
+	if ( 'object' != typeof this.subscribers[subject][id] ) {
+		this.subscribers[subject][id] = {};
 	}
+	if ( this.subscribers[subject][id][name] ) {
+		this.subscribers[subject][id][name].notify(subject, bhFactory.NOTIFY_DETACH, subscriber);
+	}
+	this.subscribers[subject][id][name] = subscriber;
+	subscriber.notify(subject, bhFactory.NOTIFY_ATTACH, this);
+	return this._fetch(subscriber, subject, id);
 };
 
 /**
- * Fetch a single item
- * From local or server
- * @param object subscriber
- * @param string subject
- * @param number id (optional)
+ * Fetch a single item From local or server
+ * 
+ * @param subscriber
+ * @param subject
+ * @param id
+ * @see this.subscribe
  */
-bhFactory.prototype._fetchItem = function(subscriber, subject, id){
-	var key = subject + '/' + id;
-	var cache = bhFactory._instance[this.source].item.cache;
-	if ('object' == typeof cache[key]){
-		subscriber.notify(bhFactory.NOTIFY_INSERT, cache[key]);
+bhFactory.prototype._fetch = function(subscriber, subject, id) {
+	if ( 'object' != this.cache[subject] ) {
+		this.cache[subject] = {};
 	}
-	else if ('string' == typeof window[this.source][key]){
-		cache[key] = $.parseJSON(window[this.source][key]);
-		subscriber.notify(bhFactory.NOTIFY_INSERT, cache[key]);
-	}
-	else{
-		$.getJSON('/ajaj/item/' + key, function(data){
-			cache[key] = data;
-			window[this.source][key] = JSON.stringify(data);
-			subscriber.notify(bhFactory.NOTIFY_INSERT, data);
-			var exclude = subscriber.getIdentity();
-			var observers = bhFactory._instance[this.source].list.subscriber[subject];
-			for (var name in observers){
-				if (exclude != name){
-					observers[name].notify(bhFactory.NOTIFY_INSERT, data);
-				}
+	if ( 'object' != this.cache[subject][id] ) {
+		$.getJSON('/ajaj/' + subject + '/' + id, function(data) {
+			this.cache[subject][id] = data;
+			var observers = this.subscribers[subject][id];
+			for ( var name in observers ) {
+				observers[name].notify(subject, bhFactory.NOTIFY_INSERT, data);
 			}
 		}.bind(this));
 	}
-};
-
-/**
- * Fetch an item list
- * From local or server
- * @param object subscriber
- * @param string subject
- */
-bhFactory.prototype._fetchList = function(subscriber, subject){
-	var cache = bhFactory._instance[this.source].list.cache;
-	if ('object' == typeof cache[subject]){
-		var factory = this;
-		$(cache[subject].indices).each(function(){
-			factory._fetchItem(subscriber, subject, this);
-		});
+	else {
+		subscriber.notify(subject, bhFactory.NOTIFY_INSERT, this.cache[subject][id]);
 	}
-	else if ('string' == typeof window[this.source][subject]){
-		cache[subject] = $.parseJSON(window[this.source][subject]);
-		this._fetchList(subscriber, subject);
-	}
-	else{
-		$.getJSON('/ajaj/list/' + subject, function(data){
-			cache[subject] = data;
-			window[this.source][subject] = JSON.stringify(data);
-			this._fetchList(subscriber, subject);
-		}.bind(this));
-	}
+	return this;
 };
 
 /**
  * Keep updating with server
  */
-bhFactory.prototype._update = function(){
-	var plan = {"l": {},"e": {}};
+bhFactory.prototype._update = function() {
+	var plan = {
+		"l" : {},
+		"e" : {}
+	};
 	var list = bhFactory._instance[this.source].list.cache;
-	for (var name in list){
+	for ( var name in list ) {
 		plan.l[name] = list[name].t;
 	}
 	var item = bhFactory._instance[this.source].item.cache;
-	for (var name in item){
-		if (undefined == plan.l[name.split('/')[0]]){
+	for ( var name in item ) {
+		if ( undefined == plan.l[name.split('/')[0]] ) {
 			plan.e[name] = item[name].t;
 		}
 	}
-	//bhFactory._instance.updater.id = setTimeout(bhFactory.prototype._update.bind(this), 10000);
+	// bhFactory._instance.updater.id =
+	// setTimeout(bhFactory.prototype._update.bind(this), 10000);
 };
 
-/// Singleton
-bhFactory._instance = {
-	"localStorage": {
-		"list": {
-			"subscriber": {},
-			"cache": {}
-		},
-		"item": {
-			"subscriber": {},
-			"cache": {}
-		}
-	},
-	"sessionStorage": {
-		"list": {
-			"subscriber": {},
-			"cache": {}
-		},
-		"item": {
-			"subscriber": {},
-			"cache": {}
-		}
-	}
-};
+// Singleton
+bhFactory._singleton = null;

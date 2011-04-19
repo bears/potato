@@ -1,14 +1,5 @@
-/**
- * Global profile with default settings
- */
-window.POTATO_PROFILE = {
-	locale : 'en_US'
-};
-
-/**
- * Initialize page when profile ready
- */
-$(POTATO_PROFILE).bind('ready.potato', function() {
+// Initialize application
+$(function() {
 	// Localize
 	var locale = POTATO_L10N[POTATO_PROFILE.locale];
 	$('title').text(locale['title']);
@@ -17,38 +8,39 @@ $(POTATO_PROFILE).bind('ready.potato', function() {
 	})).removeClass('ui-helper-hidden');
 
 	// Logo event
-	$('#menu-home').click(function() {
+	$('#menu_home').click(function() {
 		location = location.protocol + '//' + location.host + '/'
 	});
 
-	/** Left side panel
-	 *********************************/
+	/*******************************************************************************************************************
+	 * Left side panel
+	 ******************************************************************************************************************/
 	// Category interaction
-	var categories = [];
-	$([ 'wait', 'work', 'done', 'dead' ]).each(function() {
-		categories.push(new bhCategory(this));
+	var seasons = [];
+	$([ 'spring', 'summer', 'autumn', 'winter' ]).each(function() {
+		seasons.push(new bhSeason(this));
 	});
-	var categoryTabs = $('#categories').tabs({
+	var seasonTabs = $('#seasons').tabs({
 		select : function(event, ui) {
-			categories[ui.index].show();
+			seasons[ui.index].show();
 		}
 	}).tabs('select', 1);
-	var stickers = $('.stickers>li', categoryTabs).droppable({
-		accept : '.category>li',
+	var stickers = $('.stickers>li', seasonTabs).droppable({
+		accept : '.season>li',
 		hoverClass : 'ui-state-highlight',
 		tolerance : 'pointer',
 		drop : function(event, ui) {
-			var category = $('.category', $('a', this).attr('href'));
+			var season = $('.season', $('a', this).attr('href'));
 			var sticker = $(this);
 			ui.draggable.hide('fast', function() {
-				categoryTabs.tabs('select', stickers.index(sticker));
-				$(this).appendTo(category).show('fast', function() {
+				seasonTabs.tabs('select', stickers.index(sticker));
+				$(this).appendTo(season).show('fast', function() {
 					$(this).removeAttr('style');
 				});
 			});
 		}
 	});
-	$('.category', categoryTabs).sortable({
+	$('.season', seasonTabs).sortable({
 		handle : '.handle',
 		placeholder : 'ui-state-disabled ui-state-hover ui-corner-all',
 		opacity : 0.5,
@@ -59,34 +51,26 @@ $(POTATO_PROFILE).bind('ready.potato', function() {
 
 	// Category navigation
 	$('nav>form').buttonset();
-	$('form.item>[name="more"]').button('option', {
+	$('form.seed>[name="more"]').button('option', {
 		icons : {
 			primary : 'ui-icon-plusthick'
 		}
 	});
 	$([ 'start', 'prev', 'next', 'end' ]).each(function() {
-		$('form.page>[name="' + this + '"]').button('option', {
+		$('form.field>[name="' + this + '"]').button('option', {
 			icons : {
 				primary : 'ui-icon-seek-' + this
 			}
 		});
 	});
-	
-	/** Right side panel
-	 *********************************/
+
+	/*******************************************************************************************************************
+	 * Right side panel
+	 ******************************************************************************************************************/
 	$('#calendar').datepicker();
 
-	/** Main panel
-	 *********************************/
+	/*******************************************************************************************************************
+	 * Main panel
+	 ******************************************************************************************************************/
 	var detailTabs = $('#details').tabs();
-});
-
-/**
- * Load profile
- */
-$(function() {
-	$.getJSON('/ajaj/profile', function(profile) {
-		$.extend(POTATO_PROFILE, profile);
-		$(POTATO_PROFILE).trigger('ready.potato');
-	});
 });
