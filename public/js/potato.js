@@ -1,3 +1,14 @@
+// Set default error handler
+window.onerror = function(error, url, line) {
+	if ( POTATO_PROFILE.reclaim ) {
+		$.post('/ajaj/error', {
+			error : error,
+			line : line,
+			url : url
+		});
+	}
+};
+
 // Initialize application
 $(function() {
 	// Localize
