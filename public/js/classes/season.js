@@ -20,10 +20,7 @@ function bhSeason(id) {
 	this.page = 0;
 
 	// Extended members
-	this.container = $('#' + this.getIdentity() + ' .season');
-
-	// Bind data
-	(new bhFactory()).subscribe(this, 'season/' + this.id, this.page);
+	this.container = $(this.getIdentity() + ' .season');
 }
 
 bhSeason.prototype.show = function() {
@@ -31,10 +28,17 @@ bhSeason.prototype.show = function() {
 		bhSeason._current.hide();
 	}
 	bhSeason._current = this;
+	
+	// Bind data
+	(new bhFactory()).subscribe(this, this.getIdentity(), this.getSubject(), this.page);
+	
 	return this;
 };
 
 bhSeason.prototype.hide = function() {
+	// Unbind data
+	// (new bhFactory()).unsubscribe(this, this.getIdentity(), this.getSubject(), this.page);
+	
 	return this;
 }
 
@@ -42,7 +46,14 @@ bhSeason.prototype.hide = function() {
  * Get a string to identify object
  */
 bhSeason.prototype.getIdentity = function() {
-	return 'season_' + this.id;
+	return '#season_' + this.id;
+};
+
+/**
+ * Get a string of related subject
+ */
+bhSeason.prototype.getSubject = function() {
+	return 'season/' + this.id;
 };
 
 /**

@@ -5,15 +5,17 @@
  */
 function bhFactory() {
 	// Keep singleton
-	if ( null != bhFactory._singleton ) return bhFactory._singleton;
-	bhFactory._instance = this;
+	if ( null != bhFactory._singleton ) {
+		return bhFactory._singleton;
+	}
+	bhFactory._singleton = this;
 
 	// Basic members
 	this.subscribers = {};
 	this.cache = {};
 
 	// Schedule updater
-	//this._update();
+	// this._update();
 }
 
 /**
@@ -30,29 +32,49 @@ bhFactory.NOTIFY_DETACH = 'DETACH';
 // @}
 
 /**
- * Subscribe to a subject Will receive notify later
+ * Subscribe to a subject, will receive notify later
  * 
  * @param subscriber
- *        The observer, MUST provide method notify(subject, type, data) & getIdentity()
+ *        The observer, MUST provide method notify(subject, type, data)
+ * @param identity
  * @param subject
  * @param id
  *        Can be an array of several ID
  */
-bhFactory.prototype.subscribe = function(subscriber, subject, id) {
+bhFactory.prototype.subscribe = function(subscriber, identity, subject, id) {
 	// Add into notify list
-	var name = subscriber.getIdentity();
 	if ( 'object' != typeof this.subscribers[subject] ) {
 		this.subscribers[subject] = {};
 	}
 	if ( 'object' != typeof this.subscribers[subject][id] ) {
 		this.subscribers[subject][id] = {};
 	}
-	if ( this.subscribers[subject][id][name] ) {
-		this.subscribers[subject][id][name].notify(subject, bhFactory.NOTIFY_DETACH, subscriber);
+	var predecessor = this.subscribers[subject][id][identity];
+	if ( predecessor ) {
+		if ( predecessor == subscriber ) return this;
+		predecessor.notify(subject, bhFactory.NOTIFY_DETACH, subscriber);
 	}
-	this.subscribers[subject][id][name] = subscriber;
+	this.subscribers[subject][id][identity] = subscriber;
 	subscriber.notify(subject, bhFactory.NOTIFY_ATTACH, this);
 	return this._fetch(subscriber, subject, id);
+};
+
+/**
+ * Unsubscribe a subject, will not receive notify anymore
+ * 
+ * @param subscriber
+ *        The observer, MUST provide method notify(subject, type, data)
+ * @param identity
+ * @param subject
+ * @param id
+ *        Can be an array of several ID
+ */
+bhFactory.prototype.unsubscribe = function(unsubscriber, identity, subject, id) {
+	var candidate = this.subscribers[subject][id][identity];
+	if ( candidate == unsubscriber ) {
+		candidate.notify(subject, bhFactory.NOTIFY_DETACH, this);
+		delete this.subscribers[subject][id][identity];
+	}
 };
 
 /**
@@ -71,8 +93,8 @@ bhFactory.prototype._fetch = function(subscriber, subject, id) {
 		$.getJSON('/ajaj/' + subject + '/' + id, function(data) {
 			this.cache[subject][id] = data;
 			var observers = this.subscribers[subject][id];
-			for ( var name in observers ) {
-				observers[name].notify(subject, bhFactory.NOTIFY_INSERT, data);
+			for ( var identity in observers ) {
+				observers[identity].notify(subject, bhFactory.NOTIFY_INSERT, data);
 			}
 		}.bind(this));
 	}
