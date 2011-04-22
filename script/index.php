@@ -13,7 +13,7 @@ switch ($domain){
 		$icon = array('pencil'=>'', 'refresh'=>'', 'shuffle'=>'', 'note'=>'', 'document'=>'');
 		for ($i=0; $i<rand(10, 15); ++$i){
 			$data = array(
-				'id' => "$subject#$id",
+				'id' => "$id$i",
 				'label' => "Content for {$subject}#{$id}",
 				'icon' => array_rand($icon, 1),
 				't' => time(),

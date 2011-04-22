@@ -102,6 +102,12 @@ bhSeason.prototype._insertItem = function(data) {
 		var name = 'ui-state-highlight ui-corner-all';
 		var filter = '.ui-state-highlight.ui-corner-all';
 		$(this).toggleClass(name).siblings(filter).removeClass(name);
+		
+		var tag = '#detail_' + data.id.replace('#', '_');
+		if (0 == $('#details [href$="' + tag + '"]').length)
+			detailTabs.tabs('add', tag, data.label);
+		else
+			detailTabs.tabs('select', tag);
 	});
 	return this;
 };

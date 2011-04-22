@@ -36,5 +36,14 @@ $(function() {
 	/*******************************************************************************************************************
 	 * Main panel
 	 ******************************************************************************************************************/
-	var detailTabs = $('#details').tabs();
+	window.detailTabs = $('#details').tabs({
+		tabTemplate : '<li><a href="#{href}">#{label}</a><span class="ui-icon ui-icon-close">&nbsp;</span></li>',
+		add : function(event, ui) {
+			$(ui.tab).siblings('.ui-icon-close').click(function() {
+				detailTabs.tabs('remove', ui.tab.href.match(/#\w+$/)[0]);
+			});
+			$(ui.panel).append(ui.index);
+			detailTabs.tabs('select', ui.index);
+		}
+	});
 });
