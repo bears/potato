@@ -9,9 +9,9 @@ switch ($domain){
 	case 'season':
 		$subject = array_shift($arguments);
 		$id = array_shift($arguments);
-		$list = array('t' => time());
+		$list = array('t' => time(), 'max' => 5);
 		$icon = array('pencil'=>'', 'refresh'=>'', 'shuffle'=>'', 'note'=>'', 'document'=>'');
-		for ($i=0; $i<rand(3, 7); ++$i){
+		for ($i=0; $i<rand(10, 15); ++$i){
 			$data = array(
 				'id' => "$subject#$id",
 				'label' => "Content for {$subject}#{$id}",
@@ -21,16 +21,20 @@ switch ($domain){
 			$list['tubers'][] = $data;
 		}
 		echo json_encode($list);
-	break;
+		break;
 
 	case 'seed':
-	break;
+		break;
+
+	case 'error':
+		break;
 
 	case 'profile':
 		echo <<<JSON
 window.POTATO_PROFILE = {
-	locale : 'en_US'
+	locale : 'en_US',
+	reclaim : true
 };
 JSON;
-	break;
+		break;
 }

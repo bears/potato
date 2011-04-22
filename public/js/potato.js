@@ -26,54 +26,7 @@ $(function() {
 	/*******************************************************************************************************************
 	 * Left side panel
 	 ******************************************************************************************************************/
-	// Category interaction
-	var seasons = [];
-	$([ 'spring', 'summer', 'autumn', 'winter' ]).each(function() {
-		seasons.push(new bhSeason(this));
-	});
-	var seasonTabs = $('#seasons').tabs({
-		select : function(event, ui) {
-			seasons[ui.index].show();
-		}
-	}).tabs('select', 1);
-	var stickers = $('.stickers>li', seasonTabs).droppable({
-		accept : '.season>li',
-		hoverClass : 'ui-state-highlight',
-		tolerance : 'pointer',
-		drop : function(event, ui) {
-			var season = $('.season', $('a', this).attr('href'));
-			var sticker = $(this);
-			ui.draggable.hide('fast', function() {
-				seasonTabs.tabs('select', stickers.index(sticker));
-				$(this).appendTo(season).show('fast', function() {
-					$(this).removeAttr('style');
-				});
-			});
-		}
-	});
-	$('.season', seasonTabs).sortable({
-		handle : '.handle',
-		placeholder : 'ui-state-disabled ui-state-hover ui-corner-all',
-		opacity : 0.5,
-		stop : function(event, ui) {
-			ui.item.removeAttr('style');
-		}
-	});
-
-	// Category navigation
-	$('nav>form').buttonset();
-	$('form.seed>[name="more"]').button('option', {
-		icons : {
-			primary : 'ui-icon-plusthick'
-		}
-	});
-	$([ 'start', 'prev', 'next', 'end' ]).each(function() {
-		$('form.field>[name="' + this + '"]').button('option', {
-			icons : {
-				primary : 'ui-icon-seek-' + this
-			}
-		});
-	});
+	bhSeason.settle();
 
 	/*******************************************************************************************************************
 	 * Right side panel

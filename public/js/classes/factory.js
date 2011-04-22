@@ -12,7 +12,7 @@ function bhFactory() {
 
 	// Basic members
 	this.subscribers = {};
-	this.cache = {};
+	this.elements = {};
 
 	// Schedule updater
 	// this._update();
@@ -86,12 +86,12 @@ bhFactory.prototype.unsubscribe = function(unsubscriber, identity, subject, id) 
  * @see this.subscribe
  */
 bhFactory.prototype._fetch = function(subscriber, subject, id) {
-	if ( 'object' != this.cache[subject] ) {
-		this.cache[subject] = {};
+	if ( 'object' != typeof this.elements[subject] ) {
+		this.elements[subject] = {};
 	}
-	if ( 'object' != this.cache[subject][id] ) {
+	if ( 'object' != typeof this.elements[subject][id] ) {
 		$.getJSON('/ajaj/' + subject + '/' + id, function(data) {
-			this.cache[subject][id] = data;
+			this.elements[subject][id] = data;
 			var observers = this.subscribers[subject][id];
 			for ( var identity in observers ) {
 				observers[identity].notify(subject, bhFactory.NOTIFY_INSERT, data);
@@ -99,7 +99,7 @@ bhFactory.prototype._fetch = function(subscriber, subject, id) {
 		}.bind(this));
 	}
 	else {
-		subscriber.notify(subject, bhFactory.NOTIFY_INSERT, this.cache[subject][id]);
+		subscriber.notify(subject, bhFactory.NOTIFY_INSERT, this.elements[subject][id]);
 	}
 	return this;
 };
