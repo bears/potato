@@ -172,15 +172,21 @@ bhSeason.settle = function() {
 	});
 
 	// Pages
-	$('nav>form').buttonset();
-	$('nav>form.seed>[name="more"]').button('option', {
+	$('nav>div').buttonset();
+	$('nav>.seed>[name="more"]').button('option', {
 		icons : {
 			primary : 'ui-icon-plusthick'
 		}
+	}).click(function(){
+		$('#seed-info').fadeIn();
+		$('#seed_label').focus();
+	});
+	$('#seed-info .ui-icon-close').click(function(){
+		$('#seed-info').fadeOut();
 	});
 	$([ 'start', 'prev', 'next', 'end' ]).each(function() {
 		var field = this.toString();
-		$('nav>form.field>[name="' + field + '"]').button('option', {
+		$('nav>.field>[name="' + field + '"]').button('option', {
 			icons : {
 				primary : 'ui-icon-seek-' + field
 			}

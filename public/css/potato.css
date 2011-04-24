@@ -39,13 +39,20 @@ aside.right {width:20em;}
 #seasons .season .handle {display:inline-block; cursor:move; margin-right:5px;}
 
 aside>nav {position:absolute; bottom:0; height:2em; line-height:2em; width:100%; margin:-1px;}
-aside>nav>form {font-size:.6em!important; margin:.3em 1.7em!important;}
-aside>nav>form.seed {float:left;}
-aside>nav>form.field {float:right;}
-aside>nav>form>button {float:left; margin:0;}
+aside>nav button {float:left; margin:0;}
+aside>nav>div>* {font-size:.76em!important; height:2.4em; margin:1px 0 1px -1px;}
+aside>nav>.seed {float:left; margin-left:1em;}
+aside>nav>.field {float:right; margin-right:1em;}
+
+#seed-info {position:absolute; top:-3.3em; left:.8em; right:2.8em; padding:0 1em; height:2.8em;}
+#seed-info>.ui-icon {cursor:pointer; margin-top:.76em;}
+#seed-info>.ui-icon-tag {float:left;}
+#seed-info>.ui-icon-close {float:right;}
+#seed_label {padding:.4em .6em; margin:.3em .9em; border-width:0; width:19em;}
 
 article {position:relative; height:100%; width:50em; margin:0;}
 
+#details>.ui-tabs-nav .ui-icon-home {display:inline-block; margin:0 .4em 0 -.4em; vertical-align:top;}
 #details>.ui-tabs-nav .ui-icon-close {display:inline-block; cursor:pointer; margin:.3em .3em 0 -.3em}
 
 .ui-datepicker {margin:.2em auto .8em; border-width:0;}

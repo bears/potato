@@ -45,20 +45,25 @@
 						<div id="season_winter"><ul title="{%season_winter%}" class="season"></ul></div>
 					</div>
 					<nav class="ui-widget-header ui-corner-bottom">
-						<form action="ajaj/seed" method="post" class="seed">
+						<div class="seed">
+							<div id="seed-info" class="ui-widget-content ui-corner-all ui-state-highlight ui-helper-hidden">
+								<label for="seed_label" class="ui-icon ui-icon-tag">&nbsp;</label>
+								<input id="seed_label" type="text" class="ui-corner-all" />
+								<span class="ui-icon ui-icon-close">&nbsp;</span>
+							</div>
 							<button type="button" name="more" accesskey="+">{%item_more%}</button>
-						</form>
-						<form action="ajaj/field" method="post" class="field">
+						</div>
+						<div class="field">
 							<button type="button" name="start" accesskey="{">{%page_first%}</button>
 							<button type="button" name="prev" accesskey="<">{%page_prev%}</button>
 							<button type="button" name="next" accesskey=">">{%page_next%}</button>
 							<button type="button" name="end" accesskey="}">{%page_last%}</button>
-						</form>
+						</div>
 					</nav>
 				</aside>
 				<article class="ui-widget-content ui-corner-all">
 					<div id="details">
-						<ul><li><a href="#details_depot" accesskey="h">{%details_depot%}</a></li></ul>
+						<ul><li><a href="#details_depot" accesskey="h"><span class="ui-icon ui-icon-home">&nbsp;</span>{%details_depot%}</a></li></ul>
 						<div id="details_depot"><ul title="{%details_home%}"></ul>
 							<time datetime="2011-04-02 00:00:00"></time>
 							<details>
