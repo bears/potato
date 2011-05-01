@@ -26,7 +26,7 @@
 			<menu type="toolbar">
 				<command id="menu_home"></command>
 			</menu>
-			<form id="search" action="search.php" method="post">
+			<form id="search" action="ajaj/search" method="post">
 				<label for="search_target" accesskey="s">{%search%}</label>
 				<input id="search_target" name="search" type="search" placeholder="{%search_in_potato%}" class="ui-widget-content ui-corner-all" />
 			</form>
@@ -48,11 +48,11 @@
 					</div>
 					<nav class="ui-widget-header ui-corner-bottom">
 						<div class="seed">
-							<div id="seed-info" class="ui-widget-content ui-corner-all ui-state-highlight ui-helper-hidden">
-								<label for="seed_label" class="ui-icon ui-icon-tag">&nbsp;</label>
+							<form id="seed-info" action="ajaj/seed" method="post" class="ui-widget-content ui-corner-all ui-state-highlight ui-helper-hidden">
+								<label for="seed_label" class="ui-icon ui-icon-tag"></label>
 								<input id="seed_label" type="text" class="ui-corner-all" />
-								<span class="ui-icon ui-icon-close">&nbsp;</span>
-							</div>
+								<span class="ui-icon ui-icon-close"></span>
+							</form>
 							<button type="button" name="more" accesskey="+">{%item_more%}</button>
 						</div>
 						<div class="field">
@@ -65,13 +65,59 @@
 				</aside>
 				<article class="ui-widget-content ui-corner-all">
 					<div id="details">
-						<ul><li><a href="#details_depot" accesskey="h"><span class="ui-icon ui-icon-home">&nbsp;</span>{%details_depot%}</a></li></ul>
-						<div id="details_depot"><ul title="{%details_home%}"></ul>
-							<time datetime="2011-04-02 00:00:00"></time>
+						<ul><li><a href="#details_depot" accesskey="h"><span class="ui-icon ui-icon-home"></span>{%details_depot%}</a></li></ul>
+						<div id="details_depot">
 							<details>
-								<summary>HTML 5</summary>
-								<p>This document teaches you everything you have to learn about HTML 5.</p>
+								<summary>
+									Content for Summer #7
+									<span class="ui-icon ui-icon-pencil"></span>
+									<time datetime="2011-04-08T00:00:00Z" pubdate="pubdate">2011-04-08</time>
+									<time datetime="2011-03-02T00:00:00Z" pubdate="pubdate">2011-03-02 ~</time>
+								</summary>
+								<table class="fields">
+									<tr>
+										<th>Season</th>
+										<td>{%season_spring%}</td>
+										<th>Category</th>
+										<td>Shopping</td>
+									</tr>
+									<tr>
+										<th>Priority</th>
+										<td>3</td>
+										<th>Progress</th>
+										<td class="progress" title="7 days">
+											<div class="progress-bar"><div class="estimated" title="3 days"></div></div>
+											<div class="progress-bar"><div class="practical" title="4.5 days"></div></div>
+										</td>
+									</tr>
+								</table>
 							</details>
+							<fieldset>
+								<legend><span class="ui-icon ui-icon-triangle-1-s"></span>Description</legend>
+								<ul class="description">
+									<li>This document teaches you everything you have to learn about HTML 5.</li>
+									<li>This document teaches you everything you have to learn about HTML 5.</li>
+									<li>This document teaches you everything you have to learn about HTML 5.</li>
+								</ul>
+							</fieldset>
+							<fieldset>
+								<legend><span class="ui-icon ui-icon-triangle-1-s"></span>Comments</legend>
+								<blockquote class="ui-corner-br">
+									<span class="ui-icon ui-icon-pencil"></span>
+									<time datetime="2011-03-02T00:00:00Z">1 month ago</time>
+									<p>This document teaches you everything you have to learn about HTML 5.</p>
+								</blockquote>
+								<blockquote class="ui-corner-br">
+									<span class="ui-icon ui-icon-pencil"></span>
+									<time datetime="2011-04-02T00:00:00Z">26 days ago</time>
+									<p>This document teaches you everything you have to learn about HTML 5.</p>
+								</blockquote>
+								<blockquote class="ui-corner-br">
+									<span class="ui-icon ui-icon-pencil"></span>
+									<time datetime="2011-04-28T20:00:00Z">3 hours ago</time>
+									<p>Some suggests.</p>
+								</blockquote>
+							</fieldset>
 						</div>
 					</div>
 				</article>

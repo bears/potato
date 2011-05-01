@@ -35,7 +35,8 @@ aside.right {width:20em;}
 #seasons {bottom:2em;}
 #seasons>.ui-tabs-panel {position:absolute; top:2.4em; bottom:0; left:.2em; right:.2em; padding:0;}
 #seasons .season {overflow:auto; height:100%;}
-#seasons .season>li {position:relative; overflow:auto; margin:.5em; padding:.5em; white-space: nowrap;}
+#seasons .season>li {position:relative; overflow:auto; margin:.5em; padding:.5em; white-space: nowrap; border-color:#FFF; cursor:alias;}
+#seasons .season>li:hover {border-color:#A6C9E2; border-radius:5px; border-style:dotted dashed;}
 #seasons .season .handle {display:inline-block; cursor:move; margin-right:5px;}
 
 aside>nav {position:absolute; bottom:0; height:2em; line-height:2em; width:100%; margin:-1px;}
@@ -54,6 +55,28 @@ article {position:relative; height:100%; width:50em; margin:0;}
 
 #details>.ui-tabs-nav .ui-icon-home {display:inline-block; margin:0 .4em 0 -.4em; vertical-align:top;}
 #details>.ui-tabs-nav .ui-icon-close {display:inline-block; cursor:pointer; margin:.3em .3em 0 -.3em}
+#details_depot {padding:.6em;}
+#details_depot details {display:block;}
+#details_depot summary {display:block; padding:.5em 1em;}
+#details_depot .description {padding:0 2em;}
+#details_depot .description li {list-style:square inside none; font-size:.9em; padding:.3em .7em;}
+#details_depot fieldset {border:1px solid #A6C9E2; border-width:1px 0 0 0; margin-top:1em;}
+#details_depot fieldset.collapsed>* {display:none;}
+#details_depot legend {padding:0 .5em; cursor:pointer;display:inherit!important;}
+#details_depot legend .ui-icon-triangle-1-s {float:left; margin:.2em .3em 0 0;}
+#details_depot fieldset.collapsed legend .ui-icon-triangle-1-s {background-position:-32px -16px; margin-top:.1em;}
+#details_depot .fields {padding:.5em;}
+#details_depot .fields th, #details_depot .fields td {padding:.2em .8em; font-weight:normal; white-space:nowrap;}
+#details_depot .fields th {text-align:right; color:#915608;}
+#details_depot .fields .progress {width:360px;}
+#details_depot .fields .progress-bar {height:10px; background-color:#EAF5F7; margin:1px;}
+.progress-bar .estimated {height:100%; background-color:#77D5F7; width:30%; float:left;}
+.progress-bar .practical {height:100%; background-color:#ACDD4A; width:70%; float:left;}
+.progress span {margin-top:-1.25em;}
+#details_depot blockquote {display:block; margin:0 0.6em 0.3em 1.2em; padding:0.8em; border-style:dotted double; border-color:#A6C9E2; border-width:0 3px 2px 0;}
+#details_depot .ui-icon-pencil {float:right; cursor:pointer;}
+#details_depot time {font-size:75%; color:#915608; font-size:smaller; float:right; margin-right:.3em;}
+#details_depot summary:hover, #details_depot blockquote:hover, #details_depot li:hover {background-color:#EAF5F7;}
 
 .ui-datepicker {margin:.2em auto .8em; border-width:0;}
 .ui-datepicker-header {font-size:77%;}
