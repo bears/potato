@@ -73,7 +73,7 @@ article {position:relative; height:100%; width:50em; margin:0;}
 .progress-bar .estimated {height:100%; background-color:#77D5F7; width:30%; float:left;}
 .progress-bar .practical {height:100%; background-color:#ACDD4A; width:70%; float:left;}
 .progress span {margin-top:-1.25em;}
-#details_depot blockquote {display:block; margin:0 0.6em 0.3em 1.2em; padding:0.8em; border-style:dotted double; border-color:#A6C9E2; border-width:0 3px 2px 0;}
+#details_depot blockquote {display:block; margin:0 0.6em 0.3em 1.2em; padding:0.8em; border-style:dashed double; border-color:#A6C9E2; border-width:0 3px 1px 0;}
 #details_depot .ui-icon-pencil {float:right; cursor:pointer;}
 #details_depot time {font-size:75%; color:#915608; font-size:smaller; float:right; margin-right:.3em;}
 #details_depot summary:hover, #details_depot blockquote:hover, #details_depot li:hover {background-color:#EAF5F7;}
