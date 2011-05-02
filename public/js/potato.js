@@ -31,12 +31,12 @@ $(function() {
 
 	// Main panel
 	window.detailTabs = $('#details').tabs({
-		tabTemplate : '<li><a href="#{href}">#{label}</a><span class="ui-icon ui-icon-close">&nbsp;</span></li>',
+		tabTemplate : '<li><a href="#{href}" title="#{label}"><div class="ellipsis">#{label}</div></a><span class="ui-icon ui-icon-close">&nbsp;</span></li>',
 		add : function(event, ui) {
 			$(ui.tab).siblings('.ui-icon-close').click(function() {
 				detailTabs.tabs('remove', ui.tab.href.match(/#\w+$/)[0]);
 			});
-			$(ui.panel).append(ui.index);
+			$(ui.panel).append('<img src="css/images/loading.gif" />');
 			detailTabs.tabs('select', ui.index);
 		}
 	});

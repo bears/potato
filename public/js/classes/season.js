@@ -1,6 +1,6 @@
 /**
  * Class bhSeason
- * 
+ *
  * @brief Item navigate list
  * @param id
  *        One of 'spring', 'summer', 'autumn', 'winter'
@@ -15,41 +15,88 @@ function bhSeason(id) {
 	}
 	bhSeason._singleton[id] = this;
 
-	// Basic members
+	// Basic attributes
 	this.id = id;
 	this.page = 0;
 
-	// Extended members
+	// Extended attributes
 	this.container = $('#season_' + this.id + ' .season');
 }
 
-bhSeason.prototype.show = function() {
-	if ( 'object' == typeof bhSeason._current ) {
-		bhSeason._current.hide();
+/**
+ * Notify callback, needed by hbFactory
+ *
+ * @param subject
+ * @param type
+ *        Notify reason, one of bhFactory.NOTIFY_*
+ * @param data
+ */
+bhSeason.prototype.notify = function(subject, type, data) {
+	switch ( type ) {
+		case bhFactory.NOTIFY_INSERT:
+			for ( var i = 0; i < data.tubers.length; ++i ) {
+				this._insert(data.tubers[i]);
+			}
+			this.maxPage = data.max;
+			break;
+
+		case bhFactory.NOTIFY_UPDATE:
+			break;
+
+		case bhFactory.NOTIFY_DELETE:
+			break;
 	}
-	bhSeason._current = this;
-	
-	// Bind data
-	this._touch(true);
-	
 	return this;
 };
 
-bhSeason.prototype.hide = function() {
+/***********************************************************************************************************************
+ * Private methods
+ **********************************************************************************************************************/
+/**
+ * Insert new item into list
+ *
+ * @param data
+ */
+bhSeason.prototype._insert = function(data) {
+	var template = '<li id="tuber_{%id%}" class="ui-widget-content"><a class="handle ui-icon ui-icon-{%icon%}"></a>{%label%}</li>';
+	$(template.replace(/{%(\w+)%}/g, function(unused, key) {
+		return data[key]
+	})).appendTo(this.container).click(function() {
+		new bhDetail(data.id);
+	});
 	return this;
-}
+};
 
-bhSeason.prototype.field = function(field) {
+/**
+ * Bind or unbind data source
+ *
+ * @param link
+ *        true: bind, false: unbind
+ */
+bhSeason.prototype._touch = function(link) {
+	var method = link ? 'subscribe' : 'unsubscribe';
+	(new bhFactory())[method](this, ('#season_' + this.id), ('season/' + this.id), this.page);
+};
+
+/**
+ * Change current page
+ *
+ * @param field
+ *        The page change to, one of start, prev, next, or end
+ */
+bhSeason.prototype._field = function(field) {
 	var newPage = this.page;
 	switch (field) {
 		case 'start':
 			newPage = 0;
 			break;
 		case 'prev':
-			if (newPage > 0) --newPage;
+			if (newPage > 0)
+				--newPage;
 			break;
 		case 'next':
-			if (newPage < this.maxPage) ++newPage;
+			if (newPage < this.maxPage)
+				++newPage;
 			break;
 		case 'end':
 			newPage = this.maxPage;
@@ -64,87 +111,44 @@ bhSeason.prototype.field = function(field) {
 };
 
 /**
- * Notify callback
- * 
- * @param subject
- * @param type
- *        Notify reason, one of bhFactory.NOTIFY_*
- * @param data
+ * Called when current tab selected
  */
-bhSeason.prototype.notify = function(subject, type, data) {
-	switch ( type ) {
-		case bhFactory.NOTIFY_INSERT:
-			for ( var i = 0; i < data.tubers.length; ++i ) {
-				this._insertItem(data.tubers[i]);
-			}
-			this.maxPage = data.max;
-		break;
-
-		case bhFactory.NOTIFY_UPDATE:
-		break;
-
-		case bhFactory.NOTIFY_DELETE:
-		break;
+bhSeason.prototype._show = function() {
+	// Hide previous
+	if ( 'object' == typeof bhSeason._current ) {
+		bhSeason._current._hide();
 	}
+	bhSeason._current = this;
+
+	// Bind data
+	this._touch(true);
+
 	return this;
 };
 
 /**
- * Insert new item into list
- * 
- * @param data
+ * Called when current tab un-selected
  */
-bhSeason.prototype._insertItem = function(data) {
-	var template = '<li id="tuber_{%id%}" class="ui-widget-content"><a class="handle ui-icon ui-icon-{%icon%}"></a>{%label%}</li>';
-	$(template.replace(/{%(\w+)%}/g, function(whole, key) {
-		return data[key]
-	})).appendTo(this.container).click(function() {
-		var name = 'ui-state-highlight ui-corner-all';
-		var filter = '.ui-state-highlight.ui-corner-all';
-		$(this).toggleClass(name).siblings(filter).removeClass(name);
-		
-		var tag = '#detail_' + data.id.replace('#', '_');
-		if (0 == $('#details [href$="' + tag + '"]').length)
-			detailTabs.tabs('add', tag, data.label);
-		else
-			detailTabs.tabs('select', tag);
-	});
+bhSeason.prototype._hide = function() {
 	return this;
 };
-
-/**
- * Bind or unbind data source
- * 
- * @param link
- *        true: bind, false: unbind
- */
-bhSeason.prototype._touch = function(link) {
-	var method = link ? 'subscribe' : 'unsubscribe';
-	(new bhFactory())[method](this, ('#season_' + this.id), ('season/' + this.id), this.page);
-}
-
-// Singleton holder for each category
-bhSeason._singleton = {
-	spring : null,
-	summer : null,
-	autumn : null,
-	winter : null
-}
 
 /***********************************************************************************************************************
  * Static methods
  **********************************************************************************************************************/
-
+/**
+ * Initialize season panel
+ */
 bhSeason.settle = function() {
 	// Contents
 	for ( var season in bhSeason._singleton ) {
 		new bhSeason(season);
 	}
-	
+
 	// Tabs
 	var tabs = $('#seasons').tabs({
 		select : function(event, ui) {
-			bhSeason._singleton[ui.tab.href.match(/#season_(\w+)/)[1]].show();
+			bhSeason._singleton[ui.tab.href.match(/#season_(\w+)/)[1]]._show();
 		}
 	}).tabs('select', 1);
 	var stickers = $('.stickers>li', tabs).droppable({
@@ -177,11 +181,11 @@ bhSeason.settle = function() {
 		icons : {
 			primary : 'ui-icon-plusthick'
 		}
-	}).click(function(){
+	}).click(function() {
 		$('#seed-info').fadeIn();
 		$('#seed_label').focus();
 	});
-	$('#seed-info .ui-icon-close').click(function(){
+	$('#seed-info .ui-icon-close').click(function() {
 		$('#seed-info').fadeOut();
 	});
 	$([ 'start', 'prev', 'next', 'end' ]).each(function() {
@@ -192,8 +196,21 @@ bhSeason.settle = function() {
 			}
 		}).click(function() {
 			if ( 'object' == typeof bhSeason._current ) {
-				bhSeason._current.field(field);
+				bhSeason._current._field(field);
 			}
 		});
 	});
+};
+
+/***********************************************************************************************************************
+ * Static attributes
+ **********************************************************************************************************************/
+/**
+ * Singleton holder for each category
+ */
+bhSeason._singleton = {
+	spring : null,
+	summer : null,
+	autumn : null,
+	winter : null
 };
