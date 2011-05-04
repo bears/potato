@@ -66,6 +66,9 @@ article {position:relative; height:100%; width:50em; margin:0;}
 #details legend {padding:0 .5em; cursor:pointer;display:inherit!important; font-weight:bold;}
 #details legend .ui-icon-triangle-1-s {float:left; margin:.2em .3em 0 0;}
 #details fieldset.collapsed legend .ui-icon-triangle-1-s {background-position:-32px -16px; margin-top:.1em;}
+#details blockquote .ui-icon-carat-1-s {display:inline-block; vertical-align:text-bottom; cursor:pointer; margin-right:.2em;}
+#details blockquote .collapsed {overflow:hidden; height:1em;}
+#details blockquote .collapsed .ui-icon-carat-1-s {background-position:-32px 0; margin-bottom:.1em;}
 #details .fields {padding:.5em;}
 #details .fields th, #details_depot .fields td {padding:.2em .8em; font-weight:normal; white-space:nowrap;}
 #details .fields th {text-align:right; color:#915608;}

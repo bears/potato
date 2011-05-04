@@ -28,14 +28,20 @@ function bhDetail(id) {
 bhDetail.prototype.notify = function(subject, type, data) {
 	switch ( type ) {
 		case bhFactory.NOTIFY_INSERT:
-			var holder = $('<div>');
 			var details = $('<details>');
 			details.append(this._buildSummary(data));
 			details.append(this._buildFields(data));
-			details.append(this._buildDescription(data));
-			details.append(this._buildComments(data));
+
+			var holder = $('<div>');
 			holder.append(details);
-			$('#detail_' + this.id).html(holder.html());
+			holder.append(this._buildDescription(data));
+			holder.append(this._buildComments(data));
+
+			var targetId = '#detail_' + this.id;
+			$(targetId).html(holder.html());
+			$('.compressor', targetId).click(function() {
+				$(this.parentNode).toggleClass('collapsed');
+			});
 			break;
 
 		case bhFactory.NOTIFY_UPDATE:
@@ -118,7 +124,7 @@ bhDetail.prototype._buildDescription = function(data) {
 	var locale = POTATO_L10N[POTATO_PROFILE.locale];
 	var description = $('<fieldset>');
 
-	var title = $('<legend>');
+	var title = $('<legend class="compressor">');
 	title.append($('<span class="ui-icon ui-icon-triangle-1-s">'));
 	title.append(locale.detail_description);
 	description.append(title);
@@ -139,7 +145,7 @@ bhDetail.prototype._buildComments = function(data) {
 	var locale = POTATO_L10N[POTATO_PROFILE.locale];
 	var comments = $('<fieldset>');
 
-	var title = $('<legend>');
+	var title = $('<legend class="compressor">');
 	title.append($('<span class="ui-icon ui-icon-triangle-1-s">'));
 	title.append(locale.detail_comments);
 	comments.append(title);
@@ -148,7 +154,10 @@ bhDetail.prototype._buildComments = function(data) {
 		var quote = $('<blockquote class="ui-corner-br">');
 		quote.append($('<span class="ui-icon ui-icon-pencil">'));
 		quote.append($('<time>').attr('datetime', this.date).html((new Date(this.date)).toLocaleDateString()));
-		quote.append(this.content);
+		var lines = $('<p>');
+		lines.append($('<span class="compressor ui-icon ui-icon-carat-1-s">'))
+		lines.append(this.content);
+		quote.append(lines);
 		comments.append(quote);
 	});
 
