@@ -30,19 +30,5 @@ $(function() {
 	$('#calendar').datepicker();
 
 	// Main panel
-	window.detailTabs = $('#details').tabs({
-		tabTemplate : '<li><a href="#{href}" title="#{label}"><div class="ellipsis">#{label}</div></a><span class="ui-icon ui-icon-close">&nbsp;</span></li>',
-		add : function(event, ui) {
-			$(ui.panel).append('<img src="css/images/loading.gif" />');
-			$(ui.tab).siblings('.ui-icon-close').click(function() {
-				var self = $(ui.panel).data('self');
-				if (self) self.close();
-				detailTabs.tabs('remove', ui.tab.href.match(/#\w+$/)[0]);
-			});
-			detailTabs.tabs('select', ui.index);
-		}
-	});
-	$('#detail_depot .compressor').click(function() {
-		$(this.parentNode).toggleClass('collapsed');
-	});
+	bhDetail.settle();
 });

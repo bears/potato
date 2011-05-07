@@ -21,6 +21,8 @@ function bhSeason(id) {
 
 	// Extended attributes
 	this.container = $('#season_' + this.id + ' .season');
+
+	return this;
 }
 
 /**

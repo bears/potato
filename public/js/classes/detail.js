@@ -6,15 +6,17 @@
 function bhDetail(id) {
 	var tag = '#detail_' + id;
 	if ( 0 < $('#details [href$="' + tag + '"]').length ) {
-		detailTabs.tabs('select', tag);
+		bhDetail._singleton.tabs('select', tag);
 		return $(tag).data('self');
 	}
 
 	// Basic attributes
 	this.id = id;
 
-	detailTabs.tabs('add', tag, id);
+	bhDetail._singleton.tabs('add', tag, id);
 	(new bhFactory()).subscribe(this, tag, 'detail', this.id);
+
+	return this;
 };
 
 /**
@@ -170,3 +172,35 @@ bhDetail.prototype._buildComments = function(data) {
 
 	return comments;
 };
+
+/***********************************************************************************************************************
+ * Static methods
+ **********************************************************************************************************************/
+/**
+ * Initialize season panel
+ */
+bhDetail.settle = function() {
+	bhDetail._singleton = $('#details').tabs({
+		tabTemplate : '<li><a href="#{href}" title="#{label}"><div class="ellipsis">#{label}</div></a><span class="ui-icon ui-icon-close">&nbsp;</span></li>',
+		add : function(event, ui) {
+			$(ui.panel).append('<img src="css/images/loading.gif" />');
+			$(ui.tab).siblings('.ui-icon-close').click(function() {
+				var self = $(ui.panel).data('self');
+				if (self) self.close();
+				bhDetail._singleton.tabs('remove', ui.tab.href.match(/#\w+$/)[0]);
+			});
+			bhDetail._singleton.tabs('select', ui.index);
+		}
+	});
+	$('#detail_depot .compressor').click(function() {
+		$(this.parentNode).toggleClass('collapsed');
+	});
+};
+
+/***********************************************************************************************************************
+ * Static attributes
+ **********************************************************************************************************************/
+/**
+ * Singleton holder for tabs
+ */
+bhDetail._singleton = null;
