@@ -39,11 +39,7 @@ bhDetail.prototype.notify = function(subject, type, data) {
 			holder.append(this._buildDescription(data));
 			holder.append(this._buildComments(data));
 
-			var targetId = '#detail_' + this.id;
-			$(targetId).html(holder.html()).data('self', this);
-			$('.compressor', targetId).click(function() {
-				$(this.parentNode).toggleClass('collapsed');
-			});
+			this._bindEvents($('#detail_' + this.id).html(holder.html()));
 			break;
 
 		case bhFactory.NOTIFY_UPDATE:
@@ -55,16 +51,16 @@ bhDetail.prototype.notify = function(subject, type, data) {
 	return this;
 };
 
-/**
- * Called when current tab removed
- */
-bhDetail.prototype.close = function() {
-	(new bhFactory()).unsubscribe(this, ('#detail_' + this.id), 'detail', this.id);
-};
-
 /***********************************************************************************************************************
  * Private methods
  **********************************************************************************************************************/
+/**
+ * Called when current tab removed
+ */
+bhDetail.prototype._close = function() {
+	(new bhFactory()).unsubscribe(this, ('#detail_' + this.id), 'detail', this.id);
+};
+
 /**
  * Build <summary> for <details>
  *
@@ -73,11 +69,11 @@ bhDetail.prototype.close = function() {
 bhDetail.prototype._buildSummary = function(data) {
 	var summary = $('<summary>');
 	summary.append(data.title);
-	summary.append($('<span class="ui-icon ui-icon-pencil">'));
+	summary.append($('<span class="ui-icon ui-icon-wrench">'));
 	var endDate = data.dates.end;
 	summary.append($('<time>').attr('datetime', endDate).html((new Date(endDate)).toLocaleDateString()));
 	var startDate = data.dates.start;
-	summary.append($('<time pubdate="pubdate">').attr('datetime', startDate).html((new Date(startDate)).toLocaleDateString() + ' ~ '));
+	summary.append($('<time pubdate="pubdate">').attr('datetime', startDate).html((new Date(startDate)).toLocaleDateString() + '&nbsp;~&nbsp;'));
 	return summary;
 };
 
@@ -157,20 +153,41 @@ bhDetail.prototype._buildComments = function(data) {
 	var title = $('<legend class="compressor">');
 	title.append($('<span class="ui-icon ui-icon-triangle-1-s">'));
 	title.append(locale.detail_comments);
+	title.append($('<span class="ui-icon ui-icon-plus">'));
 	comments.append(title);
 
 	$(data.comments).each(function(){
 		var quote = $('<blockquote class="ui-corner-br">');
 		quote.append($('<span class="ui-icon ui-icon-pencil">'));
 		quote.append($('<time>').attr('datetime', this.date).html((new Date(this.date)).toLocaleDateString()));
-		var lines = $('<p>');
-		lines.append($('<span class="compressor ui-icon ui-icon-carat-1-s">'))
-		lines.append(this.content);
-		quote.append(lines);
+		quote.append($('<span class="compressor ui-icon ui-icon-carat-1-s">'))
+		quote.append($('<p>').append(this.content));
 		comments.append(quote);
 	});
 
 	return comments;
+};
+
+/**
+ * Bind action to hotpot
+ *
+ * @param target
+ *        Content holder element
+ */
+bhDetail.prototype._bindEvents = function(target) {
+	target.data('self', this);
+	$('.compressor', target).click(function() {
+		$(this.parentNode).toggleClass('collapsed');
+	});
+	$('.ui-icon-wrench', target).click(function() {
+		// TODO: modify basic info
+	});
+	$('.ui-icon-pencil', target).click(function() {
+		// TODO: modify comment
+	});
+	$('legend .ui-icon-plus', target).click(function(event) {
+		event.stopPropagation();
+	});
 };
 
 /***********************************************************************************************************************
@@ -186,7 +203,7 @@ bhDetail.settle = function() {
 			$(ui.panel).append('<img src="css/images/loading.gif" />');
 			$(ui.tab).siblings('.ui-icon-close').click(function() {
 				var self = $(ui.panel).data('self');
-				if (self) self.close();
+				if (self) self._close();
 				bhDetail._singleton.tabs('remove', ui.tab.href.match(/#\w+$/)[0]);
 			});
 			bhDetail._singleton.tabs('select', ui.index);

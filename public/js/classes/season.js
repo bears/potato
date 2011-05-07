@@ -179,17 +179,6 @@ bhSeason.settle = function() {
 
 	// Pages
 	$('nav>div').buttonset();
-	$('nav>.seed>[name="more"]').button('option', {
-		icons : {
-			primary : 'ui-icon-plusthick'
-		}
-	}).click(function() {
-		$('#seed-info').fadeIn();
-		$('#seed_label').focus();
-	});
-	$('#seed-info .ui-icon-close').click(function() {
-		$('#seed-info').fadeOut();
-	});
 	$([ 'start', 'prev', 'next', 'end' ]).each(function() {
 		var field = this.toString();
 		$('nav>.field>[name="' + field + '"]').button('option', {
@@ -201,6 +190,25 @@ bhSeason.settle = function() {
 				bhSeason._current._field(field);
 			}
 		});
+	});
+
+	// Seed
+	var seed = $('#seed-info').submit(function() {
+		// TODO: Submit data asynchronously
+		seed.fadeOut();
+		return false;
+	});
+	$('.ui-icon-close', seed).click(function() {
+		seed.fadeOut();
+	});
+	$('nav>.seed>[name="more"]').button('option', {
+		icons : {
+			primary : 'ui-icon-plusthick'
+		}
+	}).click(function() {
+		var label = $('#seed_label').val('');
+		seed.fadeIn();
+		label.focus();
 	});
 };
 

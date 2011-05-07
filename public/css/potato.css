@@ -25,6 +25,8 @@ command {display:inline-block; cursor:pointer;}
 #_hph {height:100%; width:100em; margin:0 auto;}
 #_hph>* {display:inline-block; vertical-align:top; float:left; overflow:hidden;}
 
+.ui-icon {display:inline-block; vertical-align:text-bottom;}
+
 .ui-tabs {position:absolute; top:0; bottom:0; left:0; right:0; border-width:0;}
 .ui-tabs-nav a {font-weight:bold; font-size:70%;}
 
@@ -37,7 +39,7 @@ aside.right {width:20em;}
 #seasons .season {overflow:auto; height:100%;}
 #seasons .season>li {position:relative; overflow:auto; margin:.5em; padding:.5em; white-space: nowrap; border-color:#FFF; cursor:alias;}
 #seasons .season>li:hover {border-color:#A6C9E2; border-radius:5px; border-style:dotted dashed;}
-#seasons .season .handle {display:inline-block; cursor:move; margin-right:5px;}
+#seasons .season .handle {cursor:move; margin-right:5px;}
 
 aside>nav {position:absolute; bottom:0; height:2em; line-height:2em; width:100%; margin:-1px;}
 aside>nav button {float:left; margin:0;}
@@ -53,8 +55,8 @@ aside>nav>.field {float:right; margin-right:1em;}
 
 article {position:relative; height:100%; width:50em; margin:0;}
 
-#details>.ui-tabs-nav .ui-icon-home {display:inline-block; margin:0 .4em 0 -.4em; vertical-align:top;}
-#details>.ui-tabs-nav .ui-icon-close {display:inline-block; cursor:pointer; margin:.3em .3em 0 -.3em}
+#details>.ui-tabs-nav .ui-icon-home {margin:0 .4em 0 -.4em;}
+#details>.ui-tabs-nav .ui-icon-close {cursor:pointer; margin:.3em .3em 0 -.3em}
 #details>div {position:absolute; top:2.4em; left:0; right:0; bottom:0; padding:.3em; margin:.3em; overflow:auto;}
 #details .ellipsis {width:7em; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
 #details details {display:block;}
@@ -62,13 +64,19 @@ article {position:relative; height:100%; width:50em; margin:0;}
 #details .description {padding:0 2em;}
 #details .description li {list-style:square inside none; padding:.3em .7em;}
 #details fieldset {border:1px solid #A6C9E2; border-width:1px 0 0 0; margin-top:1em; font-size:.9em;}
-#details fieldset.collapsed>* {display:none;}
 #details legend {padding:0 .5em; cursor:pointer;display:inherit!important; font-weight:bold;}
-#details legend .ui-icon-triangle-1-s {float:left; margin:.2em .3em 0 0;}
-#details fieldset.collapsed legend .ui-icon-triangle-1-s {background-position:-32px -16px; margin-top:.1em;}
-#details blockquote .ui-icon-carat-1-s {display:inline-block; vertical-align:text-bottom; cursor:pointer; margin-right:.2em;}
-#details blockquote .collapsed {overflow:hidden; height:1em;}
-#details blockquote .collapsed .ui-icon-carat-1-s {background-position:-32px 0; margin-bottom:.1em;}
+#details legend .ui-icon-plus {margin:0 -5px 2px 8px;}
+#details legend .ui-icon-triangle-1-s {margin:0 4px 1px 0;}
+#details fieldset.collapsed>* {display:none;}
+#details fieldset.collapsed legend .ui-icon-triangle-1-s {background-position:-32px -16px; margin-bottom:2px;}
+#details blockquote {display:block; margin:0 0.6em 0.3em 1.2em; padding:0.8em 0.8em 0.8em 1.6em; border-style:dashed double; border-color:#A6C9E2; border-width:0 3px 1px 0;}
+#details blockquote .compressor {float:left; cursor:pointer; margin-left:-20px;}
+#details blockquote.collapsed .compressor {background-position:-32px 0; margin-bottom:1px;}
+#details blockquote.collapsed p {overflow:hidden; height:1.2em; line-height:1.2em;}
+#details time {font-size:75%; color:#915608; font-size:smaller; float:right;}
+#details blockquote time {margin:0 0 1em 1em;}
+#details summary:hover, #details blockquote:hover, #details li:hover {background-color:#EAF5F7;}
+#details .ui-icon-wrench, #details .ui-icon-pencil {float:right; cursor:pointer; margin-left:.5em;}
 #details .fields {padding:.5em;}
 #details .fields th, #details_depot .fields td {padding:.2em .8em; font-weight:normal; white-space:nowrap;}
 #details .fields th {text-align:right; color:#915608;}
@@ -77,11 +85,6 @@ article {position:relative; height:100%; width:50em; margin:0;}
 .progress-bar .estimated {height:100%; background-color:#77D5F7; float:left;}
 .progress-bar .practical {height:100%; background-color:#ACDD4A; float:left;}
 .progress span {margin-top:-1.25em;}
-#details blockquote {display:block; margin:0 0.6em 0.3em 1.2em; padding:0.8em; border-style:dashed double; border-color:#A6C9E2; border-width:0 3px 1px 0;}
-#details .ui-icon-pencil {float:right; cursor:pointer; margin-left:.5em;}
-#details time {font-size:75%; color:#915608; font-size:smaller; float:right;}
-#details blockquote time {margin:0 0 1em 1em;}
-#details summary:hover, #details blockquote:hover, #details li:hover {background-color:#EAF5F7;}
 
 .ui-datepicker {margin:.2em auto .8em; border-width:0;}
 .ui-datepicker-header {font-size:77%;}

@@ -31,4 +31,10 @@ $(function() {
 
 	// Main panel
 	bhDetail.settle();
+
+	// Search
+	$('#search').submit(function() {
+		$('#search_target').blur().val('');
+		return false;
+	});
 });
