@@ -156,16 +156,24 @@ bhDetail.prototype._buildComments = function(data) {
 	title.append($('<span class="ui-icon ui-icon-plus">'));
 	comments.append(title);
 
+	var self = this;
 	$(data.comments).each(function(){
-		var quote = $('<blockquote class="ui-corner-br">');
-		quote.append($('<span class="ui-icon ui-icon-pencil">'));
-		quote.append($('<time>').attr('datetime', this.date).html((new Date(this.date)).toLocaleDateString()));
-		quote.append($('<span class="compressor ui-icon ui-icon-carat-1-s">'))
-		quote.append($('<p>').append(this.content));
-		comments.append(quote);
+		comments.append(self._buildComment(this));
 	});
 
 	return comments;
+};
+
+/**
+ * Build a <blockquote> contains a single comment
+ */
+bhDetail.prototype._buildComment = function(data) {
+	var quote = $('<blockquote class="ui-corner-br">');
+	quote.append($('<span class="ui-icon ui-icon-pencil">'));
+	quote.append($('<time>').attr('datetime', data.date).html((new Date(data.date)).toLocaleDateString()));
+	quote.append($('<span class="compressor ui-icon ui-icon-carat-1-s">'))
+	quote.append($('<div class="editable">').append(data.content));
+	return quote;
 };
 
 /**
@@ -182,12 +190,30 @@ bhDetail.prototype._bindEvents = function(target) {
 	$('.ui-icon-wrench', target).click(function() {
 		// TODO: modify basic info
 	});
-	$('.ui-icon-pencil', target).click(function() {
-		// TODO: modify comment
-	});
+	// Append comment
 	$('legend .ui-icon-plus', target).click(function(event) {
+		var self  = target.data('self');
+		var comment = self._buildComment({
+			date : 0,
+			content : '...'
+		});
+		$('.ui-icon-pencil', comment).click(self._editComment);
+		$(this).parents('fieldset').append(comment);
 		event.stopPropagation();
 	});
+	// Edit comments
+	$('.ui-icon-pencil', target).click(this._editComment);
+};
+
+/**
+ * Event callback for comment editing
+ */
+bhDetail.prototype._editComment = function() {
+	$(this).siblings('.editable').attr('contentEditable', 'true').blur(function() {
+		$(this).attr('contentEditable', 'false');
+		$(this.parentNode).removeClass('ui-state-highlight');
+	}).focus();
+	$(this.parentNode).addClass('ui-state-highlight');
 };
 
 /***********************************************************************************************************************
