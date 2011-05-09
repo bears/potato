@@ -71,11 +71,12 @@ article {position:relative; height:100%; width:50em; margin:0;}
 #details fieldset.collapsed legend .ui-icon-triangle-1-s {background-position:-32px -16px; margin-bottom:2px;}
 #details blockquote {display:block; margin:0 0.6em 0.3em 1.2em; padding:0.8em 0.8em 0.8em 1.6em; border-style:dashed double; border-color:#A6C9E2; border-width:0 3px 1px 0;}
 #details blockquote .compressor {float:left; cursor:pointer; margin-left:-20px;}
-#details blockquote.collapsed .compressor {background-position:-32px 0; margin-bottom:1px;}
-#details blockquote.collapsed .editable {overflow:hidden; height:1.2em; line-height:1.2em;}
+#details blockquote .editable {min-height:1.2em; line-height:1.2em;}
+#details blockquote.collapsed .compressor {background-position:-32px 0;}
+#details blockquote.collapsed .editable {overflow:hidden; height:1.2em;}
 #details time {font-size:75%; color:#915608; font-size:smaller; float:right;}
 #details blockquote time {margin:0 0 1em 1em;}
-#details summary:hover, #details blockquote:hover, #details li:hover {background-color:#EAF5F7;}
+#details summary:hover, #details blockquote:hover, #details li:hover {background-color:#F7FBFF;}
 #details .ui-icon-wrench, #details .ui-icon-pencil {float:right; cursor:pointer; margin-left:.5em;}
 #details .fields {padding:.5em;}
 #details .fields th, #details_depot .fields td {padding:.2em .8em; font-weight:normal; white-space:nowrap;}
