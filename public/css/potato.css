@@ -34,19 +34,18 @@ aside {position:relative; height:100%; margin:0 1em;}
 aside.left {width:25em;}
 aside.right {width:20em;}
 
-#seasons {bottom:2em;}
-#seasons>.ui-tabs-panel {position:absolute; top:2.4em; bottom:0; left:.2em; right:.2em; padding:0;}
+#seasons>.ui-tabs-panel {position:absolute; top:2.4em; bottom:.2em; left:.2em; right:.2em; padding:0;}
 #seasons .season {overflow:auto; height:100%;}
 #seasons .season>li {position:relative; overflow:auto; margin:.5em; padding:.5em; white-space: nowrap; border-color:#FFF; cursor:alias;}
 #seasons .season>li:hover {border-color:#A6C9E2; border-radius:5px; border-style:dotted dashed;}
-#seasons .season .handle {cursor:move; margin-right:5px;}
-
-aside>nav {position:absolute; bottom:0; height:2em; line-height:2em; width:100%; margin:-1px;}
+#seasons .season .handle {cursor:move; margin:0 6px -1px 0; vertical-align:baseline;}
+/*
+aside>nav {position:absolute; right:-1px; bottom:-1px; left:-1px; height:2em; line-height:2em;}
 aside>nav button {float:left; margin:0;}
 aside>nav>div>* {font-size:.76em!important; height:2.4em; margin:1px 0 1px -1px;}
 aside>nav>.seed {float:left; margin-left:1em;}
 aside>nav>.field {float:right; margin-right:1em;}
-
+*/
 #seed-info {position:absolute; top:-3.3em; left:.8em; right:2.8em; padding:0 1em; height:2.8em;}
 #seed-info>.ui-icon {cursor:pointer; margin-top:.76em;}
 #seed-info>.ui-icon-tag {float:left;}
@@ -74,8 +73,10 @@ article {position:relative; height:100%; width:50em; margin:0;}
 #details blockquote .editable {min-height:1.2em; line-height:1.2em;}
 #details blockquote.collapsed .compressor {background-position:-32px 0;}
 #details blockquote.collapsed .editable {overflow:hidden; height:1.2em;}
+#details blockquote.editing .editable {position:relative; border:1px dashed #4297D7; min-height:12em; padding:.5em;}
 #details time {font-size:75%; color:#915608; font-size:smaller; float:right;}
 #details blockquote time {margin:0 0 1em 1em;}
+#details blockquote.editing .compressor, #details blockquote.editing time, #details .editing .ui-icon-pencil {display:none;}
 #details summary:hover, #details blockquote:hover, #details li:hover {background-color:#F7FBFF;}
 #details .ui-icon-wrench, #details .ui-icon-pencil {float:right; cursor:pointer; margin-left:.5em;}
 #details .fields {padding:.5em;}
@@ -86,6 +87,9 @@ article {position:relative; height:100%; width:50em; margin:0;}
 .progress-bar .estimated {height:100%; background-color:#77D5F7; float:left;}
 .progress-bar .practical {height:100%; background-color:#ACDD4A; float:left;}
 .progress span {margin-top:-1.25em;}
+
+#stylor {position:absolute; right:-1px; bottom:-1px; left:-1px; height:1.4em; line-height:1.2em; padding:.2em 1em; -moz-user-select:none;}
+#stylor>* {width:1em; display:inline-block; margin:0 .2em; vertical-align:middle; cursor: pointer; font-family: "Times New Roman"; -moz-user-select:none;}
 
 .ui-datepicker {margin:.2em auto .8em; border-width:0;}
 .ui-datepicker-header {font-size:77%;}

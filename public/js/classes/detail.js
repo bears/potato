@@ -194,8 +194,8 @@ bhDetail.prototype._bindEvents = function(target) {
 	$('legend .ui-icon-plus', target).click(function(event) {
 		var self  = target.data('self');
 		var comment = self._buildComment({
-			date : 0,
-			content : '...'
+			date : self._getTimeString(new Date()),
+			content : ''
 		});
 		$('.ui-icon-pencil', comment).click(self._editComment);
 		$(this).parents('fieldset').append(comment);
@@ -209,11 +209,28 @@ bhDetail.prototype._bindEvents = function(target) {
  * Event callback for comment editing
  */
 bhDetail.prototype._editComment = function() {
-	$(this).siblings('.editable').attr('contentEditable', 'true').blur(function() {
-		$(this).attr('contentEditable', 'false');
-		$(this.parentNode).removeClass('ui-state-highlight');
-	}).focus();
-	$(this.parentNode).addClass('ui-state-highlight');
+	var content = $(this).siblings('.editable').attr('contentEditable', 'true').addClass('ui-corner-all');
+	content.parent('blockquote').addClass('editing').siblings('blockquote').addClass('ui-state-disabled');
+	content.parents('fieldset').addClass('editing');
+	$('#stylor').appendTo(content.focus()).removeClass('ui-helper-hidden');
+};
+
+/**
+ * Get UTC time string in 'yyyy-mm-ddThh:ii:ssZ' format
+ *
+ * @param date
+ */
+bhDetail.prototype._getTimeString = function(date) {
+	function couple(number){
+		number += '';
+		return (number.length < 2) ? ('0' + number) : number;
+	}
+	return date.getUTCFullYear() + '-'
+		+ couple(date.getUTCMonth() + 1) + '-'
+		+ couple(date.getUTCDate()) + 'T'
+		+ couple(date.getUTCHours()) + ':'
+		+ couple(date.getUTCMinutes()) + ':'
+		+ couple(date.getUTCSeconds()) + 'Z';
 };
 
 /***********************************************************************************************************************
@@ -237,6 +254,11 @@ bhDetail.settle = function() {
 	});
 	$('#detail_depot .compressor').click(function() {
 		$(this.parentNode).toggleClass('collapsed');
+	});
+	$('#stylor>*').click(function() {
+		var command = $(this).data('command').toString();
+		if (command)
+			document.execCommand(command, false, null);
 	});
 };
 
