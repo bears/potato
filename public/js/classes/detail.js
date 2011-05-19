@@ -30,16 +30,17 @@ function bhDetail(id) {
 bhDetail.prototype.notify = function(subject, type, data) {
 	switch ( type ) {
 		case bhFactory.NOTIFY_INSERT:
-			var details = $('<details>');
+			var details = $('<details/>');
 			details.append(this._buildSummary(data));
 			details.append(this._buildFields(data));
 
-			var holder = $('<div>');
+			var holder = $('<div/>');
 			holder.append(details);
 			holder.append(this._buildDescription(data));
 			holder.append(this._buildComments(data));
 
-			this._bindEvents($('#detail_' + this.id).html(holder.html()));
+			this._bindEvents(holder);
+			$('#detail_' + this.id).empty().append(holder);
 			break;
 
 		case bhFactory.NOTIFY_UPDATE:
@@ -67,13 +68,13 @@ bhDetail.prototype._close = function() {
  * @param data
  */
 bhDetail.prototype._buildSummary = function(data) {
-	var summary = $('<summary>');
+	var summary = $('<summary/>');
 	summary.append(data.title);
-	summary.append($('<span class="ui-icon ui-icon-wrench">'));
+	summary.append($('<span class="ui-icon ui-icon-wrench"/>'));
 	var endDate = data.dates.end;
-	summary.append($('<time>').attr('datetime', endDate).html((new Date(endDate)).toLocaleDateString()));
+	summary.append($('<time/>').attr('datetime', endDate).html((new Date(endDate)).toLocaleDateString()));
 	var startDate = data.dates.start;
-	summary.append($('<time pubdate="pubdate">').attr('datetime', startDate).html((new Date(startDate)).toLocaleDateString() + '&nbsp;~&nbsp;'));
+	summary.append($('<time pubdate="pubdate"/>').attr('datetime', startDate).html((new Date(startDate)).toLocaleDateString() + '&nbsp;~&nbsp;'));
 	return summary;
 };
 
@@ -84,19 +85,19 @@ bhDetail.prototype._buildSummary = function(data) {
  */
 bhDetail.prototype._buildFields = function(data) {
 	var locale = POTATO_L10N[POTATO_PROFILE.locale];
-	var fields = $('<table class="fields">');
+	var fields = $('<table class="fields"/>');
 
-	var row1 = $('<tr>');
-	row1.append($('<th>').html(locale.detail_season))
-	row1.append($('<td>').html(locale['season_' + data.season]))
-	row1.append($('<th>').html(locale.detail_variety))
-	row1.append($('<td>').html(data.variety))
+	var row1 = $('<tr/>');
+	row1.append($('<th/>').html(locale.detail_season))
+	row1.append($('<td/>').html(locale['season_' + data.season]))
+	row1.append($('<th/>').html(locale.detail_variety))
+	row1.append($('<td/>').html(data.variety))
 	fields.append(row1);
 
-	var row2 = $('<tr>');
-	row2.append($('<th>').html(locale.detail_weight))
-	row2.append($('<td>').html(data.weight))
-	row2.append($('<th>').html(locale.detail_maturity))
+	var row2 = $('<tr/>');
+	row2.append($('<th/>').html(locale.detail_weight))
+	row2.append($('<td/>').html(data.weight))
+	row2.append($('<th/>').html(locale.detail_maturity))
 	row2.append(this._buildProgress(data));
 	fields.append(row2);
 
@@ -109,14 +110,14 @@ bhDetail.prototype._buildFields = function(data) {
  * @param data
  */
 bhDetail.prototype._buildProgress = function(data) {
-	var progress = $('<td class="progress">');
+	var progress = $('<td class="progress"/>');
 
-	var estimated = $('<div class="progress-bar">');
-	estimated.append($('<div class="estimated">').attr('title', '3 days').css('width', (data.progress.original / data.progress.estimated * 100) + '%'));
+	var estimated = $('<div class="progress-bar"/>');
+	estimated.append($('<div class="estimated"/>').attr('title', '3 days').css('width', (data.progress.original / data.progress.estimated * 100) + '%'));
 	progress.append(estimated);
 
-	var practical = $('<div class="progress-bar">');
-	practical.append($('<div class="practical">').attr('title', '3 days').css('width', (data.progress.practical / data.progress.estimated * 100) + '%'));
+	var practical = $('<div class="progress-bar"/>');
+	practical.append($('<div class="practical"/>').attr('title', '3 days').css('width', (data.progress.practical / data.progress.estimated * 100) + '%'));
 	progress.append(practical);
 
 	return progress;
@@ -127,16 +128,16 @@ bhDetail.prototype._buildProgress = function(data) {
  */
 bhDetail.prototype._buildDescription = function(data) {
 	var locale = POTATO_L10N[POTATO_PROFILE.locale];
-	var description = $('<fieldset>');
+	var description = $('<fieldset/>');
 
-	var title = $('<legend class="compressor">');
-	title.append($('<span class="ui-icon ui-icon-triangle-1-s">'));
+	var title = $('<legend class="compressor"/>');
+	title.append($('<span class="ui-icon ui-icon-triangle-1-s"/>'));
 	title.append(locale.detail_description);
 	description.append(title);
 
-	var list = $('<ul class="description">');
+	var list = $('<ul class="description"/>');
 	$(data.description).each(function(){
-		list.append($('<li>').html(this.toString()));
+		list.append($('<li/>').html(this.toString()));
 	});
 	description.append(list);
 
@@ -148,12 +149,12 @@ bhDetail.prototype._buildDescription = function(data) {
  */
 bhDetail.prototype._buildComments = function(data) {
 	var locale = POTATO_L10N[POTATO_PROFILE.locale];
-	var comments = $('<fieldset>');
+	var comments = $('<fieldset/>');
 
-	var title = $('<legend class="compressor">');
-	title.append($('<span class="ui-icon ui-icon-triangle-1-s">'));
+	var title = $('<legend class="compressor"/>');
+	title.append($('<span class="ui-icon ui-icon-triangle-1-s"/>'));
 	title.append(locale.detail_comments);
-	title.append($('<span class="ui-icon ui-icon-plus">'));
+	title.append($('<span class="ui-icon ui-icon-plus"/>'));
 	comments.append(title);
 
 	var self = this;
@@ -168,11 +169,14 @@ bhDetail.prototype._buildComments = function(data) {
  * Build a <blockquote> contains a single comment
  */
 bhDetail.prototype._buildComment = function(data) {
-	var quote = $('<blockquote class="ui-corner-br">');
-	quote.append($('<span class="ui-icon ui-icon-pencil">'));
-	quote.append($('<time>').attr('datetime', data.date).html((new Date(data.date)).toLocaleDateString()));
-	quote.append($('<span class="compressor ui-icon ui-icon-carat-1-s">'))
-	quote.append($('<div class="editable">').append(data.content));
+	var quote = $('<blockquote class="ui-corner-br"/>');
+	quote.append($('<span class="ui-icon ui-icon-pencil"/>'));
+	quote.append($('<time/>').attr('datetime', data.date).html((new Date(data.date)).toLocaleDateString()));
+	quote.append($('<span class="compressor ui-icon ui-icon-carat-1-s"/>'));
+	quote.append($('<iframe class="editable" src="comment.html" style="height:0;"/>').load(function() {
+		$(this.contentDocument.body).html(data.content);
+		$(this).height(this.contentDocument.body.clientHeight);
+	}));
 	return quote;
 };
 
@@ -209,10 +213,17 @@ bhDetail.prototype._bindEvents = function(target) {
  * Event callback for comment editing
  */
 bhDetail.prototype._editComment = function() {
-	var content = $(this).siblings('.editable').attr('contentEditable', 'true').addClass('ui-corner-all');
-	content.parent('blockquote').addClass('editing').siblings('blockquote').addClass('ui-state-disabled');
-	content.parents('fieldset').addClass('editing');
-	$('#stylor').appendTo(content.focus()).removeClass('ui-helper-hidden');
+	var self = this;
+	$('#stylor').fadeOut('fast', function() {
+		// Reset previous
+		$('.editing', $(self).parents('fieldset')).removeClass('editing').children('.editable').removeClass('ui-corner-top').each(function() {
+			this.contentDocument.designMode = 'off';
+		});
+		// Setup current
+		$(self).siblings('iframe.editable').addClass('ui-corner-top').each(function() {
+			this.contentDocument.designMode = 'on';
+		}).parent().addClass('editing').append($('#stylor').fadeIn('fast'));
+	});
 };
 
 /**
@@ -256,9 +267,13 @@ bhDetail.settle = function() {
 		$(this.parentNode).toggleClass('collapsed');
 	});
 	$('#stylor>*').click(function() {
-		var command = $(this).data('command').toString();
+		var doc = $(this.parentNode).siblings('iframe')[0].contentDocument;
+		doc.execCommand('styleWithCSS', false, true);
+		var command = $(this).data('command');
 		if (command)
-			document.execCommand(command, false, null);
+			doc.execCommand(command.toString(), false, $(this).data('value'));
+	}).bind('selectstart', function() {
+		return false;
 	});
 };
 
