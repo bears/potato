@@ -192,13 +192,13 @@ bhDetail.prototype._bindEvents = function(target) {
 	});
 	// Append comment
 	$('legend .ui-icon-plus', target).click(function(event) {
-		var self  = target.data('self');
+		var self  = target.parent().data('self');
 		var comment = self._buildComment({
 			date : self._getTimeString(new Date()),
 			content : ''
 		});
-		$('.ui-icon-pencil', comment).click(self._editComment);
 		$(this).parents('fieldset').append(comment);
+		//$('.ui-icon-pencil', comment).click(self._editComment);
 		event.stopPropagation();
 	});
 	// Edit comments
@@ -211,7 +211,7 @@ bhDetail.prototype._bindEvents = function(target) {
 bhDetail.prototype._editComment = function() {
 	var self = $(this.parentNode);
 	// Reset previous
-	$('#editor').fadeOut('slow', function(){
+	$('#editor').fadeOut('fast', function(){
 		self.siblings('.ui-helper-hidden').removeClass('ui-helper-hidden');
 		// Setup current
 		$('#editor>iframe').load(function() {
@@ -220,7 +220,7 @@ bhDetail.prototype._editComment = function() {
 			bhDetail._document.designMode = 'on';
 			$(bhDetail._document.body).html($('.editable', self).html());
 		});
-		self.addClass('ui-helper-hidden').after($('#editor').fadeIn('slow'));
+		self.addClass('ui-helper-hidden').after($('#editor').fadeIn('fast'));
 	});
 };
 
@@ -264,13 +264,13 @@ bhDetail.settle = function() {
 	$('#detail_depot .compressor').click(function() {
 		$(this.parentNode).toggleClass('collapsed');
 	});
-	$('#stylor>*').click(function() {
+	$('#stylor>span:not(.ui-icon)').click(function() {
 		bhDetail._document.execCommand('styleWithCSS', false, true);
 		var command = $(this).data('command');
 		if (command)
 			bhDetail._document.execCommand(command.toString(), false, $(this).data('value'));
-	}).bind('selectstart', function() {
-		return false;
+	}).hover(function() {
+		$(this).toggleClass('ui-state-hover');
 	});
 };
 
