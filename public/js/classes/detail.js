@@ -38,9 +38,9 @@ bhDetail.prototype.notify = function(subject, type, data) {
 			holder.append(details);
 			holder.append(this._buildDescription(data));
 			holder.append(this._buildComments(data));
-
 			this._bindEvents(holder);
-			$('#detail_' + this.id).empty().append(holder);
+
+			$('#detail_' + this.id).data('self', this).empty().append(holder);
 			break;
 
 		case bhFactory.NOTIFY_UPDATE:
@@ -173,10 +173,7 @@ bhDetail.prototype._buildComment = function(data) {
 	quote.append($('<span class="ui-icon ui-icon-pencil"/>'));
 	quote.append($('<time/>').attr('datetime', data.date).html((new Date(data.date)).toLocaleDateString()));
 	quote.append($('<span class="compressor ui-icon ui-icon-carat-1-s"/>'));
-	quote.append($('<iframe class="editable" src="comment.html" style="height:0;"/>').load(function() {
-		$(this.contentDocument.body).html(data.content);
-		$(this).height(this.contentDocument.body.clientHeight);
-	}));
+	quote.append($('<div class="editable"/>').html(data.content));
 	return quote;
 };
 
@@ -187,7 +184,6 @@ bhDetail.prototype._buildComment = function(data) {
  *        Content holder element
  */
 bhDetail.prototype._bindEvents = function(target) {
-	target.data('self', this);
 	$('.compressor', target).click(function() {
 		$(this.parentNode).toggleClass('collapsed');
 	});
@@ -213,16 +209,18 @@ bhDetail.prototype._bindEvents = function(target) {
  * Event callback for comment editing
  */
 bhDetail.prototype._editComment = function() {
-	var self = this;
-	$('#stylor').fadeOut('fast', function() {
-		// Reset previous
-		$('.editing', $(self).parents('fieldset')).removeClass('editing').children('.editable').removeClass('ui-corner-top').each(function() {
-			this.contentDocument.designMode = 'off';
-		});
+	var self = $(this.parentNode);
+	// Reset previous
+	$('#editor').fadeOut('slow', function(){
+		self.siblings('.ui-helper-hidden').removeClass('ui-helper-hidden');
 		// Setup current
-		$(self).siblings('iframe.editable').addClass('ui-corner-top').each(function() {
-			this.contentDocument.designMode = 'on';
-		}).parent().addClass('editing').append($('#stylor').fadeIn('fast'));
+		$('#editor>iframe').load(function() {
+			$(this).unbind('load');
+			bhDetail._document = this.contentDocument;
+			bhDetail._document.designMode = 'on';
+			$(bhDetail._document.body).html($('.editable', self).html());
+		});
+		self.addClass('ui-helper-hidden').after($('#editor').fadeIn('slow'));
 	});
 };
 
@@ -267,11 +265,10 @@ bhDetail.settle = function() {
 		$(this.parentNode).toggleClass('collapsed');
 	});
 	$('#stylor>*').click(function() {
-		var doc = $(this.parentNode).siblings('iframe')[0].contentDocument;
-		doc.execCommand('styleWithCSS', false, true);
+		bhDetail._document.execCommand('styleWithCSS', false, true);
 		var command = $(this).data('command');
 		if (command)
-			doc.execCommand(command.toString(), false, $(this).data('value'));
+			bhDetail._document.execCommand(command.toString(), false, $(this).data('value'));
 	}).bind('selectstart', function() {
 		return false;
 	});
