@@ -210,17 +210,8 @@ bhDetail.prototype._bindEvents = function(target) {
  */
 bhDetail.prototype._editComment = function() {
 	var self = $(this.parentNode);
-	// Reset previous
-	$('#editor').fadeOut('fast', function(){
-		self.siblings('.ui-helper-hidden').removeClass('ui-helper-hidden');
-		// Setup current
-		$('#editor>iframe').load(function() {
-			$(this).unbind('load');
-			bhDetail._document = this.contentDocument;
-			bhDetail._document.designMode = 'on';
-			$(bhDetail._document.body).html($('.editable', self).html());
-		});
-		self.addClass('ui-helper-hidden').after($('#editor').fadeIn('fast'));
+	bhEditor.show(self, function() {
+		self.addClass('ui-helper-hidden').siblings('.ui-helper-hidden').removeClass('ui-helper-hidden');
 	});
 };
 
@@ -263,14 +254,6 @@ bhDetail.settle = function() {
 	});
 	$('#detail_depot .compressor').click(function() {
 		$(this.parentNode).toggleClass('collapsed');
-	});
-	$('#stylor>span:not(.ui-icon)').click(function() {
-		bhDetail._document.execCommand('styleWithCSS', false, true);
-		var command = $(this).data('command');
-		if (command)
-			bhDetail._document.execCommand(command.toString(), false, $(this).data('value'));
-	}).hover(function() {
-		$(this).toggleClass('ui-state-hover');
 	});
 };
 
