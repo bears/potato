@@ -1,6 +1,5 @@
 /**
- * Class bhFactory
- * 
+ * @class bhFactory
  * @brief Element factory
  */
 function bhFactory() {
@@ -18,9 +17,7 @@ function bhFactory() {
 	// this._update();
 }
 
-/**
- * @name Notify type enumerations
- */
+///@name Notify type enumerations
 // @{
 // Data
 bhFactory.NOTIFY_INSERT = 'INSERT';
@@ -33,7 +30,7 @@ bhFactory.NOTIFY_DETACH = 'DETACH';
 
 /**
  * Subscribe to a subject, will receive notify later
- * 
+ *
  * @param subscriber
  *        The observer, MUST provide method notify(subject, type, data)
  * @param identity
@@ -61,7 +58,7 @@ bhFactory.prototype.subscribe = function(subscriber, identity, subject, id) {
 
 /**
  * Unsubscribe a subject, will not receive notify anymore
- * 
+ *
  * @param subscriber
  *        The observer, MUST provide method notify(subject, type, data)
  * @param identity
@@ -79,10 +76,11 @@ bhFactory.prototype.unsubscribe = function(unsubscriber, identity, subject, id) 
 
 /**
  * Fetch a single item From local or server
- * 
+ *
  * @param subscriber
  * @param subject
  * @param id
+ *
  * @see this.subscribe
  */
 bhFactory.prototype._fetch = function(subscriber, subject, id) {
@@ -122,9 +120,11 @@ bhFactory.prototype._update = function() {
 			plan.e[name] = item[name].t;
 		}
 	}
-	// bhFactory._instance.updater.id =
-	// setTimeout(bhFactory.prototype._update.bind(this), 10000);
+//	bhFactory._instance.updater.id =
+//	setTimeout(bhFactory.prototype._update.bind(this), 10000);
 };
 
-// Singleton
+/**
+ * Singleton holder
+ */
 bhFactory._singleton = null;

@@ -1,20 +1,27 @@
 /**
- * Class bhEditor
+ * @class bhEditor
  */
 function bhEditor() {
-	if (!bhEditor._singleton) {
+	if ( !bhEditor._singleton ) {
 		this.element = $('#editor');
 		this._settle();
 		bhEditor._singleton = this;
 	}
 	return bhEditor._singleton;
-};
+}
 
 /**
  * Hide the editor
+ *
+ * @param callback
  */
 bhEditor.hide = function(callback) {
-	(new bhEditor()).element.fadeOut('fast', callback);
+	(new bhEditor()).element.fadeOut('fast', function() {
+		$(this).siblings('.ui-helper-hidden').removeClass('ui-helper-hidden');
+		if ( 'function' == typeof callback ) {
+			callback();
+		}
+	});
 };
 
 /**
@@ -26,23 +33,24 @@ bhEditor.save = function() {
 
 /**
  * Show the editor
+ *
+ * @param container
  */
-bhEditor.show = function(container, callback) {
+bhEditor.show = function(container) {
 	bhEditor.hide(function() {
-		callback();
 		$('#editor>iframe').load(function() {
 			$(this).unbind('load');
 			this.contentDocument.designMode = 'on';
 			this.contentDocument.body.innerHTML = $('.editable', container).html();
 			bhEditor._singleton.document = this.contentDocument;
 		});
-		$(container).after((new bhEditor()).element.fadeIn('fast'));
+		$(container).addClass('ui-helper-hidden').after((new bhEditor()).element.fadeIn('fast'));
 	});
 };
 
-/***********************************************************************************************************************
- * Private methods
- **********************************************************************************************************************/
+/**
+ * Initialize editor
+ */
 bhEditor.prototype._settle = function() {
 	$('#stylor>span:not(.ui-icon)').click(function() {
 		bhEditor._singleton.document.execCommand('styleWithCSS', false, true);
@@ -58,9 +66,6 @@ bhEditor.prototype._settle = function() {
 	});
 };
 
-/***********************************************************************************************************************
- * Static attributes
- **********************************************************************************************************************/
 /**
  * Singleton holder
  */

@@ -1,7 +1,7 @@
 /**
- * Class bhSeason
- *
+ * @class bhSeason
  * @brief Item navigate list
+ *
  * @param id
  *        One of 'spring', 'summer', 'autumn', 'winter'
  */
@@ -51,9 +51,6 @@ bhSeason.prototype.notify = function(subject, type, data) {
 	return this;
 };
 
-/***********************************************************************************************************************
- * Private methods
- **********************************************************************************************************************/
 /**
  * Insert new item into list
  *
@@ -88,7 +85,7 @@ bhSeason.prototype._touch = function(link) {
  */
 bhSeason.prototype._field = function(field) {
 	var newPage = this.page;
-	switch (field) {
+	switch ( field ) {
 		case 'start':
 			newPage = 0;
 			break;
@@ -104,7 +101,7 @@ bhSeason.prototype._field = function(field) {
 			newPage = this.maxPage;
 			break;
 	}
-	if (newPage != this.page) {
+	if ( newPage != this.page ) {
 		this._touch(false);
 		this.page = newPage;
 		$('#season_' + this.id + ' .season').empty();
@@ -135,9 +132,6 @@ bhSeason.prototype._hide = function() {
 	return this;
 };
 
-/***********************************************************************************************************************
- * Static methods
- **********************************************************************************************************************/
 /**
  * Initialize season panel
  */
@@ -212,9 +206,6 @@ bhSeason.settle = function() {
 	});
 };
 
-/***********************************************************************************************************************
- * Static attributes
- **********************************************************************************************************************/
 /**
  * Singleton holder for each category
  */
