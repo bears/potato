@@ -14,7 +14,8 @@ $(function() {
 	// Localize
 	var locale = POTATO_L10N[POTATO_PROFILE.locale];
 	$('title').text(locale['title']);
-	$('body').html($('body').html().replace(/{%(\w+)%}/g, function(whole, key) {
+	window.POTATO_TEMPLATE = $('body').html();
+	$('body').html(POTATO_TEMPLATE.replace(/{%(\w+)%}/g, function(unused, key) {
 		return locale[key]
 	})).removeClass('ui-helper-hidden');
 
