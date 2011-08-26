@@ -5,17 +5,15 @@
  * @param id
  */
 function bhDetail(id) {
-	var tag = '#detail_' + id;
-	if ( 0 < $('#details [href$="' + tag + '"]').length ) {
-		bhDetail._singleton.tabs('select', tag);
-		return $(tag).data('self');
+	var tag = $('#detail_' + id);
+	if ( tag.length ) {
+		tag.siblings('div').addClass('ui-helper-hidden');
+		return tag.removeClass('ui-helper-hidden').data('self');
 	}
 
-	// Basic attributes
 	this.id = id;
 
-	bhDetail._singleton.tabs('add', tag, id);
-	(new bhFactory()).subscribe(this, tag, 'detail', this.id);
+	(new bhFactory()).subscribe(this, '#detail_' + id, 'detail', this.id);
 
 	return this;
 }
@@ -36,12 +34,14 @@ bhDetail.prototype.notify = function(subject, type, data) {
 			details.append(bhDetail._buildFields(data));
 
 			var holder = $('<div/>');
+			holder.attr('id', 'detail_' + this.id).data('self', this);
 			holder.append(details);
 			holder.append(bhDetail._buildDescription(data));
 			holder.append(bhDetail._buildComments(data));
 			bhDetail._bindEvents(holder);
 
-			$('#detail_' + this.id).data('self', this).empty().append(holder);
+			$('> div', bhDetail._singleton).addClass('ui-helper-hidden');
+			holder.appendTo(bhDetail._singleton);
 			break;
 
 		case bhFactory.NOTIFY_UPDATE:
@@ -57,29 +57,15 @@ bhDetail.prototype.notify = function(subject, type, data) {
  * Initialize season panel
  */
 bhDetail.settle = function() {
-	bhDetail._singleton = $('#details').tabs({
-		tabTemplate : '<li><a href="#{href}" title="#{label}"><div class="ellipsis">#{label}</div></a><span class="ui-icon ui-icon-close">&nbsp;</span></li>',
-		add : function(event, ui) {
-			$(ui.panel).append('<img src="css/images/loading.gif" />');
-			$(ui.tab).siblings('.ui-icon-close').click(function() {
-				var self = $(ui.panel).data('self');
-				if (self) self._close();
-				bhDetail._singleton.tabs('remove', ui.tab.href.match(/#\w+$/)[0]);
-			});
-			bhDetail._singleton.tabs('select', ui.index);
-		}
-	});
-	$('#detail_depot .compressor').click(function() {
-		$(this.parentNode).toggleClass('collapsed');
-	});
+	bhDetail._singleton = $('#details');
 };
 
 /**
  * Called when current tab removed
  */
-bhDetail.prototype._close = function() {
-	(new bhFactory()).unsubscribe(this, ('#detail_' + this.id), 'detail', this.id);
-};
+//bhDetail.prototype._close = function() {
+//	(new bhFactory()).unsubscribe(this, ('#detail_' + this.id), 'detail', this.id);
+//};
 
 /**
  * Build <summary> for <details>

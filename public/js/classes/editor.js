@@ -1,13 +1,19 @@
 /**
  * @class bhEditor
+ * @brief Comment editor
  */
 function bhEditor() {
-	if ( !bhEditor._singleton ) {
-		this.element = $('#editor');
-		this._settle();
-		bhEditor._singleton = this;
+	// Keep singleton
+	if ( null != bhEditor._singleton ) {
+		return bhEditor._singleton;
 	}
-	return bhEditor._singleton;
+	bhEditor._singleton = this;
+
+	this.element = $('#editor');
+
+	this._settle();
+
+	return this;
 }
 
 /**
@@ -17,7 +23,7 @@ function bhEditor() {
  */
 bhEditor.hide = function(callback) {
 	(new bhEditor()).element.fadeOut('fast', function() {
-		$(this).siblings('.ui-helper-hidden').removeClass('ui-helper-hidden');
+		$(this).siblings('blockquote.ui-helper-hidden').removeClass('ui-helper-hidden');
 		if ( 'function' == typeof callback ) {
 			callback();
 		}
@@ -42,6 +48,7 @@ bhEditor.show = function(container) {
 			$(this).unbind('load');
 			this.contentDocument.designMode = 'on';
 			this.contentDocument.body.innerHTML = $('.editable', container).html();
+			this.contentDocument.execCommand('styleWithCSS', false, true);
 			bhEditor._singleton.document = this.contentDocument;
 		});
 		$(container).addClass('ui-helper-hidden').after((new bhEditor()).element.fadeIn('fast'));
@@ -53,7 +60,6 @@ bhEditor.show = function(container) {
  */
 bhEditor.prototype._settle = function() {
 	$('#stylor>span:not(.ui-icon)').click(function() {
-		bhEditor._singleton.document.execCommand('styleWithCSS', false, true);
 		var command = $(this).data('command');
 		if (command)
 			bhEditor._singleton.document.execCommand(command.toString(), false, $(this).data('value'));

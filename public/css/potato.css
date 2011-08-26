@@ -39,25 +39,9 @@ aside.right {width:20em;}
 #seasons .season>li {position:relative; overflow:auto; margin:.5em; padding:.5em; white-space: nowrap; border-color:#FFF; cursor:alias;}
 #seasons .season>li:hover {border-color:#A6C9E2; border-radius:5px; border-style:dotted dashed;}
 #seasons .season .handle {cursor:move; margin:0 6px -1px 0; vertical-align:baseline;}
-/*
-aside>nav {position:absolute; right:-1px; bottom:-1px; left:-1px; height:2em; line-height:2em;}
-aside>nav button {float:left; margin:0;}
-aside>nav>div>* {font-size:.76em!important; height:2.4em; margin:1px 0 1px -1px;}
-aside>nav>.seed {float:left; margin-left:1em;}
-aside>nav>.field {float:right; margin-right:1em;}
-*/
-#seed-info {position:absolute; top:-3.3em; left:.8em; right:2.8em; padding:0 1em; height:2.8em;}
-#seed-info>.ui-icon {cursor:pointer; margin-top:.76em;}
-#seed-info>.ui-icon-tag {float:left;}
-#seed-info>.ui-icon-close {float:right;}
-#seed_label {padding:.4em .6em; margin:.3em .9em; border-width:0; width:19em;}
 
-article {position:relative; height:100%; width:50em; margin:0;}
-
-#details>.ui-tabs-nav .ui-icon-home {margin:0 .4em 0 -.4em;}
-#details>.ui-tabs-nav .ui-icon-close {cursor:pointer; margin:.3em .3em 0 -.3em}
-#details>div {position:absolute; top:2.4em; left:0; right:0; bottom:0; padding:.3em; margin:.3em; overflow:auto;}
-#details .ellipsis {width:7em; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+#details {position:relative; height:100%; width:50em; margin:0;}
+#details>div {position:absolute; top:0em; left:0; right:0; bottom:0; padding:.3em; margin:.3em; overflow:auto; font-size:110%;}
 #details details {display:block;}
 #details summary {display:block; padding:.5em 1em;}
 #details .description {padding:0 2em;}
@@ -75,16 +59,16 @@ article {position:relative; height:100%; width:50em; margin:0;}
 #details blockquote .editable {min-height:1.2em; line-height:1.2em;}
 #details blockquote.collapsed .compressor {background-position:-32px 0;}
 #details blockquote.collapsed .editable {overflow:hidden; height:1.2em!important;}
-#details summary:hover, #details blockquote:hover, #details li:hover {background-color:#F7FBFF;}
+#details summary:hover, #details blockquote:hover, #details fieldset li:hover {background-color:#F7FBFF;}
 #details .ui-icon-wrench, #details .ui-icon-pencil {float:right; cursor:pointer; margin-left:.5em;}
 #details .fields {padding:.5em;}
-#details .fields th, #details_depot .fields td {padding:.2em .8em; font-weight:normal; white-space:nowrap;}
+#details .fields th, #details .fields td {padding:.2em .8em; font-weight:normal; white-space:nowrap;}
 #details .fields th {text-align:right; color:#915608;}
-#details .fields .progress {width:360px;}
-#details .fields .progress-bar {height:10px; background-color:#EAF5F7; margin:1px;}
+#details .fields .progress {width:30em;}
+
+.progress-bar {height:10px; background-color:#EAF5F7; margin:1px;}
 .progress-bar .estimated {height:100%; background-color:#77D5F7; float:left;}
 .progress-bar .practical {height:100%; background-color:#ACDD4A; float:left;}
-.progress span {margin-top:-1.25em;}
 
 #editor iframe {width:98%; height:6em; margin-top:1.4em; padding:1%;}
 #editor_action {float:right;}

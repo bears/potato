@@ -9,12 +9,13 @@ function bhFactory() {
 	}
 	bhFactory._singleton = this;
 
-	// Basic members
 	this.subscribers = {};
 	this.elements = {};
 
 	// Schedule updater
 	// this._update();
+
+	return this;
 }
 
 ///@name Notify type enumerations

@@ -7,18 +7,12 @@ window.POTATO_L10N = {
 		search : 'Search',
 		search_in_potato : 'Plough Potato',
 		// left panel
-		item_more : 'Seed',
-		page_first : 'First',
-		page_prev : 'Previous',
-		page_next : 'Next',
-		page_last : 'Last',
-		//
 		season_spring : 'Spring',
 		season_summer : 'Summer',
 		season_autumn : 'Autumn',
 		season_winter : 'Winter',
+		item_more : 'Seed',
 		// main panel
-		details_depot : 'Depot',
 		detail_season : 'Season',
 		detail_variety : 'Variety',
 		detail_weight : 'Weight',
