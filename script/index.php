@@ -1,5 +1,10 @@
 <?php
-define('BASE_PATH', dirname(dirname(__FILE__)));
+/**
+ * Entry point of the application.
+ */
+
+require_once 'config/config.php';
+require_once 'loader/loader.php';
 
 list($unused, $request) = explode('/ajaj/', $_SERVER['REQUEST_URI']);
 $arguments = explode('/', $request);
@@ -11,7 +16,7 @@ switch ($domain){
 		$id = array_shift($arguments);
 		$list = array('t' => time(), 'max' => 5);
 		$icon = array('pencil'=>'', 'refresh'=>'', 'shuffle'=>'', 'note'=>'', 'document'=>'');
-		for ($i=0; $i<rand(10, 15); ++$i){
+		for ($i=0; $i<rand(20, 25); ++$i){
 			$data = array(
 				'id' => "$id$i",
 				'label' => "Content for {$subject}#{$id}",
@@ -33,7 +38,7 @@ switch ($domain){
 				'end' => '2011-04-28T05:28:04Z'
 			),
 			'season' => 'spring',
-			'variety' => 'Shopping',
+			'variety' => 'Shopping'.BASE_PATH,
 			'weight' => rand(1, 9),
 			'progress' => array(
 				'estimated' => 604800,
@@ -48,27 +53,27 @@ switch ($domain){
 			'comments' => array(
 				array(
 					'date' => '2011-03-02T00:00:00Z',
-					'content' => 'Let\'s take a closer look at what\'s new.',
+					'content' => '<div>Let\'s take a closer look at what\'s new.</div>',
 				),
 				array(
 					'date' => '2011-04-02T00:00:00Z',
-					'content' => 'Opera have once again kicked their level of CSS3 support up a notch with the release of the latest beta version of their popular web browser. Opera version 11.10 beta, code named \'Barracuda\', was first unveiled at this weeks SXSW in Austin, Texas, before being made available for download as a public beta yesterday.',
+					'content' => '<p>Opera have once again kicked their level of CSS3 support up a notch with the release of the latest beta version of their popular web browser. Opera version 11.10 beta, code named \'Barracuda\', was first unveiled at this weeks SXSW in Austin, Texas, before being made available for download as a public beta yesterday.</div>',
 				),
 				array(
 					'date' => '2011-04-28T20:00:00Z',
-					'content' => 'The W3C CSS Working Group have released two further updated working draft specifications for CSS3. ',
+					'content' => '<p>The W3C CSS Working Group have released two further updated working draft specifications for CSS3.</div>',
 				),
 				array(
 					'date' => '2011-03-02T00:00:00Z',
-					'content' => 'Let\'s take a closer look at what\'s new.',
+					'content' => '<p>Let\'s take a closer look at what\'s new.</div>',
 				),
 				array(
 					'date' => '2011-04-02T00:00:00Z',
-					'content' => 'Opera have once again kicked their level of CSS3 support up a notch with the release of the latest beta version of their popular web browser. Opera version 11.10 beta, code named \'Barracuda\', was first unveiled at this weeks SXSW in Austin, Texas, before being made available for download as a public beta yesterday.',
+					'content' => '<p>Opera have once again kicked their level of CSS3 support up a notch with the release of the latest beta version of their popular web browser. Opera version 11.10 beta, code named \'Barracuda\', was first unveiled at this weeks SXSW in Austin, Texas, before being made available for download as a public beta yesterday.</div>',
 				),
 				array(
 					'date' => '2011-04-28T20:00:00Z',
-					'content' => 'The W3C CSS Working Group have released two further updated working draft specifications for CSS3. ',
+					'content' => '<p>The W3C CSS Working Group have released two further updated working draft specifications for CSS3.</div>',
 				),
 			),
 		);
@@ -82,11 +87,15 @@ switch ($domain){
 		break;
 
 	case 'profile':
-		echo <<<JSON
-window.POTATO_PROFILE = {
-	locale : 'en_US',
-	reclaim : true
-};
-JSON;
+		$profile = array(
+			'locale' => 'en_US',
+		);
+		$all_constants = get_defined_constants(true);
+		foreach ($all_constants['user'] as $name => $value) {
+			if (preg_match('#\bPROFILE_(\w+)$#', $name, $match)) {
+				$profile[strtolower($match[1])] = $value;
+			}
+		}
+		echo 'window.POTATO_PROFILE = '.json_encode($profile);
 		break;
 }
