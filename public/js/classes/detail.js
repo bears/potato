@@ -54,13 +54,6 @@ bhDetail.prototype.notify = function(subject, type, data) {
 };
 
 /**
- * Initialize season panel
- */
-bhDetail.settle = function() {
-	bhDetail._singleton = $('#details');
-};
-
-/**
  * Called when current tab removed
  */
 //bhDetail.prototype._close = function() {
@@ -240,3 +233,11 @@ bhDetail._getTimeString = function(date) {
  * Singleton holder for tabs
  */
 bhDetail._singleton = null;
+
+/**
+ * Initializer
+ */
+var POTATO_INITIAL = POTATO_INITIAL || [];
+POTATO_INITIAL.push(function() {
+	bhDetail._singleton = $('#details');
+});

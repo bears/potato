@@ -6,6 +6,7 @@ window.onerror = function(error, url, line) {
 			line : line,
 			url : url
 		});
+		return true;
 	}
 };
 
@@ -13,25 +14,25 @@ window.onerror = function(error, url, line) {
 $(function() {
 	// Localize
 	var locale = POTATO_L10N[POTATO_PROFILE.locale];
-	$('title').text(locale['title']);
+	$('title').text(locale.title);
 	window.POTATO_TEMPLATE = $('body').html();
 	$('body').html(POTATO_TEMPLATE.replace(/{%(\w+)%}/g, function(unused, key) {
 		return locale[key]
 	})).removeClass('ui-helper-hidden');
+	$('#version').text(POTATO_PROFILE.version);
 
 	// Logo event
 	$('#menu_home').click(function() {
 		location = location.protocol + '//' + location.host + '/'
 	});
 
-	// Left side panel
-	bhSeason.settle();
-
 	// Right side panel
 	$('#calendar').datepicker();
 
-	// Main panel
-	bhDetail.settle();
+	// Run initial routes
+	$(window.POTATO_INITIAL || []).each(function(){
+		this.apply();
+	});
 
 	// Search
 	$('#search').submit(function() {

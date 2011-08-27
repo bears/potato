@@ -33,10 +33,13 @@ function bhSeason(id) {
 bhSeason.prototype.notify = function(subject, type, data) {
 	switch ( type ) {
 		case bhFactory.NOTIFY_INSERT:
+			this.maxPage = data.max;
 			for ( var i = 0; i < data.tubers.length; ++i ) {
 				this._insert(data.tubers[i]);
 			}
-			this.maxPage = data.max;
+			if ( 'function' == typeof this.loaded ) {
+				this.loaded.apply(this);
+			}
 			break;
 
 		case bhFactory.NOTIFY_UPDATE:
@@ -58,6 +61,8 @@ bhSeason.prototype._insert = function(data) {
 	$(template.replace(/{%(\w+)%}/g, function(unused, key) {
 		return data[key]
 	})).appendTo(this.container).click(function() {
+		$('#seasons li.ui-state-highlight').removeClass('ui-state-highlight');
+		$(this).addClass('ui-state-highlight');
 		new bhDetail(data.id);
 	});
 	return this;
@@ -98,13 +103,30 @@ bhSeason.prototype._hide = function() {
 };
 
 /**
- * Initialize season panel
+ * Singleton holder for each category
  */
-bhSeason.settle = function() {
+bhSeason._singleton = {
+	spring : null,
+	summer : null,
+	autumn : null,
+	winter : null
+};
+
+/**
+ * Initializer
+ */
+var POTATO_INITIAL = POTATO_INITIAL || [];
+POTATO_INITIAL.push(function() {
 	// Contents
 	for ( var season in bhSeason._singleton ) {
 		new bhSeason(season);
 	}
+
+	// Load the first
+	bhSeason._singleton.summer.loaded = function() {
+		delete bhSeason._singleton.summer.loaded;
+		$('>li:first-child', this.container).click();
+	};
 
 	// Tabs
 	var tabs = $('#seasons').tabs({
@@ -135,14 +157,4 @@ bhSeason.settle = function() {
 			ui.item.removeAttr('style');
 		}
 	});
-};
-
-/**
- * Singleton holder for each category
- */
-bhSeason._singleton = {
-	spring : null,
-	summer : null,
-	autumn : null,
-	winter : null
-};
+});
