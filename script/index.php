@@ -3,8 +3,8 @@
  * Entry point of the application.
  */
 
+require_once 'loader.php';
 require_once 'config/config.php';
-require_once 'loader/loader.php';
 
 list($unused, $request) = explode('/ajaj/', $_SERVER['REQUEST_URI']);
 $arguments = explode('/', $request);
@@ -38,7 +38,7 @@ switch ($domain){
 				'end' => '2011-04-28T05:28:04Z'
 			),
 			'season' => 'spring',
-			'variety' => 'Shopping'.BASE_PATH,
+			'variety' => 'Shopping',
 			'weight' => rand(1, 9),
 			'progress' => array(
 				'estimated' => 604800,
