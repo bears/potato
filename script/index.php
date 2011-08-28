@@ -3,6 +3,7 @@
  * Entry point of the application.
  */
 
+require_once 'error.php';
 require_once 'loader.php';
 require_once 'config/config.php';
 
