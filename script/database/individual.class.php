@@ -6,15 +6,6 @@ namespace database;
  */
 abstract class individual {
 
-	public function __construct() {
-		if ( isset( $this->uuid ) ) {
-			self::sampling( $this );
-		}
-		else {
-			$this->lock = 0;
-		}
-	}
-
 	/**
 	 * Get uuid of this object.
 	 * @return uuid
@@ -25,33 +16,41 @@ abstract class individual {
 
 	/**
 	 * Insert/update this object to database.
-	 * @return boolean
 	 */
 	public function save() {
 		$exist = isset( $this->uuid );
+
+		$vars = get_object_vars( $this );
+		$properties = array( );
+		foreach ( $vars as $name => $value ) {
+			$properties[':' . $name] = $value;
+		}
+		unset( $vars['uuid'], $vars['lock'] );
+		$keys = array_keys( $vars );
+
 		if ( $exist ) {
-			$query = self::update_query();
-			$result = $query->execute( array( ':uuid' => $this->uuid ) );
+			$query = self::update_query( $keys );
 		}
 		else {
-			$query = self::insert_query( $this, $properties );
-			$result = $query->execute( $properties );
+			$query = self::insert_query( $keys );
+			unset( $properties[':uuid'], $properties[':lock'] );
 		}
-		if ( $result ) {
-			foreach ( $query->fetch() as $name => $value ) {
-				$this->$name = $value;
-			}
-			$query->closeCursor();
-		}
-		else {
+		$result = $query->execute( $properties );
+
+		if ( !$result ) {
 			$error = $query->errorInfo();
 			throw new \exception\failed_store( $error[2], $error[0] );
 		}
-		if ( !$exist ) {
+		else if ( !$exist ) {
+			foreach ( $query->fetch() as $name => $default ) {
+				$this->$name = $default;
+			}
+			$query->closeCursor();
 			self::$object_pool[$this->key()] = $this;
 		}
-		self::sampling( $this );
-		return $result;
+		else {
+			++$this->lock;
+		}
 	}
 
 	/**
@@ -96,42 +95,38 @@ abstract class individual {
 	}
 
 	/**
-	 * Take trait of an object for conditional updating.
-	 * @param individual $object
-	 */
-	private static function sampling( individual $object ) {
-		$properties = get_object_vars( $object );
-		$key = self::domain() . '#' . $properties['uuid'];
-		unset( $properties['uuid'], $properties['lock'] );
-		$samples = array( );
-		foreach ( $properties as $name => $value ) {
-			$samples[crc32( $name )] = crc32( $value );
-		}
-		self::$sample_pool[$key] = $samples;
-	}
-
-	/**
 	 * Get prepared query to insert data.
-	 * @param individual $object
-	 * @param array $properties [OUT]
+	 * @param array $keys
 	 * @return PDOStatement
 	 */
-	private static function insert_query( individual $object, &$properties ) {
-		$vars = get_object_vars( $object );
-		unset( $vars['uuid'] );
-		foreach ( $vars as $name => $value ) {
-			$properties[':' . $name] = $value;
-		}
-
+	private static function insert_query( array &$keys ) {
 		$domain = self::domain();
 		if ( !isset( self::$insert_pool[$domain] ) ) {
-			$fields = '"uuid","' . implode( '","', array_keys( $vars ) ) . '"';
-			$holder = 'uuid_generate_v4(),' . implode( ',', array_keys( $properties ) );
-			$query = connection::get_pdo()->prepare( "INSERT INTO \"$domain\"($fields) VALUES($holder) RETURNING \"uuid\"" );
+			$fields = '"uuid","lock","' . implode( '","', $keys ) . '"';
+			$holders = 'uuid_generate_v4(),1,:' . implode( ',:', $keys );
+			$query = connection::get_pdo()->prepare( "INSERT INTO \"$domain\"($fields) VALUES($holders) RETURNING \"uuid\",\"lock\"" );
 			$query->setFetchMode( \PDO::FETCH_ASSOC );
 			self::$insert_pool[$domain] = $query;
 		}
 		return self::$insert_pool[$domain];
+	}
+
+	/**
+	 * Get prepared query to update data.
+	 * @param array $keys
+	 * @return PDOStatement
+	 */
+	private static function update_query( array &$keys ) {
+		$domain = self::domain();
+		if ( !isset( self::$update_pool[$domain] ) ) {
+			$pairs = '"lock"="lock"+1';
+			foreach ( $keys as $field ) {
+				$pairs .= ",\"$field\"=:$field";
+			}
+			$query = connection::get_pdo()->prepare( "UPDATE \"$domain\" SET $pairs WHERE \"uuid\"=:uuid AND \"lock\"=:lock" );
+			self::$update_pool[$domain] = $query;
+		}
+		return self::$update_pool[$domain];
 	}
 
 	/**
@@ -177,7 +172,6 @@ abstract class individual {
 	/// Cache pool
 	//@{
 	private static $object_pool = array( );
-	private static $sample_pool = array( );
 	private static $insert_pool = array( );
 	private static $update_pool = array( );
 	private static $delete_pool = array( );
