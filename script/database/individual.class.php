@@ -26,13 +26,12 @@ abstract class individual {
 			$properties[':' . $name] = $value;
 		}
 		unset( $vars['uuid'], $vars['lock'] );
-		$keys = array_keys( $vars );
 
 		if ( $exist ) {
-			$query = self::update_query( $keys );
+			$query = self::update_query( $vars );
 		}
 		else {
-			$query = self::insert_query( $keys );
+			$query = self::insert_query( $vars );
 			unset( $properties[':uuid'], $properties[':lock'] );
 		}
 		$result = $query->execute( $properties );
@@ -96,12 +95,13 @@ abstract class individual {
 
 	/**
 	 * Get prepared query to insert data.
-	 * @param array $keys
+	 * @param array $vars
 	 * @return PDOStatement
 	 */
-	private static function insert_query( array &$keys ) {
+	private static function insert_query( array &$vars ) {
 		$domain = self::domain();
 		if ( !isset( self::$insert_pool[$domain] ) ) {
+			$keys = array_keys( $vars );
 			$fields = '"uuid","lock","' . implode( '","', $keys ) . '"';
 			$holders = 'uuid_generate_v4(),1,:' . implode( ',:', $keys );
 			$query = connection::get_pdo()->prepare( "INSERT INTO \"$domain\"($fields) VALUES($holders) RETURNING \"uuid\",\"lock\"" );
@@ -113,14 +113,14 @@ abstract class individual {
 
 	/**
 	 * Get prepared query to update data.
-	 * @param array $keys
+	 * @param array $vars
 	 * @return PDOStatement
 	 */
-	private static function update_query( array &$keys ) {
+	private static function update_query( array &$vars ) {
 		$domain = self::domain();
 		if ( !isset( self::$update_pool[$domain] ) ) {
 			$pairs = '"lock"="lock"+1';
-			foreach ( $keys as $field ) {
+			foreach ( array_keys( $vars ) as $field ) {
 				$pairs .= ",\"$field\"=:$field";
 			}
 			$query = connection::get_pdo()->prepare( "UPDATE \"$domain\" SET $pairs WHERE \"uuid\"=:uuid AND \"lock\"=:lock" );
