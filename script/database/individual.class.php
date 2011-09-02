@@ -104,7 +104,7 @@ abstract class individual {
 			$keys = array_keys( $vars );
 			$fields = '"uuid","lock","' . implode( '","', $keys ) . '"';
 			$holders = 'uuid_generate_v4(),1,:' . implode( ',:', $keys );
-			$query = connection::get_pdo()->prepare( "INSERT INTO \"$domain\"($fields) VALUES($holders) RETURNING \"uuid\",\"lock\"" );
+			$query = connection::get_pdo()->prepare( "INSERT INTO $domain($fields) VALUES($holders) RETURNING \"uuid\",\"lock\"" );
 			$query->setFetchMode( \PDO::FETCH_ASSOC );
 			self::$insert_pool[$domain] = $query;
 		}
@@ -123,7 +123,7 @@ abstract class individual {
 			foreach ( array_keys( $vars ) as $field ) {
 				$pairs .= ",\"$field\"=:$field";
 			}
-			$query = connection::get_pdo()->prepare( "UPDATE \"$domain\" SET $pairs WHERE \"uuid\"=:uuid AND \"lock\"=:lock" );
+			$query = connection::get_pdo()->prepare( "UPDATE $domain SET $pairs WHERE \"uuid\"=:uuid AND \"lock\"=:lock" );
 			self::$update_pool[$domain] = $query;
 		}
 		return self::$update_pool[$domain];
@@ -136,7 +136,7 @@ abstract class individual {
 	private static function delete_query() {
 		$domain = self::domain();
 		if ( !isset( self::$delete_pool[$domain] ) ) {
-			$query = connection::get_pdo()->prepare( "DELETE FROM \"$domain\" WHERE \"uuid\"=:uuid" );
+			$query = connection::get_pdo()->prepare( "DELETE FROM $domain WHERE \"uuid\"=:uuid" );
 			self::$delete_pool[$domain] = $query;
 		}
 		return self::$delete_pool[$domain];
@@ -149,7 +149,7 @@ abstract class individual {
 	 */
 	private static function select_query( $domain ) {
 		if ( !isset( self::$select_pool[$domain] ) ) {
-			$query = connection::get_pdo()->prepare( "SELECT * FROM \"$domain\" WHERE \"uuid\"=:uuid" );
+			$query = connection::get_pdo()->prepare( "SELECT * FROM $domain WHERE \"uuid\"=:uuid" );
 			$query->setFetchMode( \PDO::FETCH_CLASS, $domain );
 			self::$select_pool[$domain] = $query;
 		}
@@ -161,7 +161,8 @@ abstract class individual {
 	 * @return string
 	 */
 	private static function domain() {
-		return str_replace( '\\', '.', get_called_class() );
+		$sql_mode = '"' . str_replace( '\\', '"."', get_called_class() ) . '"';
+		return str_replace( '"individual".', '', $sql_mode );
 	}
 
 	/// Must have properties
