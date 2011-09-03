@@ -15,6 +15,29 @@ abstract class aggregate implements \IteratorAggregate {
 	}
 
 	/**
+	 * Cache an existing aggregate.
+	 * @param string $key
+	 * @param aggregate $value
+	 */
+	public static function cache( $key, aggregate $value ) {
+		if ( isset( self::$gather_pool[$key] ) ) {
+			throw new \exception\conflict_cache();
+		}
+		else {
+			self::$gather_pool[$key] = $value;
+		}
+	}
+
+	/**
+	 * Fetch an aggregate from cache.
+	 * @param string $key
+	 * @return aggregate
+	 */
+	public static function fetch( $key ) {
+		return self::$gather_pool[$key];
+	}
+
+	/**
 	 * Call stored function to retrieve objects.
 	 * @param string $method
 	 * @param array $arguments
@@ -64,7 +87,7 @@ abstract class aggregate implements \IteratorAggregate {
 	protected $objects = array( );
 
 	/**
-	 *
+	 * Cached aggregates.
 	 * @var array(aggregate)
 	 */
 	private static $gather_pool = array( );
