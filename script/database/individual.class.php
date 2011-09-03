@@ -22,8 +22,8 @@ abstract class individual {
 
 		$vars = get_object_vars( $this );
 		$properties = array( );
-		foreach ( $vars as $name => $value ) {
-			$properties[':' . $name] = $value;
+		foreach ( $vars as $field => $value ) {
+			$properties[':' . $field] = $value;
 		}
 		unset( $vars['uuid'], $vars['lock'] );
 
@@ -38,11 +38,12 @@ abstract class individual {
 
 		if ( !$result ) {
 			$error = $query->errorInfo();
-			throw new \exception\failed_store( $error[2], $error[0] );
+			$exception = '\exception\database\failed_' . ($exist ? 'update' : 'insert');
+			throw new $exception( $error[2], $error[0] );
 		}
 		else if ( !$exist ) {
-			foreach ( $query->fetch() as $name => $default ) {
-				$this->$name = $default;
+			foreach ( $query->fetch() as $field => $value ) {
+				$this->$field = $value;
 			}
 			$query->closeCursor();
 			self::$object_pool[$this->key()] = $this;
@@ -54,14 +55,21 @@ abstract class individual {
 
 	/**
 	 * Delete this object from database.
-	 * @return boolean
 	 */
 	public function delete() {
+		unset( self::$object_pool[$this->key()] );
+
 		$query = self::delete_query();
-		$result = $query->execute( array( ':uuid' => $this->uuid ) );
-		$key = $this->key();
-		unset( self::$object_pool[$key], self::$sample_pool[$key] );
-		return $result;
+		$result = $query->execute( array( ':uuid' => $this->uuid, ':lock' => $this->lock ) );
+
+		if ( !$result ) {
+			$error = $query->errorInfo();
+			throw new \exception\database\failed_delete( $error[2], $error[0] );
+		}
+		else {
+			$this->uuid = null;
+			$this->lock = null;
+		}
 	}
 
 	/**
@@ -70,6 +78,8 @@ abstract class individual {
 	 * @return individual derived class.
 	 */
 	public static function select( $uuid ) {
+		assert( "'$uuid'" );
+
 		$domain = self::domain();
 		$key = "$domain#$uuid";
 		if ( !isset( self::$object_pool[$key] ) ) {
@@ -86,11 +96,39 @@ abstract class individual {
 	}
 
 	/**
+	 * Cache the given object.
+	 * @param individual $object
+	 * @return individual cached object.
+	 */
+	public static function cache( individual $object ) {
+		$uuid = $object->uuid;
+		assert( "'$uuid'" );
+
+		if ( isset( self::$object_pool[$uuid] ) ) {
+			$cache = self::$object_pool[$uuid];
+			if ( ($object->lock != $cache->lock ) ) {
+				throw new \exception\expired_cache( get_class( $cache )
+				. ' #' . $cache->uuid
+				. ' cached:' . $cache->lock
+				. ' coming:' . $object->lock
+				);
+			}
+		}
+		else {
+			self::$object_pool[$uuid] = $cache = $object;
+		}
+		return $cache;
+	}
+
+	/**
 	 * Get cache key of this object.
 	 * @return string
 	 */
 	private function key() {
-		return self::domain() . '#' . $this->uuid;
+		$uuid = $this->uuid;
+		assert( "'$uuid'" );
+
+		return self::domain() . '#' . $uuid;
 	}
 
 	/**
@@ -104,7 +142,7 @@ abstract class individual {
 			$keys = array_keys( $vars );
 			$fields = '"uuid","lock","' . implode( '","', $keys ) . '"';
 			$holders = 'uuid_generate_v4(),1,:' . implode( ',:', $keys );
-			$query = connection::get_pdo()->prepare( "INSERT INTO $domain($fields) VALUES($holders) RETURNING \"uuid\",\"lock\"" );
+			$query = connection::get_pdo()->prepare( "INSERT INTO $domain($fields) VALUES($holders) RETURNING *" );
 			$query->setFetchMode( \PDO::FETCH_ASSOC );
 			self::$insert_pool[$domain] = $query;
 		}
@@ -136,7 +174,7 @@ abstract class individual {
 	private static function delete_query() {
 		$domain = self::domain();
 		if ( !isset( self::$delete_pool[$domain] ) ) {
-			$query = connection::get_pdo()->prepare( "DELETE FROM $domain WHERE \"uuid\"=:uuid" );
+			$query = connection::get_pdo()->prepare( "DELETE FROM $domain WHERE \"uuid\"=:uuid AND \"lock\"=:lock" );
 			self::$delete_pool[$domain] = $query;
 		}
 		return self::$delete_pool[$domain];
@@ -165,14 +203,29 @@ abstract class individual {
 		return str_replace( '"individual".', '', $sql_mode );
 	}
 
-	/// Must have properties
-	//@{
+	/**
+	 * Identity of this object.
+	 * @var string
+	 */
 	protected $uuid;
+
+	/**
+	 * Lucky lock.
+	 * @var integer
+	 */
 	protected $lock;
-	//@}
-	/// Cache pool
-	//@{
+
+	/**
+	 * Cached objects.
+	 * @var array(individual)
+	 */
 	private static $object_pool = array( );
+
+	/**
+	 * Cached prepared query.
+	 * @var array(PDOStatement)
+	 */
+	//@{
 	private static $insert_pool = array( );
 	private static $update_pool = array( );
 	private static $delete_pool = array( );
