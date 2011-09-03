@@ -23,7 +23,7 @@ abstract class individual {
 		$vars = get_object_vars( $this );
 		$properties = array( );
 		foreach ( $vars as $field => $value ) {
-			$properties[':' . $field] = $value;
+			$properties[":$field"] = $value;
 		}
 		unset( $vars['uuid'], $vars['lock'] );
 
@@ -34,22 +34,23 @@ abstract class individual {
 			$query = self::insert_query( $vars );
 			unset( $properties[':uuid'], $properties[':lock'] );
 		}
-		$result = $query->execute( $properties );
 
-		if ( !$result ) {
-			$error = $query->errorInfo();
-			$exception = '\exception\database\failed_' . ($exist ? 'update' : 'insert');
-			throw new $exception( $error[2], $error[0] );
-		}
-		else if ( !$exist ) {
-			foreach ( $query->fetch() as $field => $value ) {
-				$this->$field = $value;
+		if ( $query->execute( $properties ) ) {
+			if ( $exist ) {
+				++$this->lock;
 			}
-			$query->closeCursor();
-			self::$object_pool[$this->key()] = $this;
+			else {
+				foreach ( $query->fetch() as $field => $value ) {
+					$this->$field = $value;
+				}
+				$query->closeCursor();
+				self::$object_pool[$this->key()] = $this;
+			}
 		}
 		else {
-			++$this->lock;
+			$error = $query->errorInfo();
+			$exception = '\exception\database\failed_' . ($exist ? 'update' : 'insert');
+			throw new $exception( $error[2], $error[1] );
 		}
 	}
 
@@ -60,15 +61,15 @@ abstract class individual {
 		unset( self::$object_pool[$this->key()] );
 
 		$query = self::delete_query();
-		$result = $query->execute( array( ':uuid' => $this->uuid, ':lock' => $this->lock ) );
+		$arguments = array( ':uuid' => $this->uuid, ':lock' => $this->lock );
 
-		if ( !$result ) {
-			$error = $query->errorInfo();
-			throw new \exception\database\failed_delete( $error[2], $error[0] );
-		}
-		else {
+		if ( $query->execute( $arguments ) ) {
 			$this->uuid = null;
 			$this->lock = null;
+		}
+		else {
+			$error = $query->errorInfo();
+			throw new \exception\database\failed_delete( $error[2], $error[1] );
 		}
 	}
 
@@ -78,18 +79,16 @@ abstract class individual {
 	 * @return individual derived class.
 	 */
 	public static function select( $uuid ) {
-		assert( "'$uuid'" );
-
-		$domain = self::domain();
-		$key = "$domain#$uuid";
+		$key = self::_key( $uuid );
 		if ( !isset( self::$object_pool[$key] ) ) {
-			$query = self::select_query( $domain );
+			$query = self::select_query();
 			if ( $query->execute( array( ':uuid' => $uuid ) ) ) {
 				self::$object_pool[$key] = $query->fetch();
 				$query->closeCursor();
 			}
 			else {
-				throw new \exception\unkown_object();
+				$error = $query->errorInfo();
+				throw new \exception\database\failed_select( $error[2], $error[1] );
 			}
 		}
 		return self::$object_pool[$key];
@@ -101,21 +100,19 @@ abstract class individual {
 	 * @return individual cached object.
 	 */
 	public static function cache( individual $object ) {
-		$uuid = $object->uuid;
-		assert( "'$uuid'" );
-
-		if ( isset( self::$object_pool[$uuid] ) ) {
-			$cache = self::$object_pool[$uuid];
+		$key = $object->key();
+		if ( isset( self::$object_pool[$key] ) ) {
+			$cache = self::$object_pool[$key];
 			if ( ($object->lock != $cache->lock ) ) {
 				throw new \exception\expired_cache( get_class( $cache )
-				. ' #' . $cache->uuid
-				. ' cached:' . $cache->lock
-				. ' coming:' . $object->lock
+				. " #{$cache->uuid}"
+				. " cached: {$cache->lock}"
+				. " coming: {$object->lock}"
 				);
 			}
 		}
 		else {
-			self::$object_pool[$uuid] = $cache = $object;
+			self::$object_pool[$key] = $cache = $object;
 		}
 		return $cache;
 	}
@@ -125,10 +122,18 @@ abstract class individual {
 	 * @return string
 	 */
 	private function key() {
-		$uuid = $this->uuid;
+		return self::_key( $this->uuid );
+	}
+
+	/**
+	 * Get cache key of given object.
+	 * @param string $uuid
+	 * @return string
+	 */
+	private static function _key( $uuid ) {
 		assert( "'$uuid'" );
 
-		return self::domain() . '#' . $uuid;
+		return self::domain() . "#$uuid";
 	}
 
 	/**
@@ -182,10 +187,10 @@ abstract class individual {
 
 	/**
 	 * Get prepared query to select data.
-	 * @param string $domain
 	 * @return PDOStatement
 	 */
-	private static function select_query( $domain ) {
+	private static function select_query() {
+		$domain = self::domain();
 		if ( !isset( self::$select_pool[$domain] ) ) {
 			$query = connection::get_pdo()->prepare( "SELECT * FROM $domain WHERE \"uuid\"=:uuid" );
 			$query->setFetchMode( \PDO::FETCH_CLASS, $domain );
