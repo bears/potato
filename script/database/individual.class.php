@@ -26,12 +26,13 @@ abstract class individual {
 			$properties[":$field"] = $value;
 		}
 		unset( $vars['uuid'], $vars['lock'] );
+		$names = array_keys( $vars );
 
 		if ( $exist ) {
-			$query = self::update_query( $vars );
+			$query = self::update_query( $names );
 		}
 		else {
-			$query = self::insert_query( $vars );
+			$query = self::insert_query( $names );
 			unset( $properties[':uuid'], $properties[':lock'] );
 		}
 
@@ -110,6 +111,17 @@ abstract class individual {
 				. " coming: {$object->lock}"
 				);
 			}
+			else {
+				$append = 0;
+				$fields = get_object_vars( $object );
+				foreach ( $fields as $field => $value ) {
+					if ( !isset( $cache->$field ) ) {
+						$cache->$field = $value;
+						++$append;
+					}
+				}
+				// TODO: log duplicated loading, $append / count($fields)
+			}
 		}
 		else {
 			self::$object_pool[$key] = $cache = $object;
@@ -138,38 +150,40 @@ abstract class individual {
 
 	/**
 	 * Get prepared query to insert data.
-	 * @param array $vars
+	 * @param array $names
 	 * @return PDOStatement
 	 */
-	private static function insert_query( array &$vars ) {
+	private static function insert_query( array &$names ) {
 		$domain = self::domain();
-		if ( !isset( self::$insert_pool[$domain] ) ) {
-			$keys = array_keys( $vars );
-			$fields = '"uuid","lock","' . implode( '","', $keys ) . '"';
-			$holders = 'uuid_generate_v4(),1,:' . implode( ',:', $keys );
-			$query = connection::get_pdo()->prepare( "INSERT INTO $domain($fields) VALUES($holders) RETURNING *" );
+		$holder = implode( ',:', $names );
+		$key = $domain . crc32( $holder );
+		if ( !isset( self::$insert_pool[$key] ) ) {
+			$fields = '"uuid","lock","' . implode( '","', $names ) . '"';
+			$values = "uuid_generate_v4(),1,:$holder";
+			$query = connection::get_pdo()->prepare( "INSERT INTO $domain($fields) VALUES($values) RETURNING *" );
 			$query->setFetchMode( \PDO::FETCH_ASSOC );
-			self::$insert_pool[$domain] = $query;
+			self::$insert_pool[$key] = $query;
 		}
-		return self::$insert_pool[$domain];
+		return self::$insert_pool[$key];
 	}
 
 	/**
 	 * Get prepared query to update data.
-	 * @param array $vars
+	 * @param array $names
 	 * @return PDOStatement
 	 */
-	private static function update_query( array &$vars ) {
+	private static function update_query( array &$names ) {
 		$domain = self::domain();
-		if ( !isset( self::$update_pool[$domain] ) ) {
+		$key = $domain . crc32( implode( ',', $names ) );
+		if ( !isset( self::$update_pool[$key] ) ) {
 			$pairs = '"lock"="lock"+1';
-			foreach ( array_keys( $vars ) as $field ) {
+			foreach ( $names as $field ) {
 				$pairs .= ",\"$field\"=:$field";
 			}
 			$query = connection::get_pdo()->prepare( "UPDATE $domain SET $pairs WHERE \"uuid\"=:uuid AND \"lock\"=:lock" );
-			self::$update_pool[$domain] = $query;
+			self::$update_pool[$key] = $query;
 		}
-		return self::$update_pool[$domain];
+		return self::$update_pool[$key];
 	}
 
 	/**

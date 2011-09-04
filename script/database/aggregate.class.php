@@ -69,15 +69,16 @@ abstract class aggregate implements \IteratorAggregate {
 	private static function select_query( $aggregate, $method, array &$arguments ) {
 		$sql_mode = '"' . str_replace( '\\', '"."', "$aggregate.$method" ) . '"';
 		$function = str_replace( '"aggregate".', '', $sql_mode );
-		if ( !isset( self::$select_pool[$function] ) ) {
-			$amount = count( $arguments );
-			$holders = $amount ? ('?' . str_repeat( ',?', $amount - 1 )) : null;
+		$amount = count( $arguments );
+		$key = "$function@$amount";
+		if ( !isset( self::$select_pool[$key] ) ) {
+			$holders = $amount ? ('?' . str_repeat( ',?', $amount - 1 )) : '';
 			$query = connection::get_pdo()->prepare( "SELECT * FROM $function($holders)" );
 			$individual = str_replace( '\aggregate\\', '\individual\\', "\\$aggregate" );
 			$query->setFetchMode( \PDO::FETCH_CLASS, $individual );
-			self::$select_pool[$function] = $query;
+			self::$select_pool[$key] = $query;
 		}
-		return self::$select_pool[$function];
+		return self::$select_pool[$key];
 	}
 
 	/**
