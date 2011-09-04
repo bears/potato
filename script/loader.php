@@ -18,6 +18,9 @@ spl_autoload_register( function ($name) {
 			case 'aggregate':
 			case 'individual':
 				return eval( "namespace $space; class $class extends \\database\\$domain {}" );
+			case 'decoration':
+				assert( "'aggregate'=='$class'" );
+				return eval( "namespace $space; class aggregate extends \\decoration\\aggregate {}" );
 		}
 	}
 } );
