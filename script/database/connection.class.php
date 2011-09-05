@@ -22,4 +22,3 @@ class connection {
 	private static $pdo;
 
 }
-?>

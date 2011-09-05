@@ -13,4 +13,3 @@ set_error_handler( function ($code, $message, $file, $line) {
 set_exception_handler( function ($exception) {
 	error_log( $exception, 4 );
 } );
-?>

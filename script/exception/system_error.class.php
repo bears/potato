@@ -21,4 +21,3 @@ class system_error extends \Exception {
 	}
 
 }
-?>

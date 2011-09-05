@@ -251,4 +251,3 @@ abstract class individual {
 	private static $select_pool = array( );
 	//@}
 }
-?>

@@ -35,4 +35,3 @@ abstract class aggregate {
 	protected $data;
 
 }
-?>

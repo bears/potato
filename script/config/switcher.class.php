@@ -35,4 +35,3 @@ class switcher {
 	private static $rely = array( );
 
 }
-?>

@@ -20,4 +20,3 @@ class failed_assert extends \Exception {
 	}
 
 }
-?>

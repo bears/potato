@@ -12,4 +12,3 @@ pgsql:
 	user=potato;
 	password=plough
 DSN;
-?>

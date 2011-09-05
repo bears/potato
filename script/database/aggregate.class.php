@@ -99,4 +99,3 @@ abstract class aggregate implements \IteratorAggregate {
 	private static $select_pool = array( );
 
 }
-?>

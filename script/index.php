@@ -7,7 +7,9 @@ require_once 'error.php';
 require_once 'loader.php';
 require_once 'config/config.php';
 
-$arguments = explode( '/', substr( $_SERVER['REQUEST_URI'], strlen( '/ajaj/' ) ) );
+$uri = $_SERVER['REQUEST_URI'];
+assert( "0===strpos('$uri','/ajaj/')" );
+$arguments = explode( '/', substr( $uri, strlen( '/ajaj/' ) ) );
 
 switch ( array_shift( $arguments ) ) {
 	case 'season':
