@@ -1,4 +1,5 @@
 <?php
+namespace handler;
 
 /**
  * Set default class loader.
