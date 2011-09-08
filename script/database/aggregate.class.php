@@ -11,7 +11,7 @@ abstract class aggregate implements \IteratorAggregate {
 	 * @return ArrayIterator
 	 */
 	public function getIterator() {
-		return new ArrayIterator( $this->objects );
+		return new \ArrayIterator( $this->objects );
 	}
 
 	/**
@@ -21,7 +21,8 @@ abstract class aggregate implements \IteratorAggregate {
 	 */
 	public static function cache( $key, aggregate $value ) {
 		if ( isset( self::$gather_pool[$key] ) ) {
-			throw new \exception\conflict_cache();
+			$class = get_class( $value );
+			throw new \exception\conflict_cache( "$class#$key" );
 		}
 		else {
 			self::$gather_pool[$key] = $value;
@@ -34,7 +35,9 @@ abstract class aggregate implements \IteratorAggregate {
 	 * @return aggregate
 	 */
 	public static function fetch( $key ) {
-		return self::$gather_pool[$key];
+		if ( isset( self::$gather_pool[$key] ) ) {
+			return self::$gather_pool[$key];
+		}
 	}
 
 	/**
