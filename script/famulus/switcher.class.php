@@ -1,5 +1,5 @@
 <?php
-namespace config;
+namespace famulus;
 
 /**
  * Manage on/off flags dynamically.
