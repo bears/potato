@@ -219,7 +219,7 @@ abstract class individual {
 	 */
 	private static function domain() {
 		$real_name = str_replace( '^individual\\', '', '^' . get_called_class() );
-		return str_replace( '\\', '"."', "\"$pure_name\"" );
+		return str_replace( '\\', '"."', "\"$real_name\"" );
 	}
 
 	/**
