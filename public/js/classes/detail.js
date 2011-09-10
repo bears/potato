@@ -29,7 +29,7 @@ function bhDetail(id) {
 bhDetail.prototype.notify = function(subject, type, data) {
 	switch ( type ) {
 		case bhFactory.NOTIFY_INSERT:
-			var details = $('<details/>');
+			var details = $('<details open="open"/>');
 			details.append(bhDetail._buildSummary(data));
 			details.append(bhDetail._buildFields(data));
 
@@ -67,7 +67,7 @@ bhDetail.prototype.notify = function(subject, type, data) {
  */
 bhDetail._buildSummary = function(data) {
 	var summary = $('<summary/>');
-	summary.append(data.title);
+	summary.append(bhDetail._buildInput(data.title, 'title'));
 	summary.append($('<span class="ui-icon ui-icon-wrench"/>'));
 	var endDate = data.dates.end;
 	summary.append($('<time/>').attr('datetime', endDate).html((new Date(endDate)).toLocaleDateString()));
@@ -82,24 +82,34 @@ bhDetail._buildSummary = function(data) {
  * @param data
  */
 bhDetail._buildFields = function(data) {
-	var locale = POTATO_L10N[POTATO_PROFILE.locale];
+	var locale = POTATO.L10N[POTATO.PROFILE.locale];
 	var fields = $('<table class="fields"/>');
 
 	var row1 = $('<tr/>');
-	row1.append($('<th/>').html(locale.detail_season))
-	row1.append($('<td/>').html(locale['season_' + data.season]))
-	row1.append($('<th/>').html(locale.detail_variety))
-	row1.append($('<td/>').html(data.variety))
+	row1.append($('<th/>').html(locale.detail_season));
+	row1.append($('<td/>').append(bhDetail._buildInput(locale['season_' + data.season], 'season')));
+	row1.append($('<th/>').html(locale.detail_variety));
+	row1.append($('<td/>').append(bhDetail._buildInput(data.variety, 'variety')));
 	fields.append(row1);
 
 	var row2 = $('<tr/>');
-	row2.append($('<th/>').html(locale.detail_weight))
-	row2.append($('<td/>').html(data.weight))
-	row2.append($('<th/>').html(locale.detail_maturity))
+	row2.append($('<th/>').html(locale.detail_weight));
+	row2.append($('<td/>').append(bhDetail._buildInput(data.weight, 'weight')));
+	row2.append($('<th/>').html(locale.detail_maturity));
 	row2.append(bhDetail._buildProgress(data));
 	fields.append(row2);
 
 	return fields;
+};
+
+/**
+ * Build a <input> contains editable info.
+ *
+ * @param data
+ * @param name
+ */
+bhDetail._buildInput = function(data, name) {
+	return $('<input readonly="readonly"/>').attr('name', name).val(data);
 };
 
 /**
@@ -127,7 +137,7 @@ bhDetail._buildProgress = function(data) {
  * @param data
  */
 bhDetail._buildDescription = function(data) {
-	var locale = POTATO_L10N[POTATO_PROFILE.locale];
+	var locale = POTATO.L10N[POTATO.PROFILE.locale];
 	var description = $('<fieldset/>');
 
 	var title = $('<legend class="compressor"/>');
@@ -150,7 +160,7 @@ bhDetail._buildDescription = function(data) {
  * @param data
  */
 bhDetail._buildComments = function(data) {
-	var locale = POTATO_L10N[POTATO_PROFILE.locale];
+	var locale = POTATO.L10N[POTATO.PROFILE.locale];
 	var comments = $('<fieldset/>');
 
 	var title = $('<legend class="compressor"/>');
@@ -190,7 +200,8 @@ bhDetail._bindEvents = function(target) {
 	$('.compressor', target).click(function() {
 		$(this.parentNode).toggleClass('collapsed');
 	});
-	$('.ui-icon-wrench', target).click(function() {
+	$('.ui-icon-wrench', target).click(function(event) {
+		$('input[readonly]', $(this).parents('div:first')).prop('readonly', false);
 		// TODO: modify basic info
 	});
 	// Append comment
@@ -237,7 +248,7 @@ bhDetail._singleton = null;
 /**
  * Initializer
  */
-var POTATO_INITIAL = POTATO_INITIAL || [];
-POTATO_INITIAL.push(function() {
+POTATO.INITIAL = POTATO.INITIAL || [];
+POTATO.INITIAL.push(function() {
 	bhDetail._singleton = $('#details');
 });

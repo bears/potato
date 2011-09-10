@@ -1,4 +1,4 @@
-window.POTATO_L10N = {
+POTATO.L10N = {
 	en_US : {
 		// page title
 		title : 'Potato',
@@ -40,7 +40,6 @@ window.POTATO_L10N = {
 		// right panel
 		statistics : 'Statistics',
 		// footer
-		version : '1.0.0.0',
 		copyright : 'Copyright &copy; 2011 Bears Home'
 	}
 };

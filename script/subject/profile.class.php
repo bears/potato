@@ -19,6 +19,7 @@ class profile extends \subject {
 				$profile[strtolower( $match['name'] )] = $value;
 			}
 		}
-		return 'window.POTATO_PROFILE = ' . json_encode( $profile );
+		return 'var POTATO = ' . json_encode( array( 'PROFILE' => $profile ) );
 	}
+
 }
