@@ -22,6 +22,8 @@ spl_autoload_register( function ($name) {
 			case 'decoration':
 				assert( "'aggregate'=='$class'" );
 				return eval( "namespace $space; class aggregate extends \\decoration\\aggregate {}" );
+			case 'ab':
+				return eval( "namespace $space; class $class extends \\famulus\ab {}" );
 		}
 	}
 } );
