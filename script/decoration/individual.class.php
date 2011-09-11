@@ -20,7 +20,7 @@ abstract class individual {
 	 * @return array
 	 */
 	public function content( array &$vessel = array( ) ) {
-		$vessel['uuid'] = $this->data->uuid();
+		$vessel['$'] = $this->data->uuid();
 		return $vessel;
 	}
 

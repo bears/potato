@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8" />
-	<title>Potato Test Suite</title>
-	<link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
-	<script type="text/javascript" src="qunit/qunit.js"></script>
-	<script type="text/javascript" src="test.js"></script>
-</head>
-<body>
-	<h1 id="qunit-header">Potato Test Suite</h1>
-	<h2 id="qunit-banner"></h2>
-	<div id="qunit-testrunner-toolbar"></div>
-	<h2 id="qunit-userAgent"></h2>
-	<ol id="qunit-tests"></ol>
-	<div id="qunit-fixture">test markup</div>
-</body>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Potato Test Suite</title>
+		<style type="text/css">
+			nav {background-color:#E6E6B6; color:#366999; position:fixed; left:0; top:0; bottom:0; width:20em; border-radius:0 3em 0 3em; margin:.5em; font-family:Arial;}
+			h1 {text-align:center; font-size:24px;}
+			fieldset {border:2px hidden #477AAA; border-bottom-style:dotted; margin:1em;}
+			legend {font-size:20px;}
+			a {padding:.4em .6em; font-size:16px; display:inline-block;}
+			article {position:fixed; right:0; top:0; bottom:0; left: 21em;}
+			iframe {border:none; width:100%; height:100%;}
+		</style>
+	</head>
+	<body>
+		<nav>
+			<h1>Potato Test Suite</h1>
+			<fieldset>
+				<legend>Basic Tests</legend>
+				<a target="result" href="element/element.html">bhElement</a>
+			</fieldset>
+		</nav>
+		<article><iframe name="result"></iframe></article>
+	</body>
 </html>
