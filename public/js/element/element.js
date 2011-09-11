@@ -3,6 +3,15 @@
  * @param uuid {String}
  */
 function bhElement(uuid) {
+	/// Prevent duplicated object.
+	var cached = this.__proto__.constructor.getObject(uuid);
+	if (undefined !== cached) {
+		return cached;
+	}
+
+	/**
+	 * Hold all private properties.
+	 */
 	var data = {$:uuid};
 
 	/**
@@ -42,14 +51,14 @@ function bhElement(uuid) {
 	};
 
 	/**
-	 * Get UUID
+	 * Get UUID.
 	 * @return {String}
 	 */
 	this.uuid = function() {
 		return data['$'];
 	}
 
-	/// Cache
+	/// Cache this object.
 	this.__proto__.constructor.setObject(this);
 }
 
@@ -99,6 +108,21 @@ bhElement.prototype.unsubscribe = function(subject, subscriber) {
 			this._focus[subject].splice(index, 1);
 			subscriber.notify(subject, POTATO.NOTIFY.DETACH, this);
 		}
+	}
+}
+
+/**
+ * Send notify to all subscribers.
+ * @param subject {String}
+ * @param notify {String} One of POTATO.NOTIFY.
+ */
+bhElement.prototype.broadcast = function(subject, notify) {
+	this._focus = this._focus || {};
+	if (subject in this._focus) {
+		var source = this;
+		$.each(this._focus[subject], function() {
+			this.notify(subject, notify, source);
+		});
 	}
 }
 

@@ -31,8 +31,8 @@ $(function() {
 		$('#calendar').datepicker();
 
 		// Run initial routes
-		$(POTATO.INITIAL || []).each(function() {
-			this.apply();
+		$.each((POTATO.INITIAL || []), function() {
+			return this.call();
 		});
 
 		// Search

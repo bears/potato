@@ -1,6 +1,6 @@
 $.extend(true, bhDirty, bhElement)
 function bhDirty(){
-	bhElement.apply(this, arguments)
+	return bhElement.apply(this, arguments)
 }
 
 bhDirty.prototype.ab = {
@@ -30,3 +30,10 @@ test('get/set-Object', 3, function() {
 	notEqual(bhDirty.getObject('ddd-123'), bhDirty.getObject('eee-123'));
 });
 
+test('constructor', 2, function() {
+	var f = new bhDirty('fff-ggg');
+	var g = new bhDirty('fff-ggg');
+	var h = new bhDirty('hhh-hhh');
+	equal(f, g);
+	notEqual(g, h);
+});
