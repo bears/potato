@@ -10,11 +10,6 @@ function bhElement(uuid) {
 	}
 
 	/**
-	 * Hold all private properties.
-	 */
-	var data = {$:uuid};
-
-	/**
 	 * Convert key to its abbreviation form.
 	 * @param key {Json} {subject:"{String}",field:"{String}"}
 	 */
@@ -27,6 +22,11 @@ function bhElement(uuid) {
 		}
 		return key;
 	}
+
+	/**
+	 * Hold all private properties.
+	 */
+	var data = {$:uuid};
 
 	/**
 	 * Getter.
@@ -58,6 +58,55 @@ function bhElement(uuid) {
 		return data['$'];
 	}
 
+	/**
+	 * Hold all subscribers.
+	 */
+	var focus = {};
+
+	/**
+	 * Append an observer to a subject.
+	 * @param subject {String}
+	 * @param subscriber {Object} Must has method: notify(subject, action, source)
+	 */
+	this.subscribe = function(subject, subscriber) {
+		if (subject in focus) {
+			focus[subject].push(subscriber);
+		}
+		else {
+			focus[subject] = [subscriber];
+		}
+		subscriber.notify(subject, POTATO.NOTIFY.ATTACH, this);
+	}
+
+	/**
+	 * Remove an observer from a subject.
+	 * @param subject {String}
+	 * @param subscriber {Object} Must has method: notify(subject, action, source)
+	 */
+	this.unsubscribe = function(subject, subscriber) {
+		if (subject in focus) {
+			var index = focus[subject].indexOf(subscriber);
+			if (-1 != index) {
+				focus[subject].splice(index, 1);
+				subscriber.notify(subject, POTATO.NOTIFY.DETACH, this);
+			}
+		}
+	}
+
+	/**
+	 * Send notify to all subscribers.
+	 * @param subject {String}
+	 * @param notify {String} One of POTATO.NOTIFY.
+	 */
+	this.broadcast = function(subject, notify) {
+		if (subject in focus) {
+			var source = this;
+			$.each(focus[subject], function() {
+				this.notify(subject, notify, source);
+			});
+		}
+	}
+
 	/// Cache this object.
 	this.__proto__.constructor.setObject(this);
 }
@@ -68,7 +117,7 @@ function bhElement(uuid) {
  * @return {bhElement}
  */
 bhElement.getObject = function(uuid) {
-	return (this._cache || {})[uuid];
+	return (this.cache || {})[uuid];
 }
 
 /**
@@ -76,71 +125,6 @@ bhElement.getObject = function(uuid) {
  * @param item {bhElement}
  */
 bhElement.setObject = function(item) {
-	this._cache = this._cache || {};
-	this._cache[item.uuid()] = item;
+	this.cache = this.cache || {};
+	this.cache[item.uuid()] = item;
 }
-
-/**
- * Append an observer to a subject.
- * @param subject {String}
- * @param subscriber {Object} Must has method: notify(subject, action, source)
- */
-bhElement.prototype.subscribe = function(subject, subscriber) {
-	this._focus = this._focus || {};
-	if (subject in this._focus) {
-		this._focus[subject].push(subscriber);
-	}
-	else {
-		this._focus[subject] = [subscriber];
-	}
-	subscriber.notify(subject, POTATO.NOTIFY.ATTACH, this);
-}
-
-/**
- * Remove an observer from a subject.
- * @param subject {String}
- * @param subscriber {Object} Must has method: notify(subject, action, source)
- */
-bhElement.prototype.unsubscribe = function(subject, subscriber) {
-	if (subject in this._focus) {
-		var index = this._focus[subject].indexOf(subscriber);
-		if (-1 != index) {
-			this._focus[subject].splice(index, 1);
-			subscriber.notify(subject, POTATO.NOTIFY.DETACH, this);
-		}
-	}
-}
-
-/**
- * Send notify to all subscribers.
- * @param subject {String}
- * @param notify {String} One of POTATO.NOTIFY.
- */
-bhElement.prototype.broadcast = function(subject, notify) {
-	this._focus = this._focus || {};
-	if (subject in this._focus) {
-		var source = this;
-		$.each(this._focus[subject], function() {
-			this.notify(subject, notify, source);
-		});
-	}
-}
-
-/**
- * Notify type enumerations
- */
-var POTATO = POTATO || {};
-POTATO.NOTIFY = {
-	///@name Data
-	//@{
-	INSERT:'INSERT',
-	UPDATE:'UPDATE',
-	DELETE:'DELETE',
-	//@}
-
-	///@name Operation
-	//@{
-	ATTACH:'ATTACH',
-	DETACH:'DETACH'
-	//@
-};

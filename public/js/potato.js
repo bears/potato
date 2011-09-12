@@ -1,17 +1,47 @@
-// Set default error handler
-window.onerror = function(error, url, line) {
-	if ( POTATO.PROFILE.reclaim ) {
-		$.post('/ajaj/error', {
-			error : error,
-			line : line,
-			url : url
-		});
-		return true;
-	}
+/**
+ * Namespace of all global variables.
+ */
+var POTATO = {
+	/**
+	 * Notify type enumerations.
+	 */
+	NOTIFY : {
+		// Data
+		INSERT : 'INSERT',
+		UPDATE : 'UPDATE',
+		DELETE : 'DELETE',
+		// Operation
+		ATTACH : 'ATTACH',
+		DETACH : 'DETACH'
+	},
+
+	/**
+	 * Static initializers.
+	 */
+	INITIAL : []
 };
 
-// Initialize application
+/**
+ * Initialize application.
+ */
 $(function() {
+	/**
+	 * Default error handler.
+	 * @param error {String}
+	 * @param url {Url}
+	 * @param line {Number}
+	 */
+	window.onerror = function(error, url, line) {
+		if ( POTATO.PROFILE.reclaim ) {
+			$.post('/ajaj/error', {
+				error : error,
+				line : line,
+				url : url
+			});
+			return true;
+		}
+	};
+
 	POTATO.TEMPLATE = $('body').html();
 	POTATO.renderPage = function() {
 		// Localize
@@ -31,7 +61,7 @@ $(function() {
 		$('#calendar').datepicker();
 
 		// Run initial routes
-		$.each((POTATO.INITIAL || []), function() {
+		$.each(POTATO.INITIAL, function() {
 			return this.call();
 		});
 

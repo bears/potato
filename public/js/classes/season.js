@@ -115,7 +115,6 @@ bhSeason._singleton = {
 /**
  * Initializer
  */
-POTATO.INITIAL = POTATO.INITIAL || [];
 POTATO.INITIAL.push(function() {
 	// Contents
 	for ( var season in bhSeason._singleton ) {

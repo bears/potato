@@ -248,7 +248,6 @@ bhDetail._singleton = null;
 /**
  * Initializer
  */
-POTATO.INITIAL = POTATO.INITIAL || [];
 POTATO.INITIAL.push(function() {
 	bhDetail._singleton = $('#details');
 });
