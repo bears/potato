@@ -3,14 +3,28 @@
  * @param uuid {String}
  */
 function bhElement(uuid) {
+	/**
+	 * Call static method from object.
+	 * @param object {Object}
+	 * @param method {String}
+	 * @param ...
+	 */
+	var callStatic = function() {
+		var object = Array.shift(arguments);
+		var method = Array.shift(arguments);
+		var callee = object.__proto__.constructor;
+		return callee[method].apply(callee, arguments);
+	}
+
 	/// Prevent duplicated object.
-	var cached = this.__proto__.constructor.getObject(uuid);
+	var cached = callStatic(this, 'getObject', uuid);
 	if (undefined !== cached) {
 		return cached;
 	}
 
 	/**
 	 * Convert key to its abbreviation form.
+	 * (Ab. of an ab. is its intact form.)
 	 * @param key {Json} {subject:"{String}",field:"{String}"}
 	 */
 	var toAb = function(key) {
@@ -64,6 +78,42 @@ function bhElement(uuid) {
 	var focus = {};
 
 	/**
+	 * Send notify to all subscribers.
+	 * @param subject {String}
+	 * @param notify {String} One of POTATO.NOTIFY.*
+	 * @param except {Object}
+	 */
+	var broadcast = function(subject, notify, except) {
+		if (subject in focus) {
+			var source = this;
+			$.each(focus[subject], function() {
+				if (this != except) {
+					this.notify(subject, notify, source);
+				}
+			});
+		}
+	}
+
+	/**
+	 * Callback for connection provider.
+	 * @param renewal {Object}
+	 */
+	var update = function(renewal) {
+		if (renewal.$ != data.$) {
+			throw 'UUID mismatch while updating ' + callStatic(this, 'typeOf')
+				+ ' #' + data.$ + ' vs #' + renewal.$;
+		}
+		$.each(renewal, function(subject, content) {
+			if ('$' != subject) {
+				var notify = subject in data ? POTATO.NOTIFY.UPDATE : POTATO.NOTIFY.INSERT;
+				data[subject] = $.extend(data[subject], content);
+				var ab = toAb.call(this, {subject:subject, field:null});
+				broadcast(ab.subject, notify);
+			}
+		});
+	}
+
+	/**
 	 * Append an observer to a subject.
 	 * @param subject {String}
 	 * @param subscriber {Object} Must has method: notify(subject, action, source)
@@ -76,6 +126,14 @@ function bhElement(uuid) {
 			focus[subject] = [subscriber];
 		}
 		subscriber.notify(subject, POTATO.NOTIFY.ATTACH, this);
+
+		var ab = toAb.call(this, {subject:subject, field:null});
+		if (ab.subject in data) {
+			subscriber.notify(subject, POTATO.NOTIFY.INSERT, this);
+		}
+		else {
+			// TODO: register at connection provider to use update() as callback
+		}
 	}
 
 	/**
@@ -93,22 +151,8 @@ function bhElement(uuid) {
 		}
 	}
 
-	/**
-	 * Send notify to all subscribers.
-	 * @param subject {String}
-	 * @param notify {String} One of POTATO.NOTIFY.
-	 */
-	this.broadcast = function(subject, notify) {
-		if (subject in focus) {
-			var source = this;
-			$.each(focus[subject], function() {
-				this.notify(subject, notify, source);
-			});
-		}
-	}
-
 	/// Cache this object.
-	this.__proto__.constructor.setObject(this);
+	callStatic(this, 'setObject', this);
 }
 
 /**
@@ -127,4 +171,31 @@ bhElement.getObject = function(uuid) {
 bhElement.setObject = function(item) {
 	this.cache = this.cache || {};
 	this.cache[item.uuid()] = item;
+}
+
+/**
+ * Load abbreviation mapping.
+ * @param ab {Object}
+ */
+bhElement.loadAb = function(ab) {
+	$.each(ab._, function(full, k) {
+		ab._[k] = full;
+	});
+	$.each(ab, function(subject, mapping) {
+		$.each(mapping, function(full, k) {
+			mapping[k] = full;
+		});
+		if (subject in ab._) {
+			ab[ab._[subject]] = mapping;
+		}
+	});
+	this.prototype.ab = ab;
+}
+
+/**
+ * Get class name.
+ * @return {String}
+ */
+bhElement.typeOf = function() {
+	return this.toString().match(/^function (\w+)/)[1];
 }

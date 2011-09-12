@@ -1,12 +1,8 @@
-$.extend(true, bhDirty, bhElement)
 function bhDirty(){
 	return bhElement.apply(this, arguments)
 }
-
-bhDirty.prototype.ab = {
-	_:{'user':'u'},
-	u:{'time':'t'}
-}
+$.extend(true, bhDirty, bhElement)
+bhDirty.loadAb({_:{'user':'u'}, u:{'time':'t'}});
 
 test('uuid', 3, function() {
 	var a = new bhDirty('xxx-aaa');
