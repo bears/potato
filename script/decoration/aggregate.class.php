@@ -10,6 +10,9 @@ abstract class aggregate {
 		$this->data = $object;
 	}
 
+	/**
+	 * @return JSON
+	 */
 	public function __toString() {
 		return json_encode( $this->content() );
 	}

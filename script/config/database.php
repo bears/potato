@@ -1,10 +1,11 @@
 <?php
 namespace config;
 
-/**
+/*
  * Database connection settings.
  */
-const RUNTIME_DATABASE_DSN = <<<'DSN'
+
+const MAJOR_DATABASE_DSN = <<<'DSN'
 pgsql:
 	host=localhost;
 	port=5432;

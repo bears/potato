@@ -7,6 +7,9 @@ namespace decoration\potato;
 class season extends \decoration\individual {
 	const SUBJECT = 'season';
 
+	/**
+	 * @see \decoration\individual::content
+	 */
 	public function content( array &$vessel = array( ) ) {
 		parent::content( $vessel );
 		$ab = \ab\potato\season::instance();

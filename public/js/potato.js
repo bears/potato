@@ -33,7 +33,7 @@ $(function() {
 	 */
 	window.onerror = function(error, url, line) {
 		if ( POTATO.PROFILE.reclaim ) {
-			$.post('/ajaj/error', {
+			$.post(location.protocol + POTATO.PROFILE.ajaj_domain + '/error', {
 				error : error,
 				line : line,
 				url : url
@@ -42,7 +42,19 @@ $(function() {
 		}
 	};
 
+	// Let cross domain requests bring cookies.
+	$.ajaxSetup({
+		xhrFields : {
+			withCredentials : true
+		}
+	});
+
+	// Save the original page template.
 	POTATO.TEMPLATE = $('body').html();
+
+	/**
+	 * Render the page by cached template.
+	 */
 	POTATO.renderPage = function() {
 		// Localize
 		var locale = POTATO.L10N[POTATO.PROFILE.locale];
@@ -71,5 +83,7 @@ $(function() {
 			return false;
 		});
 	};
+
+	// Render page at 1st time.
 	POTATO.renderPage();
 });

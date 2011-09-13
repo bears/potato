@@ -1,11 +1,11 @@
 <?php
 namespace database;
 
-/**
- * Connect to database to do basic operations.
- */
 require_once 'config/database.php';
 
+/**
+ * An interface to connect to database.
+ */
 class connection {
 
 	/**
@@ -14,11 +14,15 @@ class connection {
 	 */
 	public static function get_pdo() {
 		if ( !is_a( self::$pdo, 'PDO' ) ) {
-			self::$pdo = new \PDO( \config\RUNTIME_DATABASE_DSN, null, null, array( \PDO::ATTR_PERSISTENT => true ) );
+			self::$pdo = new \PDO( \config\MAJOR_DATABASE_DSN, null, null, array( \PDO::ATTR_PERSISTENT => true ) );
 		}
 		return self::$pdo;
 	}
 
+	/**
+	 * Unique connection.
+	 * @var \PDO
+	 */
 	private static $pdo;
 
 }

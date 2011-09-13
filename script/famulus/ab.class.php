@@ -30,7 +30,6 @@ abstract class ab {
 
 	protected function __construct() {
 		$map = self::map();
-		$this->map = array_merge( $map, array_flip( $map ) );
 	}
 
 	/**
@@ -44,7 +43,7 @@ abstract class ab {
 
 	/**
 	 * Full name <=> abbreviation mapping.
-	 * @var array
+	 * @var array(string)
 	 */
 	private $map;
 

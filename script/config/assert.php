@@ -1,9 +1,10 @@
 <?php
 namespace config;
 
-/**
+/*
  * Setup assert behavior.
  */
+
 error_reporting( E_ALL | E_STRICT );
 
 assert_options( ASSERT_ACTIVE, 1 );
