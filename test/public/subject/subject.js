@@ -1,7 +1,7 @@
 function bhDirty(){
-	return bhElement.apply(this, arguments)
+	return bhSubject.apply(this, arguments)
 }
-$.extend(true, bhDirty, bhElement)
+$.extend(true, bhDirty, bhSubject)
 bhDirty.loadAb({_:{'user':'u'}, u:{'time':'t'}});
 
 test('uuid', 3, function() {

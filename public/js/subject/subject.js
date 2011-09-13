@@ -2,7 +2,7 @@
  * Base class for holding data.
  * @param uuid {String}
  */
-function bhElement(uuid) {
+function bhSubject(uuid) {
 	/**
 	 * Call static method from object.
 	 * @param object {Object}
@@ -12,8 +12,8 @@ function bhElement(uuid) {
 	var callStatic = function() {
 		var object = Array.shift(arguments);
 		var method = Array.shift(arguments);
-		var callee = object.__proto__.constructor;
-		return callee[method].apply(callee, arguments);
+		var _this_ = object.__proto__.constructor;
+		return _this_[method].apply(_this_, arguments);
 	}
 
 	/// Prevent duplicated object.
@@ -158,17 +158,17 @@ function bhElement(uuid) {
 /**
  * Get a cached object.
  * @param uuid {String}
- * @return {bhElement}
+ * @return {bhSubject}
  */
-bhElement.getObject = function(uuid) {
+bhSubject.getObject = function(uuid) {
 	return (this.cache || {})[uuid];
 }
 
 /**
  * Add an object into cache.
- * @param item {bhElement}
+ * @param item {bhSubject}
  */
-bhElement.setObject = function(item) {
+bhSubject.setObject = function(item) {
 	this.cache = this.cache || {};
 	this.cache[item.uuid()] = item;
 }
@@ -177,7 +177,7 @@ bhElement.setObject = function(item) {
  * Load abbreviation mapping.
  * @param ab {Object}
  */
-bhElement.loadAb = function(ab) {
+bhSubject.loadAb = function(ab) {
 	$.each(ab._, function(full, k) {
 		ab._[k] = full;
 	});
@@ -196,6 +196,6 @@ bhElement.loadAb = function(ab) {
  * Get class name.
  * @return {String}
  */
-bhElement.typeOf = function() {
+bhSubject.typeOf = function() {
 	return this.toString().match(/^function (\w+)/)[1];
 }
