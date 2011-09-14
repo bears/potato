@@ -12,7 +12,7 @@ namespace test\decoration {
 		public function test_content() {
 			$content = $this->object->content();
 			$this->assertCount( 2, $content );
-			$this->assertArrayHasKey( 'uuid', $content[0] );
+			$this->assertArrayHasKey( '$', $content[0] );
 		}
 
 		/**
@@ -22,7 +22,7 @@ namespace test\decoration {
 		public function test__toString() {
 			$recover = json_decode( "{$this->object}", true );
 			$this->assertCount( 2, $recover );
-			$this->assertArrayHasKey( 'uuid', $recover[0] );
+			$this->assertArrayHasKey( '$', $recover[0] );
 		}
 
 		/**

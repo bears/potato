@@ -12,8 +12,8 @@ namespace test\decoration {
 		public function test_content() {
 			$content = $this->object->content();
 
-			$this->assertArrayHasKey( 'uuid', $content );
-			$this->assertEquals( \individual\unittest::FIXED_UUID, $content['uuid'] );
+			$this->assertArrayHasKey( '$', $content );
+			$this->assertEquals( \individual\unittest::FIXED_UUID, $content['$'] );
 
 			$this->assertTrue( $content['unittest']['dummy'] );
 		}
@@ -23,7 +23,7 @@ namespace test\decoration {
 		 * @depends	test_content
 		 */
 		public function test__toString() {
-			$refer = '{"uuid":"' . \individual\unittest::FIXED_UUID . '","unittest":{"dummy":true}}';
+			$refer = '{"$":"' . \individual\unittest::FIXED_UUID . '","unittest":{"dummy":true}}';
 			$this->assertEquals( $refer, "{$this->object}" );
 		}
 
