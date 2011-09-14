@@ -6,4 +6,5 @@ namespace config;
  */
 
 require_once 'config/assert.php';
+require_once 'config/setting.php';
 require_once 'config/profile.php';

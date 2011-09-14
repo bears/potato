@@ -2,7 +2,7 @@
 namespace config;
 
 /*
- * Constants for profile (available at client side).
+ * Project/environment constants (also available at client side).
  */
 
 const PROFILE_VERSION = '1.0.2';

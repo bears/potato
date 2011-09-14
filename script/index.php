@@ -12,24 +12,38 @@ require_once 'handler/loader.php';
  */
 class subject {
 
+	public function __construct( array &$segments ) {
+		$this->segments = $segments;
+	}
+
 	/**
 	 * Find derived subject to handle request.
 	 */
 	public static function dispatch() {
-		$protocol = isset($_SERVER['HTTPS']) && 'off' != $_SERVER['HTTPS'] ? 'https:' : 'http:';
+		self::cross_domain();
+
 		$segments = explode( '/', $_SERVER['REQUEST_URI'] );
 		list($futile, $subject) = array_splice( $segments, 0, 2 );
 		assert( "(''=='$futile')&&preg_match('#^\w+$#','$subject')" );
 
-		header( "Access-Control-Allow-Origin: $protocol" . \config\PROFILE_MAIN_DOMAIN );
-		header( 'Access-Control-Allow-Credentials: true' );
-		header( 'Content-Type: application/x-javascript' );
+		header( 'Content-Type: application/json' );
 		$dispatcher = "\subject\\$subject";
 		echo new $dispatcher( $segments );
 	}
 
-	public function __construct( array &$segments ) {
-		$this->segments = $segments;
+	/**
+	 * Process cross domain request header.
+	 */
+	private static function cross_domain() {
+		$protocol = isset( $_SERVER['HTTPS'] ) && 'off' != $_SERVER['HTTPS'] ? 'https:' : 'http:';
+		$accepted = $protocol . \config\MAIN_DOMAIN;
+		if ( isset( $_SERVER['HTTP_ORIGIN'] ) && $_SERVER['HTTP_ORIGIN'] == $accepted ) {
+			header( "Access-Control-Allow-Origin: $accepted" );
+			header( 'Access-Control-Allow-Credentials: true' );
+		}
+		else {
+			throw new \exception\unacceptable_access( $_SERVER['HTTP_ORIGIN'] );
+		}
 	}
 
 	/**
@@ -39,6 +53,5 @@ class subject {
 	protected $segments;
 
 }
-
 // Go
 subject::dispatch();

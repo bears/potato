@@ -19,7 +19,7 @@ class profile extends \subject {
 				$profile[strtolower( $match['name'] )] = $value;
 			}
 		}
-		return 'POTATO.PROFILE = ' . json_encode( $profile );
+		return json_encode( $profile );
 	}
 
 }
