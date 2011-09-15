@@ -1,7 +1,7 @@
 function bhDirty(){
 	return bhSubject.apply(this, arguments)
 }
-$.extend(true, bhDirty, bhSubject)
+$.extend(true, bhDirty, bhSubject);
 bhDirty.loadAb({_:{'user':'u'}, u:{'time':'t'}});
 
 test('uuid', 3, function() {
@@ -12,11 +12,12 @@ test('uuid', 3, function() {
 	notEqual(a.uuid(), b.uuid());
 });
 
-//test('get/set', 2, function() {
-//	var c = new bhDirty('abc-123');
-//	c.set(34, 'time', 'user');
-//	equal(c.get('time', 'user'), 34);
-//});
+test('get/set', 2, function() {
+	var c = new bhDirty('abc-123', {u:{t:21}});
+	equal(c.get('time', 'user'), 21);
+	c.set(34, 'time', 'user');
+	equal(c.get('time', 'user'), 34);
+});
 
 test('get/set-Object', 3, function() {
 	var d = new bhDirty('ddd-123');

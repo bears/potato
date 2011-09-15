@@ -42,7 +42,7 @@ class subject {
 			header( 'Access-Control-Allow-Credentials: true' );
 		}
 		else {
-			throw new \exception\unacceptable_access( $_SERVER['HTTP_ORIGIN'] );
+			throw new \exception\unacceptable_access();
 		}
 	}
 

@@ -1,8 +1,9 @@
 /**
  * Base class for holding data.
  * @param uuid {String}
+ * @param data {Object} Optional
  */
-function bhSubject(uuid) {
+function bhSubject(uuid, data) {
 	/**
 	 * Call static method from object.
 	 * @param object {Object}
@@ -10,14 +11,14 @@ function bhSubject(uuid) {
 	 * @param ...
 	 */
 	var callStatic = function() {
-		var object = Array.shift(arguments);
-		var method = Array.shift(arguments);
-		var _this_ = object.__proto__.constructor;
-		return _this_[method].apply(_this_, arguments);
-	}
+		var args = [].slice.call(arguments);
+		var method = args.shift();
+		var _this_ = this.__proto__.constructor;
+		return _this_[method].apply(_this_, args);
+	}.bind(this);
 
 	/// Prevent duplicated object.
-	var cached = callStatic(this, 'getObject', uuid);
+	var cached = callStatic('getObject', uuid);
 	if (undefined !== cached) {
 		return cached;
 	}
@@ -35,12 +36,12 @@ function bhSubject(uuid) {
 			key.field = this.ab[key.subject][key.field];
 		}
 		return key;
-	}
+	}.bind(this);
 
 	/**
 	 * Hold all private properties.
 	 */
-	var data = {$:uuid};
+	data = $.extend(data, {$:uuid});
 
 	/**
 	 * Getter.
@@ -49,7 +50,7 @@ function bhSubject(uuid) {
 	 * @return {undefined} or anything else
 	 */
 	this.get = function(field, subject) {
-		var ab = toAb.call(this, {subject:subject, field:field});
+		var ab = toAb({subject:subject, field:field});
 		return data[ab.subject][ab.field];
 	};
 
@@ -60,7 +61,7 @@ function bhSubject(uuid) {
 	 * @param subject {String}
 	 */
 	this.set = function(value, field, subject) {
-		var ab = toAb.call(this, {subject:subject, field:field});
+		var ab = toAb({subject:subject, field:field});
 		data[ab.subject][ab.field] = value;
 	};
 
@@ -70,7 +71,7 @@ function bhSubject(uuid) {
 	 */
 	this.uuid = function() {
 		return data['$'];
-	}
+	};
 
 	/**
 	 * Hold all subscribers.
@@ -92,7 +93,7 @@ function bhSubject(uuid) {
 				}
 			});
 		}
-	}
+	};
 
 	/**
 	 * Callback for connection provider.
@@ -100,18 +101,18 @@ function bhSubject(uuid) {
 	 */
 	var update = function(renewal) {
 		if (renewal.$ != data.$) {
-			throw 'UUID mismatch while updating ' + callStatic(this, 'typeOf')
+			throw 'UUID mismatch while updating ' + callStatic('typeOf')
 				+ ' #' + data.$ + ' vs #' + renewal.$;
 		}
 		$.each(renewal, function(subject, content) {
 			if ('$' != subject) {
 				var notify = subject in data ? POTATO.NOTIFY.UPDATE : POTATO.NOTIFY.INSERT;
 				data[subject] = $.extend(data[subject], content);
-				var ab = toAb.call(this, {subject:subject, field:null});
+				var ab = toAb({subject:subject});
 				broadcast(ab.subject, notify);
 			}
 		});
-	}
+	};
 
 	/**
 	 * Append an observer to a subject.
@@ -127,14 +128,14 @@ function bhSubject(uuid) {
 		}
 		subscriber.notify(subject, POTATO.NOTIFY.ATTACH, this);
 
-		var ab = toAb.call(this, {subject:subject, field:null});
+		var ab = toAb({subject:subject});
 		if (ab.subject in data) {
 			subscriber.notify(subject, POTATO.NOTIFY.INSERT, this);
 		}
 		else {
-			// TODO: register at connection provider to use update() as callback
+			$.getJSON(POTATO.AJAJ_DOMAIN + subject + '/' + this.uuid(), update);
 		}
-	}
+	};
 
 	/**
 	 * Remove an observer from a subject.
@@ -149,10 +150,10 @@ function bhSubject(uuid) {
 				subscriber.notify(subject, POTATO.NOTIFY.DETACH, this);
 			}
 		}
-	}
+	};
 
 	/// Cache this object.
-	callStatic(this, 'setObject', this);
+	callStatic('setObject', this);
 }
 
 /**
@@ -162,7 +163,7 @@ function bhSubject(uuid) {
  */
 bhSubject.getObject = function(uuid) {
 	return (this.cache || {})[uuid];
-}
+};
 
 /**
  * Add an object into cache.
@@ -171,7 +172,7 @@ bhSubject.getObject = function(uuid) {
 bhSubject.setObject = function(item) {
 	this.cache = this.cache || {};
 	this.cache[item.uuid()] = item;
-}
+};
 
 /**
  * Load abbreviation mapping.
@@ -190,7 +191,7 @@ bhSubject.loadAb = function(ab) {
 		}
 	});
 	this.prototype.ab = ab;
-}
+};
 
 /**
  * Get class name.
@@ -198,4 +199,4 @@ bhSubject.loadAb = function(ab) {
  */
 bhSubject.typeOf = function() {
 	return this.toString().match(/^function (\w+)/)[1];
-}
+};
