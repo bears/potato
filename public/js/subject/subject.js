@@ -11,10 +11,10 @@ function sSubject(uuid, data) {
 	 * @param ...
 	 */
 	var callStatic = function() {
-		var args = [].slice.call(arguments);
-		var method = args.shift();
-		var _this_ = this.__proto__.constructor;
-		return _this_[method].apply(_this_, args);
+		var slices = [].slice.call(arguments);
+		var method = slices.shift();
+		var callee = this.__proto__.constructor;
+		return callee[method].apply(callee, slices);
 	}.bind(this);
 
 	/// Prevent duplicated object.
@@ -24,19 +24,21 @@ function sSubject(uuid, data) {
 	}
 
 	/**
-	 * Convert key to its abbreviation form.
-	 * (Ab. of an ab. is its intact form.)
-	 * @param key {Json} {subject:"{String}",field:"{String}"}
+	 * Convert key to its abbreviation/intactness form.
+	 * @param map {Object} this.ab or this.ba
+	 * @param subject {String}
+	 * @param field {String}
+	 * @return {Object} {subject:"{String}",field:"{String}"}
 	 */
-	var toAb = function(key) {
-		if (('_' in this.ab) && (key.subject in this.ab._)) {
-			key.subject = this.ab._[key.subject];
-		}
-		if ((key.subject in this.ab) && (key.field in this.ab[key.subject])) {
-			key.field = this.ab[key.subject][key.field];
-		}
-		return key;
-	}.bind(this);
+	var abba = function(map, subject, field) {
+		var pick = function(key, sub) {
+			return ((key in map) && (sub in map[key])) ? map[key][sub] : sub;
+		};
+		return {
+			subject : pick('$', subject),
+			field : pick(subject, field)
+		};
+	};
 
 	/**
 	 * Hold all private properties.
@@ -50,7 +52,7 @@ function sSubject(uuid, data) {
 	 * @return {undefined} or anything else
 	 */
 	this.get = function(field, subject) {
-		var ab = toAb({subject:subject, field:field});
+		var ab = abba(this.ab, subject, field);
 		return data[ab.subject][ab.field];
 	};
 
@@ -61,7 +63,7 @@ function sSubject(uuid, data) {
 	 * @param subject {String}
 	 */
 	this.set = function(value, field, subject) {
-		var ab = toAb({subject:subject, field:field});
+		var ab = abba(this.ab, subject, field);
 		data[ab.subject][ab.field] = value;
 	};
 
@@ -108,8 +110,8 @@ function sSubject(uuid, data) {
 			if ('$' != subject) {
 				var notify = subject in data ? POTATO.NOTIFY.UPDATE : POTATO.NOTIFY.INSERT;
 				data[subject] = $.extend(data[subject], content);
-				var ab = toAb({subject:subject});
-				broadcast(ab.subject, notify);
+				var intact = abba(this.ba, subject);
+				broadcast(intact.subject, notify);
 			}
 		});
 	};
@@ -128,7 +130,7 @@ function sSubject(uuid, data) {
 		}
 		subscriber.notify(subject, POTATO.NOTIFY.ATTACH, this);
 
-		var ab = toAb({subject:subject});
+		var ab = abba(this.ab, subject);
 		if (ab.subject in data) {
 			subscriber.notify(subject, POTATO.NOTIFY.INSERT, this);
 		}
@@ -179,18 +181,19 @@ sSubject.setObject = function(item) {
  * @param ab {Object}
  */
 sSubject.loadAb = function(ab) {
-	$.each(ab._, function(full, k) {
-		ab._[k] = full;
-	});
-	$.each(ab, function(subject, mapping) {
-		$.each(mapping, function(full, k) {
-			mapping[k] = full;
-		});
-		if (subject in ab._) {
-			ab[ab._[subject]] = mapping;
+	var ba = {$:{}};
+	$.each(ab.$, function(subject, s) {
+		ba.$[s] = subject;
+		if (subject in ab) {
+			var fields = {};
+			$.each(ab[subject], function(field, f) {
+				fields[f] = field;
+			});
+			ba[s] = fields;
 		}
 	});
 	this.prototype.ab = ab;
+	this.prototype.ba = ba;
 };
 
 /**

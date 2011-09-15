@@ -2,7 +2,7 @@ function sDirty(){
 	return sSubject.apply(this, arguments)
 }
 $.extend(true, sDirty, sSubject);
-sDirty.loadAb({_:{'user':'u'}, u:{'time':'t'}});
+sDirty.loadAb({$:{'user':'u'}, user:{'time':'t'}});
 
 test('uuid', 3, function() {
 	var a = new sDirty('xxx-aaa');
