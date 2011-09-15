@@ -1,36 +1,36 @@
-function bhDirty(){
-	return bhSubject.apply(this, arguments)
+function sDirty(){
+	return sSubject.apply(this, arguments)
 }
-$.extend(true, bhDirty, bhSubject);
-bhDirty.loadAb({_:{'user':'u'}, u:{'time':'t'}});
+$.extend(true, sDirty, sSubject);
+sDirty.loadAb({_:{'user':'u'}, u:{'time':'t'}});
 
 test('uuid', 3, function() {
-	var a = new bhDirty('xxx-aaa');
+	var a = new sDirty('xxx-aaa');
 	equal(a.uuid(), 'xxx-aaa');
-	var b = new bhDirty('yyy-bbb');
+	var b = new sDirty('yyy-bbb');
 	equal(b.uuid(), 'yyy-bbb');
 	notEqual(a.uuid(), b.uuid());
 });
 
 test('get/set', 2, function() {
-	var c = new bhDirty('abc-123', {u:{t:21}});
+	var c = new sDirty('abc-123', {u:{t:21}});
 	equal(c.get('time', 'user'), 21);
 	c.set(34, 'time', 'user');
 	equal(c.get('time', 'user'), 34);
 });
 
 test('get/set-Object', 3, function() {
-	var d = new bhDirty('ddd-123');
-	var e = new bhDirty('eee-123');
-	equal(d, bhDirty.getObject('ddd-123'));
-	equal(e, bhDirty.getObject('eee-123'));
-	notEqual(bhDirty.getObject('ddd-123'), bhDirty.getObject('eee-123'));
+	var d = new sDirty('ddd-123');
+	var e = new sDirty('eee-123');
+	equal(d, sDirty.getObject('ddd-123'));
+	equal(e, sDirty.getObject('eee-123'));
+	notEqual(sDirty.getObject('ddd-123'), sDirty.getObject('eee-123'));
 });
 
 test('constructor', 2, function() {
-	var f = new bhDirty('fff-ggg');
-	var g = new bhDirty('fff-ggg');
-	var h = new bhDirty('hhh-hhh');
+	var f = new sDirty('fff-ggg');
+	var g = new sDirty('fff-ggg');
+	var h = new sDirty('hhh-hhh');
 	equal(f, g);
 	notEqual(g, h);
 });

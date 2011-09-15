@@ -3,7 +3,7 @@
  * @param uuid {String}
  * @param data {Object} Optional
  */
-function bhSubject(uuid, data) {
+function sSubject(uuid, data) {
 	/**
 	 * Call static method from object.
 	 * @param object {Object}
@@ -159,17 +159,17 @@ function bhSubject(uuid, data) {
 /**
  * Get a cached object.
  * @param uuid {String}
- * @return {bhSubject}
+ * @return {sSubject}
  */
-bhSubject.getObject = function(uuid) {
+sSubject.getObject = function(uuid) {
 	return (this.cache || {})[uuid];
 };
 
 /**
  * Add an object into cache.
- * @param item {bhSubject}
+ * @param item {sSubject}
  */
-bhSubject.setObject = function(item) {
+sSubject.setObject = function(item) {
 	this.cache = this.cache || {};
 	this.cache[item.uuid()] = item;
 };
@@ -178,7 +178,7 @@ bhSubject.setObject = function(item) {
  * Load abbreviation mapping.
  * @param ab {Object}
  */
-bhSubject.loadAb = function(ab) {
+sSubject.loadAb = function(ab) {
 	$.each(ab._, function(full, k) {
 		ab._[k] = full;
 	});
@@ -197,6 +197,6 @@ bhSubject.loadAb = function(ab) {
  * Get class name.
  * @return {String}
  */
-bhSubject.typeOf = function() {
+sSubject.typeOf = function() {
 	return this.toString().match(/^function (\w+)/)[1];
 };
