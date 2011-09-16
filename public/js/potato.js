@@ -85,6 +85,8 @@ $(function() {
 				$('#search_target').blur().val('');
 				return false;
 			});
+
+			new pSeason('summer');
 		};
 
 		// Render page at 1st time.

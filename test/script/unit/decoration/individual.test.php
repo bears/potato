@@ -11,9 +11,10 @@ namespace test\decoration {
 		 */
 		public function test_content() {
 			$content = $this->object->content();
+			$key = \decoration\individual::UUID_KEY;
 
-			$this->assertArrayHasKey( '$', $content );
-			$this->assertEquals( \individual\unittest::FIXED_UUID, $content['$'] );
+			$this->assertArrayHasKey( $key, $content );
+			$this->assertEquals( \individual\unittest::FIXED_UUID, $content[$key] );
 
 			$this->assertTrue( $content['unittest']['dummy'] );
 		}

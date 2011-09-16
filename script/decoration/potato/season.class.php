@@ -5,7 +5,7 @@ namespace decoration\potato;
  * Decoration of potato in season subject.
  */
 class season extends \decoration\individual {
-	const SUBJECT = 'season';
+	const SUBJECT = 'tuber';
 
 	/**
 	 * @see \decoration\individual::content

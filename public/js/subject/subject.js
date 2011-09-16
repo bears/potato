@@ -17,7 +17,7 @@ function sSubject(uuid, data) {
 		return callee[method].apply(callee, slices);
 	}.bind(this);
 
-	/// Prevent duplicated object.
+	// Prevent duplicated object.
 	var cached = callStatic('getObject', uuid);
 	if (undefined !== cached) {
 		return cached;
@@ -25,12 +25,13 @@ function sSubject(uuid, data) {
 
 	/**
 	 * Convert key to its abbreviation/intactness form.
-	 * @param map {Object} this.ab or this.ba
+	 * @param normal {Boolean} true: this.ab; false: this.ba
 	 * @param subject {String}
 	 * @param field {String}
 	 * @return {Object} {subject:"{String}",field:"{String}"}
 	 */
-	var abba = function(map, subject, field) {
+	var abba = function(normal, subject, field) {
+		var map = normal ? this.ab : this.ba;
 		var pick = function(key, sub) {
 			return ((key in map) && (sub in map[key])) ? map[key][sub] : sub;
 		};
@@ -38,7 +39,7 @@ function sSubject(uuid, data) {
 			subject : pick('$', subject),
 			field : pick(subject, field)
 		};
-	};
+	}.bind(this);
 
 	/**
 	 * Hold all private properties.
@@ -52,7 +53,7 @@ function sSubject(uuid, data) {
 	 * @return {undefined} or anything else
 	 */
 	this.get = function(field, subject) {
-		var ab = abba(this.ab, subject, field);
+		var ab = abba(true, subject, field);
 		return data[ab.subject][ab.field];
 	};
 
@@ -63,7 +64,7 @@ function sSubject(uuid, data) {
 	 * @param subject {String}
 	 */
 	this.set = function(value, field, subject) {
-		var ab = abba(this.ab, subject, field);
+		var ab = abba(true, subject, field);
 		data[ab.subject][ab.field] = value;
 	};
 
@@ -95,7 +96,7 @@ function sSubject(uuid, data) {
 				}
 			});
 		}
-	};
+	}.bind(this);
 
 	/**
 	 * Callback for connection provider.
@@ -110,8 +111,7 @@ function sSubject(uuid, data) {
 			if ('$' != subject) {
 				var notify = subject in data ? POTATO.NOTIFY.UPDATE : POTATO.NOTIFY.INSERT;
 				data[subject] = $.extend(data[subject], content);
-				var intact = abba(this.ba, subject);
-				broadcast(intact.subject, notify);
+				broadcast(abba(false, subject).subject, notify);
 			}
 		});
 	};
@@ -130,7 +130,7 @@ function sSubject(uuid, data) {
 		}
 		subscriber.notify(subject, POTATO.NOTIFY.ATTACH, this);
 
-		var ab = abba(this.ab, subject);
+		var ab = abba(true, subject);
 		if (ab.subject in data) {
 			subscriber.notify(subject, POTATO.NOTIFY.INSERT, this);
 		}
@@ -154,7 +154,7 @@ function sSubject(uuid, data) {
 		}
 	};
 
-	/// Cache this object.
+	// Cache this object.
 	callStatic('setObject', this);
 }
 

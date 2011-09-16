@@ -89,7 +89,7 @@ bhFactory.prototype._fetch = function(subscriber, subject, id) {
 		this.elements[subject] = {};
 	}
 	if ( 'object' != typeof this.elements[subject][id] ) {
-		$.getJSON('/ajaj/' + subject + '/' + id, function(data) {
+		$.getJSON(POTATO.AJAJ_DOMAIN + subject + '/' + id, function(data) {
 			this.elements[subject][id] = data;
 			var observers = this.subscribers[subject][id];
 			for ( var identity in observers ) {
