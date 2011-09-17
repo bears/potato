@@ -18,7 +18,18 @@ var POTATO = {
 	/**
 	 * Static initializers.
 	 */
-	INITIAL : []
+	INITIAL : [],
+
+	/**
+	 * Replace parameters in a template.
+	 * @param template {String} HTML
+	 * @param lookup {Object}
+	 */
+	replace : function(template, lookup) {
+		return template.replace(/{%(\w+)%}/g, function(unused, key) {
+			return lookup[key];
+		});
+	}
 };
 
 /**
@@ -58,38 +69,39 @@ $(function() {
 		/**
 		 * Render the page by cached template.
 		 */
-		POTATO.renderPage = function() {
+		(POTATO.renderPage = function() {
+			var page = $('body').addClass('ui-helper-hidden');
+
 			// Localize
 			var locale = POTATO.L10N[POTATO.PROFILE.locale];
 			$('title').text(locale.title);
-			$('body').html(POTATO.TEMPLATE.replace(/{%(\w+)%}/g, function(unused, key) {
-				return locale[key]
-			})).removeClass('ui-helper-hidden');
-			$('#version').text(POTATO.PROFILE.version);
-
-			// Logo event
-			$('#menu_home').click(function() {
-				location = location.protocol + '//' + location.host + '/'
-			});
-
-			// Right side panel
-			$('#calendar').datepicker();
+			page.html(POTATO.replace(POTATO.TEMPLATE, locale));
 
 			// Run initial routes
 			$.each(POTATO.INITIAL, function() {
 				return this.call();
 			});
 
-			// Search
+			// Header
+			$('#menu_home').click(function() {
+				location = location.protocol + '//' + location.host + '/'
+			});
 			$('#search').submit(function() {
 				$('#search_target').blur().val('');
 				return false;
 			});
 
-			new pSeason('summer');
-		};
+			// Footer
+			$('#version').text(POTATO.PROFILE.version);
 
-		// Render page at 1st time.
-		POTATO.renderPage();
+			// Left side panel
+			new pSeason('summer');
+
+			// Right side panel
+			$('#calendar').datepicker();
+
+			// Done, show it
+			page.removeClass('ui-helper-hidden');
+		})(/*do 1st time*/);
 	});
 });
