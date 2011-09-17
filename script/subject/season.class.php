@@ -33,8 +33,8 @@ class season extends \subject {
 
 		$season = array_shift( $this->segments );
 		$offset = 0;
-		$aggregate = \aggregate\potato::season( $season, $offset );
-		$tubers = new \decoration\potato\season\aggregate( $aggregate );
+		$aggregate = \aggregate\potato::tuber( $season, $offset );
+		$tubers = new \decoration\potato\tuber\aggregate( $aggregate );
 		$content = array(
 			\decoration\individual::UUID_KEY => $season,
 			'season' => array(

@@ -4,8 +4,7 @@ namespace decoration\potato;
 /**
  * Decoration of potato in season subject.
  */
-class season extends \decoration\individual {
-	const SUBJECT = 'tuber';
+class tuber extends \decoration\individual {
 
 	/**
 	 * @see \decoration\individual::content
@@ -13,7 +12,7 @@ class season extends \decoration\individual {
 	public function content( array &$vessel = array( ) ) {
 		parent::content( $vessel );
 		$ab = \ab\potato\season::instance();
-		$vessel[self::SUBJECT] = array(
+		$vessel[self::subject()] = array(
 			$ab( 'brand' ) => $this->data->brand,
 			$ab( 'label' ) => $this->data->label,
 			$ab( 'weight' ) => $this->data->weight,

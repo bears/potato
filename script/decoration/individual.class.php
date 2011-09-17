@@ -29,6 +29,17 @@ abstract class individual {
 	}
 
 	/**
+	 * Get default subject name from derived class name.
+	 * @return string
+	 */
+	public static function subject() {
+		$class = get_called_class();
+		$split = strrpos( $class, '\\' );
+		$split = $split ? $split + 1 : 0;
+		return substr( $class, $split );
+	}
+
+	/**
 	 * The object holds the base information.
 	 * @var \database\individual
 	 */
