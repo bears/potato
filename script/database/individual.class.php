@@ -207,7 +207,7 @@ abstract class individual {
 		$domain = self::domain();
 		if ( !isset( self::$select_pool[$domain] ) ) {
 			$query = connection::get_pdo()->prepare( "SELECT * FROM $domain WHERE \"uuid\"=:uuid" );
-			$query->setFetchMode( \PDO::FETCH_CLASS, $domain );
+			$query->setFetchMode( \PDO::FETCH_CLASS, get_called_class() );
 			self::$select_pool[$domain] = $query;
 		}
 		return self::$select_pool[$domain];

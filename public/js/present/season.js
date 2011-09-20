@@ -7,15 +7,23 @@ function pSeason(current) {
 		return pSeason.cache;
 	}
 
+	// Cache this object.
+	pSeason.cache = this;
+
 	/**
 	 * Hold all private properties.
 	 */
 	var data = {
-		'spring' : new sSeason('spring'),
-		'summer' : new sSeason('summer'),
-		'autumn' : new sSeason('autumn'),
-		'winter' : new sSeason('winter')
+		spring : new sSeason('spring'),
+		summer : new sSeason('summer'),
+		autumn : new sSeason('autumn'),
+		winter : new sSeason('winter')
 	};
+
+	// Default season.
+	if (!(current in data)) {
+		current = 'summer';
+	}
 
 	/**
 	 * Callback for sSeason.
@@ -38,14 +46,6 @@ function pSeason(current) {
 		}
 	};
 
-	// Default season.
-	if (!(current in data)) {
-		current = 'summer';
-	}
-
-	// Cache this object.
-	pSeason.cache = this;
-
 	//
 	var tabs = $('#seasons').tabs({
 		select : function(event, ui) {
@@ -57,6 +57,24 @@ function pSeason(current) {
 	var stickers = $('.stickers>li', tabs).droppable({
 		accept : '.season>li',
 		hoverClass : 'ui-state-highlight',
-		tolerance : 'pointer'
+		tolerance : 'pointer',
+		drop : function(event, ui) {
+			var season = $('.season', $('a', this).attr('href'));
+			var sticker = $(this);
+			ui.draggable.hide('fast', function() {
+				tabs.tabs('select', stickers.index(sticker));
+				$(this).appendTo(season).show('fast', function() {
+					$(this).removeAttr('style');
+				});
+			});
+		}
+	});
+	var lists = $('.season', tabs).sortable({
+		handle : '.handle',
+		placeholder : 'ui-state-disabled ui-state-hover ui-corner-all',
+		opacity : 0.5,
+		stop : function(event, ui) {
+			ui.item.removeAttr('style');
+		}
 	});
 }

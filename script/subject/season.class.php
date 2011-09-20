@@ -10,29 +10,9 @@ class season extends \subject {
 	 * @return JSON
 	 */
 	public function __toString() {
-//		setcookie('hello', 'world', 0, '/');
-//		$season = array_shift( $this->segments );
-//		$offset = array_shift( $this->segments );
-//		$list = array( 't' => time(), 'max' => 5 );
-//		$icon = array( 'pencil' => '', 'refresh' => '', 'shuffle' => '', 'note' => '', 'document' => '' );
-//		for ( $i = 0; $i < rand( 20, 25 ); ++$i ) {
-//			$data = array(
-//				'id' => "$offset$i",
-//				'label' => "Content for {$season}#{$offset}",
-//				'icon' => array_rand( $icon, 1 ),
-//				't' => time(),
-//			);
-//			$list['tubers'][] = $data;
-//		}
-//		try {
-//		}
-//		catch ( Exception $e ) {
-//			echo $e;
-//		}
-//		return json_encode( $list );
-
+		//setcookie('hello', 'world', 0, '/');
 		$season = array_shift( $this->segments );
-		$offset = 0;
+		$offset = 0; //array_shift( $this->segments );
 		$aggregate = \aggregate\potato::tuber( $season, $offset );
 		$tubers = new \decoration\potato\tuber\aggregate( $aggregate );
 		$content = array(

@@ -23,16 +23,16 @@ function pTuber(uuid, target) {
 	 */
 	this.notify = function(subject, type, source) {
 		var html = POTATO.replace(pTuber.template, {
-			'uuid' : source.uuid(),
-			'icon' : pTuber.icons[source.get('brand', 'tuber')],
-			'text' : source.get('label', 'tuber')
+			uuid : source.uuid(),
+			icon : pTuber.icons[source.get('brand', 'tuber')],
+			text : source.get('label', 'tuber')
 		});
 		switch (type) {
 			case POTATO.NOTIFY.INSERT:
 				$(html).data('self', this).click(function() {
 					$('#seasons .season>li.ui-state-highlight').removeClass('ui-state-highlight');
 					$(this).addClass('ui-state-highlight');
-					//new pDetail(data.id);
+					new pStock(source.uuid());
 				}).appendTo(vessel);
 				break;
 

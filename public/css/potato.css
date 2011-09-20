@@ -7,9 +7,9 @@
 form input {padding:3px 7px;}
 
 /*global*/
-header,footer {position:fixed; right:1px; left:1px; height:2em; line-height:2em; padding:0 1em; overflow:hidden;}
-header {top:0;}
-footer {bottom:0;}
+header,footer {position:fixed; height:2em; line-height:2em; padding:0 2em; overflow:hidden;}
+header {top:0; right:1px; left:1px;}
+footer {bottom:0; right:3em; left:3em; border-top:1px dashed #A6C9E3; color:#A6C9E3; font-weight:bold;}
 
 /*head & foot bar*/
 menu {display:inline-block;}
@@ -17,8 +17,8 @@ command {display:inline-block; cursor:pointer;}
 #menu_home {background-image:url("images/potato.png"); width:100px; height:2em; max-height:40px;}
 #menu_home:hover {background-position:0 40px;}
 #search {float:right;}
-#search_target {width:24em;}
-#copyright {float:right; font-style:italic;}
+#search_target {width:24em; color:#0078AB;}
+#copyright {float:right;}
 
 /*content place holder*/
 #_vph {position:absolute; top:3em; bottom:3em; width:100%;}
@@ -37,38 +37,39 @@ aside.right {width:20em;}
 #seasons>.ui-tabs-panel {position:absolute; top:2.4em; bottom:.2em; left:.2em; right:.2em; padding:0;}
 #seasons .season {overflow:auto; height:100%;}
 #seasons .season>li {position:relative; overflow:auto; margin:.5em; padding:.5em; white-space: nowrap; border-color:#FFF; cursor:alias;}
-#seasons .season>li:hover {border-color:#A6C9E2; border-radius:5px; border-style:dotted dashed;}
+#seasons .season>li:hover {border-color:#C9E2A6; border-radius:5px; border-style:dotted dashed;}
 #seasons .season .handle {cursor:move; margin:0 6px -1px 0; vertical-align:baseline;}
 
-#details {position:relative; height:100%; width:50em; margin:0;}
-#details>div {position:absolute; top:0em; left:0; right:0; bottom:0; padding:.3em; margin:.3em; overflow:auto; font-size:110%;}
-#details details {display:block;}
-#details summary {display:block; padding:.5em 1em;}
-#details .description {padding:0 2em;}
-#details .description li {list-style:square inside none; padding:.3em .7em;}
-#details fieldset {border:1px solid #A6C9E2; border-width:1px 0 0 0; margin-top:1em; font-size:.9em;}
-#details legend {padding:0 .5em; cursor:pointer;display:inherit!important; font-weight:bold;}
-#details legend .ui-icon-plus {margin:0 -5px 2px 8px;}
-#details legend .ui-icon-triangle-1-s {margin:0 4px 1px 0;}
-#details fieldset.collapsed>* {display:none;}
-#details fieldset.collapsed legend .ui-icon-triangle-1-s {background-position:-32px -16px; margin-bottom:2px;}
-#details time {font-size:75%; color:#915608; font-size:smaller; float:right;}
-#details blockquote time {margin:0 0 1em 1em;}
-#details blockquote {position:relative; margin:0 .6em .3em 1.2em; padding:.8em .8em .8em 1.6em; border-style:dashed double; border-color:#A6C9E2; border-width:0 3px 1px 0;}
-#details blockquote .compressor {float:left; cursor:pointer; margin-left:-20px;}
-#details blockquote .editable {min-height:1.2em; line-height:1.2em;}
-#details blockquote.collapsed .compressor {background-position:-32px 0;}
-#details blockquote.collapsed .editable {overflow:hidden; height:1.2em!important;}
-#details summary:hover, #details blockquote:hover, #details fieldset li:hover {background-color:#F7FBFF;}
-#details .ui-icon-wrench, #details .ui-icon-pencil {float:right; cursor:pointer; margin-left:.5em;}
-#details .fields {padding:.5em;}
-#details .fields th, #details .fields td {padding:.2em .8em; font-weight:normal; white-space:nowrap;}
-#details .fields th {text-align:right; color:#915608;}
-#details .fields .progress {width:30em;}
+#stocks {position:relative; height:100%; width:50em; margin:0;}
+#stocks>div {position:absolute; top:0em; left:0; right:0; bottom:0; padding:.3em; margin:.3em; overflow:auto; font-size:110%;}
+#stocks details {display:block;}
+#stocks summary {display:block; padding:.5em 1em;}
+#stocks .description {padding:0 2em;}
+#stocks .description li {list-style:square inside none; padding:.3em .7em;}
+#stocks fieldset {border:1px solid #A6C9E2; border-width:1px 0 0 0; margin-top:1em; font-size:.9em;}
+#stocks legend {padding:0 .5em; cursor:pointer;display:inherit!important; font-weight:bold;}
+#stocks legend .ui-icon-plus {margin:0 -5px 2px 8px;}
+#stocks legend .ui-icon-triangle-1-s {margin:0 4px 1px 0;}
+#stocks fieldset.collapsed>* {display:none;}
+#stocks fieldset.collapsed legend .ui-icon-triangle-1-s {background-position:-32px -16px; margin-bottom:2px;}
+#stocks time {font-size:75%; color:#915608; font-size:smaller; float:right;}
+#stocks blockquote time {margin:0 0 1em 1em;}
+#stocks blockquote {position:relative; margin:0 .6em .3em 1.2em; padding:.8em .8em .8em 1.6em; border-style:dashed double; border-color:#A6C9E2; border-width:0 3px 1px 0;}
+#stocks blockquote .shrink {float:left; cursor:pointer; margin-left:-20px;}
+#stocks blockquote .editable {min-height:1.2em; line-height:1.2em;}
+#stocks blockquote.collapsed .shrink {background-position:-32px 0;}
+#stocks blockquote.collapsed .editable {overflow:hidden; height:1.2em!important;}
+#stocks summary:hover, #stocks blockquote:hover, #stocks fieldset li:hover {background-color:#F7FBFF;}
+#stocks .ui-icon-wrench, #stocks .ui-icon-pencil {float:right; cursor:pointer; margin-left:.5em;}
+#stocks .fields {padding:.5em;}
+#stocks .fields th, #stocks .fields td {padding:.2em .8em; font-weight:normal; white-space:nowrap;}
+#stocks .fields th {text-align:right; color:#915608;}
+#stocks .fields .progress {width:24em;}
+#stocks input[readonly] {border:none; background:transparent; font-size:inherit;}
 
-.progress-bar {height:10px; background-color:#EAF5F7; margin:1px;}
-.progress-bar .estimated {height:100%; background-color:#77D5F7; float:left;}
-.progress-bar .practical {height:100%; background-color:#ACDD4A; float:left;}
+.proportion {height:10px; background-color:#EAF5F7; margin:1px;}
+.proportion .estimated {height:100%; background-color:#77D5F7; float:left;}
+.proportion .practical {height:100%; background-color:#ACDD4A; float:left;}
 
 #editor iframe {width:98%; height:6em; margin-top:1.4em; padding:1%;}
 #editor_action {float:right;}

@@ -73,7 +73,7 @@ function sSubject(uuid, data) {
 	 * @return {String}
 	 */
 	this.uuid = function() {
-		return data['$'];
+		return data.$;
 	};
 
 	/**
