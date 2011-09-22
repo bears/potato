@@ -18,6 +18,7 @@ abstract class individual {
 	 * Insert/update this object to database.
 	 */
 	public function save() {
+		$domain = self::domain();
 		$exist = isset( $this->uuid );
 
 		$vars = get_object_vars( $this );
@@ -29,11 +30,12 @@ abstract class individual {
 		$names = array_keys( $vars );
 
 		if ( $exist ) {
-			$query = self::update_query( $names );
+			$query = self::update_query( $domain, $names );
 		}
 		else {
-			$query = self::insert_query( $names );
-			unset( $properties[':uuid'], $properties[':lock'] );
+			$query = self::insert_query( $domain, $names );
+			$properties[':uuid'] = md5( uniqid( $domain ) );
+			$properties[':lock'] = 1;
 		}
 
 		if ( $query->execute( $properties ) ) {
@@ -153,13 +155,12 @@ abstract class individual {
 	 * @param array $names
 	 * @return PDOStatement
 	 */
-	private static function insert_query( array &$names ) {
-		$domain = self::domain();
+	private static function insert_query( $domain, array &$names ) {
 		$holder = implode( ',:', $names );
 		$key = $domain . crc32( $holder );
 		if ( !isset( self::$insert_pool[$key] ) ) {
 			$fields = '"uuid","lock","' . implode( '","', $names ) . '"';
-			$values = "uuid_generate_v4(),1,:$holder";
+			$values = ":uuid,:lock,:$holder";
 			$query = connection::get_pdo()->prepare( "INSERT INTO $domain($fields) VALUES($values) RETURNING *" );
 			$query->setFetchMode( \PDO::FETCH_ASSOC );
 			self::$insert_pool[$key] = $query;
@@ -172,8 +173,7 @@ abstract class individual {
 	 * @param array $names
 	 * @return PDOStatement
 	 */
-	private static function update_query( array &$names ) {
-		$domain = self::domain();
+	private static function update_query( $domain, array &$names ) {
 		$key = $domain . crc32( implode( ',', $names ) );
 		if ( !isset( self::$update_pool[$key] ) ) {
 			$pairs = '"lock"="lock"+1';
