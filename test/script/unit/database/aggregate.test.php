@@ -8,53 +8,54 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 
 	const TEST_CACHE_KEY = 'TEST_CACHE_KEY';
 
+	public function setUp() {
+		$this->fixture = \aggregate\dummy::top5();
+	}
+
+	/**
+	 * @covers \database\aggregate::__callStatic
+	 */
+	public function assertPreConditions() {
+		$this->assertInstanceOf( '\aggregate\dummy', $this->fixture );
+	}
+
+	/**
+	 * @covers	\database\aggregate::getIterator
+	 */
+	public function test_getIterator() {
+		$count = 0;
+		foreach ( $this->fixture as $object ) {
+			$this->assertInstanceOf( '\individual\dummy', $object );
+			++$count;
+		}
+		$this->assertGreaterThan( 0, $count );
+	}
+
 	/**
 	 * @covers \database\aggregate::cache
 	 * @covers \database\aggregate::fetch
 	 */
 	public function test_cache_and_fetch() {
-		$test1 = new \aggregate\unittest();
-		$this->assertInstanceOf( '\database\aggregate', $test1 );
-
 		$this->assertNull( \database\aggregate::fetch( self::TEST_CACHE_KEY ) );
-		\database\aggregate::cache( self::TEST_CACHE_KEY, $test1 );
-		$test2 = \database\aggregate::fetch( self::TEST_CACHE_KEY );
-		$this->assertSame( $test1, $test2 );
+		\database\aggregate::cache( self::TEST_CACHE_KEY, $this->fixture );
+		$fetch = \database\aggregate::fetch( self::TEST_CACHE_KEY );
+		$this->assertSame( $this->fixture, $fetch );
 	}
 
 	/**
 	 * @covers \database\aggregate::cache
 	 *
 	 * @expectedException			\exception\conflict_cache
-	 * @expectedExceptionMessage	aggregate\unittest#TEST_CACHE_KEY
+	 * @expectedExceptionMessage	aggregate\dummy#TEST_CACHE_KEY
 	 */
 	public function test_duplicated_cache() {
-		$test1 = new \aggregate\unittest();
-		\database\aggregate::cache( self::TEST_CACHE_KEY, $test1 );
-		\database\aggregate::cache( self::TEST_CACHE_KEY, $test1 );
+		\database\aggregate::cache( self::TEST_CACHE_KEY, $this->fixture );
+		\database\aggregate::cache( self::TEST_CACHE_KEY, $this->fixture );
 	}
 
 	/**
-	 * @covers \database\aggregate::__callStatic
-	 * @todo Implement test__callStatic().
+	 * @var \aggregate\unit
 	 */
-	public function test__callStatic() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @covers	\database\aggregate::getIterator
-	 * @depends	test__callStatic
-	 * @todo Implement testGetIterator().
-	 */
-	public function testGetIterator() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
+	private $fixture;
 
 }
