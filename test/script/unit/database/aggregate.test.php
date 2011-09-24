@@ -5,6 +5,7 @@ namespace test\database;
  * Test class for \database\aggregate.
  */
 class aggregate extends \PHPUnit_Framework_TestCase {
+
 	const TEST_CACHE_KEY = 'TEST_CACHE_KEY';
 
 	/**
@@ -40,7 +41,7 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 	public function test__callStatic() {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 
@@ -52,7 +53,7 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 	public function testGetIterator() {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 

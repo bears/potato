@@ -5,6 +5,7 @@ namespace famulus;
  * Manage on/off flags dynamically.
  */
 class switcher {
+
 	/**
 	 * For test default.
 	 * @default ON

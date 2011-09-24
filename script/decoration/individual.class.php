@@ -5,6 +5,7 @@ namespace decoration;
  * The base class for decorating \database\individual object.
  */
 abstract class individual {
+
 	const UUID_KEY = '$';
 
 	public function __construct( \database\individual $object ) {

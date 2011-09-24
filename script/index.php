@@ -53,5 +53,6 @@ class subject {
 	protected $segments;
 
 }
+
 // Go
 subject::dispatch();

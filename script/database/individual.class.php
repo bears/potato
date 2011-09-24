@@ -108,9 +108,9 @@ abstract class individual {
 			$cache = self::$object_pool[$key];
 			if ( ($object->lock != $cache->lock ) ) {
 				throw new \exception\expired_cache( get_class( $cache )
-				. " #{$cache->uuid}"
-				. " cached: {$cache->lock}"
-				. " coming: {$object->lock}"
+					. " #{$cache->uuid}"
+					. " cached: {$cache->lock}"
+					. " coming: {$object->lock}"
 				);
 			}
 			else {
@@ -250,4 +250,5 @@ abstract class individual {
 	private static $delete_pool = array( );
 	private static $select_pool = array( );
 	//@}
+
 }

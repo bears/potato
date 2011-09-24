@@ -47,6 +47,7 @@ namespace test\decoration {
 		protected $object;
 
 	}
+
 }
 namespace aggregate {
 
@@ -60,4 +61,5 @@ namespace aggregate {
 		}
 
 	}
+
 }

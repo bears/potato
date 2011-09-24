@@ -57,6 +57,7 @@ namespace test\decoration {
 		protected $object;
 
 	}
+
 }
 namespace decoration {
 
@@ -69,13 +70,16 @@ namespace decoration {
 		}
 
 	}
+
 }
 namespace individual {
 
 	class unittest extends \database\individual {
+
 		const FIXED_UUID = 'aa2c5224-5171-4d3f-8d37-94c426cbb4d8';
 
 		protected $uuid = self::FIXED_UUID;
 
 	}
+
 }

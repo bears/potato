@@ -12,7 +12,7 @@ class stock extends \subject {
 	public function __toString() {
 		$uuid = array_shift( $this->segments );
 		$data = \individual\potato::select( $uuid );
-		return (string) new \decoration\potato\stock( $data );;
+		return (string) new \decoration\potato\stock( $data );
 	}
 
 }
