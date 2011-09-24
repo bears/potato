@@ -8,14 +8,11 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 
 	const TEST_CACHE_KEY = 'TEST_CACHE_KEY';
 
-	public function setUp() {
-		$this->fixture = \aggregate\dummy::top5();
-	}
-
 	/**
-	 * @covers \database\aggregate::__callStatic
+	 * @covers	\database\aggregate::__callStatic
 	 */
 	public function assertPreConditions() {
+		$this->fixture = \aggregate\dummy::top5();
 		$this->assertInstanceOf( '\aggregate\dummy', $this->fixture );
 	}
 
@@ -32,18 +29,18 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers \database\aggregate::cache
-	 * @covers \database\aggregate::fetch
+	 * @covers	\database\aggregate::cache
+	 * @covers	\database\aggregate::fetch
 	 */
 	public function test_cache_and_fetch() {
 		$this->assertNull( \database\aggregate::fetch( self::TEST_CACHE_KEY ) );
 		\database\aggregate::cache( self::TEST_CACHE_KEY, $this->fixture );
-		$fetch = \database\aggregate::fetch( self::TEST_CACHE_KEY );
-		$this->assertSame( $this->fixture, $fetch );
+		$fetched = \database\aggregate::fetch( self::TEST_CACHE_KEY );
+		$this->assertSame( $this->fixture, $fetched );
 	}
 
 	/**
-	 * @covers \database\aggregate::cache
+	 * @covers	\database\aggregate::cache
 	 *
 	 * @expectedException			\exception\conflict_cache
 	 * @expectedExceptionMessage	aggregate\dummy#TEST_CACHE_KEY

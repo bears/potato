@@ -6,6 +6,11 @@ namespace database;
  */
 abstract class individual {
 
+	public function __clone() {
+		$this->uuid = null;
+		$this->lock = null;
+	}
+
 	/**
 	 * Get uuid of this object.
 	 * @return uuid
