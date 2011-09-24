@@ -46,7 +46,7 @@ $(function() {
 		 * @param line {Number}
 		 */
 		window.onerror = function(error, url, line) {
-			if ( POTATO.PROFILE.reclaim ) {
+			if ( POTATO.PROFILE.RECLAIM ) {
 				$.post(POTATO.AJAJ_DOMAIN + 'error', {
 					error : error,
 					line : line,
@@ -73,7 +73,7 @@ $(function() {
 			var page = $('body').addClass('ui-helper-hidden');
 
 			// Localize
-			var locale = POTATO.L10N[POTATO.PROFILE.locale];
+			var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 			$('title').text(locale.title);
 			page.html(POTATO.replace(POTATO.TEMPLATE, locale));
 
@@ -92,7 +92,7 @@ $(function() {
 			});
 
 			// Footer
-			$('#version').text(POTATO.PROFILE.version);
+			$('#version').text(POTATO.PROFILE.VERSION);
 
 			// Left side panel
 			new pSeason('summer');

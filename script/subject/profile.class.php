@@ -11,12 +11,12 @@ class profile extends \subject {
 	 */
 	public function __toString() {
 		$profile = array(
-			'locale' => 'en_US',
+			'LOCALE' => 'en_US',
 		);
 		$all_constants = get_defined_constants( true );
 		foreach ( $all_constants['user'] as $name => $value ) {
 			if ( preg_match( '#\bPROFILE_(?P<name>\w+)$#', $name, $match ) ) {
-				$profile[strtolower( $match['name'] )] = $value;
+				$profile[$match['name']] = $value;
 			}
 		}
 		return json_encode( $profile );
