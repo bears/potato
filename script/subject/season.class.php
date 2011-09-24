@@ -13,7 +13,7 @@ class season extends \subject {
 		//setcookie('hello', 'world', 0, '/');
 		$season = array_shift( $this->segments );
 		$offset = 0; //array_shift( $this->segments );
-		$aggregate = \aggregate\potato::tuber( $season, $offset );
+		$aggregate = \aggregate\potato::tubers( $season, $offset );
 		$tubers = new \decoration\potato\tuber\aggregate( $aggregate );
 		$content = array(
 			\decoration\individual::UUID_KEY => $season,

@@ -15,7 +15,6 @@ class tuber extends \decoration\individual {
 		$vessel[self::subject()] = array(
 			$ab( 'brand' ) => $this->data->brand,
 			$ab( 'label' ) => $this->data->label,
-			$ab( 'weight' ) => $this->data->weight,
 		);
 		return $vessel;
 	}

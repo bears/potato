@@ -71,7 +71,7 @@ abstract class aggregate implements \IteratorAggregate {
 	 */
 	private static function select_query( $aggregate, $method, array &$arguments ) {
 		$real_name = str_replace( '^aggregate\\', '', '^' . $aggregate );
-		$function = str_replace( '\\', '"."', "\"$real_name.$method\"" );
+		$function = str_replace( '\\', '"."', "\"$real_name::$method\"" );
 		$amount = count( $arguments );
 		$key = "$function@$amount";
 		if ( !isset( self::$select_pool[$key] ) ) {
