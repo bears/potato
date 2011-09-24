@@ -7,7 +7,7 @@ namespace test\exception;
 class system_error extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * @covers \exception\system_error::trigger
+	 * @covers	\exception\system_error::trigger
 	 *
 	 * @expectedException			\exception\system_error
 	 * @expectedExceptionCode		123456

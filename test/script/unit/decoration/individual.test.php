@@ -1,85 +1,50 @@
 <?php
-namespace test\decoration {
+namespace test\decoration;
+
+require_once dirname( __FILE__ ) . '/dummy.fake.php';
+
+/**
+ * Test class for \decoration\individual.
+ */
+class individual extends \PHPUnit_Framework_TestCase {
+
+	const UUID_PRESENCE = '41a6a078-1d29-ad6c-bdea-4a8ed1e5a63b';
 
 	/**
-	 * Test class for \decoration\individual.
+	 * @covers	\decoration\individual::content
 	 */
-	class individual extends \PHPUnit_Framework_TestCase {
-
-		/**
-		 * @covers \decoration\individual::content
-		 */
-		public function test_content() {
-			$content = $this->object->content();
-			$key = \decoration\individual::UUID_KEY;
-
-			$this->assertArrayHasKey( $key, $content );
-			$this->assertEquals( \individual\unittest::FIXED_UUID, $content[$key] );
-
-			$this->assertTrue( $content['unittest']['dummy'] );
-		}
-
-		/**
-		 * @covers	\decoration\individual::__toString
-		 * @depends	test_content
-		 */
-		public function test__toString() {
-			$refer = '{"$":"' . \individual\unittest::FIXED_UUID . '","unittest":{"dummy":true}}';
-			$this->assertEquals( $refer, "{$this->object}" );
-		}
-
-		/**
-		 * @covers	\decoration\individual::subject
-		 */
-		public function test_subject() {
-			$this->assertEquals( 'unittest', $this->object->subject() );
-		}
-
-		/**
-		 * Sets up the fixture, for example, opens a network connection.
-		 * This method is called before a test is executed.
-		 */
-		protected function setUp() {
-			$this->object = new \decoration\unittest( new \individual\unittest() );
-		}
-
-		/**
-		 * Tears down the fixture, for example, closes a network connection.
-		 * This method is called after a test is executed.
-		 */
-		protected function tearDown() {
-			// Nothing...
-		}
-
-		/**
-		 * @var \decoration\individual
-		 */
-		protected $object;
-
+	public function test_content() {
+		$content = $this->fixture->content();
+		$this->assertArrayHasKey( \decoration\individual::UUID_KEY, $content );
+		$this->assertArrayHasKey( 'dummy', $content );
+		$this->assertTrue( is_array( $content['dummy'] ) );
+		$this->assertArrayHasKey( 'b', $content['dummy'] );
+		$this->assertArrayHasKey( 'i', $content['dummy'] );
 	}
 
-}
-namespace decoration {
-
-	class unittest extends individual {
-
-		public function content( array &$vessel = array( ) ) {
-			parent::content( $vessel );
-			$vessel['unittest'] = array( 'dummy' => true );
-			return $vessel;
-		}
-
+	/**
+	 * @covers	\decoration\individual::__toString
+	 * @depends	test_content
+	 */
+	public function test__toString() {
+		$recover = json_decode( "{$this->fixture}", true );
+		$this->assertEquals( $recover, $this->fixture->content() );
 	}
 
-}
-namespace individual {
-
-	class unittest extends \database\individual {
-
-		const FIXED_UUID = 'aa2c5224-5171-4d3f-8d37-94c426cbb4d8';
-
-		protected $uuid = self::FIXED_UUID;
-
+	/**
+	 * @covers	\decoration\individual::subject
+	 */
+	public function test_subject() {
+		$this->assertEquals( 'dummy', $this->fixture->subject() );
 	}
+
+	protected function setUp() {
+		$this->fixture = new \decoration\dummy( \individual\dummy::select( self::UUID_PRESENCE ) );
+	}
+
+	/**
+	 * @var \decoration\individual
+	 */
+	protected $fixture;
 
 }

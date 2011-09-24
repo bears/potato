@@ -9,21 +9,6 @@ class individual extends \PHPUnit_Framework_TestCase {
 	const UUID_FORMAT = '%x-%x-%x-%x-%x';
 	const UUID_PRESENCE = '41a6a078-1d29-ad6c-bdea-4a8ed1e5a63b';
 
-	public function setUp() {
-		\database\connection::get_pdo()->exec( 'START TRANSACTION' );
-
-		$this->fixture = new \individual\dummy();
-		$this->fixture->b = true;
-		$this->fixture->i = 1000;
-		$this->fixture->t = gmdate( 'c' );
-		$this->fixture->s = __CLASS__;
-		$this->fixture->save();
-	}
-
-	public function tearDown() {
-		\database\connection::get_pdo()->exec( 'ROLLBACK' );
-	}
-
 	/**
 	 * @covers	\database\individual::save
 	 */
@@ -64,6 +49,21 @@ class individual extends \PHPUnit_Framework_TestCase {
 		$another = clone $this->fixture;
 		$this->assertNull( $another->uuid() );
 		$this->assertNotSame( $another->uuid(), $this->fixture->uuid() );
+	}
+
+	protected function setUp() {
+		\database\connection::get_pdo()->exec( 'START TRANSACTION' );
+
+		$this->fixture = new \individual\dummy();
+		$this->fixture->b = true;
+		$this->fixture->i = 1000;
+		$this->fixture->t = gmdate( 'c' );
+		$this->fixture->s = __CLASS__;
+		$this->fixture->save();
+	}
+
+	protected function tearDown() {
+		\database\connection::get_pdo()->exec( 'ROLLBACK' );
 	}
 
 	/**
