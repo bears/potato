@@ -1,14 +1,10 @@
 <?php
 namespace test\decoration;
 
-require_once dirname( __FILE__ ) . '/dummy.fake.php';
-
 /**
  * Test class for \decoration\individual.
  */
 class individual extends \PHPUnit_Framework_TestCase {
-
-	const UUID_PRESENCE = '41a6a078-1d29-ad6c-bdea-4a8ed1e5a63b';
 
 	/**
 	 * @covers	\decoration\individual::content
@@ -16,10 +12,8 @@ class individual extends \PHPUnit_Framework_TestCase {
 	public function test_content() {
 		$content = $this->fixture->content();
 		$this->assertArrayHasKey( \decoration\individual::UUID_KEY, $content );
-		$this->assertArrayHasKey( 'dummy', $content );
-		$this->assertTrue( is_array( $content['dummy'] ) );
-		$this->assertArrayHasKey( 'b', $content['dummy'] );
-		$this->assertArrayHasKey( 'i', $content['dummy'] );
+		$this->assertArrayHasKey( 'tuber', $content );
+		$this->assertTrue( is_array( $content['tuber'] ) );
 	}
 
 	/**
@@ -35,15 +29,30 @@ class individual extends \PHPUnit_Framework_TestCase {
 	 * @covers	\decoration\individual::subject
 	 */
 	public function test_subject() {
-		$this->assertEquals( 'dummy', $this->fixture->subject() );
+		$this->assertEquals( 'tuber', $this->fixture->subject() );
 	}
 
 	protected function setUp() {
-		$this->fixture = new \decoration\dummy( \individual\dummy::select( self::UUID_PRESENCE ) );
+		\database\connection::get_pdo()->exec( 'START TRANSACTION' );
+
+		$potato = new \individual\potato();
+		$potato->brand = 2;
+		$potato->label = __METHOD__;
+		$potato->season = 'spring';
+		$potato->weight = 0.9876;
+		$potato->variety = __FILE__;
+		$potato->seeding = gmdate( 'c' );
+		$potato->save();
+
+		$this->fixture = new \decoration\potato\tuber( $potato );
+	}
+
+	protected function tearDown() {
+		\database\connection::get_pdo()->exec( 'ROLLBACK' );
 	}
 
 	/**
-	 * @var \decoration\individual
+	 * @var \decoration\potato\tuber
 	 */
 	protected $fixture;
 

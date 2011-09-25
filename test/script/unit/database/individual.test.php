@@ -7,17 +7,23 @@ namespace test\database;
 class individual extends \PHPUnit_Framework_TestCase {
 
 	const UUID_FORMAT = '%x-%x-%x-%x-%x';
-	const UUID_PRESENCE = '41a6a078-1d29-ad6c-bdea-4a8ed1e5a63b';
+	const UUID_TEST = '00000000-0000-0000-0000-000000000000';
+
+	/**
+	 * @covers	\database\aggregate::save
+	 */
+	public function assertPreConditions() {
+		$this->assertNull( $this->fixture->uuid() );
+		$this->fixture->save();
+		$this->assertStringMatchesFormat( self::UUID_FORMAT, $this->fixture->uuid() );
+	}
 
 	/**
 	 * @covers	\database\individual::save
 	 */
 	public function test_save() {
 		$uuid = $this->fixture->uuid();
-		$this->assertEquals( 36, strlen( $uuid ) );
-		$this->assertStringMatchesFormat( self::UUID_FORMAT, $uuid );
-
-		$this->fixture->s = 'Truly';
+		$this->fixture->label = __METHOD__;
 		$this->fixture->save();
 		$this->assertSame( $uuid, $this->fixture->uuid() );
 	}
@@ -28,10 +34,10 @@ class individual extends \PHPUnit_Framework_TestCase {
 	 * @expectedException	exception\database\expired_updating
 	 */
 	public function test_expired_save() {
+		$this->fixture->harvest = gmdate( 'c' );
 		$copy = unserialize( serialize( $this->fixture ) );
-		$this->fixture->t = gmdate( 'c' );
 		$this->fixture->save();
-		$copy->b = false;
+		$copy->harvest = '2012-12-21T12:34:56.789Z';
 		$copy->save();
 	}
 
@@ -59,10 +65,11 @@ class individual extends \PHPUnit_Framework_TestCase {
 	 * @depends	test_save
 	 */
 	public function test_select() {
-		$fetched = \individual\dummy::select( $this->fixture->uuid() );
+		$fetched = \individual\potato::select( $this->fixture->uuid() );
 		$this->assertSame( $this->fixture, $fetched );
 
-		$another = \individual\dummy::select( self::UUID_PRESENCE );
+		$another = \individual\potato::select( self::UUID_TEST );
+		$this->assertInstanceOf( '\individual\potato', $another );
 		$this->assertNotSame( $this->fixture, $another );
 	}
 
@@ -72,18 +79,20 @@ class individual extends \PHPUnit_Framework_TestCase {
 	public function test__clone() {
 		$another = clone $this->fixture;
 		$this->assertNull( $another->uuid() );
+		$another->save();
 		$this->assertNotSame( $another->uuid(), $this->fixture->uuid() );
 	}
 
 	protected function setUp() {
 		\database\connection::get_pdo()->exec( 'START TRANSACTION' );
 
-		$this->fixture = new \individual\dummy();
-		$this->fixture->b = true;
-		$this->fixture->i = 1000;
-		$this->fixture->t = gmdate( 'c' );
-		$this->fixture->s = __CLASS__;
-		$this->fixture->save();
+		$this->fixture = new \individual\potato();
+		$this->fixture->brand = 2;
+		$this->fixture->label = __METHOD__;
+		$this->fixture->season = 'spring';
+		$this->fixture->weight = 0.9876;
+		$this->fixture->variety = __FILE__;
+		$this->fixture->seeding = gmdate( 'c' );
 	}
 
 	protected function tearDown() {
@@ -91,7 +100,7 @@ class individual extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @var \individual\dummy
+	 * @var \individual\potato
 	 */
 	private $fixture;
 

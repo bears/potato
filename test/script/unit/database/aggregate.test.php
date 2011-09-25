@@ -12,8 +12,8 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 	 * @covers	\database\aggregate::__callStatic
 	 */
 	public function assertPreConditions() {
-		$this->fixture = \aggregate\dummy::top5();
-		$this->assertInstanceOf( '\aggregate\dummy', $this->fixture );
+		$this->fixture = \aggregate\potato::tubers( 'summer', 0 );
+		$this->assertInstanceOf( '\aggregate\potato', $this->fixture );
 	}
 
 	/**
@@ -22,7 +22,7 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 	public function test_getIterator() {
 		$count = 0;
 		foreach ( $this->fixture as $object ) {
-			$this->assertInstanceOf( '\individual\dummy', $object );
+			$this->assertInstanceOf( '\individual\potato', $object );
 			++$count;
 		}
 		$this->assertGreaterThan( 0, $count );
@@ -33,9 +33,9 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 	 * @covers	\database\aggregate::fetch
 	 */
 	public function test_cache_and_fetch() {
-		$this->assertNull( \aggregate\dummy::fetch( self::TEST_CACHE_KEY ) );
-		\aggregate\dummy::cache( self::TEST_CACHE_KEY, $this->fixture );
-		$this->assertSame( $this->fixture, \aggregate\dummy::fetch( self::TEST_CACHE_KEY ) );
+		$this->assertNull( \aggregate\potato::fetch( self::TEST_CACHE_KEY ) );
+		\aggregate\potato::cache( self::TEST_CACHE_KEY, $this->fixture );
+		$this->assertSame( $this->fixture, \aggregate\potato::fetch( self::TEST_CACHE_KEY ) );
 		$this->assertNotSame( $this->fixture, \aggregate\dolt::fetch( self::TEST_CACHE_KEY ) );
 	}
 
@@ -43,25 +43,25 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 	 * @covers	\database\aggregate::cache
 	 *
 	 * @expectedException			\exception\conflict_cache
-	 * @expectedExceptionMessage	aggregate\dummy#TEST_CACHE_KEY
+	 * @expectedExceptionMessage	aggregate\potato#TEST_CACHE_KEY
 	 */
 	public function test_duplicated_cache() {
-		\aggregate\dummy::cache( self::TEST_CACHE_KEY, $this->fixture );
-		\aggregate\dummy::cache( self::TEST_CACHE_KEY, $this->fixture );
+		\aggregate\potato::cache( self::TEST_CACHE_KEY, $this->fixture );
+		\aggregate\potato::cache( self::TEST_CACHE_KEY, $this->fixture );
 	}
 
 	/**
 	 * @covers	\database\aggregate::cache
 	 *
 	 * @expectedException			exception\failed_assertion
-	 * @expectedExceptionMessage	aggregate\dummy
+	 * @expectedExceptionMessage	aggregate\potato
 	 */
 	public function test_missmatched_cache() {
 		\aggregate\dolt::cache( self::TEST_CACHE_KEY, $this->fixture );
 	}
 
 	/**
-	 * @var \aggregate\dummy
+	 * @var \aggregate\potato
 	 */
 	private $fixture;
 
