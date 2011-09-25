@@ -7,7 +7,7 @@ namespace subject;
 class profile extends \subject {
 
 	/**
-	 * @return JavaScript file.
+	 * @return JSON
 	 */
 	public function __toString() {
 		$profile = array(

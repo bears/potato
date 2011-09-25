@@ -41,6 +41,15 @@ abstract class individual {
 	}
 
 	/**
+	 * Get abbreviation for derived class.
+	 * @return \famulus\ab
+	 */
+	protected static function ab() {
+		$class = str_replace( '^decoration\\', 'ab\\', '^' . get_called_class() );
+		return $class::instance();
+	}
+
+	/**
 	 * The object holds the base information.
 	 * @var \database\individual
 	 */

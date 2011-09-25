@@ -11,8 +11,8 @@ class stock extends \decoration\potato\tuber {
 	 */
 	public function content( array &$vessel = array( ) ) {
 		parent::content( $vessel );
-		$ab = \ab\potato\stock::instance();
-		$vessel[self::subject()] = array(
+		$ab = parent::ab();
+		$vessel[parent::subject()] = array(
 			$ab( 'season' ) => $this->data->season,
 			$ab( 'weight' ) => $this->data->weight,
 			$ab( 'variety' ) => $this->data->variety,

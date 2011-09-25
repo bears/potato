@@ -11,8 +11,8 @@ class tuber extends \decoration\individual {
 	 */
 	public function content( array &$vessel = array( ) ) {
 		parent::content( $vessel );
-		$ab = \ab\potato\season::instance();
-		$vessel[self::subject()] = array(
+		$ab = parent::ab();
+		$vessel[parent::subject()] = array(
 			$ab( 'brand' ) => $this->data->brand,
 			$ab( 'label' ) => $this->data->label,
 		);

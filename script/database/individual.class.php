@@ -132,7 +132,7 @@ abstract class individual {
 
 	/**
 	 * Complement fields and cache of a new added object.
-	 * @param PDOStatement $query
+	 * @param \PDOStatement $query
 	 */
 	private function complement( \PDOStatement $query ) {
 		foreach ( $query->fetch() as $field => $value ) {
@@ -178,7 +178,7 @@ abstract class individual {
 
 	/**
 	 * Bind parameters to prepared query.
-	 * @param PDOStatement $query
+	 * @param \PDOStatement $query
 	 * @param array $values
 	 */
 	private static function assign( \PDOStatement $query, array $values ) {
@@ -198,7 +198,7 @@ abstract class individual {
 	/**
 	 * Get prepared query to insert data.
 	 * @param array $names
-	 * @return PDOStatement
+	 * @return \PDOStatement
 	 */
 	private static function insert_query( $domain, array &$names ) {
 		$holder = implode( ',:', $names );
@@ -216,7 +216,7 @@ abstract class individual {
 	/**
 	 * Get prepared query to update data.
 	 * @param array $names
-	 * @return PDOStatement
+	 * @return \PDOStatement
 	 */
 	private static function update_query( $domain, array &$names ) {
 		$key = $domain . crc32( implode( ',', $names ) );
@@ -233,7 +233,7 @@ abstract class individual {
 
 	/**
 	 * Get prepared query to delete data.
-	 * @return PDOStatement
+	 * @return \PDOStatement
 	 */
 	private static function delete_query() {
 		$domain = self::domain();
@@ -246,7 +246,7 @@ abstract class individual {
 
 	/**
 	 * Get prepared query to select data.
-	 * @return PDOStatement
+	 * @return \PDOStatement
 	 */
 	private static function select_query() {
 		$domain = self::domain();
@@ -287,7 +287,7 @@ abstract class individual {
 
 	/**
 	 * Cached prepared query.
-	 * @var array(PDOStatement)
+	 * @var array(\PDOStatement)
 	 */
 	//@{
 	private static $insert_pool = array( );

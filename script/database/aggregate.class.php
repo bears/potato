@@ -8,7 +8,7 @@ abstract class aggregate implements \IteratorAggregate {
 
 	/**
 	 * Required by \IteratorAggregate.
-	 * @return ArrayIterator
+	 * @return \ArrayIterator
 	 */
 	public function getIterator() {
 		return new \ArrayIterator( $this->objects );
@@ -79,7 +79,7 @@ abstract class aggregate implements \IteratorAggregate {
 	 * @param string $aggregate
 	 * @param string $method
 	 * @param array $arguments
-	 * @return PDOStatement
+	 * @return \PDOStatement
 	 */
 	private static function select_query( $aggregate, $method, array &$arguments ) {
 		$real_name = str_replace( '^aggregate\\', '', '^' . $aggregate );
@@ -109,7 +109,7 @@ abstract class aggregate implements \IteratorAggregate {
 
 	/**
 	 * Cached prepared query.
-	 * @var array(PDOStatement)
+	 * @var array(\PDOStatement)
 	 */
 	private static $select_pool = array( );
 

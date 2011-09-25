@@ -10,7 +10,7 @@ class connection {
 
 	/**
 	 * Get PDO object
-	 * @return PDO
+	 * @return \PDO
 	 */
 	public static function get_pdo() {
 		if ( !is_a( self::$pdo, 'PDO' ) ) {
