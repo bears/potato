@@ -35,15 +35,21 @@ abstract class individual {
 		$names = array_keys( $vars );
 
 		if ( $exist ) {
+			$action = 'updating';
 			$query = self::update_query( $domain, $names );
 		}
 		else {
+			$action = 'inserting';
 			$query = self::insert_query( $domain, $names );
 			$properties[':uuid'] = md5( uniqid( $domain ) );
 			$properties[':lock'] = 1;
 		}
 
 		if ( $query->execute( $properties ) ) {
+			if ( 0 == $query->rowCount() ) {
+				$exception = "\\exception\\database\\expired_$action";
+				throw new $exception( "$domain#{$this->uuid}" );
+			}
 			if ( $exist ) {
 				++$this->lock;
 			}
@@ -57,7 +63,7 @@ abstract class individual {
 		}
 		else {
 			$error = $query->errorInfo();
-			$exception = '\exception\database\failed_' . ($exist ? 'update' : 'insert');
+			$exception = "\\exception\\database\\failed_$action";
 			throw new $exception( $error[2], $error[1] );
 		}
 	}
@@ -77,7 +83,7 @@ abstract class individual {
 		}
 		else {
 			$error = $query->errorInfo();
-			throw new \exception\database\failed_delete( $error[2], $error[1] );
+			throw new \exception\database\failed_deleting( $error[2], $error[1] );
 		}
 	}
 
@@ -96,7 +102,7 @@ abstract class individual {
 			}
 			else {
 				$error = $query->errorInfo();
-				throw new \exception\database\failed_select( $error[2], $error[1] );
+				throw new \exception\database\failed_selecting( $error[2], $error[1] );
 			}
 		}
 		return self::$object_pool[$key];

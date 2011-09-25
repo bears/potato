@@ -27,7 +27,7 @@ class subject {
 		assert( "(''=='$futile')&&preg_match('#^\w+$#','$subject')" );
 
 		header( 'Content-Type: application/json' );
-		$dispatcher = "\subject\\$subject";
+		$dispatcher = "\\subject\\$subject";
 		echo new $dispatcher( $segments );
 	}
 

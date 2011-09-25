@@ -23,6 +23,19 @@ class individual extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @covers	\database\individual::save
+	 *
+	 * @expectedException	exception\database\expired_updating
+	 */
+	public function test_expired_save() {
+		$copy = unserialize( serialize( $this->fixture ) );
+		$this->fixture->t = gmdate( 'c' );
+		$this->fixture->save();
+		$copy->t = gmdate( 'c' );
+		$copy->save();
+	}
+
+	/**
 	 * @covers	\database\individual::delete
 	 */
 	public function test_delete() {

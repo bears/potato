@@ -61,7 +61,7 @@ abstract class aggregate implements \IteratorAggregate {
 		}
 		else {
 			$error = $query->errorInfo();
-			throw new \exception\database\failed_select( $error[2], $error[1] );
+			throw new \exception\database\failed_selecting( $error[2], $error[1] );
 		}
 	}
 
@@ -89,7 +89,7 @@ abstract class aggregate implements \IteratorAggregate {
 		if ( !isset( self::$select_pool[$key] ) ) {
 			$holders = $amount ? ('?' . str_repeat( ',?', $amount - 1 )) : '';
 			$query = connection::get_pdo()->prepare( "SELECT * FROM $function($holders)" );
-			$query->setFetchMode( \PDO::FETCH_CLASS, "\individual\\$real_name" );
+			$query->setFetchMode( \PDO::FETCH_CLASS, "\\individual\\$real_name" );
 			self::$select_pool[$key] = $query;
 		}
 		return self::$select_pool[$key];
