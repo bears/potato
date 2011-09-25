@@ -57,12 +57,15 @@ abstract class individual {
 	 * Delete this object from database.
 	 */
 	public function delete() {
-		unset( self::$object_pool[$this->key()] );
-
+		$key = $this->key();
 		$query = self::delete_query();
 		$arguments = array( ':uuid' => $this->uuid, ':lock' => $this->lock );
 
 		if ( $query->execute( $arguments ) ) {
+			if ( 0 == $query->rowCount() ) {
+				throw new \exception\database\expired_deleting( $key );
+			}
+			unset( self::$object_pool[$key] );
 			$this->uuid = null;
 			$this->lock = null;
 		}

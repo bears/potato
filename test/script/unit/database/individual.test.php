@@ -44,6 +44,17 @@ class individual extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @covers	\database\individual::delete
+	 *
+	 * @expectedException	exception\database\expired_deleting
+	 */
+	public function test_expired_delete() {
+		$copy = unserialize( serialize( $this->fixture ) );
+		$this->fixture->delete();
+		$copy->delete();
+	}
+
+	/**
 	 * @covers	\database\individual::select
 	 * @depends	test_save
 	 */
