@@ -31,7 +31,7 @@ class individual extends \PHPUnit_Framework_TestCase {
 		$copy = unserialize( serialize( $this->fixture ) );
 		$this->fixture->t = gmdate( 'c' );
 		$this->fixture->save();
-		$copy->t = gmdate( 'c' );
+		$copy->b = false;
 		$copy->save();
 	}
 

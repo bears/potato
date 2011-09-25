@@ -25,14 +25,7 @@ abstract class individual {
 	public function save() {
 		$domain = self::domain();
 		$exist = isset( $this->uuid );
-
-		$vars = get_object_vars( $this );
-		$properties = array( );
-		foreach ( $vars as $field => $value ) {
-			$properties[":$field"] = $value;
-		}
-		unset( $vars['uuid'], $vars['lock'] );
-		$names = array_keys( $vars );
+		self::discrete( get_object_vars( $this ), $names, $values );
 
 		if ( $exist ) {
 			$action = 'updating';
@@ -41,25 +34,17 @@ abstract class individual {
 		else {
 			$action = 'inserting';
 			$query = self::insert_query( $domain, $names );
-			$properties[':uuid'] = md5( uniqid( $domain ) );
-			$properties[':lock'] = 1;
+			$values[':uuid'] = md5( uniqid( $domain ) );
+			$values[':lock'] = 1;
 		}
 
-		if ( $query->execute( $properties ) ) {
+		self::assign( $query, $values );
+		if ( $query->execute() ) {
 			if ( 0 == $query->rowCount() ) {
 				$exception = "\\exception\\database\\expired_$action";
 				throw new $exception( "$domain#{$this->uuid}" );
 			}
-			if ( $exist ) {
-				++$this->lock;
-			}
-			else {
-				foreach ( $query->fetch() as $field => $value ) {
-					$this->$field = $value;
-				}
-				$query->closeCursor();
-				self::$object_pool[$this->key()] = $this;
-			}
+			$exist ? ++$this->lock : self::complement( $query );
 		}
 		else {
 			$error = $query->errorInfo();
@@ -143,6 +128,18 @@ abstract class individual {
 	}
 
 	/**
+	 * Complement fields and cache of a new added object.
+	 * @param PDOStatement $query
+	 */
+	private function complement( \PDOStatement $query ) {
+		foreach ( $query->fetch() as $field => $value ) {
+			$this->$field = $value;
+		}
+		$query->closeCursor();
+		self::$object_pool[$this->key()] = $this;
+	}
+
+	/**
 	 * Get cache key of this object.
 	 * @return string
 	 */
@@ -159,6 +156,40 @@ abstract class individual {
 		assert( "'$uuid'" );
 
 		return self::domain() . "#$uuid";
+	}
+
+	/**
+	 * Discrete property pairs to names and values
+	 * @param array $properties
+	 * @param array $names [OUT]
+	 * @param array $values [OUT]
+	 */
+	private static function discrete( array $properties, &$names, &$values ) {
+		$values = array( );
+		foreach ( $properties as $field => $value ) {
+			$values[":$field"] = $value;
+		}
+		unset( $properties['uuid'], $properties['lock'] );
+		$names = array_keys( $properties );
+	}
+
+	/**
+	 * Bind parameters to prepared query.
+	 * @param PDOStatement $query
+	 * @param array $values
+	 */
+	private static function assign( \PDOStatement $query, array $values ) {
+		foreach ( $values as $bind => $value ) {
+			if ( is_int( $value ) )
+				$type = \PDO::PARAM_INT;
+			elseif ( is_bool( $value ) )
+				$type = \PDO::PARAM_BOOL;
+			elseif ( is_null( $value ) )
+				$type = \PDO::PARAM_NULL;
+			else
+				$type = \PDO::PARAM_STR;
+			$query->bindValue( $bind, $value, $type );
+		}
 	}
 
 	/**
