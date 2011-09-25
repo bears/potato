@@ -33,10 +33,10 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 	 * @covers	\database\aggregate::fetch
 	 */
 	public function test_cache_and_fetch() {
-		$this->assertNull( \database\aggregate::fetch( self::TEST_CACHE_KEY ) );
-		\database\aggregate::cache( self::TEST_CACHE_KEY, $this->fixture );
-		$fetched = \database\aggregate::fetch( self::TEST_CACHE_KEY );
-		$this->assertSame( $this->fixture, $fetched );
+		$this->assertNull( \aggregate\dummy::fetch( self::TEST_CACHE_KEY ) );
+		\aggregate\dummy::cache( self::TEST_CACHE_KEY, $this->fixture );
+		$this->assertSame( $this->fixture, \aggregate\dummy::fetch( self::TEST_CACHE_KEY ) );
+		$this->assertNotSame( $this->fixture, \aggregate\dolt::fetch( self::TEST_CACHE_KEY ) );
 	}
 
 	/**
@@ -46,12 +46,22 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionMessage	aggregate\dummy#TEST_CACHE_KEY
 	 */
 	public function test_duplicated_cache() {
-		\database\aggregate::cache( self::TEST_CACHE_KEY, $this->fixture );
-		\database\aggregate::cache( self::TEST_CACHE_KEY, $this->fixture );
+		\aggregate\dummy::cache( self::TEST_CACHE_KEY, $this->fixture );
+		\aggregate\dummy::cache( self::TEST_CACHE_KEY, $this->fixture );
 	}
 
 	/**
-	 * @var \aggregate\unit
+	 * @covers	\database\aggregate::cache
+	 *
+	 * @expectedException			exception\failed_assert
+	 * @expectedExceptionMessage	aggregate\dummy
+	 */
+	public function test_missmatched_cache() {
+		\aggregate\dolt::cache( self::TEST_CACHE_KEY, $this->fixture );
+	}
+
+	/**
+	 * @var \aggregate\dummy
 	 */
 	private $fixture;
 

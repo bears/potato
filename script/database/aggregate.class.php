@@ -20,12 +20,14 @@ abstract class aggregate implements \IteratorAggregate {
 	 * @param aggregate $value
 	 */
 	public static function cache( $key, aggregate $value ) {
-		if ( isset( self::$gather_pool[$key] ) ) {
-			$class = get_class( $value );
-			throw new \exception\conflict_cache( "$class#$key" );
+		assert( 'get_called_class()=="' . get_class( $value ) . '"' );
+
+		$index = self::index( $key );
+		if ( isset( self::$gather_pool[$index] ) ) {
+			throw new \exception\conflict_cache( $index );
 		}
 		else {
-			self::$gather_pool[$key] = $value;
+			self::$gather_pool[$index] = $value;
 		}
 	}
 
@@ -35,8 +37,9 @@ abstract class aggregate implements \IteratorAggregate {
 	 * @return aggregate
 	 */
 	public static function fetch( $key ) {
-		if ( isset( self::$gather_pool[$key] ) ) {
-			return self::$gather_pool[$key];
+		$index = self::index( $key );
+		if ( isset( self::$gather_pool[$index] ) ) {
+			return self::$gather_pool[$index];
 		}
 	}
 
@@ -60,6 +63,15 @@ abstract class aggregate implements \IteratorAggregate {
 			$error = $query->errorInfo();
 			throw new \exception\database\failed_select( $error[2], $error[1] );
 		}
+	}
+
+	/**
+	 * Generate an index for cache
+	 * @param string $key
+	 * @return string
+	 */
+	private static function index( $key ) {
+		return get_called_class() . "#$key";
 	}
 
 	/**
