@@ -11,7 +11,7 @@ class individual extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_content() {
 		$content = $this->fixture->content();
-		$this->assertArrayHasKey( \decoration\individual::UUID_KEY, $content );
+		$this->assertArrayHasKey( \famulus\ab::KEY_UUID, $content );
 		$this->assertArrayHasKey( 'tuber', $content );
 		$this->assertTrue( is_array( $content['tuber'] ) );
 	}
@@ -23,13 +23,6 @@ class individual extends \PHPUnit_Framework_TestCase {
 	public function test__toString() {
 		$recover = json_decode( "{$this->fixture}", true );
 		$this->assertEquals( $recover, $this->fixture->content() );
-	}
-
-	/**
-	 * @covers	\decoration\individual::subject
-	 */
-	public function test_subject() {
-		$this->assertEquals( 'tuber', $this->fixture->subject() );
 	}
 
 	protected function setUp() {

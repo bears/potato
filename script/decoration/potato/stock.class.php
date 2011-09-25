@@ -7,19 +7,9 @@ namespace decoration\potato;
 class stock extends \decoration\potato\tuber {
 
 	/**
-	 * @see \decoration\individual::content
+	 * Required by parent::trivial().
+	 * @var array(string)
 	 */
-	public function content( array &$vessel = array( ) ) {
-		parent::content( $vessel );
-		$ab = parent::ab();
-		$vessel[parent::subject()] = array(
-			$ab( 'season' ) => $this->data->season,
-			$ab( 'weight' ) => $this->data->weight,
-			$ab( 'variety' ) => $this->data->variety,
-			$ab( 'seeding' ) => $this->data->seeding,
-			$ab( 'harvest' ) => $this->data->harvest,
-		);
-		return $vessel;
-	}
+	protected static $fields = array( 'season', 'weight', 'variety', 'seeding', 'harvest' );
 
 }

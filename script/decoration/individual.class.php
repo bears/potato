@@ -6,8 +6,6 @@ namespace decoration;
  */
 abstract class individual {
 
-	const UUID_KEY = '$';
-
 	public function __construct( \database\individual $object ) {
 		$this->data = $object;
 	}
@@ -21,23 +19,30 @@ abstract class individual {
 
 	/**
 	 * Derived class MUST override this method.
-	 * @param array $vessel
+	 * @param array $vessel [IN|OUT]
 	 * @return array
 	 */
-	public function content( array &$vessel = array( ) ) {
-		$vessel[self::UUID_KEY] = $this->data->uuid();
+	public function & content( array &$vessel = array( ) ) {
+		$vessel[\famulus\ab::KEY_UUID] = $this->data->uuid();
+		self::trivial( $vessel );
 		return $vessel;
 	}
 
 	/**
-	 * Get default subject name from derived class name.
-	 * @return string
+	 * Default/common way to append data in the final result.
+	 * @param array $vessel [IN|OUT]
+	 * @return array
 	 */
-	public static function subject() {
-		$class = get_called_class();
-		$split = strrpos( $class, '\\' );
-		$split = $split ? $split + 1 : 0;
-		return substr( $class, $split );
+	protected function & trivial( array &$vessel = array( ) ) {
+		if ( !empty( static::$fields ) ) {
+			$data = array( );
+			$ab = self::ab();
+			foreach ( static::$fields as $field ) {
+				$data[$ab( $field )] = $this->data->$field;
+			}
+			$vessel[$ab->subject()] = $data;
+		}
+		return $vessel;
 	}
 
 	/**
@@ -54,5 +59,11 @@ abstract class individual {
 	 * @var \database\individual
 	 */
 	protected $data;
+
+	/**
+	 * Required by trivial().
+	 * @var array(string)
+	 */
+	protected static $fields = array( );
 
 }

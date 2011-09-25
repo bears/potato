@@ -13,7 +13,7 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 		$content = $this->fixture->content();
 		$this->assertTrue( is_array( $content ) );
 		foreach ( $content as $item ) {
-			$this->assertArrayHasKey( \decoration\individual::UUID_KEY, $item );
+			$this->assertArrayHasKey( \famulus\ab::KEY_UUID, $item );
 		}
 	}
 

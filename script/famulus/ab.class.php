@@ -6,6 +6,8 @@ namespace famulus;
  */
 abstract class ab {
 
+	const KEY_UUID = '$';
+
 	/**
 	 * Translate the key to the other half.
 	 * @param string $key
@@ -14,6 +16,17 @@ abstract class ab {
 	 */
 	public function __invoke( $key ) {
 		return isset( $this->map[$key] ) ? $this->map[$key] : $key;
+	}
+
+	/**
+	 * Get default subject name from derived class name.
+	 * @return string
+	 */
+	public function subject() {
+		$class = get_called_class();
+		$split = strrpos( $class, '\\' );
+		$split = $split ? $split + 1 : 0;
+		return substr( $class, $split );
 	}
 
 	/**
