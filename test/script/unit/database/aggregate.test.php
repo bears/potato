@@ -53,7 +53,7 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @covers	\database\aggregate::cache
 	 *
-	 * @expectedException			exception\failed_assert
+	 * @expectedException			exception\failed_assertion
 	 * @expectedExceptionMessage	aggregate\dummy
 	 */
 	public function test_missmatched_cache() {
