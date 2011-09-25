@@ -7,7 +7,7 @@ namespace test\database;
 class individual extends \PHPUnit_Framework_TestCase {
 
 	const UUID_FORMAT = '%x-%x-%x-%x-%x';
-	const UUID_TEST = '00000000-0000-0000-0000-000000000000';
+	const UUID_PRIMITIVE = '00000000-0000-0000-0000-000000000000';
 
 	/**
 	 * @covers	\database\aggregate::save
@@ -62,15 +62,22 @@ class individual extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @covers	\database\individual::select
-	 * @depends	test_save
 	 */
 	public function test_select() {
 		$fetched = \individual\potato::select( $this->fixture->uuid() );
 		$this->assertSame( $this->fixture, $fetched );
 
-		$another = \individual\potato::select( self::UUID_TEST );
+		$another = \individual\potato::select( self::UUID_PRIMITIVE );
 		$this->assertInstanceOf( '\individual\potato', $another );
 		$this->assertNotSame( $this->fixture, $another );
+	}
+
+	/**
+	 * @covers	\database\individual::select
+	 */
+	public function test_missmatched_select() {
+		$extirpate = str_replace( '0', 'F', self::UUID_PRIMITIVE );
+		$this->assertFalse( \individual\potato::select( $extirpate ) );
 	}
 
 	/**
