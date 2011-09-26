@@ -23,7 +23,7 @@ abstract class aggregate {
 	 * @return array
 	 */
 	public function content( array &$vessel = array( ) ) {
-		$helper = str_replace( '\aggregate$', '', get_called_class() . '$' );
+		$helper = str_replace( '\\aggregate$', '', get_called_class() . '$' );
 		foreach ( $this->data as $unit ) {
 			$decorator = new $helper( $unit );
 			$vessel[] = $decorator->content();

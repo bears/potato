@@ -1,5 +1,5 @@
 <?php
-namespace config;
+namespace setting;
 
 /*
  * Database connection settings.

@@ -11,7 +11,7 @@ spl_autoload_register( function ($name) {
 	}
 
 	// Cannot find the file, try to dynamically generate.
-	if ( preg_match( '#^(?P<space>(?P<domain>\w+)(?:\\\\\w+)*)\\\\(?P<class>\w+)$#', $name, $match ) ) {
+	if ( preg_match( '#^(?P<space>(?P<domain>\\w+)(?:\\\\\\w+)*)\\\\(?P<class>\\w+)$#', $name, $match ) ) {
 		extract( $match );
 		switch ( $domain ) {
 			case 'exception':
@@ -23,7 +23,7 @@ spl_autoload_register( function ($name) {
 				assert( "'aggregate'=='$class'" );
 				return eval( "namespace $space; class aggregate extends \\decoration\\aggregate {}" );
 			case 'ab':
-				return eval( "namespace $space; class $class extends \\famulus\ab {}" );
+				return eval( "namespace $space; class $class extends \\famulus\\ab {}" );
 		}
 	}
 } );

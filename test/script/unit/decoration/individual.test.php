@@ -26,7 +26,7 @@ class individual extends \PHPUnit_Framework_TestCase {
 	}
 
 	protected function setUp() {
-		\database\connection::get_pdo()->exec( 'START TRANSACTION' );
+		\database\connection::get_pdo()->beginTransaction();
 
 		$potato = new \individual\potato();
 		$potato->brand = 2;
@@ -41,7 +41,7 @@ class individual extends \PHPUnit_Framework_TestCase {
 	}
 
 	protected function tearDown() {
-		\database\connection::get_pdo()->exec( 'ROLLBACK' );
+		\database\connection::get_pdo()->rollBack();
 	}
 
 	/**

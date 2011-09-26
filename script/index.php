@@ -24,7 +24,7 @@ class subject {
 
 		$segments = explode( '/', $_SERVER['REQUEST_URI'] );
 		list($futile, $subject) = array_splice( $segments, 0, 2 );
-		assert( "(''=='$futile')&&preg_match('#^\w+$#','$subject')" );
+		assert( "(''=='$futile')&&preg_match('#^\\w+$#','$subject')" );
 
 		header( 'Content-Type: application/json' );
 		$dispatcher = "\\subject\\$subject";
@@ -36,7 +36,7 @@ class subject {
 	 */
 	private static function cross_domain() {
 		$protocol = isset( $_SERVER['HTTPS'] ) && 'off' != $_SERVER['HTTPS'] ? 'https:' : 'http:';
-		$accepted = $protocol . \config\MAIN_DOMAIN;
+		$accepted = $protocol . \setting\MAIN_DOMAIN;
 		if ( isset( $_SERVER['HTTP_ORIGIN'] ) && $_SERVER['HTTP_ORIGIN'] == $accepted ) {
 			header( "Access-Control-Allow-Origin: $accepted" );
 			header( 'Access-Control-Allow-Credentials: true' );

@@ -14,7 +14,7 @@ class connection {
 	 */
 	public static function get_pdo() {
 		if ( !is_a( self::$pdo, 'PDO' ) ) {
-			self::$pdo = new \PDO( \config\MAJOR_DATABASE_DSN, null, null, array( \PDO::ATTR_PERSISTENT => true ) );
+			self::$pdo = new \PDO( \setting\MAJOR_DATABASE_DSN, null, null, array( \PDO::ATTR_PERSISTENT => true ) );
 		}
 		return self::$pdo;
 	}

@@ -11,10 +11,10 @@ class connection extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_get_pdo() {
 		$instance1 = \database\connection::get_pdo();
-		$this->assertInstanceOf( '\PDO', $instance1 );
+		$this->assertInstanceOf( '\\PDO', $instance1 );
 
 		$instance2 = \database\connection::get_pdo();
-		$this->assertInstanceOf( '\PDO', $instance2 );
+		$this->assertInstanceOf( '\\PDO', $instance2 );
 
 		$this->assertSame( $instance1, $instance2 );
 	}

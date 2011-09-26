@@ -68,7 +68,7 @@ class individual extends \PHPUnit_Framework_TestCase {
 		$this->assertSame( $this->fixture, $fetched );
 
 		$another = \individual\potato::select( self::UUID_PRIMITIVE );
-		$this->assertInstanceOf( '\individual\potato', $another );
+		$this->assertInstanceOf( '\\individual\\potato', $another );
 		$this->assertNotSame( $this->fixture, $another );
 	}
 
@@ -91,7 +91,7 @@ class individual extends \PHPUnit_Framework_TestCase {
 	}
 
 	protected function setUp() {
-		\database\connection::get_pdo()->exec( 'START TRANSACTION' );
+		\database\connection::get_pdo()->beginTransaction();
 
 		$this->fixture = new \individual\potato();
 		$this->fixture->brand = 2;
@@ -103,7 +103,7 @@ class individual extends \PHPUnit_Framework_TestCase {
 	}
 
 	protected function tearDown() {
-		\database\connection::get_pdo()->exec( 'ROLLBACK' );
+		\database\connection::get_pdo()->rollBack();
 	}
 
 	/**

@@ -1,5 +1,5 @@
 <?php
-namespace config;
+namespace setting;
 
 /*
  * The main file of global settings for others to include.

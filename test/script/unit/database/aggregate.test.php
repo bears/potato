@@ -13,7 +13,7 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 	 */
 	public function assertPreConditions() {
 		$this->fixture = \aggregate\potato::tubers( 'summer', 0 );
-		$this->assertInstanceOf( '\aggregate\potato', $this->fixture );
+		$this->assertInstanceOf( '\\aggregate\\potato', $this->fixture );
 	}
 
 	/**
@@ -22,7 +22,7 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 	public function test_getIterator() {
 		$count = 0;
 		foreach ( $this->fixture as $object ) {
-			$this->assertInstanceOf( '\individual\potato', $object );
+			$this->assertInstanceOf( '\\individual\\potato', $object );
 			++$count;
 		}
 		$this->assertGreaterThan( 0, $count );

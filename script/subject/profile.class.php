@@ -15,7 +15,7 @@ class profile extends \subject {
 		);
 		$all_constants = get_defined_constants( true );
 		foreach ( $all_constants['user'] as $name => $value ) {
-			if ( preg_match( '#\bPROFILE_(?P<name>\w+)$#', $name, $match ) ) {
+			if ( preg_match( '#\\bPROFILE_(?P<name>\\w+)$#', $name, $match ) ) {
 				$profile[$match['name']] = $value;
 			}
 		}

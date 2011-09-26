@@ -1,6 +1,8 @@
 <?php
 namespace famulus;
 
+require_once 'setting/ab.php';
+
 /**
  * Translate a name to its abbreviation or reverse.
  */
@@ -51,7 +53,9 @@ abstract class ab {
 	 * @todo Load from config.
 	 */
 	protected static function map() {
-		return array( );
+		global $ab;
+		$re = '#^ab\\\\(P<class>[\\w\\\\]+)\\\\(P<subject>\\w+)$#';
+		return preg_match( $re, get_called_class(), $m ) ? $ab[$m['class']][$m['subject']] : array( );
 	}
 
 	/**
