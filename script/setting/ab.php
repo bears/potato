@@ -4,7 +4,7 @@ namespace setting;
 /**
  * Abbreviation dictionary.
  */
-$ab = array(
+$GLOBALS['AB'] = array(
 	'potato' => array(
 		'tuber' => array(
 			'$' => 't',

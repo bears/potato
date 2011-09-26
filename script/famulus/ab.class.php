@@ -9,6 +9,7 @@ require_once 'setting/ab.php';
 abstract class ab {
 
 	const KEY_UUID = '$';
+	const DERIVED_NAME_RULE = '#^ab\\\\(?P<class>[\\w\\\\]+)\\\\(?P<subject>\\w+)$#';
 
 	/**
 	 * Translate the key to the other half.
@@ -25,10 +26,15 @@ abstract class ab {
 	 * @return string
 	 */
 	public function subject() {
-		$class = get_called_class();
-		$split = strrpos( $class, '\\' );
-		$split = $split ? $split + 1 : 0;
-		return substr( $class, $split );
+		if ( isset( $this->map[self::KEY_UUID] ) ) {
+			return $this->map[self::KEY_UUID];
+		}
+		else {
+			$class = get_called_class();
+			$split = strrpos( $class, '\\' );
+			$split = $split ? $split + 1 : 0;
+			return substr( $class, $split );
+		}
 	}
 
 	/**
@@ -44,18 +50,10 @@ abstract class ab {
 	}
 
 	protected function __construct() {
-		$map = self::map();
-	}
+		$ok = preg_match( self::DERIVED_NAME_RULE, get_called_class(), $match );
+		assert( $ok );
 
-	/**
-	 * Load translation mapping.
-	 * @return array
-	 * @todo Load from config.
-	 */
-	protected static function map() {
-		global $ab;
-		$re = '#^ab\\\\(P<class>[\\w\\\\]+)\\\\(P<subject>\\w+)$#';
-		return preg_match( $re, get_called_class(), $m ) ? $ab[$m['class']][$m['subject']] : array( );
+		$this->map = $GLOBALS['AB'][$match['class']][$match['subject']];
 	}
 
 	/**
