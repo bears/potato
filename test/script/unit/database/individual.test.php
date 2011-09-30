@@ -19,6 +19,16 @@ class individual extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @covers	\database\individual::__clone
+	 */
+	public function test__clone() {
+		$another = clone $this->fixture;
+		$this->assertNull( $another->uuid() );
+		$another->save();
+		$this->assertNotSame( $another->uuid(), $this->fixture->uuid() );
+	}
+
+	/**
 	 * @covers	\database\individual::save
 	 */
 	public function test_save() {
@@ -81,13 +91,19 @@ class individual extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers	\database\individual::__clone
+	 * @covers	\database\individual::cache
 	 */
-	public function test__clone() {
-		$another = clone $this->fixture;
-		$this->assertNull( $another->uuid() );
-		$another->save();
-		$this->assertNotSame( $another->uuid(), $this->fixture->uuid() );
+	public function test_cache() {
+		$this->markTestIncomplete();
+	}
+
+	/**
+	 * @covers	\database\individual::cache
+	 *
+	 * @expectedException	exception\expired_cache
+	 */
+	public function test_expired_cache() {
+		$this->markTestIncomplete();
 	}
 
 	protected function setUp() {
