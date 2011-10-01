@@ -47,6 +47,13 @@ POTATO.L10N = {
 		statistics : 'Statistics',
 
 		// footer
+		tip : [
+		'Welcome to bears\' home!',
+		'In spring we plan the year.',
+		'Summer is the good time to do great.',
+		'Potato will be harvested in autumn.',
+		'All go to die in winter.'
+		],
 		copyright : 'Copyright &copy; 2011 Bears Home'
 	}
 };

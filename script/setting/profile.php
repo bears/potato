@@ -8,8 +8,13 @@ namespace setting;
 /*
  * Only available from server side.
  */
+
 const MAIN_DOMAIN = '//potato.bears.home';
 const AJAJ_DOMAIN = '//ajaj.bears.home';
+
+const MAJOR_VERSION = 0;
+const MINOR_VERSION = 0;
+const PATCH_VERSION = 0;
 
 /*
  * Also available from client side.
@@ -17,4 +22,3 @@ const AJAJ_DOMAIN = '//ajaj.bears.home';
  */
 
 const PROFILE_RECLAIM = true;
-const PROFILE_VERSION = '1.0.2';

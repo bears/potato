@@ -92,7 +92,18 @@ $(function() {
 			});
 
 			// Footer
-			$('#version').text(POTATO.PROFILE.VERSION);
+			(function() {
+				var index = 0;
+				var bound = locale.tip.length;
+				var tip = $('#tip').text(locale.tip[0]);
+				clearInterval(tip.data('roll'))
+				tip.data('roll', setInterval(function() {
+					tip.fadeOut(function() {
+						(++index < bound) || (index = 0);
+						tip.text(locale.tip[index]).fadeIn();
+					});
+				}, 12345));
+			})();
 
 			// Left side panel
 			new pSeason('summer');
