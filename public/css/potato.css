@@ -12,13 +12,11 @@ header {top:0; right:1px; left:1px;}
 footer {bottom:0; right:3em; left:3em; border-top:1px dashed #A6C9E3; color:#A6C9E3; font-weight:bold;}
 
 /*head & foot bar*/
-menu {display:inline-block;}
-command {display:inline-block; cursor:pointer;}
+menu, command {display:inline-block; cursor:pointer;}
 #menu_home {background-image:url("images/potato.png"); width:100px; height:2em; max-height:40px;}
 #menu_home:hover {background-position:0 40px;}
-#search {float:right;}
-#search_target {width:24em; color:#0078AB;}
-#copyright {float:right;}
+#search, #copyright {float:right;}
+#search_target {width:24em; color:#0078AB; vertical-align:middle;}
 
 /*content place holder*/
 #_vph {position:absolute; top:3em; bottom:3em; width:100%;}

@@ -8,8 +8,9 @@
 
 		<title></title>
 
-		<script type="text/javascript" src="js/jquery.min.js"></script>
-		<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/vendor/jquery.min.js"></script>
+		<script type="text/javascript" src="js/vendor/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/vendor/jsend.min.js"></script>
 		<!-- [Minify These[ -->
 		<script type="text/javascript" src="js/potato.js"></script>
 		<script type="text/javascript" src="js/global.js"></script>
@@ -35,8 +36,7 @@
 	<body class="ui-helper-hidden">
 		<header class="ui-widget-header ui-corner-bottom">
 			<form id="search" action="ajaj/search" method="post">
-				<label for="search_target" accesskey="s">{%search%}</label>
-				<input id="search_target" name="search" type="search" results="5" autosave="search_in_potato" placeholder="{%search_in_potato%}" class="ui-widget-content ui-corner-all" />
+				<input id="search_target" name="search" accesskey="s" type="search" results="5" autosave="search_in_potato" placeholder="{%search%}" class="ui-widget-content ui-corner-all" />
 			</form>
 			<menu type="toolbar">
 				<command id="menu_home"></command>

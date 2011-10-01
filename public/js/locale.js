@@ -1,24 +1,29 @@
+/**
+ * Localization dictionary.
+ */
 POTATO.L10N = {
 	en_US : {
 		// page title
 		title : 'Potato',
+
 		// header
-		// search bar
-		search : 'Search',
-		search_in_potato : 'Plough Potato',
+		search : 'Plough Potato',
+
 		// left panel
 		season_spring : 'Spring',
 		season_summer : 'Summer',
 		season_autumn : 'Autumn',
 		season_winter : 'Winter',
 		item_more : 'Seed',
+
 		// main panel
-		detail_season : 'Season',
-		detail_variety : 'Variety',
-		detail_weight : 'Weight',
-		detail_maturity : 'Maturity',
-		detail_description : 'Description',
-		detail_comments : 'Comments',
+		stock_season : 'Season',
+		stock_variety : 'Variety',
+		stock_weight : 'Weight',
+		stock_maturity : 'Maturity',
+		stock_carves : 'Carves',
+		stock_chips : 'Chips',
+
 		// editor tool bar
 		editor_bold : 'Bold',
 		editor_italic : 'Italic',
@@ -37,8 +42,10 @@ POTATO.L10N = {
 		editor_hilite : 'Highlight',
 		editor_save : 'Save',
 		editor_discard : 'Discard',
+
 		// right panel
 		statistics : 'Statistics',
+
 		// footer
 		copyright : 'Copyright &copy; 2011 Bears Home'
 	}
