@@ -1,8 +1,6 @@
 <?php
 namespace famulus;
 
-require_once 'setting/ab.php';
-
 /**
  * Translate a name to its abbreviation or reverse.
  */
@@ -53,7 +51,14 @@ abstract class ab {
 		$ok = preg_match( self::DERIVED_NAME_RULE, get_called_class(), $match );
 		assert( $ok );
 
-		$this->map = $GLOBALS['AB'][$match['class']][$match['subject']];
+		require_once 'setting/ab.php';
+
+		extract( $match );
+		$this->map = isset( $ab[$class][$subject] ) ? $ab[$class][$subject] : array( );
+	}
+
+	public function __destruct() {
+		// TODO: log mismatched entries.
 	}
 
 	/**
