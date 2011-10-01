@@ -16,6 +16,7 @@ abstract class ab {
 	 * @todo Frequency count.
 	 */
 	public function __invoke( $key ) {
+		$this->log[] = $key;
 		return isset( $this->map[$key] ) ? $this->map[$key] : $key;
 	}
 
@@ -55,10 +56,14 @@ abstract class ab {
 
 		extract( $match );
 		$this->map = isset( $ab[$class][$subject] ) ? $ab[$class][$subject] : array( );
+		self::$usage_pool[$class] = array( $subject => &$this->log );
 	}
 
-	public function __destruct() {
-		// TODO: log mismatched entries.
+	/**
+	 * Log usage tracking.
+	 */
+	public static function log_usage() {
+		file_put_contents( \setting\LOG_PATH . '/ab.log', json_encode( self::$usage_pool ) . "\n", \FILE_APPEND );
 	}
 
 	/**
@@ -68,9 +73,26 @@ abstract class ab {
 	private $map;
 
 	/**
+	 * Record translated keys.
+	 * @var array(string)
+	 */
+	private $log = array( );
+
+	/**
 	 * Cached ab objects.
 	 * @var array(ab)
 	 */
 	private static $object_pool = array( );
 
+	/**
+	 * Tracking usage.
+	 * @var array
+	 */
+	private static $usage_pool = array( );
+
 }
+
+/**
+ * Set callback to log usage tracking.
+ */
+register_shutdown_function( array( '\\famulus\\ab', 'log_usage' ) );
