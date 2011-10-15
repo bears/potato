@@ -3,10 +3,10 @@
  * @param uuid {String}
  * @param target {String}
  */
-function pTuber(uuid, target) {
+function tuber(uuid, target) {
 	// Prevent duplicated object.
 	var cached = $('#tuber_' + uuid).data('self');
-	if (cached instanceof pTuber) {
+	if (cached instanceof tuber) {
 		return cached;
 	}
 
@@ -22,9 +22,9 @@ function pTuber(uuid, target) {
 	 * @param source {potato}
 	 */
 	this.notify = function(subject, type, source) {
-		var html = POTATO.replace(pTuber.template, {
+		var html = POTATO.replace(tuber.template, {
 			uuid : source.uuid(),
-			icon : pTuber.icons[source.get('brand', 'tuber')],
+			icon : tuber.icons[source.get('brand', 'tuber')],
 			text : source.get('label', 'tuber')
 		});
 		switch (type) {
@@ -32,7 +32,7 @@ function pTuber(uuid, target) {
 				$(html).data('self', this).click(function() {
 					$('#seasons .season>li.ui-state-highlight').removeClass('ui-state-highlight');
 					$(this).addClass('ui-state-highlight');
-					new pStock(source.uuid());
+					new stock(source.uuid());
 				}).appendTo(vessel);
 				break;
 
@@ -49,9 +49,9 @@ function pTuber(uuid, target) {
 /**
  * HTML template for new element.
  */
-pTuber.template = '<li id="tuber_{%uuid%}" class="ui-widget-content"><a class="handle ui-icon ui-icon-{%icon%}"></a>{%text%}</li>';
+tuber.template = '<li id="tuber_{%uuid%}" class="ui-widget-content"><a class="handle ui-icon ui-icon-{%icon%}"></a>{%text%}</li>';
 
 /**
  * Icon table.
  */
-pTuber.icons = ['pencil', 'refresh', 'shuffle', 'note', 'document'];
+tuber.icons = ['pencil', 'refresh', 'shuffle', 'note', 'document'];

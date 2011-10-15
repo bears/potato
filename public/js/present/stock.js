@@ -2,10 +2,10 @@
  * Single potato in center panel.
  * @param uuid {String}
  */
-function pStock(uuid) {
+function stock(uuid) {
 	// Prevent duplicated object.
 	var cached = $('#stock_' + uuid).data('self');
-	if (cached instanceof pStock) {
+	if (cached instanceof stock) {
 		return cached;
 	}
 

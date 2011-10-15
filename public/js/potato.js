@@ -106,7 +106,7 @@ $(function() {
 			})();
 
 			// Left side panel
-			new pSeason('summer');
+			new annual('summer');
 
 			// Right side panel
 			$('#calendar').datepicker();

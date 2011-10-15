@@ -1,14 +1,14 @@
 /**
  * Seasons panel.
  */
-function pSeason(current) {
+function annual(current) {
 	// Keep singleton.
-	if (pSeason.cache instanceof pSeason) {
-		return pSeason.cache;
+	if (annual.cache instanceof annual) {
+		return annual.cache;
 	}
 
 	// Cache this object.
-	pSeason.cache = this;
+	annual.cache = this;
 
 	/**
 	 * Hold all private properties.
@@ -37,7 +37,7 @@ function pSeason(current) {
 			case POTATO.NOTIFY.INSERT:
 				$.each(source.get('tubers', 'season'), function() {
 					new potato(this.$, this);
-					new pTuber(this.$, target);
+					new tuber(this.$, target);
 				});
 				break;
 
@@ -49,9 +49,9 @@ function pSeason(current) {
 	//
 	var tabs = $('#seasons').tabs({
 		select : function(event, ui) {
-			data[current].unsubscribe('season', pSeason.cache);
+			data[current].unsubscribe('season', annual.cache);
 			current = ui.tab.href.match(/#season_(\w+)/)[1];
-			data[current].subscribe('season', pSeason.cache);
+			data[current].subscribe('season', annual.cache);
 		}
 	}).tabs('select', current);
 	var stickers = $('.stickers>li', tabs).droppable({
