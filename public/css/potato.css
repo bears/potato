@@ -32,11 +32,11 @@ aside {position:relative; height:100%; margin:0 1em;}
 aside.left {width:25em;}
 aside.right {width:20em;}
 
-#seasons>.ui-tabs-panel {position:absolute; top:2.4em; bottom:.2em; left:.2em; right:.2em; padding:0;}
-#seasons .season {overflow:auto; height:100%;}
-#seasons .season>li {position:relative; overflow:auto; margin:.5em; padding:.5em; white-space: nowrap; border-color:#FFF; cursor:alias;}
-#seasons .season>li:hover {border-color:#C9E2A6; border-radius:5px; border-style:dotted dashed;}
-#seasons .season .handle {cursor:move; margin:0 6px -1px 0; vertical-align:baseline;}
+#annual>.ui-tabs-panel {position:absolute; top:2.4em; bottom:.2em; left:.2em; right:.2em; padding:0;}
+#annual .season {overflow:auto; height:100%;}
+#annual .season>li {position:relative; overflow:auto; margin:.5em; padding:.5em; white-space: nowrap; border-color:#FFF; cursor:alias;}
+#annual .season>li:hover {border-color:#C9E2A6; border-radius:5px; border-style:dotted dashed;}
+#annual .season .handle {cursor:move; margin:0 6px -1px 0; vertical-align:baseline;}
 
 #stocks {position:relative; height:100%; width:50em; margin:0;}
 #stocks>div {position:absolute; top:0em; left:0; right:0; bottom:0; padding:.3em; margin:.3em; overflow:auto; font-size:110%;}

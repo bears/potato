@@ -30,7 +30,7 @@ function tuber(uuid, target) {
 		switch (type) {
 			case POTATO.NOTIFY.INSERT:
 				$(html).data('self', this).click(function() {
-					$('#seasons .season>li.ui-state-highlight').removeClass('ui-state-highlight');
+					$('#annual .season>li.ui-state-highlight').removeClass('ui-state-highlight');
 					$(this).addClass('ui-state-highlight');
 					new stock(source.uuid());
 				}).appendTo(vessel);

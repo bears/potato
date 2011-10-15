@@ -61,7 +61,7 @@ bhSeason.prototype._insert = function(data) {
 	$(template.replace(/{%(\w+)%}/g, function(unused, key) {
 		return data[key]
 	})).appendTo(this.container).click(function() {
-		$('#seasons li.ui-state-highlight').removeClass('ui-state-highlight');
+		$('#annual li.ui-state-highlight').removeClass('ui-state-highlight');
 		$(this).addClass('ui-state-highlight');
 		new bhDetail(data.id);
 	});
@@ -128,7 +128,7 @@ POTATO.INITIAL.push(function() {
 	};
 
 	// Tabs
-	var tabs = $('#seasons').tabs({
+	var tabs = $('#annual').tabs({
 		select : function(event, ui) {
 			bhSeason._singleton[ui.tab.href.match(/#season_(\w+)/)[1]]._show();
 		}

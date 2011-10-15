@@ -1,5 +1,5 @@
 /**
- * Seasons panel.
+ * Annual panel.
  */
 function annual(current) {
 	// Keep singleton.
@@ -47,7 +47,7 @@ function annual(current) {
 	};
 
 	//
-	var tabs = $('#seasons').tabs({
+	var tabs = $('#annual').tabs({
 		select : function(event, ui) {
 			data[current].unsubscribe('season', annual.cache);
 			current = ui.tab.href.match(/#season_(\w+)/)[1];
