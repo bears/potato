@@ -14,10 +14,10 @@ function pSeason(current) {
 	 * Hold all private properties.
 	 */
 	var data = {
-		spring : new sSeason('spring'),
-		summer : new sSeason('summer'),
-		autumn : new sSeason('autumn'),
-		winter : new sSeason('winter')
+		spring : new season('spring'),
+		summer : new season('summer'),
+		autumn : new season('autumn'),
+		winter : new season('winter')
 	};
 
 	// Default season.
@@ -26,17 +26,17 @@ function pSeason(current) {
 	}
 
 	/**
-	 * Callback for sSeason.
+	 * Callback for season.
 	 * @param subject {String}
 	 * @param type {String} One of POTATO.NOTIFY.*
-	 * @param source {sSeason}
+	 * @param source {season}
 	 */
 	this.notify = function(subject, type, source) {
 		var target = source.uuid();
 		switch (type) {
 			case POTATO.NOTIFY.INSERT:
 				$.each(source.get('tubers', 'season'), function() {
-					new sPotato(this.$, this);
+					new potato(this.$, this);
 					new pTuber(this.$, target);
 				});
 				break;

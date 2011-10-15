@@ -3,7 +3,7 @@
  * @param uuid {String}
  * @param data {Object} Optional
  */
-function sSubject(uuid, data) {
+function subject(uuid, data) {
 	/**
 	 * Call static method from object.
 	 * @param object {Object}
@@ -23,23 +23,26 @@ function sSubject(uuid, data) {
 		return cached;
 	}
 
+	// Load abbreviation dictionary.
+	var myType = callStatic('typeOf');
+	var ab = POTATO.AB[myType] || {};
+	var ba = POTATO.BA[myType] || {};
+
 	/**
 	 * Convert key to its abbreviation/intactness form.
-	 * @param normal {Boolean} true: this.ab; false: this.ba
-	 * @param subject {String}
-	 * @param field {String}
+	 * @param normal {Boolean} true: ab; false: ba
+	 * @param pair {Array} [subject, field]
 	 * @return {Object} {subject:"{String}",field:"{String}"}
 	 */
-	var abba = function(normal, subject, field) {
-		var map = normal ? this.ab : this.ba;
-		var pick = function(key, sub) {
-			return ((key in map) && (sub in map[key])) ? map[key][sub] : sub;
-		};
-		return {
-			subject : pick('$', subject),
-			field : pick(subject, field)
-		};
-	}.bind(this);
+	var abba = function(normal, pair) {
+		var map = normal ? ab : ba;
+		if (pair[0] in map) {
+			var lookup = map[pair[0]];
+			('$' in lookup) && (pair[0] = lookup.$);
+			(pair[1] in lookup) && (pair[1] = lookup[pair[1]]);
+		}
+		return pair;
+	};
 
 	/**
 	 * Hold all private properties.
@@ -53,8 +56,8 @@ function sSubject(uuid, data) {
 	 * @return {undefined} or anything else
 	 */
 	this.get = function(field, subject) {
-		var ab = abba(true, subject, field);
-		return data[ab.subject][ab.field];
+		var ab = abba(true, [subject, field]);
+		return data[ab[0]][ab[1]];
 	};
 
 	/**
@@ -64,8 +67,8 @@ function sSubject(uuid, data) {
 	 * @param subject {String}
 	 */
 	this.set = function(value, field, subject) {
-		var ab = abba(true, subject, field);
-		data[ab.subject][ab.field] = value;
+		var ab = abba(true, [subject, field]);
+		data[ab[0]][ab[1]] = value;
 	};
 
 	/**
@@ -104,14 +107,14 @@ function sSubject(uuid, data) {
 	 */
 	var update = function(renewal) {
 		if (renewal.$ != data.$) {
-			throw 'UUID mismatch while updating ' + callStatic('typeOf')
-				+ ' #' + data.$ + ' vs #' + renewal.$;
+			throw 'UUID mismatch while updating ' + myType
+			+ ' #' + data.$ + ' vs #' + renewal.$;
 		}
 		$.each(renewal, function(subject, content) {
 			if ('$' != subject) {
 				var notify = subject in data ? POTATO.NOTIFY.UPDATE : POTATO.NOTIFY.INSERT;
 				data[subject] = $.extend(data[subject], content);
-				broadcast(abba(false, subject).subject, notify);
+				broadcast(abba(false, [subject])[0], notify);
 			}
 		});
 	};
@@ -130,8 +133,7 @@ function sSubject(uuid, data) {
 		}
 		subscriber.notify(subject, POTATO.NOTIFY.ATTACH, this);
 
-		var ab = abba(true, subject);
-		if (ab.subject in data) {
+		if (abba(true, [subject])[0] in data) {
 			subscriber.notify(subject, POTATO.NOTIFY.INSERT, this);
 		}
 		else {
@@ -161,45 +163,25 @@ function sSubject(uuid, data) {
 /**
  * Get a cached object.
  * @param uuid {String}
- * @return {sSubject}
+ * @return {subject}
  */
-sSubject.getObject = function(uuid) {
+subject.getObject = function(uuid) {
 	return (this.cache || {})[uuid];
 };
 
 /**
  * Add an object into cache.
- * @param item {sSubject}
+ * @param item {subject}
  */
-sSubject.setObject = function(item) {
+subject.setObject = function(item) {
 	this.cache = this.cache || {};
 	this.cache[item.uuid()] = item;
-};
-
-/**
- * Load abbreviation mapping.
- * @param ab {Object}
- */
-sSubject.loadAb = function(ab) {
-	var ba = {$:{}};
-	$.each(ab.$, function(subject, s) {
-		ba.$[s] = subject;
-		if (subject in ab) {
-			var fields = {};
-			$.each(ab[subject], function(field, f) {
-				fields[f] = field;
-			});
-			ba[s] = fields;
-		}
-	});
-	this.prototype.ab = ab;
-	this.prototype.ba = ba;
 };
 
 /**
  * Get class name.
  * @return {String}
  */
-sSubject.typeOf = function() {
+subject.typeOf = function() {
 	return this.toString().match(/^function (\w+)/)[1];
 };

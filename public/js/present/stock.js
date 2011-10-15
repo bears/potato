@@ -64,13 +64,15 @@ function pStock(uuid) {
 
 	/**
 	 * Build <summary> for <details>.
-	 * @param source {sPotato}
+	 * @param source {potato}
 	 * @return {String}
 	 */
 	var getSummary = function(source) {
-		var template = '<summary>{%label%}<span class="ui-icon ui-icon-wrench"/><time datetime="{%harvest%}">{%local_harvest%}</time><time pubdate="pubdate" datetime="{%seeding%}">{%local_seeding%}</time></summary>';
+		var template = '<summary>{%label%}<span class="ui-icon ui-icon-wrench"/><time datetime="{%harvest%}"> ~ {%local_harvest%}</time><time pubdate="pubdate" datetime="{%seeding%}">{%local_seeding%}</time></summary>';
 		var seeding = source.get('seeding', 'stock');
+		if (seeding) seeding = seeding.replace(' ', 'T') + 'Z';
 		var harvest = source.get('harvest', 'stock');
+		if (harvest) harvest = harvest.replace(' ', 'T') + 'Z';
 		return POTATO.replace(template, {
 			label : getInput('label', source.get('label', 'tuber')),
 			seeding : seeding,
@@ -82,23 +84,23 @@ function pStock(uuid) {
 
 	/**
 	 * Build a <table> for <details>.
-	 * @param source {sPotato}
+	 * @param source {potato}
 	 * @return {String}
 	 */
 	var getTrivial = function(source) {
 		var template = '<table class="fields"><tr>{%season%}{%variety%}</tr><tr>{%weight%}{%maturity%}</tr></table>';
-		var locale = POTATO.L10N[POTATO.PROFILE.locale];
+		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 		return POTATO.replace(template, {
-			season : getRowPair(locale.detail_season, getInput('season', locale['season_' + source.get('season', 'stock')])),
-			variety : getRowPair(locale.detail_variety, getInput('variety', source.get('variety', 'stock'))),
-			weight : getRowPair(locale.detail_weight, getInput('weight', source.get('weight', 'stock'))),
-			maturity : getProgress(locale.detail_maturity, source)
+			season : getRowPair(locale.stock_season, getInput('season', locale['season_' + source.get('season', 'stock')])),
+			variety : getRowPair(locale.stock_variety, getInput('variety', source.get('variety', 'stock'))),
+			weight : getRowPair(locale.stock_weight, getInput('weight', source.get('weight', 'stock'))),
+			maturity : getProgress(locale.stock_maturity, source)
 		});
 	};
 
 	/**
 	 * Build <details>.
-	 * @param source {sPotato}
+	 * @param source {potato}
 	 * @return {String}
 	 */
 	var getDetails = function(source) {
@@ -111,18 +113,18 @@ function pStock(uuid) {
 
 	var getCarves = function() {
 		var template = '<fieldset><legend class="shrink"><span class="ui-icon ui-icon-triangle-1-s"/>{%legend%}</legend>{%content%}</fieldset>';
-		var locale = POTATO.L10N[POTATO.PROFILE.locale];
+		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 		return POTATO.replace(template, {
-			legend : locale.detail_description,
+			legend : locale.stock_carves,
 			content : 'TODO'
 		});
 	};
 
 	var getChips = function() {
 		var template = '<fieldset><legend class="shrink"><span class="ui-icon ui-icon-triangle-1-s"/>{%legend%}<span class="ui-icon ui-icon-plus"/></legend>{%content%}</fieldset>';
-		var locale = POTATO.L10N[POTATO.PROFILE.locale];
+		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 		return POTATO.replace(template, {
-			legend : locale.detail_comments,
+			legend : locale.stock_chips,
 			content : 'TODO'
 		});
 	};
@@ -133,7 +135,7 @@ function pStock(uuid) {
 
 	/**
 	 * Setup an element to contain details.
-	 * @param source {sPotato}
+	 * @param source {potato}
 	 */
 	var setup = function(source) {
 		var template = '<div id="stock_{%uuid%}">{%details%}{%carves%}{%chips%}</div>';
@@ -149,10 +151,10 @@ function pStock(uuid) {
 	}.bind(this);
 
 	/**
-	 * Callback for sPotato.
+	 * Callback for potato.
 	 * @param subject {String}
 	 * @param type {String} One of POTATO.NOTIFY.*
-	 * @param source {sPotato}
+	 * @param source {potato}
 	 */
 	this.notify = function(subject, type, source) {
 		switch (type) {
@@ -166,5 +168,5 @@ function pStock(uuid) {
 	};
 
 	// Subscribe to the data source.
-	(new sPotato(uuid)).subscribe('stock', this);
+	(new potato(uuid)).subscribe('stock', this);
 }

@@ -16,10 +16,10 @@ function pTuber(uuid, target) {
 	var vessel = $('#season_' + target + ' .season');
 
 	/**
-	 * Callback for sPotato.
+	 * Callback for potato.
 	 * @param subject {String}
 	 * @param type {String} One of POTATO.NOTIFY.*
-	 * @param source {sPotato}
+	 * @param source {potato}
 	 */
 	this.notify = function(subject, type, source) {
 		var html = POTATO.replace(pTuber.template, {
@@ -43,7 +43,7 @@ function pTuber(uuid, target) {
 	};
 
 	// Subscribe to the data source.
-	(new sPotato(uuid)).subscribe('tuber', this);
+	(new potato(uuid)).subscribe('tuber', this);
 }
 
 /**

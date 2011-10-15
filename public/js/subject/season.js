@@ -1,9 +1,7 @@
 /**
  * Subject for seasons.
  */
-function sSeason() {
-	return sSubject.apply(this, arguments);
+function season() {
+	return subject.apply(this, arguments);
 }
-$.extend(true, sSeason, sSubject);
-
-sSeason.loadAb({$:{}});
+$.extend(true, season, subject);

@@ -1,9 +1,7 @@
 /**
  * Subject for a potato.
  */
-function sPotato() {
-	return sSubject.apply(this, arguments);
+function potato() {
+	return subject.apply(this, arguments);
 }
-$.extend(true, sPotato, sSubject);
-
-sPotato.loadAb({$:{}});
+$.extend(true, potato, subject);
