@@ -4,6 +4,7 @@ namespace setting;
 /**
  * Abbreviation dictionary.
  */
+global $ab;
 $ab = array(
 	'potato' => array(
 		'tuber' => array(
@@ -18,6 +19,14 @@ $ab = array(
 			'variety' => 'v',
 			'seeding' => 'g',
 			'harvest' => 'h',
+			'crafts' => 'c',
+		),
+	),
+	'craft' => array(
+		'weave' => array(
+			'$' => 'w',
+			'detail' => 'd',
+			'weight' => 'w',
 		),
 	),
 );

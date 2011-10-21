@@ -1,6 +1,8 @@
 <?php
 namespace famulus;
 
+require 'setting/ab.php';
+
 /**
  * Translate a name to its abbreviation or reverse.
  */
@@ -25,15 +27,18 @@ abstract class ab {
 	 * @return string
 	 */
 	public function subject() {
-		if ( isset( $this->map[self::KEY_UUID] ) ) {
-			return $this->map[self::KEY_UUID];
+		if ( !$this->subject ) {
+			if ( isset( $this->map[self::KEY_UUID] ) ) {
+				$this->subject = $this->map[self::KEY_UUID];
+			}
+			else {
+				$class = get_called_class();
+				$split = strrpos( $class, '\\' );
+				$split = $split ? $split + 1 : 0;
+				$this->subject = substr( $class, $split );
+			}
 		}
-		else {
-			$class = get_called_class();
-			$split = strrpos( $class, '\\' );
-			$split = $split ? $split + 1 : 0;
-			return substr( $class, $split );
-		}
+		return $this->subject;
 	}
 
 	/**
@@ -43,17 +48,16 @@ abstract class ab {
 	public static function instance() {
 		$class = get_called_class();
 		if ( !isset( self::$object_pool[$class] ) ) {
-			self::$object_pool[$class] = new $class();
+			self::$object_pool[$class] = new $class( $class );
 		}
 		return self::$object_pool[$class];
 	}
 
-	protected function __construct() {
-		$ok = preg_match( self::DERIVED_NAME_RULE, get_called_class(), $match );
+	protected function __construct( $caller ) {
+		$ok = preg_match( self::DERIVED_NAME_RULE, $caller, $match );
 		assert( $ok );
 
-		require_once 'setting/ab.php';
-
+		global $ab;
 		extract( $match );
 		$this->map = isset( $ab[$class][$subject] ) ? $ab[$class][$subject] : array( );
 		self::$usage_pool[$class] = array( $subject => &$this->log );
@@ -77,6 +81,12 @@ abstract class ab {
 	 * @var array(string)
 	 */
 	private $log = array( );
+
+	/**
+	 * Cache of subject name.
+	 * @var string
+	 */
+	private $subject;
 
 	/**
 	 * Cached ab objects.
