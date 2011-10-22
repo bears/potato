@@ -10,6 +10,7 @@ POTATO.AB = {
 		},
 		stock : {
 			$ : 's',
+			craft : 'c',
 			season : 'n',
 			weight : 'w',
 			variety : 'v',

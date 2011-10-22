@@ -21,7 +21,7 @@ POTATO.L10N = {
 		stock_variety : 'Variety',
 		stock_weight : 'Weight',
 		stock_maturity : 'Maturity',
-		stock_carves : 'Carves',
+		stock_craft : 'Craft',
 		stock_chips : 'Chips',
 
 		// editor tool bar

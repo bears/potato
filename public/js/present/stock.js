@@ -111,16 +111,16 @@ function stock(uuid) {
 		});
 	};
 
-	var getCarves = function() {
-		var template = '<fieldset><legend class="shrink"><span class="ui-icon ui-icon-triangle-1-s"/>{%legend%}</legend>{%content%}</fieldset>';
+	var getCraft = function(source) {
+		var template = '<fieldset><legend class="shrink"><span class="ui-icon ui-icon-triangle-1-s"/>{%legend%}</legend><div class="craft">{%content%}</div></fieldset>';
 		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 		return POTATO.replace(template, {
-			legend : locale.stock_carves,
-			content : 'TODO'
+			legend : locale.stock_craft,
+			content : source.get('craft', 'stock')
 		});
 	};
 
-	var getChips = function() {
+	var getChips = function(source) {
 		var template = '<fieldset><legend class="shrink"><span class="ui-icon ui-icon-triangle-1-s"/>{%legend%}<span class="ui-icon ui-icon-plus"/></legend>{%content%}</fieldset>';
 		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 		return POTATO.replace(template, {
@@ -138,11 +138,11 @@ function stock(uuid) {
 	 * @param source {potato}
 	 */
 	var setup = function(source) {
-		var template = '<div id="stock_{%uuid%}">{%details%}{%carves%}{%chips%}</div>';
+		var template = '<div id="stock_{%uuid%}">{%details%}{%craft%}{%chips%}</div>';
 		var html = POTATO.replace(template, {
 			uuid : source.uuid(),
 			details : getDetails(source),
-			carves : getCarves(source),
+			craft : getCraft(source),
 			chips : getChips(source)
 		});
 		var vessel = $('#stocks');

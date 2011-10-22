@@ -14,19 +14,12 @@ $ab = array(
 		),
 		'stock' => array(
 			'$' => 's',
+			'craft' => 'c',
 			'season' => 'n',
 			'weight' => 'w',
 			'variety' => 'v',
 			'seeding' => 'g',
 			'harvest' => 'h',
-			'crafts' => 'c',
-		),
-	),
-	'craft' => array(
-		'weave' => array(
-			'$' => 'w',
-			'detail' => 'd',
-			'weight' => 'w',
 		),
 	),
 );

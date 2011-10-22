@@ -22,7 +22,8 @@ function tuber(uuid, target) {
 	 * @param source {potato}
 	 */
 	this.notify = function(subject, type, source) {
-		var html = POTATO.replace(tuber.template, {
+		var template = '<li id="tuber_{%uuid%}" class="ui-widget-content"><a class="handle ui-icon ui-icon-{%icon%}"></a>{%text%}</li>';
+		var html = POTATO.replace(template, {
 			uuid : source.uuid(),
 			icon : tuber.icons[source.get('brand', 'tuber')],
 			text : source.get('label', 'tuber')
@@ -45,11 +46,6 @@ function tuber(uuid, target) {
 	// Subscribe to the data source.
 	(new potato(uuid)).subscribe('tuber', this);
 }
-
-/**
- * HTML template for new element.
- */
-tuber.template = '<li id="tuber_{%uuid%}" class="ui-widget-content"><a class="handle ui-icon ui-icon-{%icon%}"></a>{%text%}</li>';
 
 /**
  * Icon table.

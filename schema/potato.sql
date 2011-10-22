@@ -8,6 +8,7 @@ CREATE TABLE "potato" (
 
 	"brand" integer NOT NULL,
 	"label" text NOT NULL,
+	"craft" text NOT NULL,
 	"season" season NOT NULL,
 	"weight" decimal NOT NULL CHECK ("weight" BETWEEN 0.0 AND 1.0),
 	"variety" text NOT NULL,

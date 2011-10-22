@@ -38,12 +38,12 @@ aside.right {width:20em;}
 #annual .season>li:hover {border-color:#C9E2A6; border-radius:5px; border-style:dotted dashed;}
 #annual .season .handle {cursor:move; margin:0 6px -1px 0; vertical-align:baseline;}
 
-#stocks {position:relative; height:100%; width:50em; margin:0;}
+#stocks {position:relative; height:100%; width:50.5em;}
 #stocks>div {position:absolute; top:0em; left:0; right:0; bottom:0; padding:.3em; margin:.3em; overflow:auto; font-size:110%;}
 #stocks details {display:block;}
 #stocks summary {display:block; padding:.5em 1em;}
-#stocks .description {padding:0 2em;}
-#stocks .description li {list-style:square inside none; padding:.3em .7em;}
+#stocks .craft {padding:0 2em;}
+#stocks .craft li {list-style:square inside none; padding:.3em .7em;}
 #stocks fieldset {border:1px solid #A6C9E2; border-width:1px 0 0 0; margin-top:1em; font-size:.9em;}
 #stocks legend {padding:0 .5em; cursor:pointer;display:inherit!important; font-weight:bold;}
 #stocks legend .ui-icon-plus {margin:0 -5px 2px 8px;}
