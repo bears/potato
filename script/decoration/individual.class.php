@@ -38,7 +38,8 @@ abstract class individual {
 			$data = array( );
 			$ab = self::ab();
 			foreach ( static::$fields as $field ) {
-				$data[$ab( $field )] = $this->data->$field;
+				$value = $this->data->$field;
+				( null !== $value ) && ($data[$ab( $field )] = $value);
 			}
 			$vessel[$ab->subject()] = $data;
 		}

@@ -1,20 +1,19 @@
 -- Clear
-DROP TABLE IF EXISTS "craft" CASCADE;
+DROP TABLE IF EXISTS "chip" CASCADE;
 
 -- Class
-CREATE TABLE "craft" (
+CREATE TABLE "chip" (
 	"uuid" uuid PRIMARY KEY,
 	"lock" integer NOT NULL,
 
 	"detail" text NOT NULL,
-	"weight" decimal NOT NULL CHECK ("weight" BETWEEN 0.0 AND 1.0),
 	"potato" uuid NOT NULL REFERENCES "potato" ("uuid")
 );
 
 -- Method
-CREATE FUNCTION "craft::weave" (uuid)
-RETURNS SETOF "craft" AS $$
+CREATE FUNCTION "chip::fries" (uuid)
+RETURNS SETOF "chip" AS $$
 	SELECT *
-		FROM "craft"
+		FROM "chip"
 		WHERE "potato"=$1
 $$ LANGUAGE SQL;

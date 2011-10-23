@@ -12,11 +12,14 @@ header {top:0; right:1px; left:1px;}
 footer {bottom:0; right:3em; left:3em; border-top:1px dashed #A6C9E3; color:#A6C9E3; font-weight:bold;}
 
 /*head & foot bar*/
-menu, command {display:inline-block; cursor:pointer;}
-#menu_home {background-image:url("images/potato.png"); width:100px; height:2em; max-height:40px;}
-#menu_home:hover {background-position:0 40px;}
 #search, #copyright {float:right;}
 #search_target {width:24em; color:#0078AB; vertical-align:middle;}
+#logo {float:left; background-image:url("images/potato.png"); width:100px; height:2em; max-height:40px;}
+#logo:hover {background-position:0 40px; cursor:pointer;}
+menu {text-align:center;}
+menu>li {margin:0 .5em; display:inline-block; cursor:pointer; text-shadow:1px 1px 0 #915608; -moz-user-select:none;}
+menu>li:hover {color:#F8DA4E;}
+menu>li:active {text-shadow:-1px -1px 0 #915608;}
 
 /*content place holder*/
 #_vph {position:absolute; top:3em; bottom:3em; width:100%;}
@@ -42,8 +45,9 @@ aside.right {width:20em;}
 #stocks>div {position:absolute; top:0em; left:0; right:0; bottom:0; padding:.3em; margin:.3em; overflow:auto; font-size:110%;}
 #stocks details {display:block;}
 #stocks summary {display:block; padding:.5em 1em;}
-#stocks .craft {padding:0 2em;}
+#stocks .craft {margin:.5em 2em;}
 #stocks .craft li {list-style:square inside none; padding:.3em .7em;}
+#stocks .fries.loading {background:transparent url("images/loading.gif") no-repeat; height:44px;}
 #stocks fieldset {border:1px solid #A6C9E2; border-width:1px 0 0 0; margin-top:1em; font-size:.9em;}
 #stocks legend {padding:0 .5em; cursor:pointer;display:inherit!important; font-weight:bold;}
 #stocks legend .ui-icon-plus {margin:0 -5px 2px 8px;}

@@ -68,7 +68,7 @@ function stock(uuid) {
 	 * @return {String}
 	 */
 	var getSummary = function(source) {
-		var template = '<summary>{%label%}<span class="ui-icon ui-icon-wrench"/><time datetime="{%harvest%}"> ~ {%local_harvest%}</time><time pubdate="pubdate" datetime="{%seeding%}">{%local_seeding%}</time></summary>';
+		var template = '<summary>{%label%}<time datetime="{%harvest%}"> ~ {%local_harvest%}</time><time pubdate="pubdate" datetime="{%seeding%}">{%local_seeding%}</time></summary>';
 		var seeding = source.get('seeding', 'stock');
 		if (seeding) seeding = seeding.replace(' ', 'T') + 'Z';
 		var harvest = source.get('harvest', 'stock');
@@ -120,17 +120,16 @@ function stock(uuid) {
 		});
 	};
 
-	var getChips = function(source) {
-		var template = '<fieldset><legend class="shrink"><span class="ui-icon ui-icon-triangle-1-s"/>{%legend%}<span class="ui-icon ui-icon-plus"/></legend>{%content%}</fieldset>';
+	var getFries = function(source) {
+		var template = '<fieldset><legend class="shrink"><span class="ui-icon ui-icon-triangle-1-s"/>{%legend%}</legend><div class="fries loading"></div></fieldset>';
 		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 		return POTATO.replace(template, {
-			legend : locale.stock_chips,
-			content : 'TODO'
+			legend : locale.stock_fries
 		});
 	};
 
-	var active = function(element) {
-		return element;
+	var active = function(source, element) {
+		new fries(source.uuid());
 	};
 
 	/**
@@ -138,16 +137,16 @@ function stock(uuid) {
 	 * @param source {potato}
 	 */
 	var setup = function(source) {
-		var template = '<div id="stock_{%uuid%}">{%details%}{%craft%}{%chips%}</div>';
+		var template = '<div id="stock_{%uuid%}">{%details%}{%craft%}{%fries%}</div>';
 		var html = POTATO.replace(template, {
 			uuid : source.uuid(),
 			details : getDetails(source),
 			craft : getCraft(source),
-			chips : getChips(source)
+			fries : getFries(source)
 		});
 		var vessel = $('#stocks');
 		$('> div', vessel).addClass('ui-helper-hidden');
-		active($(html).data('self', this)).appendTo(vessel);
+		active(source, $(html).data('self', this).appendTo(vessel));
 	}.bind(this);
 
 	/**
