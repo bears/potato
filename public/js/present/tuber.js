@@ -22,11 +22,11 @@ function tuber(uuid, target) {
 	 * @param source {potato}
 	 */
 	this.notify = function(subject, type, source) {
-		var template = '<li id="tuber_{%uuid%}" class="ui-widget-content"><a class="handle ui-icon ui-icon-{%icon%}"></a>{%text%}</li>';
+		var template = '<li id="tuber_{%u%}" class="ui-widget-content"><a class="handle ui-icon ui-icon-{%i%}"></a>{%t%}</li>';
 		var html = POTATO.replace(template, {
-			uuid : source.uuid(),
-			icon : tuber.icons[source.get('brand', 'tuber')],
-			text : source.get('label', 'tuber')
+			u : source.uuid(),
+			i : tuber.icons[source.get('brand', 'tuber')],
+			t : source.get('label', 'tuber')
 		});
 		switch (type) {
 			case POTATO.NOTIFY.INSERT:

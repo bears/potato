@@ -16,10 +16,32 @@ function stock(uuid) {
 	 * @return {String}
 	 */
 	var getInput = function(name, value) {
-		var template = '<input readonly="readonly" name="{%name%}" value="{%value%}"/>';
+		var template = '<input readonly="readonly" name="{%n%}" value="{%v%}" type="number"/>';
 		return POTATO.replace(template, {
-			name : name,
-			value : value
+			n : name,
+			v : value
+		});
+	};
+
+	/**
+	 * Build a <select> to choose seasons.
+	 */
+	var getSeason = function() {
+		var options = '';
+		(function() {
+			var template = '<option value="{%v%}">{%c%}</option>';
+			var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
+			var seasons = ['spring', 'summer', 'autumn', 'winter'];
+			for (var i in seasons) {
+				options += POTATO.replace(template, {
+					v : seasons[i],
+					c : locale['season_' + seasons[i]]
+				});
+			}
+		})();
+		var template = '<select readonly="readonly" name="season">{%o%}</select>';
+		return POTATO.replace(template, {
+			o : options
 		});
 	};
 
@@ -30,10 +52,10 @@ function stock(uuid) {
 	 * @return {String}
 	 */
 	var getRowPair = function(label, value) {
-		var template = '<th>{%label%}</th><td>{%value%}</td>';
+		var template = '<th>{%l%}</th><td>{%v%}</td>';
 		return POTATO.replace(template, {
-			label : label,
-			value : value
+			l : label,
+			v : value
 		});
 	};
 
@@ -45,20 +67,20 @@ function stock(uuid) {
 	 * @return {String}
 	 */
 	var getProportion = function(label, title, width) {
-		var template = '<div class="proportion"><div class="{%label%}" title="{%title%}" style="width:{%width%}%;"/></div>';
+		var template = '<div class="proportion"><div class="{%l%}" title="{%t%}" style="width:{%w%}%;"/></div>';
 		return POTATO.replace(template, {
-			label : label,
-			title : title,
-			width : width
+			l : label,
+			t : title,
+			w : width
 		});
 	};
 
 	var getProgress = function(label, source) {
-		var template = '<th>{%label%}</th><td class="progress">{%estimated%}{%practical%}</td>';
+		var template = '<th>{%l%}</th><td class="progress">{%e%}{%p%}</td>';
 		return POTATO.replace(template, {
-			label : label,
-			estimated : getProportion('estimated', 'estimated', 100),
-			practical : getProportion('practical', 'practical', 30)
+			l : label,
+			e : getProportion('estimated', 'estimated', 100),
+			p : getProportion('practical', 'practical', 30)
 		});
 	};
 
@@ -68,17 +90,17 @@ function stock(uuid) {
 	 * @return {String}
 	 */
 	var getSummary = function(source) {
-		var template = '<summary>{%label%}<time datetime="{%harvest%}"> ~ {%local_harvest%}</time><time pubdate="pubdate" datetime="{%seeding%}">{%local_seeding%}</time></summary>';
+		var template = '<summary class="ui-corner-all ui-state-highlight">{%l%}<time datetime="{%h%}">&nbsp;~&nbsp;{%t%}</time><time pubdate="pubdate" datetime="{%s%}">{%g%}</time></summary>';
 		var seeding = source.get('seeding', 'stock');
 		if (seeding) seeding = seeding.replace(' ', 'T') + 'Z';
 		var harvest = source.get('harvest', 'stock');
 		if (harvest) harvest = harvest.replace(' ', 'T') + 'Z';
 		return POTATO.replace(template, {
-			label : getInput('label', source.get('label', 'tuber')),
-			seeding : seeding,
-			local_seeding : (new Date(seeding)).toLocaleDateString(),
-			harvest : harvest,
-			local_harvest : (new Date(harvest)).toLocaleDateString()
+			l : getInput('label', source.get('label', 'tuber')),
+			s : seeding,
+			g : (new Date(seeding)).toLocaleDateString(),
+			h : harvest,
+			t : (new Date(harvest)).toLocaleDateString()
 		});
 	};
 
@@ -88,13 +110,13 @@ function stock(uuid) {
 	 * @return {String}
 	 */
 	var getTrivial = function(source) {
-		var template = '<table class="fields"><tr>{%season%}{%variety%}</tr><tr>{%weight%}{%maturity%}</tr></table>';
+		var template = '<table class="fields"><tr>{%s%}{%v%}</tr><tr>{%w%}{%m%}</tr></table>';
 		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 		return POTATO.replace(template, {
-			season : getRowPair(locale.stock_season, getInput('season', locale['season_' + source.get('season', 'stock')])),
-			variety : getRowPair(locale.stock_variety, getInput('variety', source.get('variety', 'stock'))),
-			weight : getRowPair(locale.stock_weight, getInput('weight', source.get('weight', 'stock'))),
-			maturity : getProgress(locale.stock_maturity, source)
+			s : getRowPair(locale.stock_season, getSeason()),//getInput('season', locale['season_' + source.get('season', 'stock')])
+			v : getRowPair(locale.stock_variety, getInput('variety', source.get('variety', 'stock'))),
+			w : getRowPair(locale.stock_weight, getInput('weight', source.get('weight', 'stock'))),
+			m : getProgress(locale.stock_maturity, source)
 		});
 	};
 
@@ -104,27 +126,27 @@ function stock(uuid) {
 	 * @return {String}
 	 */
 	var getDetails = function(source) {
-		var template = '<details open="open">{%summary%}{%trivial%}</details>';
+		var template = '<details open="open">{%s%}{%t%}</details>';
 		return POTATO.replace(template, {
-			summary : getSummary(source),
-			trivial : getTrivial(source)
+			s : getSummary(source),
+			t : getTrivial(source)
 		});
 	};
 
 	var getCraft = function(source) {
-		var template = '<fieldset><legend class="shrink"><span class="ui-icon ui-icon-triangle-1-s"/>{%legend%}</legend><div class="craft">{%content%}</div></fieldset>';
+		var template = '<fieldset><legend class="shrink"><span class="ui-icon ui-icon-triangle-1-s"/>{%l%}</legend><div class="craft">{%c%}</div></fieldset>';
 		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 		return POTATO.replace(template, {
-			legend : locale.stock_craft,
-			content : source.get('craft', 'stock')
+			l : locale.stock_craft,
+			c : source.get('craft', 'stock')
 		});
 	};
 
 	var getFries = function(source) {
-		var template = '<fieldset><legend class="shrink"><span class="ui-icon ui-icon-triangle-1-s"/>{%legend%}</legend><div class="fries loading"></div></fieldset>';
+		var template = '<fieldset><legend class="shrink"><span class="ui-icon ui-icon-triangle-1-s"/>{%l%}</legend><div class="fries loading"></div></fieldset>';
 		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 		return POTATO.replace(template, {
-			legend : locale.stock_fries
+			l : locale.stock_fries
 		});
 	};
 
@@ -137,12 +159,12 @@ function stock(uuid) {
 	 * @param source {potato}
 	 */
 	var setup = function(source) {
-		var template = '<div id="stock_{%uuid%}">{%details%}{%craft%}{%fries%}</div>';
+		var template = '<div id="stock_{%u%}">{%d%}{%c%}{%f%}</div>';
 		var html = POTATO.replace(template, {
-			uuid : source.uuid(),
-			details : getDetails(source),
-			craft : getCraft(source),
-			fries : getFries(source)
+			u : source.uuid(),
+			d : getDetails(source),
+			c : getCraft(source),
+			f : getFries(source)
 		});
 		var vessel = $('#stocks');
 		$('> div', vessel).addClass('ui-helper-hidden');
