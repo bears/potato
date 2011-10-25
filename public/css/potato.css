@@ -7,7 +7,7 @@
 form input {padding:3px 7px;}
 
 /*global*/
-header,footer {position:fixed; height:2em; line-height:2em; padding:0 2em; overflow:hidden;}
+header, footer {position:fixed; height:2em; line-height:2em; padding:0 2em; overflow:hidden;}
 header {top:0; right:1px; left:1px;}
 footer {bottom:0; right:3em; left:3em; border-top:1px dashed #A6C9E3; color:#A6C9E3; font-weight:bold;}
 
@@ -37,19 +37,21 @@ aside.right {width:20em;}
 
 #annual>.ui-tabs-panel {position:absolute; top:2.4em; bottom:.2em; left:.2em; right:.2em; padding:0;}
 #annual .season {overflow:auto; height:100%;}
-#annual .season>li {position:relative; overflow:auto; margin:.5em; padding:.5em; white-space: nowrap; border-color:#FFF; cursor:alias;}
-#annual .season>li:hover {border-color:#C9E2A6; border-radius:5px; border-style:dotted dashed;}
-#annual .season .handle {cursor:move; margin:0 6px -1px 0; vertical-align:baseline;}
+.season>li {position:relative; overflow:auto; margin:.5em; padding:.5em; white-space: nowrap; border-color:#FFF; cursor:alias;}
+.season>li:hover {background-color:#F7FBFF;}
+.season .handle {cursor:move; margin:0 6px -1px 0; vertical-align:baseline;}
 
 #stocks {position:relative; height:100%; width:50.5em;}
 #stocks>div {position:absolute; top:0em; left:0; right:0; bottom:0; padding:.3em; margin:.3em; overflow:auto; font-size:110%;}
+#stocks [disabled] {color:inherit;}
 #stocks details {display:block;}
 #stocks summary {display:block; padding:.5em 1em;}
+#stocks summary input {border:none; background:transparent; font-size:inherit; width:inherit;}
 #stocks .craft {margin:.5em 2em;}
-#stocks .craft li {list-style:square inside none; padding:.3em .7em;}
+.craft li {list-style:square inside none; padding:.3em .7em;}
 #stocks .fries.loading {background:url("images/loading.gif") no-repeat scroll center top transparent; min-height:44px;}
 #stocks fieldset {border:1px solid #A6C9E2; border-width:1px 0 0 0; margin-top:1em; font-size:.9em;}
-#stocks legend {padding:0 .5em; cursor:pointer;display:inherit!important; font-weight:bold;}
+#stocks legend {padding:0 .5em; cursor:pointer; display:inherit!important; font-weight:bold;}
 #stocks legend .ui-icon-plus {margin:0 -5px 2px 8px;}
 #stocks legend .ui-icon-triangle-1-s {margin:0 4px 1px 0;}
 #stocks fieldset.collapsed>* {display:none;}
@@ -64,12 +66,13 @@ aside.right {width:20em;}
 #stocks blockquote:hover, #stocks fieldset li:hover {background-color:#F7FBFF;}
 #stocks .ui-icon-wrench, #stocks .ui-icon-pencil {float:right; cursor:pointer; margin-left:.5em;}
 #stocks .fields {padding:.5em;}
-#stocks .fields th, #stocks .fields td {padding:.2em 0 .2em .8em; font-weight:normal; white-space:nowrap;}
-#stocks .fields th {text-align:right; color:#915608;}
-#stocks .fields tr>td:nth-child(2) {width:7em;}
-#stocks .fields tr>td:last-child {width:25em;}
-#stocks .fields .progress {width:24em;}
-#stocks select, #stocks input {border:none; background:transparent; font-size:inherit; width:inherit;}
+.fields th, .fields td {padding:.2em 0 .2em .8em; font-weight:normal; white-space:nowrap;}
+.fields th {text-align:right; color:#915608;}
+.fields tr>td:nth-child(2) {width:7em;}
+.fields tr>td:last-child {width:25em;}
+.fields .progress {width:24em;}
+.fields select, .fields input {border:none; background:transparent; font-size:inherit; width:inherit;}
+.fields option {margin:.4em .6em; text-align:center;}
 
 .proportion {height:10px; background-color:#EAF5F7; margin:1px;}
 .proportion .estimated {height:100%; background-color:#77D5F7; float:left;}

@@ -10,13 +10,13 @@ function stock(uuid) {
 	}
 
 	/**
-	 * Build a read-only <input>.
+	 * Build a disabled <input>.
 	 * @param name {String}
 	 * @param value {String}
 	 * @return {String}
 	 */
 	var getInput = function(name, value) {
-		var template = '<input readonly="readonly" name="{%n%}" value="{%v%}" type="number"/>';
+		var template = '<input disabled="disabled" name="{%n%}" value="{%v%}"/>';
 		return POTATO.replace(template, {
 			n : name,
 			v : value
@@ -24,7 +24,21 @@ function stock(uuid) {
 	};
 
 	/**
-	 * Build a <select> to choose seasons.
+	 * Build a disabled <input> for number in range (0, 1).
+	 * @param name {String}
+	 * @param value {Number}
+	 * @return {String}
+	 */
+	var getRange = function(name, value) {
+		var template = '<input disabled="disabled" name="{%n%}" value="{%v%}" type="number" min="0" max="100" step="0.1"/>';
+		return POTATO.replace(template, {
+			n : name,
+			v : value * 100
+		});
+	};
+
+	/**
+	 * Build a disabled <select> to choose seasons.
 	 */
 	var getSeason = function() {
 		var options = '';
@@ -39,7 +53,7 @@ function stock(uuid) {
 				});
 			}
 		})();
-		var template = '<select readonly="readonly" name="season">{%o%}</select>';
+		var template = '<select disabled="disabled" name="season">{%o%}</select>';
 		return POTATO.replace(template, {
 			o : options
 		});
@@ -90,17 +104,17 @@ function stock(uuid) {
 	 * @return {String}
 	 */
 	var getSummary = function(source) {
-		var template = '<summary class="ui-corner-all ui-state-highlight">{%l%}<time datetime="{%h%}">&nbsp;~&nbsp;{%t%}</time><time pubdate="pubdate" datetime="{%s%}">{%g%}</time></summary>';
+		var template = '<summary class="ui-corner-all ui-state-highlight"><time datetime="{%h%}">&nbsp;~&nbsp;{%t%}</time><time pubdate="pubdate" datetime="{%s%}">{%g%}</time>{%l%}</summary>';
 		var seeding = source.get('seeding', 'stock');
 		if (seeding) seeding = seeding.replace(' ', 'T') + 'Z';
 		var harvest = source.get('harvest', 'stock');
 		if (harvest) harvest = harvest.replace(' ', 'T') + 'Z';
 		return POTATO.replace(template, {
-			l : getInput('label', source.get('label', 'tuber')),
 			s : seeding,
 			g : (new Date(seeding)).toLocaleDateString(),
 			h : harvest,
-			t : (new Date(harvest)).toLocaleDateString()
+			t : (new Date(harvest)).toLocaleDateString(),
+			l : getInput('label', source.get('label', 'tuber'))
 		});
 	};
 
@@ -113,9 +127,9 @@ function stock(uuid) {
 		var template = '<table class="fields"><tr>{%s%}{%v%}</tr><tr>{%w%}{%m%}</tr></table>';
 		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 		return POTATO.replace(template, {
-			s : getRowPair(locale.stock_season, getSeason()),//getInput('season', locale['season_' + source.get('season', 'stock')])
-			v : getRowPair(locale.stock_variety, getInput('variety', source.get('variety', 'stock'))),
-			w : getRowPair(locale.stock_weight, getInput('weight', source.get('weight', 'stock'))),
+			s : getRowPair(locale.stock_season, getSeason()),
+			v : getRowPair(locale.stock_variety, source.get('variety', 'stock')),
+			w : getRowPair(locale.stock_weight, getRange('weight', source.get('weight', 'stock'))),
 			m : getProgress(locale.stock_maturity, source)
 		});
 	};
@@ -151,6 +165,7 @@ function stock(uuid) {
 	};
 
 	var active = function(source, element) {
+		$('option[value="' + source.get('season', 'stock') + '"]', element).attr('selected', true);
 		new fries(source.uuid());
 	};
 
