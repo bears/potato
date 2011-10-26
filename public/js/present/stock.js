@@ -10,41 +10,55 @@ function stock(uuid) {
 	}
 
 	/**
-	 * Build a disabled <input>.
+	 * Build an <input> with a <span> for editing.
 	 * @param name {String}
 	 * @param value {String}
+	 * @param extra {String}
 	 * @return {String}
 	 */
-	var getInput = function(name, value) {
-		var template = '<input disabled="disabled" name="{%n%}" value="{%v%}"/>';
+	var getInput = function(name, value, extra) {
+		var template = '<input name="{%n%}" value="{%v%}" {%e%}/><span>{%v%}</span>';
 		return POTATO.replace(template, {
 			n : name,
-			v : value
+			v : value,
+			e : extra ? extra : ''
 		});
 	};
 
 	/**
-	 * Build a disabled <input> for number in range (0, 1).
+	 * Build an <input> for number in range (0, 1).
 	 * @param name {String}
 	 * @param value {Number}
 	 * @return {String}
 	 */
-	var getRange = function(name, value) {
-		var template = '<input disabled="disabled" name="{%n%}" value="{%v%}" type="number" min="0" max="100" step="0.1"/>';
+	var getWeight = function(value) {
+		return getInput('weight', value * 100, 'type="range" min="0" max="100" step="0.1" size="2"') + ' %';
+	};
+
+	/**
+	 * Build an <input> for variety key words.
+	 * @param variety {String}
+	 * @return {String}
+	 */
+	var getVariety = function(variety) {
+		var emphases = variety.split(';').join('</em><em>');
+		var template = '<input name="variety" value="{%v%}"/><span><em>{%e%}</em></span>';
 		return POTATO.replace(template, {
-			n : name,
-			v : value * 100
+			v : variety,
+			e : emphases
 		});
 	};
 
 	/**
-	 * Build a disabled <select> to choose seasons.
+	 * Build a <select> to choose seasons.
+	 * @param season {String}
+	 * @return {String}
 	 */
-	var getSeason = function() {
+	var getSeason = function(season) {
+		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 		var options = '';
 		(function() {
 			var template = '<option value="{%v%}">{%c%}</option>';
-			var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 			var seasons = ['spring', 'summer', 'autumn', 'winter'];
 			for (var i in seasons) {
 				options += POTATO.replace(template, {
@@ -53,9 +67,10 @@ function stock(uuid) {
 				});
 			}
 		})();
-		var template = '<select disabled="disabled" name="season">{%o%}</select>';
+		var template = '<select name="season">{%o%}</select><span>{%s%}</span>';
 		return POTATO.replace(template, {
-			o : options
+			o : options,
+			s : locale['season_' + season]
 		});
 	};
 
@@ -124,12 +139,12 @@ function stock(uuid) {
 	 * @return {String}
 	 */
 	var getTrivial = function(source) {
-		var template = '<table class="fields"><tr>{%s%}{%v%}</tr><tr>{%w%}{%m%}</tr></table>';
+		var template = '<table class="fields"><tr>{%w%}{%v%}</tr><tr>{%s%}{%m%}</tr></table>';
 		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 		return POTATO.replace(template, {
-			s : getRowPair(locale.stock_season, getSeason()),
-			v : getRowPair(locale.stock_variety, source.get('variety', 'stock')),
-			w : getRowPair(locale.stock_weight, getRange('weight', source.get('weight', 'stock'))),
+			w : getRowPair(locale.stock_weight, getWeight(source.get('weight', 'stock'))),
+			v : getRowPair(locale.stock_variety, getVariety(source.get('variety', 'stock'))),
+			s : getRowPair(locale.stock_season, getSeason(source.get('season', 'stock'))),
 			m : getProgress(locale.stock_maturity, source)
 		});
 	};
@@ -174,7 +189,7 @@ function stock(uuid) {
 	 * @param source {potato}
 	 */
 	var setup = function(source) {
-		var template = '<div id="stock_{%u%}">{%d%}{%c%}{%f%}</div>';
+		var template = '<div id="stock_{%u%}" class="readonly">{%d%}{%c%}{%f%}</div>';
 		var html = POTATO.replace(template, {
 			u : source.uuid(),
 			d : getDetails(source),

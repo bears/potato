@@ -43,12 +43,10 @@ aside.right {width:20em;}
 
 #stocks {position:relative; height:100%; width:50.5em;}
 #stocks>div {position:absolute; top:0em; left:0; right:0; bottom:0; padding:.3em; margin:.3em; overflow:auto; font-size:110%;}
-#stocks [disabled] {color:inherit;}
 #stocks details {display:block;}
 #stocks summary {display:block; padding:.5em 1em;}
-#stocks summary input {border:none; background:transparent; font-size:inherit; width:inherit;}
+#stocks summary input {border:none; background:transparent; font-size:inherit; width:100%;}
 #stocks .craft {margin:.5em 2em;}
-.craft li {list-style:square inside none; padding:.3em .7em;}
 #stocks .fries.loading {background:url("images/loading.gif") no-repeat scroll center top transparent; min-height:44px;}
 #stocks fieldset {border:1px solid #A6C9E2; border-width:1px 0 0 0; margin-top:1em; font-size:.9em;}
 #stocks legend {padding:0 .5em; cursor:pointer; display:inherit!important; font-weight:bold;}
@@ -66,17 +64,18 @@ aside.right {width:20em;}
 #stocks blockquote:hover, #stocks fieldset li:hover {background-color:#F7FBFF;}
 #stocks .ui-icon-wrench, #stocks .ui-icon-pencil {float:right; cursor:pointer; margin-left:.5em;}
 #stocks .fields {padding:.5em;}
-.fields th, .fields td {padding:.2em 0 .2em .8em; font-weight:normal; white-space:nowrap;}
+.fields th, .fields td {padding:.2em .8em; font-weight:normal; white-space:nowrap; border:1px dotted transparent;}
 .fields th {text-align:right; color:#915608;}
-.fields tr>td:nth-child(2) {width:7em;}
-.fields tr>td:last-child {width:25em;}
 .fields .progress {width:24em;}
-.fields select, .fields input {border:none; background:transparent; font-size:inherit; width:inherit;}
+.fields select, .fields input {border:none; background:transparent; font-size:inherit;}
 .fields option {margin:.4em .6em; text-align:center;}
-
+.editable .fields td {border-color:#A6C9E2; border-radius:5px; }
+.editable time, .editable input+span, .editable select+span, .readonly input, .readonly select {display:none;}
+.readonly em {border-color:#A6C9E2; border-style:solid dashed; border-width:0 0 1px 1px; padding:.1em .4em; margin:0 .2em;}
 .proportion {height:10px; background-color:#EAF5F7; margin:1px;}
 .proportion .estimated {height:100%; background-color:#77D5F7; float:left;}
 .proportion .practical {height:100%; background-color:#ACDD4A; float:left;}
+.craft li {list-style:square inside none; padding:.3em .7em;}
 
 #editor iframe {width:98%; height:6em; margin-top:1.4em; padding:1%;}
 #editor_action {float:right;}
