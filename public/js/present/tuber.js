@@ -33,12 +33,12 @@ function tuber(uuid, target) {
 				$(html).data('self', this).click(function() {
 					$('#annual .season>li.ui-state-highlight').removeClass('ui-state-highlight');
 					$(this).addClass('ui-state-highlight');
-					new stock(source.uuid());
+					(new stock(uuid)).waken();
 				}).appendTo(vessel);
 				break;
 
 			case POTATO.NOTIFY.UPDATE:
-				$('#tuber_' + source.uuid()).html(html);
+				$('#tuber_' + uuid).html(html);
 				break;
 		}
 	};

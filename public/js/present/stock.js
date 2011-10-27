@@ -179,27 +179,32 @@ function stock(uuid) {
 		});
 	};
 
-	var active = function(source, element) {
-		$('option[value="' + source.get('season', 'stock') + '"]', element).attr('selected', true);
-		new fries(source.uuid());
-	};
-
 	/**
 	 * Setup an element to contain details.
 	 * @param source {potato}
 	 */
 	var setup = function(source) {
-		var template = '<div id="stock_{%u%}" class="readonly">{%d%}{%c%}{%f%}</div>';
-		var html = POTATO.replace(template, {
-			u : source.uuid(),
-			d : getDetails(source),
-			c : getCraft(source),
-			f : getFries(source)
-		});
-		var vessel = $('#stocks');
-		$('> div', vessel).addClass('ui-helper-hidden');
-		active(source, $(html).data('self', this).appendTo(vessel));
+		var target = $('#stock_' + uuid);
+		target.html(getDetails(source) + getCraft(source) + getFries(source))
+		new fries(source.uuid());
+		$('option[value="' + source.get('season', 'stock') + '"]', target).attr('selected', true);
+		target.removeClass('loading');
 	}.bind(this);
+
+	/**
+	 * Bring to top.
+	 */
+	this.waken = function() {
+		var target = $('#stock_' + uuid);
+		if (target.length) {
+			target.removeClass('ui-helper-hidden');
+		}
+		else {
+			var html = '<div id="stock_' + uuid + '" class="readonly loading"></div>';
+			target = $(html).data('self', this).appendTo($('#stocks'));
+		}
+		target.siblings().addClass('ui-helper-hidden');
+	};
 
 	/**
 	 * Callback for potato.

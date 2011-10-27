@@ -25,6 +25,7 @@ menu>li:active {text-shadow:-1px -1px 0 #915608;}
 #_vph {position:absolute; top:3em; bottom:3em; width:100%;}
 #_hph {height:100%; width:100em; margin:0 auto;}
 #_hph>* {display:inline-block; vertical-align:top; float:left; overflow:hidden;}
+.loading {background:url("images/loading.gif") no-repeat scroll center center transparent;}
 
 .ui-icon {display:inline-block; vertical-align:text-bottom;}
 
@@ -47,7 +48,7 @@ aside.right {width:20em;}
 #stocks summary {display:block; padding:.5em 1em;}
 #stocks summary input {border:none; background:transparent; font-size:inherit; width:100%;}
 #stocks .craft {margin:.5em 2em;}
-#stocks .fries.loading {background:url("images/loading.gif") no-repeat scroll center top transparent; min-height:44px;}
+#stocks .fries.loading {min-height:44px;}
 #stocks fieldset {border:1px solid #A6C9E2; border-width:1px 0 0 0; margin-top:1em; font-size:.9em;}
 #stocks legend {padding:0 .5em; cursor:pointer; display:inherit!important; font-weight:bold;}
 #stocks legend .ui-icon-plus {margin:0 -5px 2px 8px;}
