@@ -33,12 +33,18 @@ function annual(current) {
 	 */
 	this.notify = function(subject, type, source) {
 		var target = source.uuid();
+		var vessel = $('#season_' + target + '>ul');
 		switch (type) {
+			case POTATO.NOTIFY.ATTACH:
+				vessel.addClass('loading');
+				break;
+
 			case POTATO.NOTIFY.INSERT:
 				$.each(source.get('tubers', 'season'), function() {
 					new potato(this.$, this);
 					new tuber(this.$, target);
 				});
+				vessel.removeClass('loading');
 				break;
 
 			case POTATO.NOTIFY.UPDATE:
