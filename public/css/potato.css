@@ -38,7 +38,7 @@ aside.right {width:20em;}
 
 #annual>.ui-tabs-panel {position:absolute; top:2.4em; bottom:.2em; left:.2em; right:.2em; padding:0;}
 #annual .season {overflow:auto; height:100%;}
-.season>li {position:relative; overflow:auto; margin:.5em; padding:.5em; white-space: nowrap; border-color:#FFF; cursor:alias;}
+.season>li {position:relative; overflow:hidden; text-overflow:ellipsis; margin:.5em; padding:.5em; white-space: nowrap; border-color:#FFF; cursor:alias;}
 .season>li:hover {background-color:#F7FBFF;}
 .season .handle {cursor:move; margin:0 6px -1px 0; vertical-align:baseline;}
 

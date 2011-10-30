@@ -22,7 +22,7 @@ function tuber(uuid, target) {
 	 * @param source {potato}
 	 */
 	this.notify = function(subject, type, source) {
-		var template = '<li id="tuber_{%u%}" class="ui-corner-all"><a class="handle ui-icon ui-icon-{%i%}"></a>{%t%}</li>';
+		var template = '<li id="tuber_{%u%}" title="{%t%}" class="ui-corner-all"><a class="handle ui-icon ui-icon-{%i%}"></a>{%t%}</li>';
 		var html = POTATO.replace(template, {
 			u : source.uuid(),
 			i : tuber.icons[source.get('brand', 'tuber')],
