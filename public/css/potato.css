@@ -14,7 +14,7 @@ footer {bottom:0; right:3em; left:3em; border-top:1px dashed #A6C9E3; color:#A6C
 /*head & foot bar*/
 #search, #copyright {float:right;}
 #search_target {width:24em; color:#0078AB; vertical-align:middle;}
-#logo {float:left; background-image:url("images/potato.png"); width:100px; height:2em; max-height:40px;}
+#logo {float:left; background-image:url("../p/potato.png"); width:100px; height:2em; max-height:40px;}
 #logo:hover {background-position:0 40px; cursor:pointer;}
 menu {text-align:center;}
 menu>li {margin:0 .5em; display:inline-block; cursor:pointer; text-shadow:1px 1px 0 #915608; -moz-user-select:none;}
@@ -25,7 +25,7 @@ menu>li:active {text-shadow:-1px -1px 0 #915608;}
 #_vph {position:absolute; top:3em; bottom:3em; width:100%;}
 #_hph {height:100%; width:100em; margin:0 auto;}
 #_hph>* {display:inline-block; vertical-align:top; float:left; overflow:hidden;}
-.loading {background:url("images/loading.gif") no-repeat scroll center center transparent;}
+.loading {background:url("../p/loading.gif") no-repeat scroll center center transparent;}
 
 .ui-icon {display:inline-block; vertical-align:text-bottom;}
 
