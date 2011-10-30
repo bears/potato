@@ -16,22 +16,16 @@ function menu() {
 	var widget = $('header>menu');
 
 	/**
-	 * Append an item into menu.
-	 * @param name {String}
-	 * @param callback {Function}
-	 */
-	var append = function(name, callback) {
-		$('<li>' + name + '</li>').appendTo(widget).click(callback);
-	};
-
-	/**
 	 * Setup menu.
-	 * @param data {Object}
+	 * @param callbacks {Object} {label : callback, ...}
 	 */
-	this.setup = function(data) {
-		widget.empty();
-		for (var i in data) {
-			append(i, data[i]);
-		}
+	this.setup = function(callbacks) {
+		widget.fadeOut(function() {
+			widget.empty();
+			for (var label in callbacks) {
+				$('<li>' + label + '</li>').appendTo(widget).click(callbacks[label]);
+			}
+			widget.fadeIn();
+		})
 	};
 }
