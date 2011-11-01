@@ -24,8 +24,8 @@ function edit() {
 	 * Save content (stub).
 	 */
 	this.save = function() {
-		this.hide();
-	}.bind(this);
+		edit.cache.hide();
+	};
 
 	/**
 	 * Hide the editor.
@@ -36,14 +36,14 @@ function edit() {
 			$(this).siblings('.ui-helper-hidden').removeClass('ui-helper-hidden');
 			('function' == typeof callback) && callback();
 		});
-	}.bind(this);
+	};
 
 	/**
 	 * Show the editor.
 	 * @param element {Element}
 	 */
 	this.show = function(element) {
-		this.hide(function() {
+		edit.cache.hide(function() {
 			$('#editor>iframe').load(function() {
 				$(this).unbind('load');
 				vessel = this.contentDocument;
@@ -53,7 +53,7 @@ function edit() {
 			});
 			$(element).addClass('ui-helper-hidden').after(widget.fadeIn('fast'));
 		});
-	}.bind(this);
+	};
 
 	// Initialize commands.
 	$('#stylor>span:not(.ui-icon)').click(function() {
