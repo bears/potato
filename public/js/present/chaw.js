@@ -17,18 +17,31 @@ function chaw(uuid, vessel) {
 	 * @param source {potato}
 	 */
 	this.notify = function(subject, type, source) {
-		var template = '<blockquote class="ui-corner-br"><time/><span class="shrink ui-icon ui-icon-carat-1-s"/><div class="editable">{%c%}</div></blockquote>';
+		var template = '<blockquote class="ui-corner-br"><time/><span class="shrink ui-icon ui-icon-carat-1-s"/><div id="chaw_{%u%}" class="editable">{%c%}</div></blockquote>';
 		var html = POTATO.replace(template, {
+			u : uuid,
 			c : source.get('detail', 'fries')
 		});
 		switch (type) {
 			case POTATO.NOTIFY.INSERT:
-				$(html).appendTo(vessel);
+				$(html).appendTo(vessel).click(function(event) {
+					event.stopPropagation();
+					(new menu()).setup(actions);
+				});
 				break;
 
 			case POTATO.NOTIFY.UPDATE:
 				break;
 		};
+	};
+
+	/**
+	 * menu items.
+	 */
+	var actions = {
+		edit : function() {
+			(new edit()).show($('#chaw_' + uuid).parent());
+		}
 	};
 
 	// Subscribe to the data source.

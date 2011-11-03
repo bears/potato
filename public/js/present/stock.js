@@ -189,6 +189,10 @@ function stock(uuid) {
 		new fries(source.uuid());
 		$('option[value="' + source.get('season', 'stock') + '"]', target).attr('selected', true);
 		target.removeClass('loading');
+		target.click(function(event) {
+			event.stopPropagation();
+			(new menu()).setup(actions);
+		}).click();
 	}.bind(this);
 
 	/**
@@ -197,7 +201,7 @@ function stock(uuid) {
 	this.waken = function() {
 		var target = $('#stock_' + uuid);
 		if (target.length) {
-			target.removeClass('ui-helper-hidden');
+			target.removeClass('ui-helper-hidden').click();
 		}
 		else {
 			var html = '<div id="stock_' + uuid + '" class="readonly loading"></div>';
@@ -220,6 +224,15 @@ function stock(uuid) {
 
 			case POTATO.NOTIFY.UPDATE:
 				break;
+		}
+	};
+
+	/**
+	 * menu items.
+	 */
+	var actions = {
+		edit : function() {
+			$('#stock_' + uuid).removeClass('readonly').addClass('editable');
 		}
 	};
 
