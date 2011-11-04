@@ -112,6 +112,7 @@ class individual extends \PHPUnit_Framework_TestCase {
 		$this->fixture = new \individual\potato();
 		$this->fixture->brand = 2;
 		$this->fixture->label = __METHOD__;
+		$this->fixture->craft = 'test';
 		$this->fixture->season = 'spring';
 		$this->fixture->weight = 0.9876;
 		$this->fixture->variety = __FILE__;

@@ -33,6 +33,7 @@ class individual extends \PHPUnit_Framework_TestCase {
 		$potato = new \individual\potato();
 		$potato->brand = 2;
 		$potato->label = __METHOD__;
+		$potato->craft = 'test';
 		$potato->season = 'spring';
 		$potato->weight = 0.9876;
 		$potato->variety = __FILE__;
