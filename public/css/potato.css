@@ -13,7 +13,7 @@ footer {bottom:0; right:3em; left:3em; border-top:1px dashed #A6C9E3; color:#A6C
 
 /*head & foot bar*/
 #search, #copyright {float:right;}
-#search_target {width:24em; color:#0078AB; vertical-align:middle;}
+#search_target {width:24em; color:#0078AE; vertical-align:middle;}
 #logo {float:left; background-image:url("../p/potato.png"); width:100px; height:2em; max-height:40px;}
 #logo:hover {background-position:0 40px; cursor:pointer;}
 menu {text-align:center;}
@@ -64,6 +64,8 @@ aside.right {width:20em;}
 #stocks blockquote.collapsed .editable {overflow:hidden; height:1.2em!important;}
 #stocks blockquote:hover, #stocks fieldset li:hover {background-color:#F7FBFF;}
 #stocks .ui-icon-wrench, #stocks .ui-icon-pencil {float:right; cursor:pointer; margin-left:.5em;}
+#stocks sub {vertical-align:-.3em; font-size:65%}
+#stocks sup {vertical-align:.6em; font-size:65%}
 #stocks .fields {padding:.5em;}
 .fields th, .fields td {padding:.2em .8em; font-weight:normal; white-space:nowrap; border:1px dotted transparent;}
 .fields th {text-align:right; color:#915608;}
@@ -78,9 +80,7 @@ aside.right {width:20em;}
 .proportion .practical {height:100%; background-color:#ACDD4A; float:left;}
 .craft li {list-style:square inside none; padding:.3em .7em;}
 
-#editor iframe {width:98%; height:6em; margin-top:1.4em; padding:1%;}
-#editor_action {float:right;}
-#editor_action .ui-icon {cursor:pointer; margin:0 -.9em 0 1.1em;}
+#editor iframe {width:100%; height:6em; margin-top:1.4em; padding-top:.5em; border:dotted #A6C9E2; border-width:1px 0 0;}
 #stylor {position:absolute; top:.3em; right:.7em; left:1em; line-height:1.3em; padding:.2em 1em;}
 #stylor>span {display:inline-block; margin:0 .1em; text-align:center; vertical-align:middle; cursor: pointer; font-family: "Times New Roman"; -moz-user-select:none; -webkit-user-select:none;}
 #stylor>span.ui-icon {margin:0; cursor:default;}

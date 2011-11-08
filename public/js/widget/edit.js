@@ -21,6 +21,11 @@ function edit() {
 	var vessel;
 
 	/**
+	 * The element contains original content.
+	 */
+	var target;
+
+	/**
 	 * Save content (stub).
 	 */
 	this.save = function() {
@@ -33,7 +38,7 @@ function edit() {
 	 */
 	this.hide = function(callback) {
 		widget.fadeOut('fast', function() {
-			$(this).siblings('.ui-helper-hidden').removeClass('ui-helper-hidden');
+			$(target).removeClass('ui-helper-hidden');
 			('function' == typeof callback) && callback();
 		});
 	};
@@ -45,13 +50,22 @@ function edit() {
 	this.show = function(element) {
 		edit.cache.hide(function() {
 			$('#editor>iframe').load(function() {
+				// Prevent duplicated execution.
 				$(this).unbind('load');
+
+				// Set content editable.
 				vessel = this.contentDocument;
 				vessel.designMode = 'on';
 				vessel.body.innerHTML = $('.editable', element).html();
 				vessel.execCommand('styleWithCSS', false, true);
+
+				// Trigger menu.
+				$(vessel).click(function(event) {
+					event.stopPropagation();
+					(new menu()).setup(actions);
+				}).click();
 			});
-			$(element).addClass('ui-helper-hidden').after(widget.fadeIn('fast'));
+			target = $(element).addClass('ui-helper-hidden').after(widget.fadeIn('fast'));
 		});
 	};
 
@@ -60,6 +74,19 @@ function edit() {
 		var command = $(this).data('command');
 		command && vessel.execCommand(command.toString(), false, $(this).data('value'));
 	});
-	$('#editor_action .ui-icon-check').click(this.save);
-	$('#editor_action .ui-icon-close').click(this.hide);
+
+	/**
+	 * menu items.
+	 */
+	var actions = {
+		save : this.save,
+		hide : this.hide
+	};
+
+	/**
+	 * Stop propagating from margin/toolbar to container.
+	 */
+	widget.click(function(event) {
+		event.stopPropagation();
+	});
 }
