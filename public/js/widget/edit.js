@@ -21,24 +21,19 @@ function edit() {
 	var vessel;
 
 	/**
-	 * The element contains original content.
-	 */
-	var target;
-
-	/**
 	 * Save content (stub).
 	 */
-	this.save = function() {
-		edit.cache.hide();
+	var save = function() {
+		hide();
 	};
 
 	/**
 	 * Hide the editor.
 	 * @param callback {Function}
 	 */
-	this.hide = function(callback) {
+	var hide = function(callback) {
 		widget.fadeOut('fast', function() {
-			$(target).removeClass('ui-helper-hidden');
+			$(widget.data('element')).removeClass('ui-helper-hidden');
 			('function' == typeof callback) && callback();
 		});
 	};
@@ -48,7 +43,7 @@ function edit() {
 	 * @param element {Element}
 	 */
 	this.show = function(element) {
-		edit.cache.hide(function() {
+		hide(function() {
 			$('#editor>iframe').load(function() {
 				// Prevent duplicated execution.
 				$(this).unbind('load');
@@ -56,8 +51,8 @@ function edit() {
 				// Set content editable.
 				vessel = this.contentDocument;
 				vessel.designMode = 'on';
-				vessel.body.innerHTML = $('.editable', element).html();
 				vessel.execCommand('styleWithCSS', false, true);
+				$(vessel.body).html($('.editable', element).html());
 
 				// Trigger menu.
 				$(vessel).click(function(event) {
@@ -65,7 +60,8 @@ function edit() {
 					(new menu()).setup(actions);
 				}).click();
 			});
-			target = $(element).addClass('ui-helper-hidden').after(widget.fadeIn('fast'));
+			$(element).addClass('ui-helper-hidden').after(widget.fadeIn('fast'));
+			widget.data('element', element);
 		});
 	};
 
@@ -79,8 +75,8 @@ function edit() {
 	 * menu items.
 	 */
 	var actions = {
-		save : this.save,
-		hide : this.hide
+		save : save,
+		hide : hide
 	};
 
 	/**

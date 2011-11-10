@@ -14,6 +14,9 @@ function fries(uuid) {
 		return cached;
 	}
 
+	// Cache this object.
+	vessel.data('self', this);
+
 	/**
 	 * Callback for chips.
 	 * @param subject {String}

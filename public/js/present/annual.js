@@ -52,7 +52,7 @@ function annual(current) {
 		}
 	};
 
-	//
+	// Initial container.
 	var tabs = $('#annual').tabs({
 		select : function(event, ui) {
 			data[current].unsubscribe('season', annual.cache);
@@ -83,4 +83,22 @@ function annual(current) {
 			ui.item.removeAttr('style');
 		}
 	});
+
+	// Bind menu
+	lists.click(function(event) {
+		event.stopPropagation();
+		(new menu()).setup(actions);
+	});
+
+	/**
+	 * menu items.
+	 */
+	var actions = {
+		add : function() {
+			alert('Not implement yet!');
+		},
+		stats : function() {
+			alert('Not implement yet!')
+		}
+	};
 }

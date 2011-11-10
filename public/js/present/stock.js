@@ -32,7 +32,7 @@ function stock(uuid) {
 	 * @return {String}
 	 */
 	var getWeight = function(value) {
-		return getInput('weight', value * 100, 'type="range" min="0" max="100" step="0.1" size="2"') + ' %';
+		return getInput('weight', value, 'type="range" min="0" max="1" step="0.01" size="4"');
 	};
 
 	/**
@@ -199,15 +199,7 @@ function stock(uuid) {
 	 * Bring to top.
 	 */
 	this.waken = function() {
-		var target = $('#stock_' + uuid);
-		if (target.length) {
-			target.removeClass('ui-helper-hidden').click();
-		}
-		else {
-			var html = '<div id="stock_' + uuid + '" class="readonly loading"></div>';
-			target = $(html).data('self', this).appendTo($('#stocks'));
-		}
-		target.siblings().addClass('ui-helper-hidden');
+		$('#stock_' + uuid).removeClass('ui-helper-hidden').click().siblings().addClass('ui-helper-hidden');
 	};
 
 	/**
@@ -227,14 +219,31 @@ function stock(uuid) {
 		}
 	};
 
+	var editing = false;
+
 	/**
 	 * menu items.
 	 */
 	var actions = {
 		edit : function() {
-			$('#stock_' + uuid).removeClass('readonly').addClass('editable');
+			if (editing) {
+				$('#stock_' + uuid).removeClass('editable').addClass('readonly');
+			}
+			else {
+				$('#stock_' + uuid).removeClass('readonly').addClass('editable');
+			}
+			editing = !editing;
+		},
+		remove : function() {
+			alert('Not implement yet!')
 		}
 	};
+
+	// Put a place holder first.
+	(function() {
+		var html = '<div id="stock_' + uuid + '" class="readonly loading"></div>';
+		$(html).data('self', this).appendTo($('#stocks'));
+	})();
 
 	// Subscribe to the data source.
 	(new potato(uuid)).subscribe('stock', this);

@@ -17,17 +17,17 @@ function chaw(uuid, vessel) {
 	 * @param source {potato}
 	 */
 	this.notify = function(subject, type, source) {
-		var template = '<blockquote class="ui-corner-br"><time/><span class="shrink ui-icon ui-icon-carat-1-s"/><div id="chaw_{%u%}" class="editable">{%c%}</div></blockquote>';
-		var html = POTATO.replace(template, {
-			u : uuid,
-			c : source.get('detail', 'fries')
-		});
 		switch (type) {
 			case POTATO.NOTIFY.INSERT:
-				$(html).appendTo(vessel).click(function(event) {
+				var template = '<blockquote class="ui-corner-br"><time/><span class="shrink ui-icon ui-icon-carat-1-s"/><div id="chaw_{%u%}" class="editable">{%c%}</div></blockquote>';
+				var html = POTATO.replace(template, {
+					u : uuid,
+					c : source.get('detail', 'fries')
+				});
+				$(html).data('self', this).click(function(event) {
 					event.stopPropagation();
 					(new menu()).setup(actions);
-				});
+				}).appendTo(vessel);
 				break;
 
 			case POTATO.NOTIFY.UPDATE:
