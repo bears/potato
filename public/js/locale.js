@@ -9,22 +9,25 @@ POTATO.L10N = {
 		// header
 		search : 'Plough Potato',
 
+		// menu bar
+		menu_stats : 'Stats',
+		menu_seed : 'Seed',
+		menu_plow : 'Plow',
+		menu_harvest : 'Harvest',
+		menu_save : 'Finish',
+		menu_hide : 'Discard',
+
 		// left panel
 		season_spring : 'Spring',
 		season_summer : 'Summer',
 		season_autumn : 'Autumn',
 		season_winter : 'Winter',
-		item_more : 'Seed',
 
 		// main panel
-		stock_season : 'Season',
 		stock_variety : 'Variety',
-		stock_weight : 'Weight',
-		stock_maturity : 'Maturity',
-		stock_craft : 'Craft',
 		stock_fries : 'Fries',
 
-		// editor tool bar
+		// edit bar
 		editor_bold : 'Bold',
 		editor_italic : 'Italic',
 		editor_underline : 'Underline',
@@ -47,7 +50,7 @@ POTATO.L10N = {
 		statistics : 'Statistics',
 
 		// footer
-		tip : [
+		tips : [
 		'Welcome to bears\' home!',
 		'In spring we plan the year.',
 		'Summer is the good time to do great.',

@@ -94,13 +94,13 @@ $(function() {
 			// Footer
 			(function() {
 				var index = 0;
-				var bound = locale.tip.length;
-				var tip = $('#tip').text(locale.tip[0]);
+				var bound = locale.tips.length;
+				var tip = $('#tip').text(locale.tips[0]);
 				clearInterval(tip.data('roll'))
 				tip.data('roll', setInterval(function() {
 					tip.fadeOut(function() {
 						(++index < bound) || (index = 0);
-						tip.text(locale.tip[index]).fadeIn();
+						tip.text(locale.tips[index]).fadeIn();
 					});
 				}, 12345));
 			})();
@@ -109,7 +109,11 @@ $(function() {
 			new annual('summer');
 
 			// Right side panel
-			$('#calendar').datepicker();
+			$('#calendar').datepicker({
+				beforeShowDay : function(date) {
+					return [true, '', 'Hello, world!'];
+				}
+			});
 
 			// Done, show it
 			page.removeClass('ui-helper-hidden');

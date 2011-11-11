@@ -28,8 +28,9 @@ function menu() {
 		if (current != callbacks) {
 			widget.fadeOut(function() {
 				widget.empty();
+				var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
 				for (var label in callbacks) {
-					$('<li>' + label + '</li>').appendTo(widget).click(callbacks[label]);
+					$('<li>' + locale['menu_' + label] + '</li>').appendTo(widget).click(callbacks[label]);
 				}
 				current = callbacks;
 				widget.fadeIn();

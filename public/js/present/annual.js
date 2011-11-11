@@ -94,7 +94,7 @@ function annual(current) {
 	 * menu items.
 	 */
 	var actions = {
-		add : function() {
+		seed : function() {
 			alert('Not implement yet!');
 		},
 		stats : function() {
