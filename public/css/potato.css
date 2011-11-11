@@ -45,17 +45,15 @@ aside.right {width:20em;}
 #stocks {position:relative; height:100%; width:50.5em;}
 #stocks>div {position:absolute; top:0em; left:0; right:0; bottom:0; padding:.3em; margin:.3em; overflow:auto; font-size:110%;}
 #stocks details {display:block;}
-#stocks summary {display:block; padding:.5em 1em;}
-#stocks summary input {border:none; background:transparent; font-size:inherit; width:100%;}
-#stocks .craft {margin:.5em 2em;}
+#stocks summary {display:block; padding:.3em .7em;}
+#stocks .craft {margin:.5em 1em;}
 #stocks .fries.loading {min-height:44px;}
 #stocks fieldset {border:1px solid #A6C9E2; border-width:1px 0 0 0; margin-top:1em; font-size:.9em;}
 #stocks legend {padding:0 .5em; cursor:pointer; display:inherit!important; font-weight:bold;}
-#stocks legend .ui-icon-plus {margin:0 -5px 2px 8px;}
 #stocks legend .ui-icon-triangle-1-s {margin:0 4px 1px 0;}
 #stocks fieldset.collapsed>* {display:none;}
 #stocks fieldset.collapsed legend .ui-icon-triangle-1-s {background-position:-32px -16px; margin-bottom:2px;}
-#stocks time {font-size:75%; color:#915608; font-size:smaller; float:right;}
+#stocks time {font-size:75%; color:#915608; font-size:.88em; float:right;}
 #stocks blockquote time {margin:0 0 1em 1em;}
 #stocks blockquote {position:relative; margin:0 .6em .3em 1.2em; padding:.8em .8em .8em 1.6em; border-style:dashed double; border-color:#A6C9E2; border-width:0 3px 1px 0;}
 #stocks blockquote .shrink {float:left; cursor:pointer; margin-left:-20px;}
@@ -63,21 +61,15 @@ aside.right {width:20em;}
 #stocks blockquote.collapsed .shrink {background-position:-32px 0;}
 #stocks blockquote.collapsed .editable {overflow:hidden; height:1.2em!important;}
 #stocks blockquote:hover, #stocks fieldset li:hover {background-color:#F7FBFF;}
-#stocks .ui-icon-wrench, #stocks .ui-icon-pencil {float:right; cursor:pointer; margin-left:.5em;}
 #stocks sub {vertical-align:-.3em; font-size:65%}
 #stocks sup {vertical-align:.6em; font-size:65%}
-#stocks .fields {padding:.5em;}
-.fields th, .fields td {padding:.2em .8em; font-weight:normal; white-space:nowrap; border:1px dotted transparent;}
-.fields th {text-align:right; color:#915608;}
-.fields .progress {width:24em;}
-.fields select, .fields input {border:none; background:transparent; font-size:inherit; width:100%;}
-.fields option {margin:.4em .6em; text-align:center;}
-.editable .fields td {border-color:#A6C9E2; border-radius:5px; }
-.editable time, .editable input+span, .editable select+span, .readonly input, .readonly select {display:none;}
-.readonly em {border-color:#A6C9E2; border-style:solid dashed; border-width:0 0 1px 1px; padding:.1em .4em; margin:0 .2em;}
-.proportion {height:10px; background-color:#EAF5F7; margin:1px;}
-.proportion .estimated {height:100%; background-color:#77D5F7; float:left;}
-.proportion .practical {height:100%; background-color:#ACDD4A; float:left;}
+#stocks em {border-color:#A6C9E2; border-style:solid dashed; border-width:0 0 1px 1px; padding:.1em .4em; margin:0 .2em;}
+summary time {padding:.26em 0;}
+summary .ui-icon {margin:0 5px 2px 0;}
+details .variety>label {margin-left:2em; color:#915608;}
+details input+span, .editable details input {display:inline-block; font-size:inherit; padding:.2em;}
+details input, .editable details input+span, .editable summary time {display:none;}
+.editable input {width:36em;}
 .craft li {list-style:square inside none; padding:.3em .7em;}
 
 #editor iframe {width:100%; height:6em; margin-top:1.4em; padding-top:.5em; border:dotted #A6C9E2; border-width:1px 0 0;}
