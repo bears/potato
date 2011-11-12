@@ -152,9 +152,9 @@ function stock(uuid) {
 
 	// Put a place holder first.
 	(function() {
-		var html = '<div id="stock_' + uuid + '" class="readonly loading"></div>';
+		var html = '<div id="stock_' + uuid + '" class="loading"></div>';
 		$(html).data('self', this).appendTo($('#stocks'));
-	})();
+	}).apply(this);
 
 	// Subscribe to the data source.
 	(new potato(uuid)).subscribe('stock', this);
