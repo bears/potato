@@ -33,7 +33,7 @@ function edit() {
 	 */
 	var hide = function(callback) {
 		widget.fadeOut('fast', function() {
-			$(widget.data('element')).removeClass('ui-helper-hidden');
+			$(widget.data('element')).removeClass('ui-helper-hidden').click();
 			('function' == typeof callback) && callback();
 		});
 	};
