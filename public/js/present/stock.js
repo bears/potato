@@ -112,6 +112,9 @@ function stock(uuid) {
 			event.stopPropagation();
 			(new menu()).setup(actions);
 		}).click();
+		$('legend.shrink', target).click(function() {
+			$(this).parent().toggleClass('collapsed');
+		});
 	}.bind(this);
 
 	/**

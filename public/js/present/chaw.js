@@ -24,10 +24,13 @@ function chaw(uuid, vessel) {
 					u : uuid,
 					c : source.get('detail', 'fries')
 				});
-				$(html).data('self', this).click(function(event) {
+				var target = $(html).data('self', this).click(function(event) {
 					event.stopPropagation();
 					(new menu()).setup(actions);
 				}).appendTo(vessel);
+				$('>.shrink', target).click(function(event) {
+					$(this).parent().toggleClass('collapsed');
+				});
 				break;
 
 			case POTATO.NOTIFY.UPDATE:
