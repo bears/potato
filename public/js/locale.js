@@ -27,6 +27,9 @@ POTATO.L10N = {
 		stock_variety : 'Variety',
 		stock_fries : 'Fries',
 
+		// misc
+		time_present : 'Present',
+
 		// edit bar
 		editor_bold : 'Bold',
 		editor_italic : 'Italic',
@@ -58,5 +61,19 @@ POTATO.L10N = {
 		'All go to die in winter.'
 		],
 		copyright : 'Copyright &copy; 2011 Bears Home'
+	}
+};
+
+/**
+ * Localize an ISO 8601 string to local time string.
+ * @param iso8601 {String}
+ * @return {String}
+ */
+POTATO.localizeTime = function(iso8601) {
+	if (iso8601) {
+		return (new Date(iso8601)).toLocaleDateString();
+	}
+	else {
+		return POTATO.L10N[POTATO.PROFILE.LOCALE].time_present;
 	}
 };

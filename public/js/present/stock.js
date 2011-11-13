@@ -25,17 +25,18 @@ function stock(uuid) {
 	};
 
 	/**
-	 * Build a <div> for variety key words.
-	 * @param source {potato}
+	 * Build a <time>.
+	 * @param time {String}
+	 * @param publish {Boolean}
 	 * @return {String}
 	 */
-	var getVariety = function(source) {
-		var variety = source.get('variety', 'stock');
-		var emphases = '<em>' + variety.split(';').join('</em><em>') + '</em>';
-		var template = '<div class="variety"><label>{%n%}</label> {%v%}</div>';
+	var getTime = function(time, publish) {
+		var iso8601 = time ? (time.replace(' ', 'T') + 'Z') : '';
+		var template = '<time {%p%} datetime="{%t%}">{%s%}</time>';
 		return POTATO.replace(template, {
-			n : POTATO.L10N[POTATO.PROFILE.LOCALE].stock_variety,
-			v : getInput('variety', variety, emphases)
+			t : iso8601,
+			s : POTATO.localizeTime(iso8601),
+			p : publish ? 'pubdate="pubdate"' : ''
 		});
 	};
 
@@ -45,30 +46,13 @@ function stock(uuid) {
 	 * @return {String}
 	 */
 	var getSummary = function(source) {
-		var template = '<summary class="ui-corner-all ui-state-highlight"><time datetime="{%h%}">&nbsp;~&nbsp;{%t%}</time><time pubdate="pubdate" datetime="{%s%}">{%g%}</time><span class="ui-icon ui-icon-{%i%}"/>{%l%}</summary>';
 		var seeding = source.get('seeding', 'stock');
-		if (seeding) seeding = seeding.replace(' ', 'T') + 'Z';
 		var harvest = source.get('harvest', 'stock');
-		if (harvest) harvest = harvest.replace(' ', 'T') + 'Z';
+		var template = '<summary class="ui-corner-all ui-state-highlight"><span class="ui-icon ui-icon-{%i%}"/><span class="period">{%p%}</span>{%l%}</summary>';
 		return POTATO.replace(template, {
-			s : seeding,
-			g : (new Date(seeding)).toLocaleDateString(),
-			h : harvest,
-			t : (new Date(harvest)).toLocaleDateString(),
 			i : tuber.icons[source.get('brand', 'tuber')],
+			p : getInput('period', '10d', getTime(seeding, true) + ' ~ ' + getTime(harvest)),
 			l : getInput('label', source.get('label', 'tuber'))
-		});
-	};
-
-	/**
-	 * Build a <ul> for craft list.
-	 * @param source {potato}
-	 * @return {String}
-	 */
-	var getCraft = function(source) {
-		var template = '<ul class="craft"><li>{%c%}</li></ul>';
-		return POTATO.replace(template, {
-			c : source.get('craft', 'stock')
 		});
 	};
 
@@ -78,11 +62,10 @@ function stock(uuid) {
 	 * @return {String}
 	 */
 	var getDetails = function(source) {
-		var template = '<details open="open">{%s%}{%c%}{%v%}</details>';
+		var template = '<details open="open">{%s%}<blockquote class="craft">{%c%}</blockquote></details>';
 		return POTATO.replace(template, {
 			s : getSummary(source),
-			c : getCraft(source),
-			v : getVariety(source)
+			c : source.get('craft', 'stock')
 		});
 	};
 
@@ -148,8 +131,8 @@ function stock(uuid) {
 		plow : function() {
 			$('#stock_' + uuid).toggleClass('editable');
 		},
-		harvest : function() {
-			alert('Not implement yet!')
+		craft : function() {
+			(new edit()).show($('#stock_' + uuid + ' .craft'));
 		}
 	};
 

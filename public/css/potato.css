@@ -46,32 +46,32 @@ aside.right {width:20em;}
 #stocks>div {position:absolute; top:0em; left:0; right:0; bottom:0; padding:.3em; margin:.3em; overflow:auto; font-size:110%;}
 #stocks details {display:block;}
 #stocks summary {display:block; padding:.3em .7em;}
-#stocks .craft {margin:.5em 1em;}
-#stocks .fries.loading {min-height:44px;}
 #stocks fieldset {border:1px solid #A6C9E2; border-width:1px 0 0 0; margin-top:1em; font-size:.9em;}
 #stocks legend {padding:0 .5em; cursor:pointer; display:inherit!important; font-weight:bold;}
 #stocks legend .ui-icon-triangle-1-s {margin:0 4px 1px 0;}
 #stocks fieldset.collapsed>* {display:none;}
 #stocks fieldset.collapsed legend .ui-icon-triangle-1-s {background-position:-32px -16px; margin-bottom:2px;}
-#stocks time {font-size:75%; color:#915608; font-size:.88em; float:right;}
-#stocks blockquote time {margin:0 0 1em 1em;}
-#stocks blockquote {position:relative; margin:0 .6em .3em 1.2em; padding:.8em .8em .8em 1.6em; border-style:dashed double; border-color:#A6C9E2; border-width:0 3px 1px 0;}
-#stocks blockquote .shrink {float:left; cursor:pointer; margin-left:-20px;}
-#stocks blockquote .editable {min-height:1.2em; line-height:1.2em;}
-#stocks blockquote.collapsed .shrink {background-position:-32px 0;}
-#stocks blockquote.collapsed .editable {overflow:hidden; height:1.2em!important;}
-#stocks blockquote:hover, #stocks fieldset li:hover {background-color:#F7FBFF;}
+#stocks time {font-size:75%; color:#915608; font-size:.88em;}
 #stocks sub {vertical-align:-.3em; font-size:65%}
 #stocks sup {vertical-align:.6em; font-size:65%}
 #stocks em {border-color:#A6C9E2; border-style:solid dashed; border-width:0 0 1px 1px; padding:.1em .4em; margin:0 .2em;}
-summary time {padding:.26em 0;}
-summary .ui-icon {margin:0 5px 2px 0;}
-details .variety>label {margin-left:2em; color:#915608;}
-details input+span, .editable details input {display:inline-block; font-size:inherit; padding:.2em;}
+details input+span, .editable details input {display:inline-block; font-size:inherit; padding:.2em .8em;}
 details input, .editable details input+span, .editable summary time {display:none;}
-.editable input {width:36em;}
-.craft li {list-style:square inside none; padding:.3em .7em;}
+summary .ui-icon {margin:0 5px 2px 0;}
+summary .period {float:right;}
+summary input[name="label"] {width:33em;}
+summary input[name="period"] {width:3em; text-align:center;}
+blockquote time {margin:0 0 1em 1em; float:right;}
+blockquote .shrink {float:left; cursor:pointer; margin-left:-20px;}
+blockquote .editable {min-height:1.2em; line-height:1.2em;}
+blockquote.collapsed .shrink {background-position:-32px 0;}
+blockquote.collapsed .editable {overflow:hidden; height:1.2em!important;}
+.craft {margin:.5em 1em;}
+.fries.loading {min-height:44px;}
+.fries blockquote {position:relative; margin:0 .6em .3em 1.2em; padding:.8em .8em .8em 1.6em; border-style:dashed double; border-color:#A6C9E2; border-width:0 3px 1px 0;}
+.fries blockquote:hover {background-color:#F7FBFF;}
 
+#editor {position:relative; padding:.8em;}
 #editor iframe {width:100%; height:6em; margin-top:1.4em; padding-top:.5em; border:dotted #A6C9E2; border-width:1px 0 0;}
 #stylor {position:absolute; top:.3em; right:.7em; left:1em; line-height:1.3em; padding:.2em 1em;}
 #stylor>span {display:inline-block; margin:0 .1em; text-align:center; vertical-align:middle; cursor: pointer; font-family: "Times New Roman"; -moz-user-select:none; -webkit-user-select:none;}
