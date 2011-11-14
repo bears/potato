@@ -21,15 +21,24 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+Exception
+---------
+
+Anything inside `library` folder is *NOT* a part of this software,
+which so will *NOT* be covered by this copyright announcement.
+It's *your* duty to check the right of obtaining and using of them.
+
 Install
 -------
 
 This project intends to run on **Nginx** + **PHP** + **PostgreSQL**,
 so you'd better setup such an environment first.
 
-* Add **potato.bears.home** and **ajaj.bears.home** into your `/etc/hosts`
+* Add **potato.bears.home** and **ajaj.bears.home** into your `/etc/hosts`.
 * Create a `nginx.conf.*` file by reference examples inside `setup`,
   and include it in your main `nginx.conf`
 * Create a database called *potato*
-  which can be accessed by user *potato* with password *plough*
-  Use SQL files inside `schema` to fill the structure and data
+  which can be accessed by user *potato* with password *plough*.
+  Use SQL files inside `schema` to fill the structure and data.
+
+Enjoy!
