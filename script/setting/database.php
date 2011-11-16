@@ -5,7 +5,7 @@ namespace setting;
  * Database connection settings.
  */
 
-const MAJOR_DATABASE_DSN = <<<'DSN'
+return <<<'DSN'
 pgsql:
 	host=127.0.0.1;
 	port=5432;

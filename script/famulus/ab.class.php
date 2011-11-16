@@ -1,8 +1,6 @@
 <?php
 namespace famulus;
 
-require 'setting/ab.php';
-
 /**
  * Translate a name to its abbreviation or reverse.
  */
@@ -57,9 +55,12 @@ abstract class ab {
 		$ok = preg_match( self::DERIVED_NAME_RULE, $caller, $match );
 		assert( $ok );
 
-		global $ab;
+		if ( !isset( self::$map_pool ) ) {
+			self::$map_pool = require 'setting/ab.php';
+		}
+
 		extract( $match );
-		$this->map = isset( $ab[$class][$subject] ) ? $ab[$class][$subject] : array( );
+		$this->map = isset( self::$map_pool[$class][$subject] ) ? self::$map_pool[$class][$subject] : array( );
 		self::$usage_pool[$class] = array( $subject => &$this->log );
 	}
 
@@ -87,6 +88,12 @@ abstract class ab {
 	 * @var string
 	 */
 	private $subject;
+
+	/**
+	 * Whole map.
+	 * @var array
+	 */
+	private static $map_pool;
 
 	/**
 	 * Cached ab objects.
