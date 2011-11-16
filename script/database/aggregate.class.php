@@ -15,6 +15,16 @@ abstract class aggregate implements \IteratorAggregate {
 	}
 
 	/**
+	 * Encapsulate $this into a decoration class.
+	 * @param string $format
+	 * @return \decoration
+	 */
+	public function decorate( $format ) {
+		$decorater = str_replace( '^aggregate\\', '\\decoration\\', '^' . get_called_class() ) . "\\$format\\aggregate";
+		return new $decorater( $this );
+	}
+
+	/**
 	 * Cache an existing aggregate.
 	 * @param string $key
 	 * @param aggregate $value

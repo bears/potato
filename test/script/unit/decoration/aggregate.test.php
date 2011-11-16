@@ -27,7 +27,7 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 	}
 
 	protected function setUp() {
-		$this->fixture = new \decoration\potato\tuber\aggregate( \aggregate\potato::tubers( 'summer', 0 ) );
+		$this->fixture = \aggregate\potato::tubers( 'summer', 0 )->decorate( 'tuber' );
 	}
 
 	/**

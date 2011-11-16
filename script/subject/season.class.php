@@ -11,14 +11,13 @@ class season extends \subject {
 	 */
 	public function __toString() {
 		//setcookie('hello', 'world', 0, '/');
-		$season = array_shift( $this->segments );
+		$uuid = array_shift( $this->segments );
 		$offset = 0; //array_shift( $this->segments );
-		$aggregate = \aggregate\potato::tubers( $season, $offset );
-		$tubers = new \decoration\potato\tuber\aggregate( $aggregate );
+		$tubers = \aggregate\potato::tubers( $uuid, $offset );
 		$content = array(
-			\famulus\ab::KEY_UUID => $season,
+			\famulus\ab::KEY_UUID => $uuid,
 			'season' => array(
-				'tubers' => $tubers->content(),
+				'tubers' => $tubers->decorate( 'tuber' )->content(),
 			),
 		);
 		return json_encode( $content );

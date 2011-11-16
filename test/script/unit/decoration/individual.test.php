@@ -40,7 +40,7 @@ class individual extends \PHPUnit_Framework_TestCase {
 		$potato->seeding = gmdate( 'c' );
 		$potato->save();
 
-		$this->fixture = new \decoration\potato\tuber( $potato );
+		$this->fixture = $potato->decorate( 'tuber' );
 	}
 
 	protected function tearDown() {

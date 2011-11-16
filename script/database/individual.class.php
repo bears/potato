@@ -20,6 +20,16 @@ abstract class individual {
 	}
 
 	/**
+	 * Encapsulate $this into a decoration class.
+	 * @param string $format
+	 * @return \decoration
+	 */
+	public function decorate( $format ) {
+		$decorater = str_replace( '^individual\\', '\\decoration\\', '^' . get_called_class() ) . "\\$format";
+		return new $decorater( $this );
+	}
+
+	/**
 	 * Insert/update this object to database.
 	 */
 	public function save() {
@@ -107,9 +117,9 @@ abstract class individual {
 			$cache = self::$object_pool[$key];
 			if ( ($object->lock != $cache->lock ) ) {
 				throw new \exception\expired_cache( get_class( $cache )
-					. " #{$cache->uuid}"
-					. " cached: {$cache->lock}"
-					. " coming: {$object->lock}"
+				. " #{$cache->uuid}"
+				. " cached: {$cache->lock}"
+				. " coming: {$object->lock}"
 				);
 			}
 			else {
