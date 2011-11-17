@@ -14,10 +14,11 @@ class season extends \subject {
 		$uuid = array_shift( $this->segments );
 		$offset = 0; //array_shift( $this->segments );
 		$tubers = \aggregate\potato::tubers( $uuid, $offset );
+		$ab = self::ab();
 		$content = array(
 			\famulus\ab::KEY_UUID => $uuid,
-			'season' => array(
-				'tubers' => $tubers->decorate( 'tuber' )->content(),
+			$ab->subject() => array(
+				$ab( 'tubers' ) => $tubers->decorate( 'tuber' )->content(),
 			),
 		);
 		return json_encode( $content );

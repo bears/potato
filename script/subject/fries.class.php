@@ -12,10 +12,11 @@ class fries extends \subject {
 	public function __toString() {
 		$uuid = array_shift( $this->segments );
 		$fries = \aggregate\chip::fries( $uuid );
+		$ab = self::ab();
 		$content = array(
 			\famulus\ab::KEY_UUID => $uuid,
-			'fries' => array(
-				'chips' => $fries->decorate( 'fries' )->content(),
+			$ab->subject() => array(
+				$ab( 'chips' ) => $fries->decorate( 'fries' )->content(),
 			),
 		);
 		return json_encode( $content );

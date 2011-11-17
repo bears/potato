@@ -21,4 +21,20 @@ return array(
 			'harvest' => 'h',
 		),
 	),
+	'chip' => array(
+		'fries' => array(
+			'$' => 'f',
+			'detail' => 'd',
+		),
+	),
+	'subject' => array(
+		'season' => array(
+			'$' => 's',
+			'tubers' => 't',
+		),
+		'fries' => array(
+			'$' => 'f',
+			'chips' => 'c',
+		),
+	),
 );

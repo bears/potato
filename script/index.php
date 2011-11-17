@@ -32,6 +32,15 @@ class subject {
 	}
 
 	/**
+	 * Get abbreviation for derived class.
+	 * @return \famulus\ab
+	 */
+	protected static function ab() {
+		$class = 'ab\\' . get_called_class();
+		return $class::instance();
+	}
+
+	/**
 	 * Process cross domain request header.
 	 */
 	private static function cross_domain() {
