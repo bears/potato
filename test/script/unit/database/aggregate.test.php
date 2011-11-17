@@ -29,6 +29,13 @@ class aggregate extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @covers	\database\aggregate::decorate
+	 */
+	public function test_decorate() {
+		$this->assertInstanceOf( '\\decoration\\potato\\tuber\\aggregate', $this->fixture->decorate( 'tuber' ) );
+	}
+
+	/**
 	 * @covers	\database\aggregate::cache
 	 * @covers	\database\aggregate::fetch
 	 */

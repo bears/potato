@@ -29,6 +29,13 @@ class individual extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @covers	\database\individual::decorate
+	 */
+	public function test_decorate() {
+		$this->assertInstanceOf( '\\decoration\\potato\\tuber', $this->fixture->decorate( 'tuber' ) );
+	}
+
+	/**
 	 * @covers	\database\individual::save
 	 */
 	public function test_save() {
