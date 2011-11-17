@@ -16,6 +16,10 @@ POTATO.AB = {
 			variety : 'v',
 			seeding : 'g',
 			harvest : 'h'
+		},
+		fries : {
+			$ : 'f',
+			chips : 'c'
 		}
 	},
 	chip : {
@@ -28,12 +32,6 @@ POTATO.AB = {
 		season : {
 			$ : 's',
 			tubers : 't'
-		}
-	},
-	chips : {
-		fries : {
-			$ : 'f',
-			chips : 'c'
 		}
 	}
 };

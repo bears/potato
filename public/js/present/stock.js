@@ -88,8 +88,8 @@ function stock(uuid) {
 	 */
 	var setup = function(source) {
 		var target = $('#stock_' + uuid);
-		target.html(getDetails(source) + getFries(source))
-		new fries(source.uuid());
+		target.html(getDetails(source) + getFries(source));
+		(new potato(uuid)).subscribe('fries', this);
 		target.removeClass('loading');
 		target.click(function(event) {
 			event.stopPropagation();
@@ -116,7 +116,19 @@ function stock(uuid) {
 	this.notify = function(subject, type, source) {
 		switch (type) {
 			case POTATO.NOTIFY.INSERT:
-				setup(source);
+				switch (subject) {
+					case 'stock':
+						setup(source);
+						break;
+					case 'fries':
+						var vessel = $('#stock_' + uuid + ' .fries');
+						vessel.removeClass('loading');
+						$.each(source.get('chips', 'fries'), function() {
+							new chip(this.$, this);
+							new chaw(this.$, vessel);
+						});
+						break;
+				}
 				break;
 
 			case POTATO.NOTIFY.UPDATE:

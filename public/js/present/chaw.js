@@ -6,7 +6,7 @@
 function chaw(uuid, vessel) {
 	// Prevent duplicated object.
 	var cached = $('#chaw_' + uuid).data('self');
-	if (cached instanceof fries) {
+	if (cached instanceof chaw) {
 		return cached;
 	}
 
