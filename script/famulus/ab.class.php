@@ -51,24 +51,27 @@ abstract class ab {
 		return self::$object_pool[$class];
 	}
 
+	/**
+	 * Log usage tracking.
+	 */
+	public static function log() {
+		file_put_contents( \setting\LOG_PATH . '/ab.log', json_encode( self::$usage_pool ) . "\n", \FILE_APPEND );
+	}
+
+	/**
+	 * Load the whole map.
+	 */
+	public static function load() {
+		self::$map_pool = require 'setting/ab.php';
+	}
+
 	protected function __construct( $caller ) {
 		$ok = preg_match( self::DERIVED_NAME_RULE, $caller, $match );
 		assert( $ok );
 
-		if ( !isset( self::$map_pool ) ) {
-			self::$map_pool = require 'setting/ab.php';
-		}
-
 		extract( $match );
 		$this->map = isset( self::$map_pool[$class][$subject] ) ? self::$map_pool[$class][$subject] : array( );
 		self::$usage_pool[$class] = array( $subject => &$this->log );
-	}
-
-	/**
-	 * Log usage tracking.
-	 */
-	public static function log_usage() {
-		file_put_contents( \setting\LOG_PATH . '/ab.log', json_encode( self::$usage_pool ) . "\n", \FILE_APPEND );
 	}
 
 	/**
@@ -112,4 +115,7 @@ abstract class ab {
 /**
  * Set callback to log usage tracking.
  */
-register_shutdown_function( array( '\\famulus\\ab', 'log_usage' ) );
+register_shutdown_function( array( '\\famulus\\ab', 'log' ) );
+
+// Initialize static data.
+ab::load();
