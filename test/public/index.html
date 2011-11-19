@@ -1,26 +1,55 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8"/>
 		<title>Potato Test Suite</title>
-		<style type="text/css">
-			nav {background-color:#E6E6B6; color:#366999; position:fixed; left:0; top:0; bottom:0; width:20em; border-radius:0 3em 0 3em; margin:.5em; font-family:Arial;}
-			h1 {text-align:center; font-size:24px;}
-			fieldset {border:2px hidden #477AAA; border-bottom-style:dotted; margin:1em;}
-			legend {font-size:20px;}
-			a {padding:.4em .6em; font-size:16px; display:inline-block;}
-			article {position:fixed; right:0; top:0; bottom:0; left: 21em;}
-			iframe {border:none; width:100%; height:100%;}
-		</style>
+		<link rel="stylesheet" href="library/qunit/qunit.css" type="text/css" media="screen"/>
+		<script src="library/qunit/qunit.js"></script>
+		<script>
+			(function() {
+				var list = {};
+
+				/**
+				 * Load a script (only once)
+				 * @param path {String}
+				 */
+				window.require = function(path) {
+					if (path in list) return;
+					list[path] = false;
+					var script = document.createElement('script');
+					script.src = '../../public/js/' + path;
+					script.onload = function() {
+						list[path] = true;
+					};
+					document.head.appendChild(script);
+				};
+
+				/**
+				 * [CALLBACK] Report failed loads.
+				 */
+				window.onload = function() {
+					for (var path in list) {
+						if (!list[path]) {
+							console.warn('Failed to load ' + path)
+						}
+					}
+				};
+			})();
+
+			// Set flag for potato.js.
+			window.testing = true;
+
+			require('library/jquery.min.js');
+			require('potato.js');
+			require('global.js');
+		</script>
+		<script src="subject/subject.js"></script>
 	</head>
-	<body>
-		<nav>
-			<h1>Potato Test Suite</h1>
-			<fieldset>
-				<legend>Subjects Test</legend>
-				<a target="result" href="subject/subject.html">sSubject</a>
-			</fieldset>
-		</nav>
-		<article><iframe name="result"></iframe></article>
+	<body style="width:1024px;margin:auto;">
+		<h1 id="qunit-header">Potato</h1>
+		<h2 id="qunit-banner"></h2>
+		<div id="qunit-testrunner-toolbar"></div>
+		<h2 id="qunit-userAgent"></h2>
+		<ol id="qunit-tests"></ol>
+		<div id="qunit-fixture"></div>
 	</body>
 </html>
