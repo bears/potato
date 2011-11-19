@@ -36,32 +36,33 @@ var POTATO = {
  * Initialize application.
  */
 $(function() {
-	$.getJSON(POTATO.AJAJ_DOMAIN + 'profile', function(profile) {
+	// Let cross domain requests bring cookies.
+	$.ajaxSetup({
+		xhrFields : {
+			withCredentials : true
+		}
+	});
+
+	window.testing || $.getJSON(POTATO.AJAJ_DOMAIN + 'profile', function(profile) {
 		POTATO.PROFILE = profile;
 
-		/**
-		 * Default error handler.
-		 * @param error {String}
-		 * @param url {Url}
-		 * @param line {Number}
-		 */
-		window.onerror = function(error, url, line) {
-			if ( POTATO.PROFILE.RECLAIM ) {
+		// Report client error to server.
+		if ( POTATO.PROFILE.RECLAIM ) {
+			/**
+			 * Default error handler.
+			 * @param error {String}
+			 * @param url {Url}
+			 * @param line {Number}
+			 */
+			window.onerror = function(error, url, line) {
 				$.post(POTATO.AJAJ_DOMAIN + 'error', {
 					error : error,
 					line : line,
 					url : url
 				});
 				return true;
-			}
-		};
-
-		// Let cross domain requests bring cookies.
-		$.ajaxSetup({
-			xhrFields : {
-				withCredentials : true
-			}
-		});
+			};
+		}
 
 		// Save the original page template.
 		POTATO.TEMPLATE = $('body').html();
