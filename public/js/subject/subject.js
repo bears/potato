@@ -36,10 +36,12 @@ function subject(uuid, data) {
 	 */
 	var abba = function(normal, pair) {
 		var map = normal ? ab : ba;
-		if (pair[0] in map) {
-			var lookup = map[pair[0]];
+		var subject = pair[0] + '';
+		if (subject in map) {
+			var lookup = map[subject];
 			('$' in lookup) && (pair[0] = lookup.$);
-			(pair[1] in lookup) && (pair[1] = lookup[pair[1]]);
+			var field = pair[1] + '';
+			(field in lookup) && (pair[1] = lookup[field]);
 		}
 		return pair;
 	};
@@ -47,7 +49,10 @@ function subject(uuid, data) {
 	/**
 	 * Hold all private properties.
 	 */
-	data = $.extend(data, {$:uuid});
+	data = $.extend(data, {
+		$ : uuid,
+		'undefined' : {/*for temporary values*/}
+	});
 
 	/**
 	 * Getter.
