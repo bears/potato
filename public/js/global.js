@@ -1,46 +1,21 @@
-/*
- * Project specific constants.
- */
-
 /**
- * Domain of the service provider.
+ * JS/CSS files need to be loaded.
  */
-POTATO.AJAJ_DOMAIN = location.protocol + '//ajaj.bears.home/';
-
-/**
- * Abbreviation dictionary.
- */
-POTATO.AB = {
-	potato : {
-		tuber : {
-			$ : 't',
-			brand : 'b',
-			label : 'l'
-		},
-		stock : {
-			$ : 's',
-			craft : 'c',
-			season : 'n',
-			weight : 'w',
-			variety : 'v',
-			seeding : 'g',
-			harvest : 'h'
-		},
-		fries : {
-			$ : 'f',
-			chips : 'c'
-		}
-	},
-	chip : {
-		fries : {
-			$ : 'f',
-			detail : 'd'
-		}
-	},
-	season : {
-		season : {
-			$ : 's',
-			tubers : 't'
-		}
-	}
+POTATO.LOAD = {
+	JS : [
+	'famulus/ab',
+	'famulus/locale',
+	'subject/subject',
+	'subject/trivia',
+	'present/annual',
+	'present/tuber',
+	'present/stock',
+	'present/chaw',
+	'widget/edit',
+	'widget/menu',
+	'potato'
+	],
+	CSS : [
+	'potato'
+	]
 };

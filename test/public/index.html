@@ -35,12 +35,13 @@
 				};
 			})();
 
-			// Set flag for potato.js.
-			window.testing = true;
+			/**
+			 * Namespace required by test targets.
+			 */
+			var POTATO = {};
 
 			require('library/jquery.min.js');
-			require('potato.js');
-			require('global.js');
+			require('famulus/ab.js');
 		</script>
 		<script src="subject/subject.js"></script>
 	</head>

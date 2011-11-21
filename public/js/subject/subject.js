@@ -1,4 +1,17 @@
 /**
+ * Notify type enumerations.
+ */
+POTATO.NOTIFY = {
+	// Data
+	INSERT : 'INSERT',
+	UPDATE : 'UPDATE',
+	DELETE : 'DELETE',
+	// Operation
+	ATTACH : 'ATTACH',
+	DETACH : 'DETACH'
+};
+
+/**
  * Base class for holding data.
  * @param uuid {String}
  * @param data {Object} Optional
