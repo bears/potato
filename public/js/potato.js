@@ -1,89 +1,26 @@
 /**
- * Replace parameters in a template.
- * @param template {String} HTML
- * @param lookup {Object}
+ * Load a JavaScript file.
+ * @param path {String}
+ * @param onload {Function} optional
  */
-POTATO.replace = function(template, lookup) {
-	return template.replace(/{%(\w+)%}/g, function(unused, key) {
-		return lookup[key];
-	});
-};
+function include(path, onload) {
+	var script = document.createElement('script');
+	script.src = 'js/' + path + '.js';
+	('function' == typeof onload) && (script.onload = onload);
+	document.head.appendChild(script);
+}
 
-/**
- * Initialize application.
- */
-$(function() {
-	// Report client error to server.
-	if ( POTATO.PROFILE.RECLAIM ) {
-		/**
-		 * Default error handler.
-		 * @param error {String}
-		 * @param url {Url}
-		 * @param line {Number}
-		 */
-		window.onerror = function(error, url, line) {
-			$.post(POTATO.AJAJ_DOMAIN + 'error', {
-				error : error,
-				line : line,
-				url : url
-			});
-			return true;
-		};
-	}
-
-	// Save the original page template.
-	POTATO.TEMPLATE = $('body').html();
-
-	/**
-	 * Render the page by cached template.
-	 */
-	(POTATO.renderPage = function() {
-		var page = $('body').addClass('ui-helper-hidden');
-
-		// Localize
-		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
-		$('title').text(locale.title);
-		page.html(POTATO.replace(POTATO.TEMPLATE, locale));
-
-		// Run initial routes
-		$.each(POTATO.INITIAL, function() {
-			return this.call();
-		});
-
-		// Header
-		$('#menu_home').click(function() {
-			location = location.protocol + '//' + location.host + '/'
-		});
-		$('#search').submit(function() {
-			$('#search_target').blur().val('');
-			return false;
-		});
-
-		// Footer
-		(function() {
-			var index = 0;
-			var bound = locale.tips.length;
-			var tip = $('#tip').text(locale.tips[0]);
-			clearInterval(tip.data('roll'))
-			tip.data('roll', setInterval(function() {
-				tip.fadeOut(function() {
-					(++index < bound) || (index = 0);
-					tip.text(locale.tips[index]).fadeIn();
-				});
-			}, 12345));
-		})();
-
-		// Left side panel
-		new annual('summer');
-
-		// Right side panel
-		$('#calendar').datepicker({
-			beforeShowDay : function(date) {
-				return [true, '', 'Hello, world!'];
-			}
-		});
-
-		// Done, show it
-		page.removeClass('ui-helper-hidden');
-	})(/*do 1st time*/);
-});
+// Include all other files.
+//@{
+include('famulus/ab');
+include('famulus/locale');
+include('subject/subject');
+include('subject/trivia');
+include('present/annual');
+include('present/tuber');
+include('present/stock');
+include('present/chaw');
+include('widget/edit');
+include('widget/menu');
+include('launch');
+//@}
