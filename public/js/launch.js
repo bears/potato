@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Replace parameters in a template.
  * @param template {String} HTML

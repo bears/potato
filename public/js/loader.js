@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Namespace of all global variables of this project.
  */

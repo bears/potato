@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Single potato in center panel.
  * @param uuid {String}

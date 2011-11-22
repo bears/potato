@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Single chip in fries.
  * @param uuid {String}

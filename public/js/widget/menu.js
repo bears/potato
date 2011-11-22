@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Dynamic menu at top bar.
  */
@@ -18,7 +20,7 @@ function menu() {
 	/**
 	 * Cache of current callbacks.
 	 */
-	var current = null;
+	var current;
 
 	/**
 	 * Build item list.

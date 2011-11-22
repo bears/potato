@@ -1,6 +1,4 @@
-/*
- * Trivial subjects.
- */
+'use strict';
 
 /**
  * Subject for a single chip.

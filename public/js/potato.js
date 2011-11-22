@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Load a JavaScript file.
  * @param path {String}

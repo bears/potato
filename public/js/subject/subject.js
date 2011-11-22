@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Notify type enumerations.
  */

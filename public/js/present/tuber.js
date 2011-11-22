@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Single potato in season panel.
  * @param uuid {String}
