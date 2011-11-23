@@ -18,18 +18,14 @@ const AJAJ_DOMAIN = '//ajaj.bears.home';
 //@}
 
 /**
- * @name Version
- */
-//@{
-const MAJOR_VERSION = 0;
-const MINOR_VERSION = 0;
-const PATCH_VERSION = 0;
-//@
-
-/**
  * @name Path
  */
 const LOG_PATH = '/var/log/ajaj.bears.home';
+
+/**
+ * @name Switch
+ */
+const IS_LOG_AB_USE = true;
 
 /*
  * Also available from client side.

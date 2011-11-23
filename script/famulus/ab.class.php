@@ -16,8 +16,9 @@ abstract class ab {
 	 * @todo Frequency count.
 	 */
 	public function __invoke( $key ) {
-		$this->log[] = $key;
-		return isset( $this->map[$key] ) ? $this->map[$key] : $key;
+		$ab = isset( $this->map[$key] ) ? $this->map[$key] : $key;
+		\setting\IS_LOG_AB_USE && $this->log[$ab] = $key;
+		return $ab;
 	}
 
 	/**
@@ -36,6 +37,7 @@ abstract class ab {
 				$this->subject = substr( $class, $split );
 			}
 		}
+		\setting\IS_LOG_AB_USE && $this->log[self::KEY_UUID] = $this->subject;
 		return $this->subject;
 	}
 
@@ -71,7 +73,7 @@ abstract class ab {
 
 		extract( $match );
 		$this->map = isset( self::$map_pool[$class][$subject] ) ? self::$map_pool[$class][$subject] : array( );
-		self::$usage_pool[$class] = array( $subject => &$this->log );
+		\setting\IS_LOG_AB_USE && self::$usage_pool[$class] = array( $subject => &$this->log );
 	}
 
 	/**
@@ -115,7 +117,7 @@ abstract class ab {
 /**
  * Set callback to log usage tracking.
  */
-register_shutdown_function( array( '\\famulus\\ab', 'log' ) );
+\setting\IS_LOG_AB_USE && register_shutdown_function( array( '\\famulus\\ab', 'log' ) );
 
 // Initialize static data.
 ab::load();
