@@ -26,16 +26,16 @@ var POTATO = {
 	// Get profile to determine prefix.
 	$.getJSON(POTATO.AJAJ_DOMAIN + 'profile', function(profile) {
 		POTATO.PROFILE = profile;
-		var prefix = '.';//profile.g.v
+		var prefix = undefined != POTATO.PROFILE.CODE.VERSION ? POTATO.PROFILE.CODE.VERSION + '/' : '';
 
 		// Load main JavaScript.
 		var script = document.createElement('script');
-		script.src = prefix + '/js/potato.js';
+		script.src = prefix + 'js/potato.js';
 		document.head.appendChild(script);
 
 		// Load main CSS.
 		var link = document.createElement('link');
-		link.href = prefix + '/css/potato.css';
+		link.href = prefix + 'css/potato.css';
 		link.rel = 'stylesheet';
 		document.head.appendChild(link);
 	});

@@ -19,7 +19,7 @@ class profile extends \subject {
 				$profile[$match['name']] = $value;
 			}
 		}
-		return json_encode( $profile );
+		return json_encode( array( 'CODE' => $profile, 'USER' => array( ) ) );
 	}
 
 }

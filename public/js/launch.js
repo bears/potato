@@ -16,7 +16,7 @@ POTATO.replace = function(template, lookup) {
  */
 $(window).load(function() {
 	// Report client error to server.
-	if ( POTATO.PROFILE.RECLAIM ) {
+	if ( POTATO.PROFILE.CODE.RECLAIM ) {
 		/**
 		 * Default error handler.
 		 * @param error {String}
@@ -43,7 +43,7 @@ $(window).load(function() {
 		var page = $('body').css('visibility', 'hidden');
 
 		// Localize
-		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
+		var locale = POTATO.LOCALE;
 		$('title').text(locale.title);
 		page.html(POTATO.replace(POTATO.TEMPLATE, locale));
 

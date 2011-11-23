@@ -78,7 +78,7 @@ function stock(uuid) {
 	 */
 	var getFries = function(source) {
 		var template = '<fieldset><legend class="shrink"><span class="ui-icon ui-icon-triangle-1-s"/>{%l%}</legend><div class="fries loading"></div></fieldset>';
-		var locale = POTATO.L10N[POTATO.PROFILE.LOCALE];
+		var locale = POTATO.LOCALE;
 		return POTATO.replace(template, {
 			l : locale.stock_fries
 		});

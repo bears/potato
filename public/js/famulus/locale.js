@@ -67,6 +67,13 @@ POTATO.L10N = {
 };
 
 /**
+ * Translation map of current locale.
+ */
+POTATO.__defineGetter__('LOCALE', function() {
+	return POTATO.L10N[POTATO.PROFILE.CODE.LOCALE];
+});
+
+/**
  * Localize an ISO 8601 string to local time string.
  * @param iso8601 {String}
  * @return {String}
@@ -76,6 +83,6 @@ POTATO.localizeTime = function(iso8601) {
 		return (new Date(iso8601)).toLocaleDateString();
 	}
 	else {
-		return POTATO.L10N[POTATO.PROFILE.LOCALE].time_present;
+		return POTATO.LOCALE.time_present;
 	}
 };
