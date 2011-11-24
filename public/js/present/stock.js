@@ -37,7 +37,7 @@ function stock(uuid) {
 		var template = '<time {%p%} datetime="{%t%}">{%s%}</time>';
 		return POTATO.replace(template, {
 			t : iso8601,
-			s : POTATO.localizeTime(iso8601),
+			s : POTATO.genialTime(iso8601),
 			p : publish ? 'pubdate="pubdate"' : ''
 		});
 	};
@@ -78,7 +78,7 @@ function stock(uuid) {
 	 */
 	var getFries = function(source) {
 		var template = '<fieldset><legend class="shrink"><span class="ui-icon ui-icon-triangle-1-s"/>{%l%}</legend><div class="fries loading"></div></fieldset>';
-		var locale = POTATO.LOCALE;
+		var locale = POTATO.locale();
 		return POTATO.replace(template, {
 			l : locale.stock_fries
 		});

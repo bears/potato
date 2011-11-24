@@ -30,7 +30,7 @@ function menu() {
 		if (current != callbacks) {
 			widget.fadeOut(function() {
 				widget.empty();
-				var locale = POTATO.LOCALE;
+				var locale = POTATO.locale();
 				for (var label in callbacks) {
 					$('<li>' + locale['menu_' + label] + '</li>').appendTo(widget).click(callbacks[label]);
 				}

@@ -43,7 +43,7 @@ $(window).load(function() {
 		var page = $('body').css('visibility', 'hidden');
 
 		// Localize
-		var locale = POTATO.LOCALE;
+		var locale = POTATO.locale();
 		$('title').text(locale.title);
 		page.html(POTATO.replace(POTATO.TEMPLATE, locale));
 
