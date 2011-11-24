@@ -16,8 +16,9 @@ function include(path, onload) {
 //@{
 include('famulus/ab');
 include('famulus/locale');
-include('subject/subject');
-include('subject/trivia');
+include('subject/subject', function() {
+	include('subject/trivia');
+});
 include('present/annual');
 include('present/tuber');
 include('present/stock');
