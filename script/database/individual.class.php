@@ -12,11 +12,19 @@ abstract class individual {
 	}
 
 	/**
-	 * Get uuid of this object.
+	 * Get uuid value of this object.
 	 * @return uuid
 	 */
 	public function uuid() {
 		return $this->uuid;
+	}
+
+	/**
+	 * Get lock value of this object.
+	 * @return integer
+	 */
+	public function lock() {
+		return $this->lock;
 	}
 
 	/**

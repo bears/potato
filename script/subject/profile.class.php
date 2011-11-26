@@ -47,7 +47,7 @@ class profile extends \subject {
 	 * @return array
 	 */
 	private function get_user_settings( $previous ) {
-		$lock = 0;
+		$lock = '@todo: fetch from user profile when available';
 		$data = array( self::LOCK_KEY => $lock );
 		if ( $previous != $lock ) {
 			$data['LOCALE'] = 'en_US';
