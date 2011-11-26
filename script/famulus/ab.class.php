@@ -13,12 +13,15 @@ abstract class ab {
 	 * Translate the key to the other half.
 	 * @param string $key
 	 * @return string
-	 * @todo Frequency count.
 	 */
 	public function __invoke( $key ) {
-		$ab = isset( $this->map[$key] ) ? $this->map[$key] : $key;
-		\setting\IS_LOG_AB_USE && $this->log[$ab] = $key;
-		return $ab;
+		if ( isset( $this->map[$key] ) ) {
+			return $this->map[$key];
+		}
+		else {
+			\setting\IS_LOG_AB_MISMATCH && trigger_error( "*$key* is inexistent" );
+			return $key;
+		}
 	}
 
 	/**
@@ -26,18 +29,6 @@ abstract class ab {
 	 * @return string
 	 */
 	public function subject() {
-		if ( !$this->subject ) {
-			if ( isset( $this->map[self::UUID_KEY] ) ) {
-				$this->subject = $this->map[self::UUID_KEY];
-			}
-			else {
-				$class = get_called_class();
-				$split = strrpos( $class, '\\' );
-				$split = $split ? $split + 1 : 0;
-				$this->subject = substr( $class, $split );
-			}
-		}
-		\setting\IS_LOG_AB_USE && $this->log[self::UUID_KEY] = $this->subject;
 		return $this->subject;
 	}
 
@@ -54,13 +45,6 @@ abstract class ab {
 	}
 
 	/**
-	 * Log usage tracking.
-	 */
-	public static function log() {
-		file_put_contents( \setting\LOG_PATH . '/ab.log', json_encode( self::$usage_pool ) . "\n", \FILE_APPEND );
-	}
-
-	/**
 	 * Load the whole map.
 	 */
 	public static function load() {
@@ -73,7 +57,7 @@ abstract class ab {
 
 		extract( $match );
 		$this->map = isset( self::$map_pool[$class][$subject] ) ? self::$map_pool[$class][$subject] : array( );
-		\setting\IS_LOG_AB_USE && self::$usage_pool[$class] = array( $subject => &$this->log );
+		$this->subject = isset( $this->map[self::UUID_KEY] ) ? $this->map[self::UUID_KEY] : $subject;
 	}
 
 	/**
@@ -81,12 +65,6 @@ abstract class ab {
 	 * @var array(string)
 	 */
 	private $map;
-
-	/**
-	 * Record translated keys.
-	 * @var array(string)
-	 */
-	private $log = array( );
 
 	/**
 	 * Cache of subject name.
@@ -106,18 +84,7 @@ abstract class ab {
 	 */
 	private static $object_pool = array( );
 
-	/**
-	 * Tracking usage.
-	 * @var array
-	 */
-	private static $usage_pool = array( );
-
 }
-
-/**
- * Set callback to log usage tracking.
- */
-\setting\IS_LOG_AB_USE && register_shutdown_function( array( '\\famulus\\ab', 'log' ) );
 
 // Initialize static data.
 ab::load();
