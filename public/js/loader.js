@@ -38,7 +38,7 @@ var POTATO = {
 	// Try fill profile from local cache.
 	var previous = {};
 	for (var i in STORAGES) {
-		POTATO.PROFILE[i] = $.parseJSON(STORAGES[i].getItem(CACHE_KEY) || '{}');
+		POTATO.PROFILE[i] = JSON.parse(STORAGES[i].getItem(CACHE_KEY) || '{}');
 		previous[i] = POTATO.PROFILE[i].LOCK;
 	}
 
