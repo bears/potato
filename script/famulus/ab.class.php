@@ -6,7 +6,7 @@ namespace famulus;
  */
 abstract class ab {
 
-	const KEY_UUID = '$';
+	const UUID_KEY = '$';
 	const DERIVED_NAME_RULE = '#^ab\\\\(?P<class>[\\w\\\\]+)\\\\(?P<subject>\\w+)$#';
 
 	/**
@@ -27,8 +27,8 @@ abstract class ab {
 	 */
 	public function subject() {
 		if ( !$this->subject ) {
-			if ( isset( $this->map[self::KEY_UUID] ) ) {
-				$this->subject = $this->map[self::KEY_UUID];
+			if ( isset( $this->map[self::UUID_KEY] ) ) {
+				$this->subject = $this->map[self::UUID_KEY];
 			}
 			else {
 				$class = get_called_class();
@@ -37,7 +37,7 @@ abstract class ab {
 				$this->subject = substr( $class, $split );
 			}
 		}
-		\setting\IS_LOG_AB_USE && $this->log[self::KEY_UUID] = $this->subject;
+		\setting\IS_LOG_AB_USE && $this->log[self::UUID_KEY] = $this->subject;
 		return $this->subject;
 	}
 

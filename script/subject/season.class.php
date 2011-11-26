@@ -16,7 +16,7 @@ class season extends \subject {
 		$tubers = \aggregate\potato::tubers( $uuid, $offset );
 		$ab = self::ab();
 		$content = array(
-			\famulus\ab::KEY_UUID => $uuid,
+			\famulus\ab::UUID_KEY => $uuid,
 			$ab->subject() => array(
 				$ab( 'tubers' ) => $tubers->decorate( 'tuber' )->content(),
 			),

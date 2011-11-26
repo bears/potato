@@ -23,7 +23,7 @@ abstract class individual {
 	 * @return array
 	 */
 	public function & content( array &$vessel = array( ) ) {
-		$vessel[\famulus\ab::KEY_UUID] = $this->data->uuid();
+		$vessel[\famulus\ab::UUID_KEY] = $this->data->uuid();
 		self::trivial( $vessel );
 		return $vessel;
 	}

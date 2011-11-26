@@ -11,8 +11,8 @@ class individual extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_content() {
 		$content = $this->fixture->content();
-		$this->assertArrayHasKey( \famulus\ab::KEY_UUID, $content );
-		unset( $content[\famulus\ab::KEY_UUID] );
+		$this->assertArrayHasKey( \famulus\ab::UUID_KEY, $content );
+		unset( $content[\famulus\ab::UUID_KEY] );
 		foreach ( $content as $key => $subject ) {
 			$this->assertTrue( is_array( $subject ) );
 		}

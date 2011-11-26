@@ -14,7 +14,7 @@ class fries extends \subject {
 		$fries = \aggregate\chip::fries( $uuid );
 		$ab = self::ab();
 		$content = array(
-			\famulus\ab::KEY_UUID => $uuid,
+			\famulus\ab::UUID_KEY => $uuid,
 			$ab->subject() => array(
 				$ab( 'chips' ) => $fries->decorate( 'fries' )->content(),
 			),
