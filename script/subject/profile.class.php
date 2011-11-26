@@ -6,20 +6,53 @@ namespace subject;
  */
 class profile extends \subject {
 
+	const CODE_KEY = 'CODE';
+	const USER_KEY = 'USER';
+	const LOCK_KEY = 'LOCK';
+
 	/**
 	 * @return JSON
 	 */
 	public function __toString() {
-		$profile = array(
-			'LOCALE' => 'en_US',
-		);
-		$all_constants = get_defined_constants( true );
-		foreach ( $all_constants['user'] as $name => $value ) {
-			if ( preg_match( '#\\bPROFILE_(?P<name>\\w+)$#', $name, $match ) ) {
-				$profile[$match['name']] = $value;
+		$prev_code = isset( $_POST[self::CODE_KEY] ) ? $_POST[self::CODE_KEY] : null;
+		$prev_user = isset( $_POST[self::USER_KEY] ) ? $_POST[self::USER_KEY] : null;
+		return json_encode( array(
+			self::CODE_KEY => $this->get_code_settings( $prev_code ),
+			self::USER_KEY => $this->get_user_settings( $prev_user ),
+		) );
+	}
+
+	/**
+	 * Get code settings if $previous is expired.
+	 * @param integer $previous
+	 * @return array
+	 */
+	private function get_code_settings( $previous ) {
+		$lock = filemtime( \setting\SETTING_FILE_PATH );
+		$data = array( self::LOCK_KEY => $lock );
+		if ( $previous != $lock ) {
+			$constants = get_defined_constants( true );
+			foreach ( $constants['user'] as $name => $value ) {
+				if ( preg_match( '#\\bPROFILE_(?P<name>\\w+)$#', $name, $match ) ) {
+					$data[$match['name']] = $value;
+				}
 			}
 		}
-		return json_encode( array( 'CODE' => $profile, 'USER' => array( ) ) );
+		return $data;
+	}
+
+	/**
+	 * Get user settings if $previous is expired.
+	 * @param integer $previous
+	 * @return array
+	 */
+	private function get_user_settings( $previous ) {
+		$lock = 0;
+		$data = array( self::LOCK_KEY => $lock );
+		if ( $previous != $lock ) {
+			$data['LOCALE'] = 'en_US';
+		}
+		return $data;
 	}
 
 }

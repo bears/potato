@@ -81,7 +81,7 @@ POTATO.L10N = {
  * Translation map of current locale.
  */
 POTATO.locale = function() {
-	return POTATO.L10N[POTATO.PROFILE.CODE.LOCALE];
+	return POTATO.L10N[POTATO.PROFILE.USER.LOCALE];
 };
 
 /**

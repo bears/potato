@@ -5,6 +5,8 @@ namespace setting;
  * Project/environment settings.
  */
 
+const SETTING_FILE_PATH = __FILE__;
+
 /*
  * Only available from server side.
  */
