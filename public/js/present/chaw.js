@@ -28,7 +28,11 @@ function chaw(uuid, vessel) {
 				});
 				var target = $(html).data('self', this).click(function(event) {
 					event.stopPropagation();
-					(new menu()).setup(actions);
+					(new menu()).setup({
+						edit : function() {
+							new edit(source, 'fries', 'detail', $('#chaw_' + uuid).parent());
+						}
+					});
 				}).appendTo(vessel);
 				$('>.shrink', target).click(function(event) {
 					$(this).parent().toggleClass('collapsed');
@@ -38,15 +42,6 @@ function chaw(uuid, vessel) {
 			case POTATO.NOTIFY.UPDATE:
 				break;
 		};
-	};
-
-	/**
-	 * menu items.
-	 */
-	var actions = {
-		edit : function() {
-			(new edit()).show($('#chaw_' + uuid).parent());
-		}
 	};
 
 	// Subscribe to the data source.

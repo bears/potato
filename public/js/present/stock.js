@@ -95,7 +95,14 @@ function stock(uuid) {
 		target.removeClass('loading');
 		target.click(function(event) {
 			event.stopPropagation();
-			(new menu()).setup(actions);
+			(new menu()).setup({
+				plow : function() {
+					$('#stock_' + uuid).toggleClass('editable');
+				},
+				craft : function() {
+					new edit(source, 'stock', 'craft', $('#stock_' + uuid + ' .craft'));
+				}
+			});
 		}).click();
 		$('legend.shrink', target).click(function() {
 			$(this).parent().toggleClass('collapsed');
@@ -135,18 +142,6 @@ function stock(uuid) {
 
 			case POTATO.NOTIFY.UPDATE:
 				break;
-		}
-	};
-
-	/**
-	 * menu items.
-	 */
-	var actions = {
-		plow : function() {
-			$('#stock_' + uuid).toggleClass('editable');
-		},
-		craft : function() {
-			(new edit()).show($('#stock_' + uuid + ' .craft'));
 		}
 	};
 

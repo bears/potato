@@ -3,19 +3,19 @@
 /**
  * Editor for fries.
  */
-function edit() {
-	// Keep singleton.
-	if (edit.cache instanceof edit) {
-		return edit.cache;
-	}
+function edit(source, subject, field, element) {
+	var uuid = source.uuid() + '-' + subject + '-' + field;
 
-	// Cache this object.
-	edit.cache = this;
+	// Prevent duplicated object.
+	var cache = $('#' + uuid).data('self');
+	if (cache instanceof edit) {
+		return cache;
+	}
 
 	/**
 	 * The element to be operate.
 	 */
-	var widget = $('#editor');
+	var widget = $('#editor').clone().attr('id', uuid).data('self', this);
 
 	/**
 	 * The document to execute commands.
@@ -23,54 +23,37 @@ function edit() {
 	var vessel;
 
 	/**
-	 * Save content (stub).
-	 */
-	var save = function() {
-		hide();
-	};
-
-	/**
 	 * Hide the editor.
 	 * @param callback {Function}
 	 */
 	var hide = function(callback) {
 		widget.fadeOut('fast', function() {
-			$(widget.data('element')).removeClass('ui-helper-hidden').click();
 			('function' == typeof callback) && callback();
+			$(element).removeClass('ui-helper-hidden').click();
+			widget.remove();
 		});
 	};
 
 	/**
-	 * Show the editor.
-	 * @param element {Element}
+	 * Save content (stub).
 	 */
-	this.show = function(element) {
+	var save = function() {
 		hide(function() {
-			$('#editor>iframe').load(function() {
-				// Prevent duplicated execution.
-				$(this).unbind('load');
-
-				// Set content editable.
-				vessel = this.contentDocument;
-				vessel.designMode = 'on';
-				vessel.execCommand('styleWithCSS', false, true);
-				$(vessel.body).html($('.editable', element).html());
-
-				// Trigger menu.
-				$(vessel).click(function(event) {
-					event.stopPropagation();
-					(new menu()).setup(actions);
-				}).click();
-			});
-			$(element).addClass('ui-helper-hidden').after(widget.fadeIn('fast'));
-			widget.data('element', element);
+			source.set($(vessel.body).html(), field, subject);
 		});
 	};
 
 	// Initialize commands.
-	$('#stylor>span:not(.ui-icon)').click(function() {
+	$('.stylor>span:not(.ui-icon)', widget).click(function() {
 		var command = $(this).data('command');
 		command && vessel.execCommand(command.toString(), false, $(this).data('value'));
+	});
+
+	/**
+	 * Stop propagating from margin/toolbar to container.
+	 */
+	widget.click(function(event) {
+		event.stopPropagation();
 	});
 
 	/**
@@ -82,9 +65,30 @@ function edit() {
 	};
 
 	/**
-	 * Stop propagating from margin/toolbar to container.
+	 * Show the editor.
+	 * @param element {Element}
 	 */
-	widget.click(function(event) {
-		event.stopPropagation();
-	});
+	(function() {
+		var box = $('>iframe', widget).load(function() {
+			// Prevent duplicated execution.
+			$(this).unbind('load');
+
+			// Set content editable.
+			vessel = this.contentDocument;
+			vessel.designMode = 'on';
+			vessel.execCommand('styleWithCSS', false, true);
+			$(vessel.body).html(source.get(field, subject));
+
+			// Bind events.
+			$(vessel).focus(function() {
+				box.addClass('focus')
+			}).blur(function() {
+				box.removeClass('focus')
+			}).click(function(event) {
+				event.stopPropagation();
+				(new menu()).setup(actions);
+			}).click();
+		});
+		$(element).addClass('ui-helper-hidden').after(widget.fadeIn('fast'));
+	})();
 }
