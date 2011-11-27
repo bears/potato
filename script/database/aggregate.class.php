@@ -34,11 +34,9 @@ abstract class aggregate implements \IteratorAggregate {
 
 		$index = self::index( $key );
 		if ( isset( self::$gather_pool[$index] ) ) {
-			throw new \exception\conflict_cache( $index );
+			trigger_error( 'cache conflict', E_USER_WARNING );
 		}
-		else {
-			self::$gather_pool[$index] = $value;
-		}
+		self::$gather_pool[$index] = $value;
 	}
 
 	/**
@@ -71,7 +69,7 @@ abstract class aggregate implements \IteratorAggregate {
 		}
 		else {
 			$error = $query->errorInfo();
-			throw new \exception\database\failed_selecting( $error[2], $error[1] );
+			trigger_error( 'selecting failed', E_USER_ERROR );
 		}
 	}
 

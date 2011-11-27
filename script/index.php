@@ -3,7 +3,7 @@
 /*
  * Entry point of the application.
  */
-require_once 'setting/setting.php';
+require_once 'setting/profile.php';
 require_once 'handler/error.php';
 require_once 'handler/loader.php';
 
@@ -51,7 +51,7 @@ class subject {
 			header( 'Access-Control-Allow-Credentials: true' );
 		}
 		else {
-			throw new \exception\unacceptable_access();
+			trigger_error( 'unacceptable access', E_USER_ERROR );
 		}
 	}
 

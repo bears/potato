@@ -59,15 +59,13 @@ abstract class individual {
 		self::assign( $query, $values );
 		if ( $query->execute() ) {
 			if ( 0 == $query->rowCount() ) {
-				$exception = "\\exception\\database\\expired_$action";
-				throw new $exception( "$domain#{$this->uuid}" );
+				trigger_error( "$action expired", E_USER_ERROR );
 			}
 			$exist ? ++$this->lock : self::complement( $query );
 		}
 		else {
 			$error = $query->errorInfo();
-			$exception = "\\exception\\database\\failed_$action";
-			throw new $exception( $error[2], $error[1] );
+			trigger_error( "$action failed", E_USER_ERROR );
 		}
 	}
 
@@ -81,7 +79,7 @@ abstract class individual {
 
 		if ( $query->execute( $arguments ) ) {
 			if ( 0 == $query->rowCount() ) {
-				throw new \exception\database\expired_deleting( $key );
+				trigger_error( 'deleting expired', E_USER_ERROR );
 			}
 			unset( self::$object_pool[$key] );
 			$this->uuid = null;
@@ -89,7 +87,7 @@ abstract class individual {
 		}
 		else {
 			$error = $query->errorInfo();
-			throw new \exception\database\failed_deleting( $error[2], $error[1] );
+			trigger_error( 'deleting failed', E_USER_ERROR );
 		}
 	}
 
@@ -108,7 +106,7 @@ abstract class individual {
 			}
 			else {
 				$error = $query->errorInfo();
-				throw new \exception\database\failed_selecting( $error[2], $error[1] );
+				trigger_error( 'selecting failed', E_USER_ERROR );
 			}
 		}
 		return self::$object_pool[$key];
@@ -124,11 +122,7 @@ abstract class individual {
 		if ( isset( self::$object_pool[$key] ) ) {
 			$cache = self::$object_pool[$key];
 			if ( ($object->lock != $cache->lock ) ) {
-				throw new \exception\expired_cache( get_class( $cache )
-				. " #{$cache->uuid}"
-				. " cached: {$cache->lock}"
-				. " coming: {$object->lock}"
-				);
+				trigger_error( 'cache expired', E_USER_ERROR );
 			}
 			else {
 				$append = 0;

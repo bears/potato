@@ -18,7 +18,7 @@ function log_error( $type, $code, $message, $file, $line, &$context, &$trace ) {
 	$uuid = uniqid();
 	if ( constant( "\\setting\\IS_LOG_{$type}" ) ) {
 		$path = \setting\LOG_PATH . date( '/o/m/d' );
-		mkdir( $path, \setting\LOG_MODE, true );
+		is_dir( $path ) || mkdir( $path, \setting\LOG_MODE, true );
 
 		$log = date( 'c' ) . " [$type #$uuid] $file($line): $message";
 		error_log( "$log\n", 3, "$path/error.log" );
