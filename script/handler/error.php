@@ -28,7 +28,7 @@ function log_error( $type, $code, $message, $file, $line, &$context, &$trace ) {
 			error_log( $dump, 3, "/$path/$uuid.dump" );
 		}
 	}
-	return constant( "\\setting\\IS_LOG_{$type}_RETURN" ) || die( json_encode( array( '#' => $code, '@' => $uuid ) ) );
+	return constant( "\\setting\\IS_LOG_{$type}_RETURN" ) || die( header( "X-Error: $code-$uuid", true, 500 ) );
 }
 
 /**
