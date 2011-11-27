@@ -14,8 +14,6 @@ spl_autoload_register( function ($name) {
 	if ( preg_match( '#^(?P<space>(?P<domain>\\w+)(?:\\\\\\w+)*)\\\\(?P<class>\\w+)$#', $name, $match ) ) {
 		extract( $match );
 		switch ( $domain ) {
-			case 'exception':
-				return eval( "namespace $space; class $class extends \\Exception {}" );
 			case 'aggregate':
 			case 'individual':
 				return eval( "namespace $space; class $class extends \\database\\$domain {}" );
