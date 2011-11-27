@@ -38,11 +38,11 @@ const IS_LOG_USER_ERROR_RETURN = false;
 //@{
 const IS_LOG_WARNING = true;
 const IS_LOG_WARNING_DUMP = true;
-const IS_LOG_WARNING_RETURN = false;
+const IS_LOG_WARNING_RETURN = true;
 
 const IS_LOG_USER_WARNING = true;
 const IS_LOG_USER_WARNING_DUMP = true;
-const IS_LOG_USER_WARNING_RETURN = false;
+const IS_LOG_USER_WARNING_RETURN = true;
 //@}
 
 /**
@@ -69,4 +69,13 @@ const IS_LOG_DEPRECATED_RETURN = true;
 const IS_LOG_USER_DEPRECATED = true;
 const IS_LOG_USER_DEPRECATED_DUMP = false;
 const IS_LOG_USER_DEPRECATED_RETURN = true;
+//@}
+
+/**
+ * @name Exception
+ */
+//@{
+const IS_LOG_EXCEPTION = true;
+const IS_LOG_EXCEPTION_DUMP = true;
+const IS_LOG_EXCEPTION_RETURN = false;
 //@}
