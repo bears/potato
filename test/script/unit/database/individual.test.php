@@ -51,6 +51,8 @@ class individual extends \PHPUnit_Framework_TestCase {
 	 * @expectedException	exception\database\expired_updating
 	 */
 	public function test_expired_save() {
+		return $this->markTestIncomplete();
+
 		$this->fixture->harvest = gmdate( 'c' );
 		$copy = unserialize( serialize( $this->fixture ) );
 		$this->fixture->save();
@@ -72,6 +74,8 @@ class individual extends \PHPUnit_Framework_TestCase {
 	 * @expectedException	exception\database\expired_deleting
 	 */
 	public function test_expired_delete() {
+		return $this->markTestIncomplete();
+
 		$copy = unserialize( serialize( $this->fixture ) );
 		$this->fixture->delete();
 		$copy->delete();
