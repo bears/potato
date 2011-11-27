@@ -12,6 +12,39 @@ var POTATO = {
 	},
 
 	/**
+	 * Part of the path for loading static resources.
+	 */
+	get LOAD_PREFIX() {
+		return undefined != POTATO.PROFILE.CODE.VERSION ? POTATO.PROFILE.CODE.VERSION + '/' : '';
+	},
+
+	/**
+	 * Localization of current locale.
+	 */
+	get LOCALE() {
+		return POTATO.L10N[POTATO.PROFILE.USER.LOCALE];
+	},
+
+	/**
+	 * Default error handler.
+	 */
+	get RECLAIM() {
+		return function(error, url, line) {
+			$.post(POTATO.AJAJ_DOMAIN + 'error', {
+				error : error,
+				line : line,
+				url : url
+			});
+			return true;
+		}
+	},
+
+	/**
+	 * Localization dictionary.
+	 */
+	L10N : {},
+
+	/**
 	 * Settings for both code and user.
 	 */
 	PROFILE : {}
@@ -44,6 +77,7 @@ var POTATO = {
 
 	// Get profile to determine prefix.
 	$.post(POTATO.AJAJ_DOMAIN + 'profile', previous, function(profile) {
+		// Fill & cache profile.
 		for (var i in STORAGES) {
 			if (previous[i] != profile[i].LOCK) {
 				POTATO.PROFILE[i] = profile[i];
@@ -51,6 +85,12 @@ var POTATO = {
 			}
 		}
 
+		// Report client error to server.
+		if ( POTATO.PROFILE.CODE.RECLAIM ) {
+			window.onerror = POTATO.RECLAIM;
+		}
+
+		// Go to next stage.
 		launch();
 	}, 'json');
 
@@ -58,16 +98,14 @@ var POTATO = {
 	 * Load JS/CSS of next stage.
 	 */
 	function launch() {
-		var prefix = undefined != POTATO.PROFILE.CODE.VERSION ? POTATO.PROFILE.CODE.VERSION + '/' : '';
-
 		// Load main JavaScript.
 		var script = document.createElement('script');
-		script.src = prefix + 'js/potato.js';
+		script.src = POTATO.LOAD_PREFIX + 'js/potato.js';
 		document.head.appendChild(script);
 
 		// Load main CSS.
 		var link = document.createElement('link');
-		link.href = prefix + 'css/potato.css';
+		link.href = POTATO.LOAD_PREFIX + 'css/potato.css';
 		link.rel = 'stylesheet';
 		document.head.appendChild(link);
 	}

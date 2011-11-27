@@ -15,7 +15,7 @@ function edit(source, subject, field, element) {
 	/**
 	 * The element to be operate.
 	 */
-	var widget = $('#editor').clone().attr('id', uuid).data('self', this);
+	var widget = $(edit.template).attr('id', uuid).data('self', this);
 
 	/**
 	 * The document to execute commands.
@@ -92,3 +92,7 @@ function edit(source, subject, field, element) {
 		$(element).addClass('ui-helper-hidden').after(widget.fadeIn('fast'));
 	})();
 }
+
+$.get(POTATO.LOAD_PREFIX + 'html/edit.html', function(content) {
+	edit.template = content;
+});

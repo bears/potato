@@ -1,29 +1,34 @@
 'use strict';
 
 /**
- * Load a JavaScript file.
- * @param path {String}
- * @param onload {Function} optional
+ * JavaScript files need to be loaded.
  */
-function include(path, onload) {
-	var script = document.createElement('script');
-	script.src = 'js/' + path + '.js';
-	('function' == typeof onload) && (script.onload = onload);
-	document.head.appendChild(script);
-}
+var _SOURCES_ = [
+'famulus/ab',
+'famulus/ba',
+'famulus/locale',
+'famulus/util',
+'subject/subject',
+'subject/trivia',
+'present/annual',
+'present/tuber',
+'present/stock',
+'present/chaw',
+'widget/edit',
+'widget/menu',
+'launch'
+];
 
-// Include all other files.
-//@{
-include('famulus/ab');
-include('famulus/locale');
-include('subject/subject', function() {
-	include('subject/trivia');
-});
-include('present/annual');
-include('present/tuber');
-include('present/stock');
-include('present/chaw');
-include('widget/edit');
-include('widget/menu');
-include('launch');
-//@}
+/**
+ * Load files listed in `_SOURCES_` one by one.
+ */
+(function _1_BY_1_(index) {
+	var script = document.createElement('script');
+	script.src = 'js/' + _SOURCES_[index] + '.js';
+	if (++index < _SOURCES_.length) {
+		script.onload = function() {
+			_1_BY_1_(index);
+		};
+	}
+	document.head.appendChild(script);
+})(0);
