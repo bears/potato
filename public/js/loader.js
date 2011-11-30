@@ -26,20 +26,6 @@ var POTATO = {
 	},
 
 	/**
-	 * Default error handler.
-	 */
-	get RECLAIM() {
-		return function(error, url, line) {
-			$.post(POTATO.AJAJ_DOMAIN + 'error', {
-				error : error,
-				line : line,
-				url : url
-			});
-			return true;
-		}
-	},
-
-	/**
 	 * Localization dictionary.
 	 */
 	L10N : {},
@@ -81,13 +67,21 @@ var POTATO = {
 		for (var i in STORAGES) {
 			if (previous[i] != profile[i].LOCK) {
 				POTATO.PROFILE[i] = profile[i];
+				STORAGES[i].clear();
 				STORAGES[i].setItem(CACHE_KEY, JSON.stringify(profile[i]));
 			}
 		}
 
 		// Report client error to server.
 		if ( POTATO.PROFILE.CODE.RECLAIM ) {
-			window.onerror = POTATO.RECLAIM;
+			window.onerror = function(error, url, line) {
+				$.post(POTATO.AJAJ_DOMAIN + 'error', {
+					error : error,
+					line : line,
+					url : url
+				});
+				return true;
+			};
 		}
 
 		// Go to next stage.
