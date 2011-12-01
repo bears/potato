@@ -16,7 +16,7 @@ server
 server
 {
 	listen		80;
-	server_name	ajaj.bears.home;
+	server_name	ajaj.potato.bears.home;
 
 	location ~	/
 	{

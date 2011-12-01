@@ -8,7 +8,7 @@ var POTATO = {
 	 * Domain of the service provider.
 	 */
 	get AJAJ_DOMAIN() {
-		return location.protocol + '//ajaj.bears.home/';
+		return location.protocol + '//ajaj.' + location.hostname + location.pathname;
 	},
 
 	/**

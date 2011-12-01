@@ -14,10 +14,7 @@ const SETTING_FILE_PATH = __FILE__;
 /**
  * @name Domain
  */
-//@{
 const MAIN_DOMAIN = '//potato.bears.home';
-const AJAJ_DOMAIN = '//ajaj.bears.home';
-//@}
 
 /**
  * Assert behavior.
