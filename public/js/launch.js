@@ -28,7 +28,7 @@ POTATO.construct = function(locale) {
 	})();
 
 	// Left side panel
-	new annual('summer');
+	new POTATO.Annual('summer');
 
 	// Right side panel
 	$('#calendar').datepicker({

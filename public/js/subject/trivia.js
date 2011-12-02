@@ -1,25 +1,24 @@
 'use strict';
 
-/**
- * Subject for a single chip.
- */
-function chip() {
-	return subject.apply(this, arguments);
-}
-$.extend(true, chip, subject);
+(function() {
+	/**
+	 * Subject for a single chip.
+	 */
+	POTATO.Chip = function Chip() {
+		return POTATO.Subject.apply(this, arguments);
+	};
 
-/**
- * Subject for a single potato.
- */
-function potato() {
-	return subject.apply(this, arguments);
-}
-$.extend(true, potato, subject);
+	/**
+	 * Subject for a single potato.
+	 */
+	POTATO.Potato = function Potato() {
+		return POTATO.Subject.apply(this, arguments);
+	};
 
-/**
- * Subject for tubers.
- */
-function season() {
-	return subject.apply(this, arguments);
-}
-$.extend(true, season, subject);
+	/**
+	 * Subject for tubers.
+	 */
+	POTATO.Season = function Season() {
+		return POTATO.Subject.apply(this, arguments);
+	};
+})();

@@ -7,10 +7,12 @@
 	var _SOURCES_ = [
 	'famulus/ab',
 	'famulus/ba',
+	'famulus/pool',
 	'famulus/locale',
 	'famulus/convert',
 	'subject/subject',
 	'subject/trivia',
+	'present/present',
 	'present/annual',
 	'present/tuber',
 	'present/stock',
