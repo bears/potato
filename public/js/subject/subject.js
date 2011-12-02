@@ -154,6 +154,6 @@
 		};
 
 		// Cache this object.
-		POTATO.setObject(this);
+		POTATO.setObject(this, uuid);
 	};
 })();

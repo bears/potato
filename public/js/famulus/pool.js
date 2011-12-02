@@ -34,11 +34,12 @@
 	/**
 	 * Add an object.
 	 * @param item {subject}
+	 * @param uuid {String}
 	 */
-	POTATO.setObject = function(item) {
+	POTATO.setObject = function(item, uuid) {
 		var type = POTATO.typeOf(item);
 		(type in pool) || (pool[type] = {});
-		pool[type][item.uuid()] = item;
+		pool[type][uuid] = item;
 	};
 
 	/**
