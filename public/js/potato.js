@@ -28,6 +28,7 @@
 	var _TEMPLATES_ = [
 	'body',
 	'tuber',
+	'stock',
 	'fries',
 	'edit'
 	];
