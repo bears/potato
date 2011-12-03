@@ -46,7 +46,7 @@ POTATO.render = function() {
 
 	var locale = POTATO.LOCALE;
 	$('title').text(locale.title);
-	page.html(POTATO.replace(POTATO.TEMPLATE, locale));
+	page.html(POTATO.replace(POTATO.TEMPLATE.body, locale));
 	POTATO.construct(locale);
 
 	page.css('visibility', 'visible');
@@ -55,7 +55,12 @@ POTATO.render = function() {
 /**
  * Initialize application.
  */
-$.get(POTATO.LOAD_PREFIX + 'html/body.html', function(content) {
-	POTATO.TEMPLATE = content;
-	POTATO.render();
-});
+if (undefined === POTATO.TEMPLATE) {
+	POTATO.TEMPLATE = {};
+	$.get(POTATO.LOAD_PREFIX + 'potato.html', function(content) {
+		$(content).each(function() {
+			POTATO.TEMPLATE[this.id] = this.innerHTML;
+		});
+		POTATO.render();
+	});
+}

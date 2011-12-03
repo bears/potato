@@ -1,48 +1,50 @@
-<header class="ui-widget-header ui-corner-bottom">
-	<form id="search" action="ajaj/search" method="post">
-		<input id="search_target" name="search" accesskey="s" type="search" results="5" autosave="search_in_potato" placeholder="{%search%}" class="ui-widget-content ui-corner-all" />
-	</form>
-	<div id="logo"></div>
-	<menu type="toolbar"></menu>
-</header>
-<div id="_vph">
-	<div id="_hph">
-		<aside class="left ui-widget-content ui-corner-all">
-			<div id="annual">
-				<ul class="stickers">
-					<li><a href="#season_spring" accesskey="g">{%season_spring%}</a></li>
-					<li><a href="#season_summer" accesskey="r">{%season_summer%}</a></li>
-					<li><a href="#season_autumn" accesskey="a">{%season_autumn%}</a></li>
-					<li><a href="#season_winter" accesskey="w">{%season_winter%}</a></li>
-				</ul>
-				<div id="season_spring"><ul title="{%season_spring%}" class="season"></ul></div>
-				<div id="season_summer"><ul title="{%season_summer%}" class="season"></ul></div>
-				<div id="season_autumn"><ul title="{%season_autumn%}" class="season"></ul></div>
-				<div id="season_winter"><ul title="{%season_winter%}" class="season"></ul></div>
-			</div>
-		</aside>
-		<article id="stocks" class="ui-widget-content ui-corner-all">
-		</article>
-		<aside class="right ui-widget-content ui-corner-all">
-			<div id="calendar"></div>
-			<h3 class="ui-widget-header ui-corner-all ui-state-disabled">{%statistics%}</h3>
-			<div class="extra-info">
-				ddddddddddddddddddddddddddd
-				ddddddddddddddddddddddddddd
-				ddddddddddddddddddddddddddd
-			</div>
-			<h3 class="ui-widget-header ui-corner-all ui-state-disabled">{%statistics%}</h3>
-			<div class="extra-info">
-				eeeeeeeeeeeeeeeeeeeeeeeeeee
-				eeeeeeeeeeeeeeeeeeeeeeeeeee
-				eeeeeeeeeeeeeeeeeeeeeeeeeee
-				eeeeeeeeeeeeeeeeeeeeeeeeeee
-				eeeeeeeeeeeeeeeeeeeeeeeeeee
-			</div>
-		</aside>
+<div id="body">
+	<header class="ui-widget-header ui-corner-bottom">
+		<form id="search" action="ajaj/search" method="post">
+			<input id="search_target" name="search" accesskey="s" type="search" results="5" autosave="search_in_potato" placeholder="{%search%}" class="ui-widget-content ui-corner-all" />
+		</form>
+		<div id="logo"></div>
+		<menu type="toolbar"></menu>
+	</header>
+	<div id="_vph">
+		<div id="_hph">
+			<aside class="left ui-widget-content ui-corner-all">
+				<div id="annual">
+					<ul class="stickers">
+						<li><a href="#season_spring" accesskey="g">{%season_spring%}</a></li>
+						<li><a href="#season_summer" accesskey="r">{%season_summer%}</a></li>
+						<li><a href="#season_autumn" accesskey="a">{%season_autumn%}</a></li>
+						<li><a href="#season_winter" accesskey="w">{%season_winter%}</a></li>
+					</ul>
+					<div id="season_spring"><ul title="{%season_spring%}" class="season"></ul></div>
+					<div id="season_summer"><ul title="{%season_summer%}" class="season"></ul></div>
+					<div id="season_autumn"><ul title="{%season_autumn%}" class="season"></ul></div>
+					<div id="season_winter"><ul title="{%season_winter%}" class="season"></ul></div>
+				</div>
+			</aside>
+			<article id="stocks" class="ui-widget-content ui-corner-all">
+			</article>
+			<aside class="right ui-widget-content ui-corner-all">
+				<div id="calendar"></div>
+				<h3 class="ui-widget-header ui-corner-all ui-state-disabled">{%statistics%}</h3>
+				<div class="extra-info">
+					ddddddddddddddddddddddddddd
+					ddddddddddddddddddddddddddd
+					ddddddddddddddddddddddddddd
+				</div>
+				<h3 class="ui-widget-header ui-corner-all ui-state-disabled">{%statistics%}</h3>
+				<div class="extra-info">
+					eeeeeeeeeeeeeeeeeeeeeeeeeee
+					eeeeeeeeeeeeeeeeeeeeeeeeeee
+					eeeeeeeeeeeeeeeeeeeeeeeeeee
+					eeeeeeeeeeeeeeeeeeeeeeeeeee
+					eeeeeeeeeeeeeeeeeeeeeeeeeee
+				</div>
+			</aside>
+		</div>
 	</div>
+	<footer>
+		<cite id="tip"></cite>
+		<label id="copyright">{%copyright%}</label>
+	</footer>
 </div>
-<footer>
-	<cite id="tip"></cite>
-	<label id="copyright">{%copyright%}</label>
-</footer>

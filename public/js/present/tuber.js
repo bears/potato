@@ -26,9 +26,7 @@
 	 * @param target {String}
 	 */
 	POTATO.Tuber = function Tuber(uuid, target) {
-		return POTATO.Present.apply(this, [uuid, 'tuber', function() {
-			var template;
-
+		return POTATO.Present.apply(this, [uuid, function() {
 			/**
 			 * The element to insert into.
 			 */
@@ -42,31 +40,22 @@
 			 */
 			this.notify = function(subject, type, source) {
 				switch (type) {
-					case POTATO.NOTIFY.SKETCH:
-						template = subject;
-						if (undefined === source) break;
-					// goto next case
-
 					case POTATO.NOTIFY.INSERT:
-						if (template) {
-							$(mask(template, source)).data('self', this).click(function(event) {
-								event.stopPropagation();
-								$('#annual .season>li.ui-state-highlight').removeClass('ui-state-highlight');
-								$(this).addClass('ui-state-highlight');
-								(new POTATO.Stock(uuid)).waken();
-							}).appendTo(vessel);
-						}
+						$(mask(POTATO.TEMPLATE[subject], source)).data('self', this).click(function(event) {
+							event.stopPropagation();
+							$('#annual .season>li.ui-state-highlight').removeClass('ui-state-highlight');
+							$(this).addClass('ui-state-highlight');
+							(new POTATO.Stock(uuid)).waken();
+						}).appendTo(vessel);
 						break;
 
 					case POTATO.NOTIFY.UPDATE:
-						if (template) {
-							$('#tuber_' + uuid).html(mask(template, source));
-						}
+						$('#tuber_' + uuid).html(mask(POTATO.TEMPLATE[subject], source));
 						break;
 				}
 			};
 		}, {
-			'tuber' : new POTATO.Potato(uuid)
+			'tuber' : POTATO.Potato
 		}]);
 	};
 })();

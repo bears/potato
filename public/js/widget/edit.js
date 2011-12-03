@@ -15,7 +15,7 @@ function edit(source, subject, field, element) {
 	/**
 	 * The element to be operate.
 	 */
-	var widget = $(edit.template).attr('id', uuid).data('self', this);
+	var widget = $(POTATO.TEMPLATE.edit).attr('id', uuid).data('self', this);
 
 	/**
 	 * The document to execute commands.
@@ -39,7 +39,7 @@ function edit(source, subject, field, element) {
 	 */
 	var save = function() {
 		hide(function() {
-			source.set($(vessel.body).html(), field, subject);
+			source.set(vessel.body.innerHTML, field, subject);
 		});
 	};
 
@@ -77,7 +77,7 @@ function edit(source, subject, field, element) {
 			vessel = this.contentDocument;
 			vessel.designMode = 'on';
 			vessel.execCommand('styleWithCSS', false, true);
-			$(vessel.body).html(source.get(field, subject));
+			vessel.body.innerHTML = source.get(field, subject);
 
 			// Bind events.
 			$(vessel).focus(function() {
@@ -92,7 +92,3 @@ function edit(source, subject, field, element) {
 		$(element).addClass('ui-helper-hidden').after(widget.fadeIn('fast'));
 	})();
 }
-
-$.get(POTATO.LOAD_PREFIX + 'html/edit.html', function(content) {
-	edit.template = content;
-});

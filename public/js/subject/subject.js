@@ -2,6 +2,19 @@
 
 (function() {
 	/**
+	 * Notify type enumerations.
+	 */
+	POTATO.NOTIFY = {
+		// Data
+		INSERT : 'INSERT',
+		UPDATE : 'UPDATE',
+		DELETE : 'DELETE',
+		// Operation
+		ATTACH : 'ATTACH',
+		DETACH : 'DETACH'
+	};
+
+	/**
 	 * Convert key to its abbreviation/intactness form.
 	 * @param map {Object} Abbr. or V.V.
 	 * @param pair {Array} [subject, field]

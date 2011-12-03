@@ -2,21 +2,6 @@
 
 (function() {
 	/**
-	 * Notify type enumerations.
-	 */
-	POTATO.NOTIFY = {
-		// Data
-		INSERT : 'INSERT',
-		UPDATE : 'UPDATE',
-		DELETE : 'DELETE',
-		// Template
-		SKETCH : 'SKETCH',
-		// Operation
-		ATTACH : 'ATTACH',
-		DETACH : 'DETACH'
-	};
-
-	/**
 	 * Object cache pool.
 	 */
 	var pool = {};

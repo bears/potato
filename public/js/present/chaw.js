@@ -20,9 +20,7 @@
 	 * @param vessel {Element}
 	 */
 	POTATO.Chaw = function Chaw(uuid, vessel) {
-		return POTATO.Present.apply(this, [uuid, 'fries', function() {
-			var template;
-
+		return POTATO.Present.apply(this, [uuid, function() {
 			/**
 			 * Callback for chip.
 			 * @param subject {String}
@@ -31,25 +29,18 @@
 			 */
 			this.notify = function(subject, type, source) {
 				switch (type) {
-					case POTATO.NOTIFY.SKETCH:
-						template = subject;
-						if (undefined === source) break;
-					// goto next case
-
 					case POTATO.NOTIFY.INSERT:
-						if (template) {
-							var target = $(mask(template, source)).data('self', this).click(function(event) {
-								event.stopPropagation();
-								(new menu()).setup({
-									edit : function() {
-										new edit(source, 'fries', 'detail', $('#chaw_' + uuid).parent());
-									}
-								});
-							}).appendTo(vessel);
-							$('>.shrink', target).click(function(event) {
-								$(this).parent().toggleClass('collapsed');
+						var target = $(mask(POTATO.TEMPLATE[subject], source)).data('self', this).click(function(event) {
+							event.stopPropagation();
+							(new menu()).setup({
+								edit : function() {
+									new edit(source, 'fries', 'detail', $('#chaw_' + uuid).parent());
+								}
 							});
-						}
+						}).appendTo(vessel);
+						$('>.shrink', target).click(function(event) {
+							$(this).parent().toggleClass('collapsed');
+						});
 						break;
 
 					case POTATO.NOTIFY.UPDATE:
@@ -57,7 +48,7 @@
 				};
 			};
 		}, {
-			'fries' : new POTATO.Chip(uuid)
+			'fries' : POTATO.Chip
 		}]);
 	};
 })();
