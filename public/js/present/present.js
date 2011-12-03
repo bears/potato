@@ -2,9 +2,10 @@
 
 (function() {
 	/**
-	 * Base class for holding data.
+	 * Base class for showing data.
 	 * @param uuid {String}
 	 * @param builder {Function}
+	 * @param sources {Object}
 	 */
 	POTATO.Present = function Present(uuid, builder, sources) {
 		var DERIVER = POTATO.typeOf(this);
