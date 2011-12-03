@@ -96,7 +96,7 @@
 			target.removeClass('loading');
 			target.click(function(event) {
 				event.stopPropagation();
-				(new menu()).setup({
+				(new POTATO.Menu()).setup({
 					plow : function() {
 						$('#stock_' + uuid).toggleClass('editable');
 					},

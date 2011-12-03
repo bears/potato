@@ -78,7 +78,7 @@
 					box.removeClass('focus')
 				}).click(function(event) {
 					event.stopPropagation();
-					(new menu()).setup(actions);
+					(new POTATO.Menu()).setup(actions);
 				}).click();
 			});
 			$(element).addClass('ui-helper-hidden').after(widget.fadeIn('fast'));

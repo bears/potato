@@ -85,7 +85,7 @@
 			// Bind menu
 			lists.click(function(event) {
 				event.stopPropagation();
-				(new menu()).setup(actions);
+				(new POTATO.Menu()).setup(actions);
 			});
 
 			/**

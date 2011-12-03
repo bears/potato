@@ -32,7 +32,7 @@
 					case POTATO.NOTIFY.INSERT:
 						var target = $(mask(POTATO.TEMPLATE[subject], source)).data('self', this).click(function(event) {
 							event.stopPropagation();
-							(new menu()).setup({
+							(new POTATO.Menu()).setup({
 								edit : function() {
 									new POTATO.Edit(source, 'fries', 'detail', $('#chaw_' + uuid).parent());
 								}
