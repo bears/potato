@@ -30,7 +30,7 @@
 			this.notify = function(subject, type, source) {
 				switch (type) {
 					case POTATO.NOTIFY.INSERT:
-						var target = $(mask(POTATO.TEMPLATE[subject], source)).data('self', this).click(function(event) {
+						var target = $(mask(POTATO.TEMPLATE[subject], source)).click(function(event) {
 							event.stopPropagation();
 							(new POTATO.Menu()).setup({
 								edit : function() {

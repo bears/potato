@@ -10,7 +10,7 @@
 			/**
 			 * The element to be operate.
 			 */
-			var widget = $(POTATO.TEMPLATE.edit).attr('id', uuid).data('self', this);
+			var widget = $(POTATO.TEMPLATE.edit).attr('id', uuid);
 
 			/**
 			 * The document to execute commands.

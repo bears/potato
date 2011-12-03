@@ -41,7 +41,7 @@
 			this.notify = function(subject, type, source) {
 				switch (type) {
 					case POTATO.NOTIFY.INSERT:
-						$(mask(POTATO.TEMPLATE[subject], source)).data('self', this).click(function(event) {
+						$(mask(POTATO.TEMPLATE[subject], source)).click(function(event) {
 							event.stopPropagation();
 							$('#annual .season>li.ui-state-highlight').removeClass('ui-state-highlight');
 							$(this).addClass('ui-state-highlight');
