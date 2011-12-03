@@ -19,7 +19,7 @@
 		builder.apply(this);
 
 		// Subscribe to data sources.
-		$.each(sources, function(subject, source) {
+		$.each((sources || {}), function(subject, source) {
 			(new source(uuid)).subscribe(subject, this);
 		}.bind(this));
 

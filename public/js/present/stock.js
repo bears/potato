@@ -101,7 +101,7 @@
 						$('#stock_' + uuid).toggleClass('editable');
 					},
 					craft : function() {
-						new edit(source, 'stock', 'craft', $('#stock_' + uuid + ' .craft'));
+						new POTATO.Edit(source, 'stock', 'craft', $('#stock_' + uuid + ' .craft'));
 					}
 				});
 			}).click();

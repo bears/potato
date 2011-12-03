@@ -34,7 +34,7 @@
 							event.stopPropagation();
 							(new menu()).setup({
 								edit : function() {
-									new edit(source, 'fries', 'detail', $('#chaw_' + uuid).parent());
+									new POTATO.Edit(source, 'fries', 'detail', $('#chaw_' + uuid).parent());
 								}
 							});
 						}).appendTo(vessel);

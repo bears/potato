@@ -10,7 +10,7 @@
 	 * Get an object.
 	 * @param type {String}
 	 * @param uuid {String}
-	 * @return {subject}
+	 * @return {Object}
 	 */
 	POTATO.getObject = function(type, uuid) {
 		return (pool[type] || {})[uuid];
@@ -18,7 +18,7 @@
 
 	/**
 	 * Add an object.
-	 * @param item {subject}
+	 * @param item {Object}
 	 * @param uuid {String}
 	 */
 	POTATO.setObject = function(item, uuid) {
@@ -26,6 +26,15 @@
 		(type in pool) || (pool[type] = {});
 		pool[type][uuid] = item;
 	};
+
+	/**
+	 * Rid an object.
+	 * @param type {String}
+	 * @param uuid {String}
+	 */
+	POTATO.ridObject = function(type, uuid) {
+		(type in pool) && (delete pool[type][uuid]);
+	}
 
 	/**
 	 * Get class name.
