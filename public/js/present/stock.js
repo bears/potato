@@ -33,19 +33,24 @@
 	 * @param source {Potato}
 	 */
 	function fillStock(source) {
+		/**
+		 * menu items.
+		 */
+		var actions = {
+			plow : function() {
+				target.toggleClass('editable');
+			},
+			craft : function() {
+				new POTATO.Edit(source, 'stock', 'craft', $('.craft', target));
+			}
+		};
+
 		var target = $(mask(POTATO.TEMPLATE.stock, source))
 		.attr('id', 'stock_' + source.uuid())
 		.appendTo($('#stocks').removeClass('loading'))
 		.click(function(event) {
 			event.stopPropagation();
-			(new POTATO.Menu()).setup({
-				plow : function() {
-					target.toggleClass('editable');
-				},
-				craft : function() {
-					new POTATO.Edit(source, 'stock', 'craft', $('.craft', target));
-				}
-			});
+			(new POTATO.Menu()).setup(actions);
 		}).click();
 		$('legend.shrink', target).click(function() {
 			$(this).parent().toggleClass('collapsed');

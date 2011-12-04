@@ -22,6 +22,15 @@
 	POTATO.Chaw = function Chaw(uuid, vessel) {
 		return POTATO.Present.apply(this, [uuid, function() {
 			/**
+			 * menu items.
+			 */
+			var actions = {
+				edit : function() {
+					new POTATO.Edit(POTATO.getObject('Chip', uuid), 'fries', 'detail', $('#chaw_' + uuid).parent());
+				}
+			};
+
+			/**
 			 * Callback for chip.
 			 * @param subject {String}
 			 * @param type {String} One of POTATO.NOTIFY.*
@@ -32,11 +41,7 @@
 					case POTATO.NOTIFY.INSERT:
 						var target = $(mask(POTATO.TEMPLATE[subject], source)).click(function(event) {
 							event.stopPropagation();
-							(new POTATO.Menu()).setup({
-								edit : function() {
-									new POTATO.Edit(source, 'fries', 'detail', $('#chaw_' + uuid).parent());
-								}
-							});
+							(new POTATO.Menu()).setup(actions);
 						}).appendTo(vessel);
 						$('>.shrink', target).click(function(event) {
 							$(this).parent().toggleClass('collapsed');
