@@ -26,6 +26,13 @@ var POTATO = {
 	},
 
 	/**
+	 * UUID for singleton.
+	 */
+	get SINGLETON() {
+		return '00000000-0000-0000-0000-000000000000';
+	},
+
+	/**
 	 * Localization dictionary.
 	 */
 	L10N : {},

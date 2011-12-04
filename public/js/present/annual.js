@@ -5,7 +5,7 @@
 	 * Annual panel.
 	 */
 	POTATO.Annual = function Annual(current) {
-		return POTATO.Present.apply(this, ['singleton', function() {
+		return POTATO.Present.apply(this, [POTATO.SINGLETON, function() {
 			var singleton = this;
 
 			/**
