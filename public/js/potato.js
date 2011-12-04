@@ -41,26 +41,26 @@
 	/**
 	 * Load files listed in `_SOURCES_` one by one.
 	 */
-	(function loadSource(index) {
+	function loadSource(index) {
 		var script = document.createElement('script');
 		script.src = 'js/' + _SOURCES_[index] + '.js';
 		script.onload = function() {
-			(++index < _SOURCES_.length) ? loadSource(index) : loadTemplate();
+			(++index < _SOURCES_.length) ? loadSource(index) : loadTemplate(0);
 		};
 		document.head.appendChild(script);
-	})(0);
+	}
 
 	/**
-	 * Load files listed in `_TEMPLATES_`.
+	 * Load files listed in `_TEMPLATES_` one by one.
 	 */
-	function loadTemplate() {
-		$.each(_TEMPLATES_, function() {
-			$.get(POTATO.LOAD_PREFIX + 'html/' + this + '.html', function(content) {
-				var template = $(content).first();
-				var name = template.attr('id');
-				POTATO.TEMPLATE[name] = template.html();
-				('body' == name) && POTATO.render();
-			});
+	function loadTemplate(index) {
+		$.get(POTATO.LOAD_PREFIX + 'html/' + _TEMPLATES_[index] + '.html', function(content) {
+			var template = $(content).first();
+			POTATO.TEMPLATE[template.attr('id')] = template.html();
+			(++index < _TEMPLATES_.length) ? loadTemplate(index) : POTATO.render();
 		});
 	}
+
+	// Start loading sequence.
+	loadSource(0);
 })();
