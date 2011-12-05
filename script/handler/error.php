@@ -25,7 +25,7 @@ function log_error( $type, $code, $message, $file, $line, &$context, &$trace ) {
 
 		if ( constant( "\\setting\\IS_LOG_{$type}_DUMP" ) ) {
 			$dump = json_encode( array( 'log' => $log, 'env' => $context, 'trace' => $trace ) );
-			error_log( $dump, 3, "/$path/$uuid.dump" );
+			error_log( $dump, 3, "$path/$uuid.dump" );
 		}
 	}
 	return constant( "\\setting\\IS_LOG_{$type}_RETURN" ) || die( header( "X-Error: $code-$uuid", true, 500 ) );
@@ -64,7 +64,7 @@ set_error_handler( function ($code, $message, $file, $line, $context) {
 	$type = (isset( $is_user ) ? 'USER_' : '') . $key;
 	if ( constant( "\\setting\\IS_LOG_{$type}_DUMP" ) ) {
 		$trace = debug_backtrace();
-		array_unshift( $trace );
+		array_shift( $trace );
 	}
 	return log_error( $type, $code, $message, $file, $line, $context, $trace );
 } );
