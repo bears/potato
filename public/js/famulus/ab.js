@@ -4,7 +4,7 @@
  * Abbreviation dictionary.
  */
 POTATO.AB = {
-	Potato : {
+	potato : {
 		tuber : {
 			$ : 't',
 			brand : 'b',
@@ -18,22 +18,12 @@ POTATO.AB = {
 			variety : 'v',
 			seeding : 'g',
 			harvest : 'h'
-		},
-		fries : {
-			$ : 'f',
-			chips : 'c'
 		}
 	},
-	Chip : {
+	chip : {
 		fries : {
 			$ : 'f',
 			detail : 'd'
-		}
-	},
-	Season : {
-		season : {
-			$ : 's',
-			tubers : 't'
 		}
 	}
 };

@@ -76,7 +76,7 @@
 	 * @param uuid {String}
 	 * @param data {Object} Optional
 	 */
-	POTATO.Element = function Element(uuid, data) {
+	POTATO.Element = function element(uuid, data) {
 		var DERIVER = POTATO.typeOf(this);
 
 		// Prevent duplicated object.
@@ -149,7 +149,7 @@
 		 * @param atom {String}
 		 */
 		this.commit = function(atom) {
-			var target = 'i/' + DERIVER.toLowerCase() + '/' + this.uuid() + '/';
+			var target = 'i/' + DERIVER + '/' + this.uuid() + '/';
 			$.each(changes[atom], function(index) {
 				var subject = abba(ba, [index])[0];
 				$.post(POTATO.AJAJ_DOMAIN + target + subject, this, function() {
@@ -187,7 +187,7 @@
 				claimer.notify(subject, POTATO.NOTIFY.INSERT, this);
 			}
 			else {
-				var url = 'i/' + DERIVER.toLowerCase() + '/' + this.uuid() + '/' + subject;
+				var url = 'i/' + DERIVER + '/' + this.uuid() + '/' + subject;
 				$.getJSON(POTATO.AJAJ_DOMAIN + url, function(renewal) {
 					update(data, renewal, focus, ba, this);
 				}.bind(this));

@@ -4,7 +4,7 @@
 	/**
 	 * Annual panel.
 	 */
-	POTATO.Annual = function Annual(current) {
+	POTATO.Annual = function annual(current) {
 		return POTATO.Present.apply(this, [POTATO.SINGLETON, function() {
 			var singleton = this;
 
@@ -27,7 +27,7 @@
 			 * Callback for season.
 			 * @param subject {String}
 			 * @param type {String} One of POTATO.NOTIFY.*
-			 * @param source {POTATO.Season}
+			 * @param source {POTATO.Potatoes}
 			 */
 			this.notify = function(subject, type, source) {
 				var target = source.uuid();

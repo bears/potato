@@ -18,7 +18,6 @@
 	test('new subject', function() {
 		ok((new POTATO.Chip('chip.new')) instanceof POTATO.Chip)
 		ok((new POTATO.Potato('potato.new')) instanceof POTATO.Potato)
-		ok((new POTATO.Season('season.new')) instanceof POTATO.Season)
 
 		function a() {
 			return new POTATO.Chip('a:chip.new')

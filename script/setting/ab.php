@@ -27,14 +27,4 @@ return array(
 			'detail' => 'd',
 		),
 	),
-	'subject' => array(
-		'season' => array(
-			'$' => 's',
-			'tubers' => 't',
-		),
-		'fries' => array(
-			'$' => 'f',
-			'chips' => 'c',
-		),
-	),
 );

@@ -4,21 +4,14 @@
 	/**
 	 * Subject for a single chip.
 	 */
-	POTATO.Chip = function Chip() {
+	POTATO.Chip = function chip() {
 		return POTATO.Element.apply(this, arguments);
 	};
 
 	/**
 	 * Subject for a single potato.
 	 */
-	POTATO.Potato = function Potato() {
-		return POTATO.Element.apply(this, arguments);
-	};
-
-	/**
-	 * Subject for tubers.
-	 */
-	POTATO.Season = function Season() {
+	POTATO.Potato = function potato() {
 		return POTATO.Element.apply(this, arguments);
 	};
 })();
@@ -27,14 +20,14 @@
 	/**
 	 * Subject for chip set.
 	 */
-	POTATO.Chips = function Chip() {
+	POTATO.Chips = function chip() {
 		return POTATO.Cluster.apply(this, arguments);
 	};
 
 	/**
 	 * Subject for potato set.
 	 */
-	POTATO.Potatoes = function Potato() {
+	POTATO.Potatoes = function potato() {
 		return POTATO.Cluster.apply(this, arguments);
 	};
 })();

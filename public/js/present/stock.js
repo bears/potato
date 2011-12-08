@@ -72,7 +72,7 @@
 	 * Single potato in center panel.
 	 * @param uuid {String}
 	 */
-	POTATO.Stock = function Stock(uuid) {
+	POTATO.Stock = function stock(uuid) {
 		return POTATO.Present.apply(this, [uuid, function() {
 			$('#stocks').addClass('loading');
 

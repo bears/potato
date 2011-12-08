@@ -24,7 +24,7 @@
 	 * @param uuid {String}
 	 * @param data {Object} Optional
 	 */
-	POTATO.Cluster = function Cluster(filter, extra, data) {
+	POTATO.Cluster = function cluster(filter, extra, data) {
 		var DERIVER = POTATO.typeOf(this);
 
 		// Prevent duplicated object.
@@ -49,7 +49,10 @@
 				page.push(extra);
 				if ($.isArray(data)) {
 					$.each(data, function() {
-						list.push(new POTATO[DERIVER](this.$, this));
+						var publicDeriver = ('_' + DERIVER).replace(/_(.)/, function(unused, first) {
+							return first.toUpperCase();
+						});
+						list.push(new POTATO[publicDeriver](this.$, this));
 					})
 				}
 			}
@@ -92,7 +95,7 @@
 				claimer.notify(subject, POTATO.NOTIFY.INSERT, this);
 			}
 			else {
-				var url = 'a/' + DERIVER.toLowerCase() + '/' + filter + ',' + extra + '/' + subject;
+				var url = 'a/' + DERIVER + '/' + filter + ',' + extra + '/' + subject;
 				$.getJSON(POTATO.AJAJ_DOMAIN + url, function(data) {
 					this.append(extra, data);
 					broadcast(this, focus, subject, POTATO.NOTIFY.INSERT);

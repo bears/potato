@@ -19,7 +19,7 @@
 	 * @param uuid {String}
 	 * @param vessel {Element}
 	 */
-	POTATO.Chaw = function Chaw(uuid, vessel) {
+	POTATO.Chaw = function chaw(uuid, vessel) {
 		return POTATO.Present.apply(this, [uuid, function() {
 			/**
 			 * menu items.

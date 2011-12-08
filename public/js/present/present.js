@@ -7,7 +7,7 @@
 	 * @param builder {Function}
 	 * @param sources {Object}
 	 */
-	POTATO.Present = function Present(uuid, builder, sources) {
+	POTATO.Present = function present(uuid, builder, sources) {
 		var DERIVER = POTATO.typeOf(this);
 
 		// Prevent duplicated object.
