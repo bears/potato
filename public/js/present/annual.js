@@ -12,10 +12,10 @@
 			 * Hold all private properties.
 			 */
 			var data = {
-				spring : new POTATO.Season('spring'),
-				summer : new POTATO.Season('summer'),
-				autumn : new POTATO.Season('autumn'),
-				winter : new POTATO.Season('winter')
+				spring : new POTATO.Potatoes('tubers=spring'),
+				summer : new POTATO.Potatoes('tubers=summer'),
+				autumn : new POTATO.Potatoes('tubers=autumn'),
+				winter : new POTATO.Potatoes('tubers=winter')
 			};
 
 			// Default season.
@@ -38,9 +38,8 @@
 						break;
 
 					case POTATO.NOTIFY.INSERT:
-						$.each(source.get('tubers', 'season'), function() {
-							new POTATO.Potato(this.$, this);
-							new POTATO.Tuber(this.$, target);
+						source.each(function() {
+							new POTATO.Tuber(this.uuid(), target);
 						});
 						vessel.removeClass('loading');
 						break;
@@ -55,7 +54,7 @@
 				select : function(event, ui) {
 					data[current].unsubscribe('season', singleton);
 					current = ui.tab.href.match(/#season_(\w+)/)[1];
-					data[current].subscribe('season', singleton);
+					data[current].subscribe('tuber', singleton, '0');
 				}
 			}).tabs('select', current);
 			var stickers = $('.stickers>li', tabs).droppable({

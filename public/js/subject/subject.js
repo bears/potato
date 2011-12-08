@@ -76,7 +76,7 @@
 	 * @param uuid {String}
 	 * @param data {Object} Optional
 	 */
-	POTATO.Subject = function Subject(uuid, data) {
+	POTATO.Element = function Element(uuid, data) {
 		var DERIVER = POTATO.typeOf(this);
 
 		// Prevent duplicated object.
@@ -85,10 +85,6 @@
 			return cached;
 		}
 
-		// Load abbreviation dictionary.
-		var ab = POTATO.AB[DERIVER] || {};
-		var ba = POTATO.BA[DERIVER] || {};
-
 		/**
 		 * Hold all private properties.
 		 */
@@ -96,6 +92,22 @@
 			$ : uuid,
 			'undefined' : {/*for temporary values*/}
 		});
+
+		/**
+		 * Change list of data.
+		 */
+		var changes = {};
+
+		/**
+		 * Hold all subscribers.
+		 */
+		var focus = {};
+
+		/**
+		 * Map abbreviation dictionaries.
+		 */
+		var ab = POTATO.AB[DERIVER] || {};
+		var ba = POTATO.BA[DERIVER] || {};
 
 		/**
 		 * Getter.
@@ -113,10 +125,45 @@
 		 * @param value
 		 * @param field {String}
 		 * @param subject {String}
+		 * @param atom {String} optional
 		 */
-		this.set = function(value, field, subject) {
+		this.set = function(value, field, subject, atom) {
 			var oppo = abba(ab, [subject, field]);
-			data[oppo[0]][oppo[1]] = value;
+			if ($.isEmptyObject(focus[subject])) {
+				data[oppo[0]][oppo[1]] = value;
+			}
+			else {
+				var instant = undefined === atom;
+				instant && (atom = Date.now());
+
+				(atom in changes) || (changes[atom] = {});
+				(oppo[0] in changes[atom]) || (changes[atom][oppo[0]] = {});
+				changes[atom][oppo[0]][oppo[1]] = value;
+
+				instant && this.commit(atom);
+			}
+		};
+
+		/**
+		 * Finish a change.
+		 * @param atom {String}
+		 */
+		this.commit = function(atom) {
+			var target = 'i/' + DERIVER.toLowerCase() + '/' + this.uuid() + '/';
+			$.each(changes[atom], function(index) {
+				var subject = abba(ba, [index])[0];
+				$.post(POTATO.AJAJ_DOMAIN + target + subject, this, function() {
+					delete changes[atom][index];
+				});
+			});
+		};
+
+		/**
+		 * Discard a change.
+		 * @param atom {String}
+		 */
+		this.cancel = function(atom) {
+			delete change[atom];
 		};
 
 		/**
@@ -124,13 +171,8 @@
 		 * @return {String}
 		 */
 		this.uuid = function() {
-			return data.$;
+			return uuid;
 		};
-
-		/**
-		 * Hold all subscribers.
-		 */
-		var focus = {};
 
 		/**
 		 * Append an observer to a subject.
@@ -145,7 +187,8 @@
 				claimer.notify(subject, POTATO.NOTIFY.INSERT, this);
 			}
 			else {
-				$.getJSON(POTATO.AJAJ_DOMAIN + subject + '/' + this.uuid(), function(renewal) {
+				var url = 'i/' + DERIVER.toLowerCase() + '/' + this.uuid() + '/' + subject;
+				$.getJSON(POTATO.AJAJ_DOMAIN + url, function(renewal) {
 					update(data, renewal, focus, ba, this);
 				}.bind(this));
 			}

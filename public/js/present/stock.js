@@ -63,9 +63,8 @@
 	 */
 	function fillFries(source) {
 		var vessel = $('#stock_' + source.uuid() + ' .fries').removeClass('loading');
-		$.each(source.get('chips', 'fries'), function() {
-			new POTATO.Chip(this.$, this);
-			new POTATO.Chaw(this.$, vessel);
+		source.each(function() {
+			new POTATO.Chaw(this.uuid(), vessel);
 		});
 	}
 
@@ -96,7 +95,7 @@
 						switch (subject) {
 							case 'stock':
 								fillStock(source);
-								source.subscribe('fries', this);
+								(new POTATO.Chips('fries=' + source.uuid())).subscribe('fries', this, '0');
 								break;
 							case 'fries':
 								fillFries(source);

@@ -11,9 +11,11 @@ CREATE TABLE "chip" (
 );
 
 -- Method
-CREATE FUNCTION "chip::fries" (uuid)
+CREATE FUNCTION "chip::fries" (uuid, integer)
 RETURNS SETOF "chip" AS $$
 	SELECT *
 		FROM "chip"
 		WHERE "potato"=$1
+		LIMIT 20
+		OFFSET $2
 $$ LANGUAGE SQL;

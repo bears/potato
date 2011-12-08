@@ -11,6 +11,7 @@
 	'famulus/locale',
 	'famulus/convert',
 	'subject/subject',
+	'subject/cluster',
 	'subject/trivia',
 	'present/present',
 	'present/annual',

@@ -18,7 +18,7 @@ POTATO.replace = function(template, lookup) {
  */
 POTATO.genialTime = function(iso8601) {
 	if (iso8601) {
-		var distance = ((new Date()).getTime() - (new Date(iso8601)).getTime()) / 1000;
+		var distance = (Date.now() - (new Date(iso8601)).getTime()) / 1000;
 		if (0 <= distance) {
 			var step = {
 				'300' : 'just_now',

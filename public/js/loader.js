@@ -69,7 +69,7 @@ var POTATO = {
 	}
 
 	// Get profile to determine prefix.
-	$.post(POTATO.AJAJ_DOMAIN + 'profile', previous, function(profile) {
+	$.post(POTATO.AJAJ_DOMAIN + '!/profile', previous, function(profile) {
 		// Fill & cache profile.
 		for (var i in STORAGES) {
 			if (previous[i] != profile[i].LOCK) {
@@ -82,7 +82,7 @@ var POTATO = {
 		// Report client error to server.
 		if ( POTATO.PROFILE.CODE.RECLAIM ) {
 			window.onerror = function(error, url, line) {
-				$.post(POTATO.AJAJ_DOMAIN + 'error', {
+				$.post(POTATO.AJAJ_DOMAIN + '!/error', {
 					error : error,
 					line : line,
 					url : url
