@@ -8,23 +8,14 @@
 	 * @param sources {Object}
 	 */
 	POTATO.Present = function present(uuid, builder, sources) {
-		var DERIVER = POTATO.typeOf(this);
+		return POTATO.Object.apply(this, [uuid, function(gene) {
+			// Initialize this by deriver.
+			('function' == typeof builder) && builder.apply(this, [gene]);
 
-		// Prevent duplicated object.
-		var cached = POTATO.getObject(DERIVER, uuid);
-		if (undefined !== cached) {
-			return cached;
-		}
-
-		// Initialize this by deriver.
-		builder.apply(this);
-
-		// Subscribe to data sources.
-		$.each((sources || {}), function(subject, source) {
-			(new source(uuid)).subscribe(subject, this);
-		}.bind(this));
-
-		// Cache this object.
-		POTATO.setObject(this, uuid);
+			// Subscribe to data sources.
+			$.each((sources || {}), function(subject, source) {
+				(new source(uuid)).subscribe(subject, gene.SELF);
+			});
+		}]);
 	};
 })();

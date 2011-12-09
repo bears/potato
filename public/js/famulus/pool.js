@@ -10,37 +10,73 @@
 	 * Get an object.
 	 * @param type {String}
 	 * @param uuid {String}
-	 * @return {Object}
+	 * @return {POTATO.Object}
 	 */
 	POTATO.getObject = function(type, uuid) {
-		return (pool[type] || {})[uuid];
+		return (type in pool) && pool[type][uuid] || false;
 	};
 
 	/**
 	 * Add an object.
-	 * @param item {Object}
-	 * @param uuid {String}
+	 * @param {POTATO.Object}
 	 */
-	POTATO.setObject = function(item, uuid) {
-		var type = POTATO.typeOf(item);
-		(type in pool) || (pool[type] = {});
-		pool[type][uuid] = item;
+	POTATO.setObject = function() {
+		$.each(arguments, function() {
+			var type = POTATO.typeOf(this);
+			(type in pool) || (pool[type] = {});
+			pool[type][this.uuid()] = this;
+		});
 	};
 
 	/**
 	 * Rid an object.
-	 * @param type {String}
-	 * @param uuid {String}
+	 * @param {POTATO.Object}
 	 */
-	POTATO.ridObject = function(type, uuid) {
-		(type in pool) && (delete pool[type][uuid]);
+	POTATO.ridObject = function() {
+		$.each(arguments, function() {
+			var type = POTATO.typeOf(this);
+			(type in pool) && (delete pool[type][this.uuid()]);
+		});
 	}
 
 	/**
 	 * Get class name.
+	 * @param item {Object}
 	 * @return {String}
 	 */
 	POTATO.typeOf = function(item) {
 		return item.__proto__.constructor.toString().match(/^function (\w+)/)[1];
+	};
+
+	/**
+	 * Root class.
+	 * @param uuid {String}
+	 * @param builder {Function}
+	 */
+	POTATO.Object = function(uuid, builder) {
+		var gene = {
+			SELF : this,
+			DERIVER : POTATO.typeOf(this)
+		};
+
+		// Prevent duplicated object.
+		var cached = POTATO.getObject(gene.DERIVER, uuid);
+		if (cached) {
+			return cached;
+		}
+
+		/**
+		 * Get UUID.
+		 * @return {String}
+		 */
+		this.uuid = function() {
+			return uuid;
+		};
+
+		// Cache this object.
+		POTATO.setObject(this);
+
+		// Initialize this by deriver.
+		('function' == typeof builder) && builder.apply(this, [gene]);
 	};
 })();

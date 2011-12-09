@@ -62,7 +62,7 @@
 	 * @param source {Potato}
 	 */
 	function fillFries(source) {
-		var vessel = $('#stock_' + source.uuid() + ' .fries').removeClass('loading');
+		var vessel = $('#stock_' + source.key() + ' .fries').removeClass('loading');
 		source.each(function() {
 			new POTATO.Chaw(this.uuid(), vessel);
 		});

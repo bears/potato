@@ -5,9 +5,7 @@
 	 * Annual panel.
 	 */
 	POTATO.Annual = function annual(current) {
-		return POTATO.Present.apply(this, [POTATO.SINGLETON, function() {
-			var singleton = this;
-
+		return POTATO.Present.apply(this, [POTATO.SINGLETON, function(gene) {
 			/**
 			 * Hold all private properties.
 			 */
@@ -30,7 +28,7 @@
 			 * @param source {POTATO.Potatoes}
 			 */
 			this.notify = function(subject, type, source) {
-				var target = source.uuid();
+				var target = source.key();
 				var vessel = $('#season_' + target + '>ul');
 				switch (type) {
 					case POTATO.NOTIFY.ATTACH:
@@ -52,9 +50,9 @@
 			// Initial container.
 			var tabs = $('#annual').tabs({
 				select : function(event, ui) {
-					data[current].unsubscribe('season', singleton);
+					data[current].unsubscribe('season', gene.SELF);
 					current = ui.tab.href.match(/#season_(\w+)/)[1];
-					data[current].subscribe('tuber', singleton, '0');
+					data[current].subscribe('tuber', gene.SELF, '0');
 				}
 			}).tabs('select', current);
 			var stickers = $('.stickers>li', tabs).droppable({

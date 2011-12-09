@@ -3,12 +3,16 @@
 (function() {
 	require('famulus/pool.js');
 
-	function X() {}
-	function Y() {}
+	function X(uuid) {
+		return POTATO.Object.apply(this, [uuid]);
+	}
+	function Y(uuid) {
+		return POTATO.Object.apply(this, [uuid]);
+	}
 
 	test('typeOf', function() {
-		var a = new X()
-		var b = new Y()
+		var a = new X('typeOf')
+		var b = new Y('typeOf')
 
 		equal('X', POTATO.typeOf(a))
 		equal('Y', POTATO.typeOf(b))
@@ -16,28 +20,28 @@
 	})
 
 	test('{g|s}etObject', function() {
-		var a = new X()
-		var b = new Y()
-		var c = new Y()
+		var a = new X('xetObject#1')
+		var b = new Y('xetObject#1')
+		var c = new Y('xetObject#2')
 
-		POTATO.setObject(a, 'xetObject#1')
-		POTATO.setObject(b, 'xetObject#1')
-		POTATO.setObject(c, 'xetObject#2')
+		POTATO.setObject(a)
+		POTATO.setObject(b)
+		POTATO.setObject(c)
 
 		strictEqual(a, POTATO.getObject('X', 'xetObject#1'))
 		strictEqual(b, POTATO.getObject('Y', 'xetObject#1'))
 		strictEqual(c, POTATO.getObject('Y', 'xetObject#2'))
 
-		strictEqual(undefined, POTATO.getObject('Y', 'xetObject#3'))
-		strictEqual(undefined, POTATO.getObject('Z', 'xetObject#1'))
+		strictEqual(false, POTATO.getObject('Y', 'xetObject#3'))
+		strictEqual(false, POTATO.getObject('Z', 'xetObject#1'))
 	})
 
 	test('ridObject', function() {
-		strictEqual(undefined, POTATO.getObject('X', 'ridObject'))
-		var a = new X()
-		POTATO.setObject(a, 'ridObject')
+		strictEqual(false, POTATO.getObject('X', 'ridObject'))
+		var a = new X('ridObject')
+		POTATO.setObject(a)
 		strictEqual(a, POTATO.getObject('X', 'ridObject'))
-		POTATO.ridObject('X', 'ridObject')
-		strictEqual(undefined, POTATO.getObject('X', 'ridObject'))
+		POTATO.ridObject(a)
+		strictEqual(false, POTATO.getObject('X', 'ridObject'))
 	})
 })();

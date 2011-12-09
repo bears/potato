@@ -4,6 +4,7 @@
 	require('famulus/ab.js');
 	require('famulus/ba.js');
 	require('subject/subject.js')
+	require('subject/element.js')
 	require('subject/trivia.js')
 
 	var template = {

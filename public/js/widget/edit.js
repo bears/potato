@@ -6,7 +6,7 @@
 	 */
 	POTATO.Edit = function edit(source, subject, field, element) {
 		var uuid = source.uuid() + '-' + subject + '-' + field;
-		return POTATO.Present.apply(this, [uuid, function() {
+		return POTATO.Present.apply(this, [uuid, function(gene) {
 			/**
 			 * The element to be operate.
 			 */
@@ -26,7 +26,7 @@
 					('function' == typeof callback) && callback();
 					$(element).removeClass('ui-helper-hidden').click();
 					widget.remove();
-					POTATO.ridObject('Edit', uuid);
+					POTATO.ridObject(gene.SELF);
 				});
 			};
 

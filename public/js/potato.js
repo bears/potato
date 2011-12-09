@@ -10,6 +10,7 @@
 	'famulus/pool',
 	'famulus/locale',
 	'famulus/convert',
+	'subject/subject',
 	'subject/element',
 	'subject/cluster',
 	'subject/trivia',
