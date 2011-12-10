@@ -19,10 +19,12 @@ class subject {
 		self::cross_domain();
 
 		@list($rest, $class, $filter, $subject) = explode( '/', trim( $_SERVER['REQUEST_URI'], '/' ) );
+		preg_match( '#^[\\w\\$]+$#', $class ) ? ($class = str_replace( '$', '\\', $class )) : trigger_error( 'invalid class', E_USER_ERROR );
 		switch ( $rest ) {
 			case 'a':
 				$type = "\\aggregate\\$class";
 				list($call, $arguments) = explode( '=', $filter, 2 );
+				preg_match( '#^\\w+$#', $call ) ? ($call = "get_$call") : trigger_error( 'invalid method', E_USER_ERROR );
 				$pass = explode( ',', $arguments );
 				self::get_put( $type, $call, $pass, $subject );
 				break;
@@ -77,10 +79,14 @@ class subject {
 	private static function get_put( $type, $call, $pass, $subject ) {
 		$data = call_user_func_array( array( $type, $call ), $pass );
 		if ( empty( $_POST ) ) {
-			if ( null !== $subject ) {
-				exit( $data->decorate( $subject ) );
-			}
+			preg_match( '#^\w+$#', $subject ) ? ($result = $data->decorate( $subject )) : trigger_error( 'invalid subject', E_USER_ERROR );
 		}
+		else {
+			$update = $_POST;
+			settype( $update, 'object' );
+			$result = $data->renovate( $update );
+		}
+		exit( $result );
 	}
 
 }

@@ -25,6 +25,16 @@ abstract class aggregate implements \IteratorAggregate {
 	}
 
 	/**
+	 * Encapsulate $this into a renovation class.
+	 * @param \stdClass $update
+	 * @return \renovation
+	 */
+	public function renovate( \stdClass $update ) {
+		$renovater = str_replace( '^aggregate\\', '\\renovation\\', '^' . get_called_class() ) . '\\aggregate';
+		return new $renovater( $this, $update );
+	}
+
+	/**
 	 * Cache an existing aggregate.
 	 * @param string $key
 	 * @param aggregate $value

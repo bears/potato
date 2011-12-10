@@ -38,6 +38,16 @@ abstract class individual {
 	}
 
 	/**
+	 * Encapsulate $this into a renovation class.
+	 * @param \stdClass $update
+	 * @return \renovation
+	 */
+	public function renovate( \stdClass $update ) {
+		$renovater = str_replace( '^individual\\', '\\renovation\\', '^' . get_called_class() );
+		return new $renovater( $this, $update );
+	}
+
+	/**
 	 * Insert/update this object to database.
 	 */
 	public function save() {

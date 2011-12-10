@@ -7,7 +7,7 @@ namespace decoration;
 abstract class aggregate {
 
 	public function __construct( \database\aggregate $object ) {
-		$this->data = $object;
+		$this->object = $object;
 	}
 
 	/**
@@ -24,7 +24,7 @@ abstract class aggregate {
 	 */
 	public function content( array &$vessel = array( ) ) {
 		$helper = str_replace( '\\aggregate$', '', get_called_class() . '$' );
-		foreach ( $this->data as $unit ) {
+		foreach ( $this->object as $unit ) {
 			$decorator = new $helper( $unit );
 			$vessel[] = $decorator->content();
 		}
@@ -35,6 +35,6 @@ abstract class aggregate {
 	 * The object holds the base information.
 	 * @var \database\individual
 	 */
-	protected $data;
+	protected $object;
 
 }

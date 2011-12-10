@@ -7,7 +7,7 @@ namespace decoration;
 abstract class individual {
 
 	public function __construct( \database\individual $object ) {
-		$this->data = $object;
+		$this->object = $object;
 	}
 
 	/**
@@ -23,7 +23,7 @@ abstract class individual {
 	 * @return array
 	 */
 	public function & content( array &$vessel = array( ) ) {
-		$vessel[\famulus\ab::UUID_KEY] = $this->data->uuid();
+		$vessel[\famulus\ab::UUID_KEY] = $this->object->uuid();
 		self::trivial( $vessel );
 		return $vessel;
 	}
@@ -38,8 +38,9 @@ abstract class individual {
 			$data = array( );
 			$ab = self::ab();
 			foreach ( static::$fields as $field ) {
-				$value = $this->data->$field;
-				( null !== $value ) && ($data[$ab( $field )] = $value);
+				if ( null !== ($value = $this->object->$field) ) {
+					$data[$ab( $field )] = $value;
+				}
 			}
 			$vessel[$ab->subject()] = $data;
 		}
@@ -59,7 +60,7 @@ abstract class individual {
 	 * The object holds the base information.
 	 * @var \database\individual
 	 */
-	protected $data;
+	protected $object;
 
 	/**
 	 * Required by trivial().

@@ -17,7 +17,7 @@ CREATE TABLE "potato" (
 );
 
 -- Method
-CREATE FUNCTION "potato::tubers" ("season", integer)
+CREATE FUNCTION "potato::get_tubers" ("season", integer)
 RETURNS SETOF "potato:tuber" AS $$
 	SELECT "uuid", "lock", "brand", "label"
 		FROM "potato"

@@ -11,7 +11,7 @@ CREATE TABLE "chip" (
 );
 
 -- Method
-CREATE FUNCTION "chip::fries" (uuid, integer)
+CREATE FUNCTION "chip::get_fries" (uuid, integer)
 RETURNS SETOF "chip" AS $$
 	SELECT *
 		FROM "chip"
