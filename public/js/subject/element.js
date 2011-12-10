@@ -84,13 +84,10 @@
 			 * @param atom {String}
 			 */
 			this.commit = function(atom) {
-				var target = 'i/' + gene.DERIVER + '/' + this.uuid() + '/';
-				$.each(changes[atom], function(index) {
-					var subject = abba(ba, [index])[0];
-					$.post(POTATO.AJAJ_DOMAIN + target + subject, this, function() {
-						// @todo: update this
-						delete changes[atom][index];
-					});
+				var url = 'i/' + gene.DERIVER + '/' + this.uuid();
+				$.post(POTATO.AJAJ_DOMAIN + url, changes[atom], function() {
+					$.extend(true, data, changes[atom]);
+					delete changes[atom];
 				});
 			};
 
@@ -122,16 +119,11 @@
 				else {
 					var url = 'i/' + gene.DERIVER + '/' + this.uuid() + '/' + subject;
 					$.getJSON(POTATO.AJAJ_DOMAIN + url, function(renewal) {
-						if (renewal.$ != data.$) {
-							throw 'UUID mismatch while updating ' + gene.DERIVER
-							+ ' #' + data.$ + ' vs #' + renewal.$;
-						}
+						delete renewal.$;
 						$.each(renewal, function(subject, content) {
-							if ('$' != subject) {
-								var notify = subject in data ? POTATO.NOTIFY.UPDATE : POTATO.NOTIFY.INSERT;
-								data[subject] = $.extend(data[subject], content);
-								gene.broadcast(abba(ba, [subject])[0], notify);
-							}
+							var notify = subject in data ? POTATO.NOTIFY.UPDATE : POTATO.NOTIFY.INSERT;
+							data[subject] = $.extend(data[subject], content);
+							gene.broadcast(abba(ba, [subject])[0], notify);
 						});
 					});
 				}

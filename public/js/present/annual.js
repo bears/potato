@@ -28,7 +28,7 @@
 			 * @param source {POTATO.Potatoes}
 			 */
 			this.notify = function(subject, type, source) {
-				var target = source.key();
+				var target = source.sign();
 				var vessel = $('#season_' + target + '>ul');
 				switch (type) {
 					case POTATO.NOTIFY.ATTACH:
@@ -36,8 +36,8 @@
 						break;
 
 					case POTATO.NOTIFY.INSERT:
-						source.each(function() {
-							new POTATO.Tuber(this.uuid(), target);
+						source.each('tuber', function(uuid) {
+							new POTATO.Tuber(uuid, target);
 						});
 						vessel.removeClass('loading');
 						break;
@@ -50,7 +50,7 @@
 			// Initial container.
 			var tabs = $('#annual').tabs({
 				select : function(event, ui) {
-					data[current].unsubscribe('season', gene.SELF);
+					data[current].unsubscribe('tuber', gene.SELF);
 					current = ui.tab.href.match(/#season_(\w+)/)[1];
 					data[current].subscribe('tuber', gene.SELF, '0');
 				}

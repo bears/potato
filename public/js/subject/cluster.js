@@ -15,67 +15,66 @@
 	/**
 	 * Base class for holding list.
 	 * @param uuid {String}
-	 * @param data {Object} Optional
 	 */
-	POTATO.Cluster = function cluster(filter, extra, data) {
-		return POTATO.Subject.apply(this, [filter, function(gene) {
+	POTATO.Cluster = function cluster(uuid) {
+		return POTATO.Subject.apply(this, [uuid, function(gene) {
 			var ADDRESS = formalName(gene.DERIVER);
 
 			/**
 			 * Hold all private properties.
 			 */
-			var page = [], list = [];
+			var data = {}, page = {};
 
 			/**
 			 * Append more items.
-			 * @param extra {String}
-			 * @param data {Array}
+			 * @param subject {String}
+			 * @param filter {String}
+			 * @param shear {Array}
 			 */
-			(this.append = function(extra, data) {
-				if ((undefined !== extra) && (-1 == page.indexOf(extra))) {
-					page.push(extra);
-					if ($.isArray(data)) {
-						$.each(data, function() {
-							list.push(new POTATO[ADDRESS](this.$, this));
-						})
-					}
-				}
-			})(extra, data);
+			this.append = function(subject, filter, shear) {
+				(subject in data) || (data[subject] = {});
+				(subject in page) || (page[subject] = {});
+				$.each(shear, function() {
+					data[subject][this.$] = new POTATO[ADDRESS](this.$, this);
+				});
+				page[subject][filter] = true;
+			};
 
 			/**
 			 * Iterating all items.
+			 * @param subject {String}
 			 * @param callback {Function}
 			 */
-			this.each = function(callback) {
-				$.each(list, function() {
-					callback.apply(this);
+			this.each = function(subject, callback) {
+				$.each(data[subject], function(uuid) {
+					callback.apply(this, [uuid]);
 				});
 			};
 
 			/**
-			 * Get distinct part of the filter.
+			 * Get distinct part of the uuid.
 			 * @return {String}
 			 */
-			this.key = function() {
-				return filter.split('=', 2)[1];
+			this.sign = function() {
+				return uuid.split('=', 2)[1];
 			};
 
 			/**
 			 * Append an observer to a subject.
 			 * @param subject {String}
 			 * @param claimer {Object} Must has method: notify(subject, action, source)
-			 * @param extra {String}
+			 * @param filter {String}
 			 */
-			gene.subscribe = function(subject, claimer, extra) {
-				if (-1 != page.indexOf(extra)) {
+			gene.subscribe = function(subject, claimer, filter) {
+				if ((subject in page) && (filter in page[subject])) {
 					claimer.notify(subject, POTATO.NOTIFY.INSERT, this);
 				}
 				else {
-					var url = 'a/' + gene.DERIVER + '/' + filter + ',' + extra + '/' + subject;
-					$.getJSON(POTATO.AJAJ_DOMAIN + url, function(data) {
-						this.append(extra, data);
+					var url = 'a/' + gene.DERIVER + '/' + uuid + ',' + filter + '/' + subject;
+					$.getJSON(POTATO.AJAJ_DOMAIN + url, function(shear) {
+						gene.SELF.append(subject, filter, shear);
 						gene.broadcast(subject, POTATO.NOTIFY.INSERT);
-					}.bind(this));
+					});
 				}
 			};
 		}]);
