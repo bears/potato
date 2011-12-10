@@ -21,11 +21,12 @@
 	 * @param {POTATO.Object}
 	 */
 	POTATO.setObject = function() {
-		$.each(arguments, function() {
-			var type = POTATO.typeOf(this);
+		for (var i in arguments) {
+			var item = arguments[i];
+			var type = POTATO.typeOf(item);
 			(type in pool) || (pool[type] = {});
-			pool[type][this.uuid()] = this;
-		});
+			pool[type][item.uuid()] = item;
+		}
 	};
 
 	/**
@@ -33,10 +34,11 @@
 	 * @param {POTATO.Object}
 	 */
 	POTATO.ridObject = function() {
-		$.each(arguments, function() {
-			var type = POTATO.typeOf(this);
-			(type in pool) && (delete pool[type][this.uuid()]);
-		});
+		for (var i in arguments) {
+			var item = arguments[i];
+			var type = POTATO.typeOf(item);
+			(type in pool) && (delete pool[type][item.uuid()]);
+		}
 	}
 
 	/**

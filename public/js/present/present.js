@@ -13,9 +13,9 @@
 			('function' == typeof builder) && builder.apply(this, [gene]);
 
 			// Subscribe to data sources.
-			$.each((sources || {}), function(subject, source) {
-				(new source(uuid)).subscribe(subject, gene.SELF);
-			});
+			for (var subject in sources) {
+				(new sources[subject](uuid)).subscribe(subject, gene.SELF);
+			}
 		}]);
 	};
 })();

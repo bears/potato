@@ -120,11 +120,11 @@
 					var url = 'i/' + gene.DERIVER + '/' + this.uuid() + '/' + subject;
 					$.getJSON(POTATO.AJAJ_DOMAIN + url, function(renewal) {
 						delete renewal.$;
-						$.each(renewal, function(subject, content) {
+						for (var subject in renewal) {
 							var notify = subject in data ? POTATO.NOTIFY.UPDATE : POTATO.NOTIFY.INSERT;
-							data[subject] = $.extend(data[subject], content);
+							data[subject] = $.extend(data[subject], renewal[subject]);
 							gene.broadcast(abba(ba, [subject])[0], notify);
-						});
+						}
 					});
 				}
 			};

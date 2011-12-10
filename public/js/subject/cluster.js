@@ -18,7 +18,7 @@
 	 */
 	POTATO.Cluster = function cluster(uuid) {
 		return POTATO.Subject.apply(this, [uuid, function(gene) {
-			var ADDRESS = formalName(gene.DERIVER);
+			var AGAINST = POTATO[formalName(gene.DERIVER)];
 
 			/**
 			 * Hold all private properties.
@@ -34,9 +34,12 @@
 			this.append = function(subject, filter, shear) {
 				(subject in data) || (data[subject] = {});
 				(subject in page) || (page[subject] = {});
-				$.each(shear, function() {
-					data[subject][this.$] = new POTATO[ADDRESS](this.$, this);
-				});
+				var pool = data[subject];
+				for (var i in shear) {
+					var item = shear[i];
+					var uuid = item.$;
+					pool[uuid] = new AGAINST(uuid, item);
+				}
 				page[subject][filter] = true;
 			};
 
@@ -46,9 +49,10 @@
 			 * @param callback {Function}
 			 */
 			this.each = function(subject, callback) {
-				$.each(data[subject], function(uuid) {
-					callback.apply(this, [uuid]);
-				});
+				var pool = data[subject];
+				for (var uuid in pool) {
+					callback.apply(pool[uuid], [uuid]);
+				}
 			};
 
 			/**

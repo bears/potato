@@ -30,10 +30,9 @@
 			 * @param except {Object}
 			 */
 			gene.broadcast = function(subject, notify, except) {
-				if (subject in gene.focus) {
-					$.each(gene.focus[subject], function() {
-						(this != except) && this.notify(subject, notify, gene.SELF);
-					});
+				var pool = gene.focus[subject];
+				for (var i in pool) {
+					(pool[i] != except) && pool[i].notify(subject, notify, gene.SELF);
 				}
 			};
 
