@@ -18,14 +18,13 @@ abstract class individual {
 	}
 
 	/**
-	 * Derived class MUST override this method.
+	 * Override this method to customize.
 	 * @param array $vessel [IN|OUT]
 	 * @return array
 	 */
 	public function & content( array &$vessel = array( ) ) {
 		$vessel[\famulus\ab::UUID_KEY] = $this->object->uuid();
-		self::trivial( $vessel );
-		return $vessel;
+		return self::trivial( $vessel );
 	}
 
 	/**
@@ -37,9 +36,9 @@ abstract class individual {
 		if ( !empty( static::$fields ) ) {
 			$data = array( );
 			$ab = self::ab();
-			foreach ( static::$fields as $field ) {
+			foreach ( static::$fields as $field => $filter ) {
 				if ( null !== ($value = $this->object->$field) ) {
-					$data[$ab( $field )] = $value;
+					$data[$ab( $field )] = (null !== $filter) ? static::$filter( $value ) : $value;
 				}
 			}
 			$vessel[$ab->subject()] = $data;

@@ -10,6 +10,6 @@ class stock extends \decoration\individual {
 	 * Required by parent::trivial().
 	 * @var array(string)
 	 */
-	protected static $fields = array( 'craft', 'season', 'weight', 'variety', 'seeding', 'harvest' );
+	protected static $fields = array( 'craft' => null, 'season' => null, 'weight' => null, 'variety' => null, 'seeding' => null, 'harvest' => null );
 
 }

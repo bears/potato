@@ -10,6 +10,6 @@ class fries extends \decoration\individual {
 	 * Required by parent::trivial().
 	 * @var array(string)
 	 */
-	protected static $fields = array( 'detail' );
+	protected static $fields = array( 'detail' => null );
 
 }
