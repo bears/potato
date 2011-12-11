@@ -39,10 +39,10 @@ abstract class individual {
 
 	/**
 	 * Encapsulate $this into a renovation class.
-	 * @param \stdClass $update
+	 * @param \ArrayIterator $update
 	 * @return \renovation
 	 */
-	public function renovate( \stdClass $update ) {
+	public function renovate( \ArrayIterator $update ) {
 		$renovater = str_replace( '^individual\\', '\\renovation\\', '^' . get_called_class() );
 		return new $renovater( $this, $update );
 	}

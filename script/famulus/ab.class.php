@@ -2,12 +2,11 @@
 namespace famulus;
 
 /**
- * Translate a name to its abbreviation or reverse.
+ * Translate an intactness form to its abbreviation.
  */
 abstract class ab {
 
 	const UUID_KEY = '$';
-	const DERIVED_NAME_RULE = '#^ab\\\\(?P<class>[\\w\\\\]+)\\\\(?P<subject>\\w+)$#';
 
 	/**
 	 * Translate the key to the other half.
@@ -52,9 +51,7 @@ abstract class ab {
 	}
 
 	protected function __construct( $caller ) {
-		$ok = preg_match( self::DERIVED_NAME_RULE, $caller, $match );
-		assert( $ok );
-
+		preg_match( '#^ab\\\\(?P<class>[\\w\\\\]+)\\\\(?P<subject>\\w+)$#', $caller, $match );
 		extract( $match );
 		$this->map = isset( self::$map_pool[$class][$subject] ) ? self::$map_pool[$class][$subject] : array( );
 		$this->subject = isset( $this->map[self::UUID_KEY] ) ? $this->map[self::UUID_KEY] : $subject;

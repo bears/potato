@@ -19,24 +19,20 @@ class subject {
 		self::cross_domain();
 
 		@list($rest, $class, $filter, $subject) = explode( '/', trim( $_SERVER['REQUEST_URI'], '/' ) );
-		preg_match( '#^[\\w\\$]+$#', $class ) ? ($class = str_replace( '$', '\\', $class )) : trigger_error( 'invalid class', E_USER_ERROR );
+		preg_match( '#^[\\w\\$]+$#', $class ) || trigger_error( 'invalid class', E_USER_ERROR );
+		$class = str_replace( '$', '\\', $class );
 		switch ( $rest ) {
 			case 'a':
-				$type = "\\aggregate\\$class";
 				list($call, $arguments) = explode( '=', $filter, 2 );
-				preg_match( '#^\\w+$#', $call ) ? ($call = "get_$call") : trigger_error( 'invalid method', E_USER_ERROR );
-				$pass = explode( ',', $arguments );
-				self::get_put( $type, $call, $pass, $subject );
+				preg_match( '#^\\w+$#', $call ) || trigger_error( 'invalid method', E_USER_ERROR );
+				self::do_rest( "\\aggregate\\$class", "get_$call", explode( ',', $arguments ), $subject );
 				break;
 			case 'i':
-				$type = "\\individual\\$class";
-				$call = 'select';
-				$pass = array( $filter );
-				self::get_put( $type, $call, $pass, $subject );
+				self::do_rest( "\\individual\\$class", 'select', array( $filter ), $subject );
 				break;
 			case '!':
-				$dispatcher = "\\subject\\$class";
-				exit( new $dispatcher( $filter, $subject ) );
+				$secondary = "\\subject\\$class";
+				exit( new $secondary( $filter, $subject ) );
 				break;
 			default:
 				exit( header( 'Status: 400 Bad Request', true, 400 ) );
@@ -76,15 +72,14 @@ class subject {
 	 * @param array $pass
 	 * @param string $subject
 	 */
-	private static function get_put( $type, $call, $pass, $subject ) {
+	private static function do_rest( $type, $call, $pass, $subject ) {
 		$data = call_user_func_array( array( $type, $call ), $pass );
 		if ( empty( $_POST ) ) {
-			preg_match( '#^\w+$#', $subject ) ? ($result = $data->decorate( $subject )) : trigger_error( 'invalid subject', E_USER_ERROR );
+			preg_match( '#^\w+$#', $subject ) || trigger_error( 'invalid subject', E_USER_ERROR );
+			$result = $data->decorate( $subject );
 		}
 		else {
-			$update = $_POST;
-			settype( $update, 'object' );
-			$result = $data->renovate( $update );
+			$result = $data->renovate( new \ArrayIterator( $_POST ) );
 		}
 		exit( $result );
 	}
