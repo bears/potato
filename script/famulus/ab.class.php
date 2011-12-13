@@ -4,7 +4,7 @@ namespace famulus;
 /**
  * Translate an intactness form to its abbreviation.
  */
-abstract class ab {
+class ab {
 
 	const UUID_KEY = '$';
 
@@ -18,7 +18,7 @@ abstract class ab {
 			return $this->map[$key];
 		}
 		else {
-			\setting\IS_LOG_AB_MISMATCH && trigger_error( "*$key* is inexistent" );
+			\setting\IS_LOG_AB_MISMATCH && trigger_error( 'inexistent key' );
 			return $key;
 		}
 	}
@@ -33,14 +33,16 @@ abstract class ab {
 
 	/**
 	 * Get an unique instance.
-	 * @return ab Derived class.
+	 * @param string $path
+	 * @return singleton
 	 */
-	public static function instance() {
+	public static function instance( $path ) {
 		$class = get_called_class();
-		if ( !isset( self::$object_pool[$class] ) ) {
-			self::$object_pool[$class] = new $class( $class );
+		$key = "$class@$path";
+		if ( !isset( self::$object_pool[$key] ) ) {
+			self::$object_pool[$key] = new $class( $path );
 		}
-		return self::$object_pool[$class];
+		return self::$object_pool[$key];
 	}
 
 	/**
@@ -50,9 +52,10 @@ abstract class ab {
 		self::$map_pool = require 'setting/ab.php';
 	}
 
-	protected function __construct( $caller ) {
-		preg_match( '#^ab\\\\(?P<class>[\\w\\\\]+)\\\\(?P<subject>\\w+)$#', $caller, $match );
-		extract( $match );
+	protected function __construct( $path ) {
+		$pos = strrpos( $path, '\\' );
+		$class = substr( $path, 0, $pos );
+		$subject = substr( $path, $pos + 1 );
 		$this->map = isset( self::$map_pool[$class][$subject] ) ? self::$map_pool[$class][$subject] : array( );
 		$this->subject = isset( $this->map[self::UUID_KEY] ) ? $this->map[self::UUID_KEY] : $subject;
 	}
@@ -61,19 +64,19 @@ abstract class ab {
 	 * Full name <=> abbreviation mapping.
 	 * @var array(string)
 	 */
-	private $map;
+	protected $map;
 
 	/**
 	 * Cache of subject name.
 	 * @var string
 	 */
-	private $subject;
+	protected $subject;
 
 	/**
 	 * Whole map.
 	 * @var array
 	 */
-	private static $map_pool;
+	protected static $map_pool;
 
 	/**
 	 * Cached ab objects.

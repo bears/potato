@@ -21,8 +21,6 @@ spl_autoload_register( function ($name) {
 			case 'renovation':
 				assert( "'aggregate'=='$class'" );
 				return eval( "namespace $space; class aggregate extends \\$domain\\aggregate {}" );
-			case 'ab':
-				return eval( "namespace $space; class $class extends \\famulus\\ab {}" );
 		}
 	}
 } );

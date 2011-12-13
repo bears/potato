@@ -5,7 +5,7 @@ namespace setting;
  * Abbreviation dictionary.
  */
 return array(
-	'potato' => array(
+	'\\potato' => array(
 		'tuber' => array(
 			'$' => 't',
 			'brand' => 'b',
@@ -21,7 +21,7 @@ return array(
 			'harvest' => 'h',
 		),
 	),
-	'chip' => array(
+	'\\chip' => array(
 		'fries' => array(
 			'$' => 'f',
 			'detail' => 'd',

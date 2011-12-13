@@ -8,8 +8,11 @@ class tuber extends \decoration\individual {
 
 	/**
 	 * Required by parent::trivial().
-	 * @var array(string)
+	 * @var array
 	 */
-	protected static $fields = array( 'brand' => null, 'label' => null );
+	protected static $fields = array(
+		'brand' => false,
+		'label' => false,
+	);
 
 }

@@ -38,7 +38,7 @@ abstract class individual {
 			$ab = self::ab();
 			foreach ( static::$fields as $field => $filter ) {
 				if ( null !== ($value = $this->object->$field) ) {
-					$data[$ab( $field )] = (null !== $filter) ? static::$filter( $value ) : $value;
+					$data[$ab( $field )] = is_callable( $filter, true ) ? call_user_func( $filter, $value ) : $value;
 				}
 			}
 			$vessel[$ab->subject()] = $data;
@@ -51,8 +51,7 @@ abstract class individual {
 	 * @return \famulus\ab
 	 */
 	protected static function ab() {
-		$class = str_replace( '^decoration\\', 'ab\\', '^' . get_called_class() );
-		return $class::instance();
+		return \famulus\ab::instance( strstr( get_called_class(), '\\' ) );
 	}
 
 	/**
