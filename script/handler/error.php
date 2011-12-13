@@ -59,6 +59,14 @@ set_error_handler( function ($code, $message, $file, $line, $context) {
 		case E_DEPRECATED:
 			$key = 'DEPRECATED';
 			break;
+
+		case E_STRICT:
+			$key = 'STRICT';
+			break;
+
+		default:
+			$key = 'UNKNOWN';
+			break;
 	}
 
 	$type = (isset( $is_user ) ? 'USER_' : '') . $key;

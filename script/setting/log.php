@@ -72,6 +72,24 @@ const IS_LOG_USER_DEPRECATED_RETURN = true;
 //@}
 
 /**
+ * @name Strict
+ */
+//@{
+const IS_LOG_STRICT = true;
+const IS_LOG_STRICT_DUMP = false;
+const IS_LOG_STRICT_RETURN = true;
+//@}
+
+/**
+ * @name Unknown
+ */
+//@{
+const IS_LOG_UNKNOWN = true;
+const IS_LOG_UNKNOWN_DUMP = false;
+const IS_LOG_UNKNOWN_RETURN = true;
+//@}
+
+/**
  * @name Exception
  */
 //@{
