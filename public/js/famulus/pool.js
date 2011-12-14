@@ -7,12 +7,31 @@
 	var pool = {};
 
 	/**
+	 * Get class name.
+	 * @param item {Function|Object|String}
+	 * @return {String}
+	 */
+	var getType = function(item) {
+		switch (typeof item) {
+			case 'function':
+				return item.$;
+			case 'object':
+				return item.__proto__.constructor.$;
+			case 'string':
+				return item;
+			default:
+				throw 'unkown type';
+		}
+	};
+
+	/**
 	 * Get an object.
-	 * @param type {String}
+	 * @param item {Function|Object|String}
 	 * @param uuid {String}
 	 * @return {POTATO.Object}
 	 */
-	POTATO.getObject = function(type, uuid) {
+	POTATO.getObject = function(item, uuid) {
+		var type = getType(item);
 		return (type in pool) && pool[type][uuid] || false;
 	};
 
@@ -23,7 +42,7 @@
 	POTATO.setObject = function() {
 		for (var i in arguments) {
 			var item = arguments[i];
-			var type = POTATO.typeOf(item);
+			var type = getType(item);
 			(type in pool) || (pool[type] = {});
 			pool[type][item.uuid()] = item;
 		}
@@ -36,19 +55,10 @@
 	POTATO.ridObject = function() {
 		for (var i in arguments) {
 			var item = arguments[i];
-			var type = POTATO.typeOf(item);
+			var type = getType(item);
 			(type in pool) && (delete pool[type][item.uuid()]);
 		}
 	}
-
-	/**
-	 * Get class name.
-	 * @param item {Object}
-	 * @return {String}
-	 */
-	POTATO.typeOf = function(item) {
-		return item.__proto__.constructor.toString().match(/^function (\w+)/)[1];
-	};
 
 	/**
 	 * Root class.
@@ -57,12 +67,11 @@
 	 */
 	POTATO.Object = function(uuid, builder) {
 		var gene = {
-			SELF : this,
-			DERIVER : POTATO.typeOf(this)
+			SELF : this
 		};
 
 		// Prevent duplicated object.
-		var cached = POTATO.getObject(gene.DERIVER, uuid);
+		var cached = POTATO.getObject(this, uuid);
 		if (cached) {
 			return cached;
 		}

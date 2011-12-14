@@ -2,23 +2,12 @@
 
 (function() {
 	/**
-	 * Convert a private name to public name.
-	 * @param privateName {String}
-	 * @return {String}
-	 */
-	function formalName(privateName) {
-		return ('_' + privateName).replace(/_(.)/, function(unused, first) {
-			return first.toUpperCase();
-		});
-	}
-
-	/**
 	 * Base class for holding list.
 	 * @param uuid {String}
 	 */
-	POTATO.Cluster = function cluster(uuid) {
+	POTATO.Cluster = function(uuid) {
 		return POTATO.Subject.apply(this, [uuid, function(gene) {
-			var AGAINST = POTATO[formalName(gene.DERIVER)];
+			var AGAINST = POTATO[this._];
 
 			/**
 			 * Hold all private properties.
@@ -74,7 +63,7 @@
 					claimer.notify(subject, POTATO.NOTIFY.INSERT, this);
 				}
 				else {
-					var url = 'a/' + gene.DERIVER + '/' + uuid + ',' + filter + '/' + subject;
+					var url = 'a/' + AGAINST.prototype._ + '/' + uuid + ',' + filter + '/' + subject;
 					$.getJSON(POTATO.AJAJ_DOMAIN + url, function(shear) {
 						gene.SELF.append(subject, filter, shear);
 						gene.broadcast(subject, POTATO.NOTIFY.INSERT);

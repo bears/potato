@@ -19,7 +19,7 @@
 	 * @param uuid {String}
 	 * @param builder {Function}
 	 */
-	POTATO.Subject = function subject(uuid, builder) {
+	POTATO.Subject = function(uuid, builder) {
 		return POTATO.Object.apply(this, [uuid, function(gene) {
 			gene.focus = {};
 

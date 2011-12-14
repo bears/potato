@@ -23,7 +23,7 @@
 	 * @param uuid {String}
 	 * @param data {Object} Optional
 	 */
-	POTATO.Element = function element(uuid, data) {
+	POTATO.Element = function(uuid, data) {
 		return POTATO.Subject.apply(this, [uuid, function(gene) {
 			/**
 			 * Hold all private properties.
@@ -41,8 +41,8 @@
 			/**
 			 * Map abbreviation dictionaries.
 			 */
-			var ab = POTATO.AB[gene.DERIVER] || {};
-			var ba = POTATO.BA[gene.DERIVER] || {};
+			var ab = POTATO.AB[this._] || {};
+			var ba = POTATO.BA[this._] || {};
 
 			/**
 			 * Getter.
@@ -84,7 +84,7 @@
 			 * @param atom {String}
 			 */
 			this.commit = function(atom) {
-				var url = 'i/' + gene.DERIVER + '/' + this.uuid();
+				var url = 'i/' + this._ + '/' + this.uuid();
 				$.post(POTATO.AJAJ_DOMAIN + url, changes[atom], function() {
 					$.extend(true, data, changes[atom]);
 					delete changes[atom];
@@ -117,7 +117,7 @@
 					claimer.notify(subject, POTATO.NOTIFY.INSERT, this);
 				}
 				else {
-					var url = 'i/' + gene.DERIVER + '/' + this.uuid() + '/' + subject;
+					var url = 'i/' + this._ + '/' + this.uuid() + '/' + subject;
 					$.getJSON(POTATO.AJAJ_DOMAIN + url, function(renewal) {
 						delete renewal.$;
 						for (var subject in renewal) {

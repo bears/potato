@@ -4,7 +4,7 @@
 	/**
 	 * Annual panel.
 	 */
-	POTATO.Annual = function annual(current) {
+	POTATO.Annual = function(current) {
 		return POTATO.Present.apply(this, [POTATO.SINGLETON, function(gene) {
 			/**
 			 * Hold all private properties.

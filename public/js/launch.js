@@ -53,14 +53,22 @@ POTATO.render = function() {
 };
 
 /**
- * Initialize application.
+ * Prepare data.
  */
-if (undefined === POTATO.TEMPLATE) {
-	POTATO.TEMPLATE = {};
-	$.get(POTATO.LOAD_PREFIX + 'potato.html', function(content) {
-		$(content).each(function() {
-			POTATO.TEMPLATE[this.id] = this.innerHTML;
+(function() {
+	// Set internal types.
+	for (var i in POTATO) {
+		('function' == typeof POTATO[i]) && (POTATO[i].$ = i);
+	}
+
+	// Load templates.
+	if (undefined === POTATO.TEMPLATE) {
+		POTATO.TEMPLATE = {};
+		$.get(POTATO.LOAD_PREFIX + 'potato.html', function(content) {
+			$(content).each(function() {
+				POTATO.TEMPLATE[this.id] = this.innerHTML;
+			});
+			POTATO.render();
 		});
-		POTATO.render();
-	});
-}
+	}
+})();

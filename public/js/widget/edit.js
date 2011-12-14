@@ -4,7 +4,7 @@
 	/**
 	 * General text editor.
 	 */
-	POTATO.Edit = function edit(source, subject, field, element) {
+	POTATO.Edit = function(source, subject, field, element) {
 		var uuid = source.uuid() + '-' + subject + '-' + field;
 		return POTATO.Present.apply(this, [uuid, function(gene) {
 			/**

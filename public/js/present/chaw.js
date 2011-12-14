@@ -19,14 +19,14 @@
 	 * @param uuid {String}
 	 * @param vessel {Element}
 	 */
-	POTATO.Chaw = function chaw(uuid, vessel) {
+	POTATO.Chaw = function(uuid, vessel) {
 		return POTATO.Present.apply(this, [uuid, function() {
 			/**
 			 * menu items.
 			 */
 			var actions = {
 				edit : function() {
-					new POTATO.Edit(POTATO.getObject('Chip', uuid), 'fries', 'detail', $('#chaw_' + uuid).parent());
+					new POTATO.Edit(POTATO.getObject(POTATO.Chip, uuid), 'fries', 'detail', $('#chaw_' + uuid).parent());
 				}
 			};
 

@@ -7,7 +7,7 @@
 	 * @param builder {Function}
 	 * @param sources {Object}
 	 */
-	POTATO.Present = function present(uuid, builder, sources) {
+	POTATO.Present = function(uuid, builder, sources) {
 		return POTATO.Object.apply(this, [uuid, function(gene) {
 			// Initialize this by deriver.
 			('function' == typeof builder) && builder.apply(this, [gene]);

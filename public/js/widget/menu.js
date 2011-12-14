@@ -4,7 +4,7 @@
 	/**
 	 * Dynamic menu at top bar.
 	 */
-	POTATO.Menu = function menu() {
+	POTATO.Menu = function() {
 		return POTATO.Present.apply(this, [POTATO.SINGLETON, function() {
 			/**
 			 * The element to be operate.

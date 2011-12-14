@@ -25,7 +25,7 @@
 	 * @param uuid {String}
 	 * @param target {String}
 	 */
-	POTATO.Tuber = function tuber(uuid, target) {
+	POTATO.Tuber = function(uuid, target) {
 		return POTATO.Present.apply(this, [uuid, function() {
 			/**
 			 * The element to insert into.
