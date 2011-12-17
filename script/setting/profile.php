@@ -12,11 +12,6 @@ const SETTING_FILE_PATH = __FILE__;
  */
 
 /**
- * @name Domain
- */
-const MAIN_DOMAIN = '//potato.bears.home';
-
-/**
  * Assert behavior.
  */
 //@{

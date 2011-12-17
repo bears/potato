@@ -12,6 +12,8 @@ require_once 'handler/loader.php';
  */
 class subject {
 
+	const SUB_DOMAIN = 'ajaj.';
+
 	/**
 	 * Find derived subject to handle request.
 	 */
@@ -44,9 +46,10 @@ class subject {
 	 * Process cross domain request header.
 	 */
 	private static function cross_domain() {
-		$protocol = isset( $_SERVER['HTTPS'] ) && 'off' != $_SERVER['HTTPS'] ? 'https:' : 'http:';
-		$accepted = $protocol . \setting\MAIN_DOMAIN;
-		if ( isset( $_SERVER['HTTP_ORIGIN'] ) && $_SERVER['HTTP_ORIGIN'] == $accepted ) {
+		isset( $_SERVER['HTTP_ORIGIN'] ) || trigger_error( 'unknown origin', E_USER_ERROR );
+		$protocol = isset( $_SERVER['HTTPS'] ) && 'off' != $_SERVER['HTTPS'] ? 'https://' : 'http://';
+		$accepted = $protocol . str_replace( self::SUB_DOMAIN, '', $_SERVER['SERVER_NAME'] );
+		if ( $_SERVER['HTTP_ORIGIN'] == $accepted ) {
 			header( "Access-Control-Allow-Origin: $accepted" );
 			header( 'Access-Control-Allow-Credentials: true' );
 		}
