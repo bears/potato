@@ -56,7 +56,7 @@
 	 * Load files listed in `_TEMPLATES_` one by one.
 	 */
 	function loadTemplate(index) {
-		$.get(POTATO.LOAD_PREFIX + 'html/' + _TEMPLATES_[index] + '.html', function(content) {
+		$.get('html/' + _TEMPLATES_[index] + '.html', function(content) {
 			var template = $(content).first();
 			POTATO.TEMPLATE[template.attr('id')] = template.html();
 			(++index < _TEMPLATES_.length) ? loadTemplate(index) : POTATO.render();

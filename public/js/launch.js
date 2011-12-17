@@ -63,8 +63,11 @@ POTATO.render = function() {
 
 	// Load templates.
 	if (undefined === POTATO.TEMPLATE) {
-		POTATO.TEMPLATE = {};
-		$.get(POTATO.LOAD_PREFIX + 'potato.html', function(content) {
+		var sign = POTATO.PROFILE.CODE.SIGN || {
+			html : ''
+		};
+		$.get('potato' + sign.html +'.html', function(content) {
+			POTATO.TEMPLATE = {};
 			$(content).each(function() {
 				POTATO.TEMPLATE[this.id] = this.innerHTML;
 			});

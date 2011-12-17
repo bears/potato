@@ -12,13 +12,6 @@ var POTATO = {
 	},
 
 	/**
-	 * Part of the path for loading static resources.
-	 */
-	get LOAD_PREFIX() {
-		return undefined != POTATO.PROFILE.CODE.VERSION ? POTATO.PROFILE.CODE.VERSION + '/' : '';
-	},
-
-	/**
 	 * Localization of current locale.
 	 */
 	get LOCALE() {
@@ -99,14 +92,19 @@ var POTATO = {
 	 * Load JS/CSS of next stage.
 	 */
 	function launch() {
+		var sign = POTATO.PROFILE.CODE.SIGN || {
+			js : '',
+			css : ''
+		};
+
 		// Load main JavaScript.
 		var script = document.createElement('script');
-		script.src = POTATO.LOAD_PREFIX + 'js/potato.js';
+		script.src = 'js/potato' + sign.js +'.js';
 		document.head.appendChild(script);
 
 		// Load main CSS.
 		var link = document.createElement('link');
-		link.href = POTATO.LOAD_PREFIX + 'css/potato.css';
+		link.href = 'css/potato' + sign.css +'.css';
 		link.rel = 'stylesheet';
 		document.head.appendChild(link);
 	}
