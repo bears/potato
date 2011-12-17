@@ -9,7 +9,6 @@
 	'famulus/ba',
 	'famulus/pool',
 	'famulus/l10n',
-	'l10n/en-us',
 	'subject/subject',
 	'subject/element',
 	'subject/cluster',

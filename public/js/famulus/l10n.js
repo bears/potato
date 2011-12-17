@@ -15,7 +15,7 @@ POTATO.replace = function(template, lookup) {
  * Localization of current locale.
  */
 POTATO.getL10n = function() {
-	return POTATO[POTATO.PROFILE.USER.LOCALE];
+	return POTATO[POTATO.PROFILE.USER.L10N];
 };
 
 /**

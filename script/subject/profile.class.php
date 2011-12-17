@@ -9,6 +9,8 @@ class profile extends \subject {
 	const CODE_KEY = 'CODE';
 	const USER_KEY = 'USER';
 	const LOCK_KEY = 'LOCK';
+	const SIGN_KEY = 'SIGN';
+	const L10N_KEY = 'L10N';
 
 	/**
 	 * @return JSON
@@ -37,6 +39,7 @@ class profile extends \subject {
 					$data[$match['name']] = $value;
 				}
 			}
+			$data[self::SIGN_KEY] = require 'setting/sign.php';
 		}
 		return $data;
 	}
@@ -50,7 +53,7 @@ class profile extends \subject {
 		$lock = '@todo: fetch from user profile when available';
 		$data = array( self::LOCK_KEY => $lock );
 		if ( $previous != $lock ) {
-			$data['LOCALE'] = 'en-us';
+			$data[self::L10N_KEY] = 'en-us';
 		}
 		return $data;
 	}

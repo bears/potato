@@ -38,7 +38,7 @@
 		version[i] = profile[i].LOCK;
 	}
 
-	// Get profile to determine prefix.
+	// Update profile from server.
 	$.post(POTATO.AJAJ_DOMAIN + '!/profile', version, function(update) {
 		// Fill & cache profile.
 		for (var i in STORAGES) {
@@ -62,28 +62,11 @@
 			};
 		}
 
-		// Go to next stage.
-		launch();
+		// Load CSS/JS of next stage.
+		var sign = POTATO.PROFILE.CODE.SIGN;
+		var l10n = POTATO.PROFILE.USER.L10N;
+		$('#potato-css').attr('href', 'css/potato' + sign['potato.css'] + '.css');
+		$('#potato-js').attr('src', 'js/potato' + sign['potato.js'] + '.js');
+		$('#potato-l10n').attr('src', 'js/l10n/' + l10n + sign[l10n] + '.js');
 	}, 'json');
-
-	/**
-	 * Load JS/CSS of next stage.
-	 */
-	function launch() {
-		var sign = POTATO.PROFILE.CODE.SIGN || {
-			js : '',
-			css : ''
-		};
-
-		// Load main JavaScript.
-		var script = document.createElement('script');
-		script.src = 'js/potato' + sign.js +'.js';
-		document.head.appendChild(script);
-
-		// Load main CSS.
-		var link = document.createElement('link');
-		link.href = 'css/potato' + sign.css +'.css';
-		link.rel = 'stylesheet';
-		document.head.appendChild(link);
-	}
 })();
