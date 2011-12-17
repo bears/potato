@@ -90,4 +90,11 @@
 		// Initialize this by deriver.
 		('function' == typeof builder) && builder.apply(this, [gene]);
 	};
+
+	/**
+	 * UUID for singleton.
+	 */
+	Object.defineProperty(POTATO, 'SINGLETON', {
+		value : '00000000-0000-0000-0000-000000000000'
+	});
 })();

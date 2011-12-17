@@ -1,45 +1,21 @@
 'use strict';
 
 /**
- * Namespace of all global variables of this project.
- */
-var POTATO = {
-	/**
-	 * Domain of the service provider.
-	 */
-	get AJAJ_DOMAIN() {
-		return location.protocol + '//ajaj.' + location.hostname + location.pathname;
-	},
-
-	/**
-	 * Localization of current locale.
-	 */
-	get LOCALE() {
-		return POTATO.L10N[POTATO.PROFILE.USER.LOCALE];
-	},
-
-	/**
-	 * UUID for singleton.
-	 */
-	get SINGLETON() {
-		return '00000000-0000-0000-0000-000000000000';
-	},
-
-	/**
-	 * Localization dictionary.
-	 */
-	L10N : {},
-
-	/**
-	 * Settings for both code and user.
-	 */
-	PROFILE : {}
-};
-
-/**
  * Load profile to determine the next stage.
  */
 (function() {
+	/**
+	 * Namespace of all global variables of this project.
+	 */
+	window.POTATO = {};
+
+	/**
+	 * Domain of the service provider.
+	 */
+	Object.defineProperty(POTATO, 'AJAJ_DOMAIN', {
+		value : '//ajaj.' + location.hostname + '/'
+	});
+
 	// Let cross domain requests bring cookies.
 	$.ajaxSetup({
 		xhrFields : {
@@ -55,22 +31,24 @@ var POTATO = {
 	};
 
 	// Try fill profile from local cache.
-	var previous = {};
+	var profile = {};
+	var version = {};
 	for (var i in STORAGES) {
-		POTATO.PROFILE[i] = JSON.parse(STORAGES[i].getItem(CACHE_KEY) || '{}');
-		previous[i] = POTATO.PROFILE[i].LOCK;
+		profile[i] = JSON.parse(STORAGES[i].getItem(CACHE_KEY) || '{}');
+		version[i] = profile[i].LOCK;
 	}
 
 	// Get profile to determine prefix.
-	$.post(POTATO.AJAJ_DOMAIN + '!/profile', previous, function(profile) {
+	$.post(POTATO.AJAJ_DOMAIN + '!/profile', version, function(update) {
 		// Fill & cache profile.
 		for (var i in STORAGES) {
-			if (previous[i] != profile[i].LOCK) {
-				POTATO.PROFILE[i] = profile[i];
+			if (version[i] != update[i].LOCK) {
+				profile[i] = update[i];
 				STORAGES[i].clear();
 				STORAGES[i].setItem(CACHE_KEY, JSON.stringify(profile[i]));
 			}
 		}
+		POTATO.PROFILE = profile;
 
 		// Report client error to server.
 		if ( POTATO.PROFILE.CODE.RECLAIM ) {

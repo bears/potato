@@ -24,7 +24,7 @@
 			H : POTATO.genialTime(harvest),
 			l : source.get('label', 'tuber'),
 			c : source.get('craft', 'stock'),
-			f : POTATO.LOCALE.stock_fries
+			f : POTATO.getL10n().stock_fries
 		});
 	}
 

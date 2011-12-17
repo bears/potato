@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * Localization for [en_US].
+ * Localization for [en-us].
  */
-POTATO.L10N.en_US = {
+POTATO['en-us'] = {
 	// page title
 	title : 'Potato',
 

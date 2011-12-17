@@ -50,7 +50,7 @@ class profile extends \subject {
 		$lock = '@todo: fetch from user profile when available';
 		$data = array( self::LOCK_KEY => $lock );
 		if ( $previous != $lock ) {
-			$data['LOCALE'] = 'en_US';
+			$data['LOCALE'] = 'en-us';
 		}
 		return $data;
 	}

@@ -3,7 +3,7 @@
 /**
  * Initialize main elements.
  */
-POTATO.construct = function(locale) {
+POTATO.construct = function(l10n) {
 	// Header
 	$('#menu_home').click(function() {
 		location = location.protocol + '//' + location.host + '/'
@@ -16,13 +16,13 @@ POTATO.construct = function(locale) {
 	// Footer
 	(function() {
 		var index = 0;
-		var bound = locale.tips.length;
-		var tip = $('#tip').text(locale.tips[0]);
+		var bound = l10n.tips.length;
+		var tip = $('#tip').text(l10n.tips[0]);
 		clearInterval(tip.data('roll'))
 		tip.data('roll', setInterval(function() {
 			tip.fadeOut(function() {
 				(++index < bound) || (index = 0);
-				tip.text(locale.tips[index]).fadeIn();
+				tip.text(l10n.tips[index]).fadeIn();
 			});
 		}, 12345));
 	})();
@@ -44,10 +44,10 @@ POTATO.construct = function(locale) {
 POTATO.render = function() {
 	var page = $('body').css('visibility', 'hidden');
 
-	var locale = POTATO.LOCALE;
-	$('title').text(locale.title);
-	page.html(POTATO.replace(POTATO.TEMPLATE.body, locale));
-	POTATO.construct(locale);
+	var l10n = POTATO.getL10n();
+	$('title').text(l10n.title);
+	page.html(POTATO.replace(POTATO.TEMPLATE.body, l10n));
+	POTATO.construct(l10n);
 
 	page.css('visibility', 'visible');
 };

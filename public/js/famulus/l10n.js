@@ -12,11 +12,19 @@ POTATO.replace = function(template, lookup) {
 };
 
 /**
+ * Localization of current locale.
+ */
+POTATO.getL10n = function() {
+	return POTATO[POTATO.PROFILE.USER.LOCALE];
+};
+
+/**
  * Localize an ISO 8601 string to a genial presentation.
  * @param iso8601 {String}
  * @return {String}
  */
 POTATO.genialTime = function(iso8601) {
+	var l10n = POTATO.getL10n();
 	if (iso8601) {
 		var distance = (Date.now() - (new Date(iso8601)).getTime()) / 1000;
 		if (0 <= distance) {
@@ -37,10 +45,10 @@ POTATO.genialTime = function(iso8601) {
 				if (distance < next) {
 					var unit = step[next];
 					if ('string' == typeof unit) {
-						return POTATO.LOCALE['time_' + unit];
+						return l10n['time_' + unit];
 					}
 					else {
-						return POTATO.replace(POTATO.LOCALE['time_' + unit[0]], {
+						return POTATO.replace(l10n['time_' + unit[0]], {
 							n : Math.floor(distance / unit[1])
 						});
 					}
@@ -50,6 +58,6 @@ POTATO.genialTime = function(iso8601) {
 		return (new Date(iso8601)).toLocaleDateString();
 	}
 	else {
-		return POTATO.LOCALE.time_present;
+		return l10n.time_present;
 	}
 };
