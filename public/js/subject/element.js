@@ -98,8 +98,18 @@
 			 * @param atom {String}
 			 */
 			this.commit = function(atom) {
-				var url = 'i/' + this._ + '/' + this.uuid() + '/_';
-				$.post(POTATO.AJAJ_DOMAIN + url, changes[atom], function(renewal) {
+				var count = 0;
+				var subject;
+				for (var i in changes[atom]) {
+					++count;
+					subject = abba(ba, [i])[0];
+					gene.broadcast(subject, POTATO.NOTIFY.CHANGE);
+				}
+				var send = changes[atom];
+				(1 == count) ? (send = send[i]) : (subject = '_');
+
+				var url = 'i/' + this._ + '/' + this.uuid() + '/' + subject;
+				$.post(POTATO.AJAJ_DOMAIN + url, send, function(renewal) {
 					update(renewal);
 					delete changes[atom];
 				}, 'json');

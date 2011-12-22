@@ -11,7 +11,9 @@
 		DELETE : 'DELETE',
 		// Operation
 		ATTACH : 'ATTACH',
-		DETACH : 'DETACH'
+		DETACH : 'DETACH',
+		// Status
+		CHANGE : 'CHANGE'
 	};
 
 	/**
