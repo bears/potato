@@ -80,15 +80,29 @@
 			};
 
 			/**
+			 * Update data by renewal.
+			 * @param renewal {Object}
+			 */
+			function update(renewal) {
+				if (renewal.$ != data.$) throw 'expect #' + data.$ + ' but got #' + renewal.$;
+				delete renewal.$
+				for (var subject in renewal) {
+					var notify = subject in data ? POTATO.NOTIFY.UPDATE : POTATO.NOTIFY.INSERT;
+					data[subject] = $.extend(data[subject], renewal[subject]);
+					gene.broadcast(abba(ba, [subject])[0], notify);
+				}
+			}
+
+			/**
 			 * Finish a change.
 			 * @param atom {String}
 			 */
 			this.commit = function(atom) {
 				var url = 'i/' + this._ + '/' + this.uuid() + '/_';
-				$.post(POTATO.AJAJ_DOMAIN + url, changes[atom], function() {
-					$.extend(true, data, changes[atom]);
+				$.post(POTATO.AJAJ_DOMAIN + url, changes[atom], function(renewal) {
+					update(renewal);
 					delete changes[atom];
-				});
+				}, 'json');
 			};
 
 			/**
@@ -110,14 +124,7 @@
 				}
 				else {
 					var url = 'i/' + this._ + '/' + this.uuid() + '/' + subject;
-					$.getJSON(POTATO.AJAJ_DOMAIN + url, function(renewal) {
-						delete renewal.$;
-						for (var subject in renewal) {
-							var notify = subject in data ? POTATO.NOTIFY.UPDATE : POTATO.NOTIFY.INSERT;
-							data[subject] = $.extend(data[subject], renewal[subject]);
-							gene.broadcast(abba(ba, [subject])[0], notify);
-						}
-					});
+					$.getJSON(POTATO.AJAJ_DOMAIN + url, update);
 				}
 			};
 		}]);

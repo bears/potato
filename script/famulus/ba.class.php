@@ -13,8 +13,20 @@ class ba extends ab {
 	 * @return string
 	 */
 	public static function entry( $class, $subject ) {
-		return @parent::$map_pool[$class][parent::UUID_KEY][$subject];
+		return @self::$map_pool[$class][parent::UUID_KEY][$subject];
 	}
+
+	/**
+	 * Whole map.
+	 * @var array
+	 */
+	protected static $map_pool = array( );
+
+	/**
+	 * Cached ba objects.
+	 * @var array(ab)
+	 */
+	protected static $object_pool = array( );
 
 }
 

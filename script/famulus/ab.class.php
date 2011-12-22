@@ -37,26 +37,25 @@ class ab {
 	 * @return singleton
 	 */
 	public static function instance( $path ) {
-		$class = get_called_class();
-		$key = "$class@$path";
-		if ( !isset( self::$object_pool[$key] ) ) {
-			self::$object_pool[$key] = new $class( $path );
+		if ( !isset( static::$object_pool[$path] ) ) {
+			$class = get_called_class();
+			static::$object_pool[$path] = new $class( $path );
 		}
-		return self::$object_pool[$key];
+		return static::$object_pool[$path];
 	}
 
 	/**
 	 * Load the whole map.
 	 */
 	public static function load( $map ) {
-		self::$map_pool = require "setting/$map.php";
+		static::$map_pool = require "setting/$map.php";
 	}
 
 	protected function __construct( $path ) {
 		$pos = strrpos( $path, '\\' );
 		$class = substr( $path, 0, $pos );
 		$subject = substr( $path, $pos + 1 );
-		$this->map = isset( self::$map_pool[$class][$subject] ) ? self::$map_pool[$class][$subject] : array( );
+		$this->map = isset( static::$map_pool[$class][$subject] ) ? static::$map_pool[$class][$subject] : array( );
 		$this->subject = isset( $this->map[self::UUID_KEY] ) ? $this->map[self::UUID_KEY] : $subject;
 	}
 
@@ -82,7 +81,7 @@ class ab {
 	 * Cached ab objects.
 	 * @var array(ab)
 	 */
-	private static $object_pool = array( );
+	protected static $object_pool = array( );
 
 }
 
