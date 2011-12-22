@@ -20,15 +20,16 @@ abstract class individual {
 
 	/**
 	 * Override this method to customize.
+	 * @param array $vessel [IN|OUT]
 	 * @return array
 	 */
-	public function process() {
-		return $this->trivial();
+	public function process( array &$vessel = array( ) ) {
+		return $this->trivial()->content( $vessel );
 	}
 
 	/**
 	 * Default/common way to walk through the update.
-	 * @return array
+	 * @return \decoration\individual
 	 */
 	protected function trivial() {
 		$count = 0;
@@ -46,7 +47,7 @@ abstract class individual {
 		$type = get_called_class();
 		$split = strrpos( $type, '\\' ) + 1;
 		$format = substr( $type, $split );
-		return $this->object->decorate( $format )->content();
+		return $this->object->decorate( $format );
 	}
 
 	/**

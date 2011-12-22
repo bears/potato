@@ -23,9 +23,8 @@ abstract class aggregate {
 	 * @param array $vessel
 	 * @return array
 	 */
-	public function process() {
+	public function process( array &$vessel = array( ) ) {
 		$helper = str_replace( '\\aggregate$', '', get_called_class() . '$' );
-		$vessel = array( );
 		foreach ( $this->object as $unit ) {
 			$renovator = new $helper( $unit, $this->update );
 			$vessel[] = $renovator->process();
