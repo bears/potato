@@ -64,7 +64,7 @@
 				}
 				else {
 					var url = 'a/' + AGAINST.prototype._ + '/' + uuid + ',' + filter + '/' + subject;
-					$.getJSON(POTATO.AJAJ_DOMAIN + url, function(shear) {
+					POTATO.get(url, function(shear) {
 						gene.SELF.append(subject, filter, shear);
 						gene.broadcast(subject, POTATO.NOTIFY.INSERT);
 					});

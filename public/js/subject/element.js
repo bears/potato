@@ -109,10 +109,10 @@
 				(1 == count) ? (send = send[i]) : (subject = '_');
 
 				var url = 'i/' + this._ + '/' + this.uuid() + '/' + subject;
-				$.post(POTATO.AJAJ_DOMAIN + url, send, function(renewal) {
+				POTATO.post(url, send, function(renewal) {
 					update(renewal);
 					delete changes[atom];
-				}, 'json');
+				});
 			};
 
 			/**
@@ -134,7 +134,7 @@
 				}
 				else {
 					var url = 'i/' + this._ + '/' + this.uuid() + '/' + subject;
-					$.getJSON(POTATO.AJAJ_DOMAIN + url, update);
+					POTATO.get(url, update);
 				}
 			};
 		}]);

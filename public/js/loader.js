@@ -4,24 +4,30 @@
  * Load profile to determine the next stage.
  */
 (function() {
-	/**
-	 * Namespace of all global variables of this project.
-	 */
-	window.POTATO = {};
-
-	/**
-	 * Domain of the service provider.
-	 */
-	Object.defineProperty(POTATO, 'AJAJ_DOMAIN', {
-		value : '//ajaj.' + location.hostname + '/'
-	});
-
 	// Let cross domain requests bring cookies.
 	$.ajaxSetup({
 		xhrFields : {
 			withCredentials : true
 		}
 	});
+
+	/**
+	 * Domain of the service provider.
+	 */
+	var AJAJ_DOMAIN = '//ajaj.' + location.hostname + '/';
+
+	/**
+	 * Namespace of all global variables of this project.
+	 */
+	window.POTATO = {
+		get : function(url, callback) {
+			$.get(AJAJ_DOMAIN + url, null, callback, 'json');
+		},
+
+		post : function(url, data, callback) {
+			$.post(AJAJ_DOMAIN + url, data, callback, 'json');
+		}
+	};
 
 	// Cache configurations.
 	var CACHE_KEY = 'PROFILE';
@@ -39,7 +45,7 @@
 	}
 
 	// Update profile from server.
-	$.post(POTATO.AJAJ_DOMAIN + '!/profile', version, function(update) {
+	POTATO.post('!/profile', version, function(update) {
 		// Fill & cache profile.
 		for (var i in STORAGES) {
 			if (version[i] != update[i].LOCK) {
@@ -53,7 +59,7 @@
 		// Report client error to server.
 		if ( POTATO.PROFILE.CODE.RECLAIM ) {
 			window.onerror = function(error, url, line) {
-				$.post(POTATO.AJAJ_DOMAIN + '!/error', {
+				POTATO.post('!/error', {
 					error : error,
 					line : line,
 					url : url
@@ -68,5 +74,5 @@
 		$('#potato-css').attr('href', 'css/potato' + sign['potato.css'] + '.css');
 		$('#potato-js').attr('src', 'js/potato' + sign['potato.js'] + '.js');
 		$('#potato-l10n').attr('src', 'js/l10n/' + l10n + sign[l10n] + '.js');
-	}, 'json');
+	});
 })();
