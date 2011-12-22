@@ -48,8 +48,8 @@ class ab {
 	/**
 	 * Load the whole map.
 	 */
-	public static function load() {
-		self::$map_pool = require 'setting/ab.php';
+	public static function load( $map ) {
+		self::$map_pool = require "setting/$map.php";
 	}
 
 	protected function __construct( $path ) {
@@ -87,4 +87,4 @@ class ab {
 }
 
 // Initialize static data.
-ab::load();
+ab::load( 'ab' );

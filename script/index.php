@@ -68,13 +68,8 @@ class subject {
 	 */
 	private static function do_rest( $type, $call, $pass, $subject ) {
 		$data = call_user_func_array( array( $type, $call ), $pass );
-		if ( empty( $_POST ) ) {
-			preg_match( '#^\w+$#', $subject ) || trigger_error( 'invalid subject', E_USER_ERROR );
-			$result = $data->decorate( $subject );
-		}
-		else {
-			$result = $data->renovate( new \ArrayIterator( $_POST ) );
-		}
+		preg_match( '#^\w+$#', $subject ) || trigger_error( 'invalid subject', E_USER_ERROR );
+		$result = empty( $_POST ) ? $data->decorate( $subject ) : $data->renovate( $subject, new \ArrayIterator( $_POST ) );
 		exit( $result );
 	}
 

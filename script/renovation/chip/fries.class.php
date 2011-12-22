@@ -1,19 +1,17 @@
 <?php
-namespace renovation;
+namespace renovation\chip;
 
 /**
  * renovation of chip.
  */
-class chip extends individual {
+class fries extends \renovation\individual {
 
 	/**
 	 * Required by parent::trivial().
 	 * @var array
 	 */
 	protected static $fields = array(
-		'fries' => array(
-			'detail' => false,
-		),
+		'detail' => false,
 	);
 
 }

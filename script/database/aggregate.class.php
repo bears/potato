@@ -20,18 +20,19 @@ abstract class aggregate implements \IteratorAggregate {
 	 * @return \decoration
 	 */
 	public function decorate( $format ) {
-		$decorater = str_replace( '^aggregate\\', '\\decoration\\', '^' . get_called_class() ) . "\\$format\\aggregate";
-		return new $decorater( $this );
+		$decorator = self::helper( '\\decoration\\', $format );
+		return new $decorator( $this );
 	}
 
 	/**
 	 * Encapsulate $this into a renovation class.
+	 * @param string $format
 	 * @param \ArrayIterator $update
 	 * @return \renovation
 	 */
-	public function renovate( \ArrayIterator $update ) {
-		$renovater = str_replace( '^aggregate\\', '\\renovation\\', '^' . get_called_class() ) . '\\aggregate';
-		return new $renovater( $this, $update );
+	public function renovate( $format, \ArrayIterator $update ) {
+		$renovator = self::helper( '\\renovation\\', $format );
+		return new $renovator( $this, $update );
 	}
 
 	/**
@@ -81,6 +82,16 @@ abstract class aggregate implements \IteratorAggregate {
 			$error = $query->errorInfo();
 			trigger_error( 'selecting failed', E_USER_ERROR );
 		}
+	}
+
+	/**
+	 * Get helper class name.
+	 * @param string $domain
+	 * @param string $format
+	 * @return string
+	 */
+	private static function helper( $domain, $format ) {
+		return str_replace( '^aggregate\\', $domain, '^' . get_called_class() ) . "\\$format\\aggregate";
 	}
 
 	/**

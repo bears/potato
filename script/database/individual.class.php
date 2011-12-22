@@ -33,18 +33,19 @@ abstract class individual {
 	 * @return \decoration
 	 */
 	public function decorate( $format ) {
-		$decorater = str_replace( '^individual\\', '\\decoration\\', '^' . get_called_class() ) . "\\$format";
-		return new $decorater( $this );
+		$decorator = self::helper( '\\decoration\\', $format );
+		return new $decorator( $this );
 	}
 
 	/**
 	 * Encapsulate $this into a renovation class.
+	 * @param string $format
 	 * @param \ArrayIterator $update
 	 * @return \renovation
 	 */
-	public function renovate( \ArrayIterator $update ) {
-		$renovater = str_replace( '^individual\\', '\\renovation\\', '^' . get_called_class() );
-		return new $renovater( $this, $update );
+	public function renovate( $format, \ArrayIterator $update ) {
+		$renovator = self::helper( '\\renovation\\', $format );
+		return new $renovator( $this, $update );
 	}
 
 	/**
@@ -181,6 +182,16 @@ abstract class individual {
 		assert( "'$uuid'" );
 
 		return self::domain() . "#$uuid";
+	}
+
+	/**
+	 * Get helper class name.
+	 * @param string $domain
+	 * @param string $format
+	 * @return string
+	 */
+	private static function helper( $domain, $format ) {
+		return str_replace( '^individual\\', $domain, '^' . get_called_class() ) . "\\$format";
 	}
 
 	/**

@@ -84,7 +84,7 @@
 			 * @param atom {String}
 			 */
 			this.commit = function(atom) {
-				var url = 'i/' + this._ + '/' + this.uuid();
+				var url = 'i/' + this._ + '/' + this.uuid() + '/_';
 				$.post(POTATO.AJAJ_DOMAIN + url, changes[atom], function() {
 					$.extend(true, data, changes[atom]);
 					delete changes[atom];
@@ -97,14 +97,6 @@
 			 */
 			this.cancel = function(atom) {
 				delete changes[atom];
-			};
-
-			/**
-			 * Get UUID.
-			 * @return {String}
-			 */
-			this.uuid = function() {
-				return uuid;
 			};
 
 			/**

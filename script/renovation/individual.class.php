@@ -31,22 +31,22 @@ abstract class individual {
 	 * @return array
 	 */
 	protected function trivial() {
+		$count = 0;
 		$ba = self::ba();
-		foreach ( $this->update as $label => $values ) {
-			$subject = $ba->focus( $label );
-			if ( isset( static::$fields[$subject] ) ) {
-				$fields = static::$fields[$subject];
-				foreach ( $values as $key => $value ) {
-					$name = $ba( $key );
-					if ( isset( $fields[$name] ) ) {
-						$filter = $fields[$name];
-						$this->object->$name = is_callable( $filter, true ) ? call_user_func( $filter, $value ) : $value;
-					}
-				}
+		foreach ( $this->update as $key => $value ) {
+			$name = $ba( $key );
+			if ( isset( static::$fields[$name] ) ) {
+				$filter = static::$fields[$name];
+				$this->object->$name = is_callable( $filter, true ) ? call_user_func( $filter, $value ) : $value;
+				++$count;
 			}
 		}
-		$this->object->save();
-		return array( );
+		(0 < $count) && $this->object->save();
+
+		$type = get_called_class();
+		$split = strrpos( $type, '\\' ) + 1;
+		$format = substr( $type, $split );
+		return $this->object->decorate( $format )->content();
 	}
 
 	/**

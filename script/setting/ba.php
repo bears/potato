@@ -6,12 +6,16 @@ namespace setting;
  */
 return array(
 	'\\potato' => array(
-		't' => array(
+		'$' => array(
+			't' => 'tuber',
+			's' => 'stock',
+		),
+		'tuber' => array(
 			'$' => 'tuber',
 			'b' => 'brand',
 			'l' => 'label',
 		),
-		's' => array(
+		'stock' => array(
 			'$' => 'stock',
 			'c' => 'craft',
 			'n' => 'season',
@@ -22,7 +26,10 @@ return array(
 		),
 	),
 	'\\chip' => array(
-		'f' => array(
+		'$' => array(
+			'f' => 'fries',
+		),
+		'fries' => array(
 			'$' => 'fries',
 			'd' => 'detail',
 		),

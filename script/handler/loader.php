@@ -18,9 +18,18 @@ spl_autoload_register( function ($name) {
 			case 'individual':
 				return eval( "namespace $space; class $class extends \\database\\$domain {}" );
 			case 'decoration':
+				( 'aggregate' == $class ) || trigger_error( 'invalid decoration name', E_USER_ERROR );
+				return eval( "namespace $space; class aggregate extends \\decoration\\aggregate {}" );
 			case 'renovation':
-				assert( "'aggregate'=='$class'" );
-				return eval( "namespace $space; class aggregate extends \\$domain\\aggregate {}" );
+				if ( '_' == $class ) {
+					return eval( "namespace $space; class _ extends \\renovation\\chaos {}" );
+				}
+				/*elseif ( 'aggregate' == $class ) {
+					return eval( "namespace $space; class aggregate extends \\renovation\\aggregate {}" );
+				}*/
+				else {
+					trigger_error( 'invalid renovation name', E_USER_ERROR );
+				}
 		}
 	}
 } );

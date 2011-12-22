@@ -7,37 +7,16 @@ namespace famulus;
 class ba extends ab {
 
 	/**
-	 * Change current subject.
-	 * @param string $label
+	 * Find subject intactness name from its abbreviation.
+	 * @param string $class
+	 * @param string $subject
 	 * @return string
 	 */
-	public function focus( $label ) {
-		if ( isset( self::$map_pool[$this->path][$label] ) ) {
-			$this->map = self::$map_pool[$this->path][$label];
-			$this->subject = $this->map[parent::UUID_KEY];
-			return $this->subject;
-		}
+	public static function entry( $class, $subject ) {
+		return @parent::$map_pool[$class][parent::UUID_KEY][$subject];
 	}
-
-	/**
-	 * Load the whole map.
-	 */
-	public static function load() {
-		self::$map_pool = require 'setting/ba.php';
-	}
-
-	protected function __construct( $path ) {
-		$this->map = array( );
-		$this->path = $path;
-	}
-
-	/**
-	 * Object path.
-	 * @var string
-	 */
-	private $path;
 
 }
 
 // Initialize static data.
-ba::load();
+ba::load( 'ba' );
