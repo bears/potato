@@ -3,12 +3,12 @@
 (function() {
 	/**
 	 * Base class for holding list.
+	 * @param unit {String}
+	 * @param type {String}
 	 * @param uuid {String}
 	 */
-	POTATO.Cluster = function(uuid) {
+	POTATO.Cluster = function(unit, type, uuid) {
 		return POTATO.Subject.apply(this, [uuid, function(gene) {
-			var AGAINST = POTATO[this._];
-
 			/**
 			 * Hold all private properties.
 			 */
@@ -27,7 +27,7 @@
 				for (var i in shear) {
 					var item = shear[i];
 					var uuid = item.$;
-					pool[uuid] = new AGAINST(uuid, item);
+					pool[uuid] = new POTATO[unit](uuid, item);
 				}
 				page[subject][filter] = true;
 			};
@@ -63,7 +63,7 @@
 					claimer.notify(subject, POTATO.NOTIFY.INSERT, this);
 				}
 				else {
-					var url = 'a/' + AGAINST.prototype._ + '/' + uuid + ',' + filter + '/' + subject;
+					var url = 'a/' + type + '/' + uuid + ',' + filter + '/' + subject;
 					POTATO.get(url, function(shear) {
 						gene.SELF.append(subject, filter, shear);
 						gene.broadcast(subject, POTATO.NOTIFY.INSERT);

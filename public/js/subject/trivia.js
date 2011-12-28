@@ -3,35 +3,37 @@
 (function() {
 	/**
 	 * Subject for a single chip.
+	 * @param uuid {String}
+	 * @param data {Object} Optional
 	 */
-	POTATO.Chip = function() {
-		return POTATO.Element.apply(this, arguments);
+	POTATO.Chip = function(uuid, data) {
+		return POTATO.Element.apply(this, ['chip', uuid, data]);
 	};
-	POTATO.Chip.prototype._ = 'chip';
 
 	/**
 	 * Subject for a single potato.
+	 * @param uuid {String}
+	 * @param data {Object} Optional
 	 */
-	POTATO.Potato = function() {
-		return POTATO.Element.apply(this, arguments);
+	POTATO.Potato = function(uuid, data) {
+		return POTATO.Element.apply(this, ['potato', uuid, data]);
 	};
-	POTATO.Potato.prototype._ = 'potato';
 })();
 
 (function() {
 	/**
 	 * Subject for chip set.
+	 * @param uuid {String}
 	 */
-	POTATO.Chips = function() {
-		return POTATO.Cluster.apply(this, arguments);
+	POTATO.Chips = function(uuid) {
+		return POTATO.Cluster.apply(this, ['Chip', 'chip', uuid]);
 	};
-	POTATO.Chips.prototype._ = 'Chip';
 
 	/**
 	 * Subject for potato set.
+	 * @param uuid {String}
 	 */
-	POTATO.Potatoes = function() {
-		return POTATO.Cluster.apply(this, arguments);
+	POTATO.Potatoes = function(uuid) {
+		return POTATO.Cluster.apply(this, ['Potato', 'potato', uuid]);
 	};
-	POTATO.Potatoes.prototype._ = 'Potato';
 })();

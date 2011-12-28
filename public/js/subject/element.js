@@ -20,10 +20,11 @@
 
 	/**
 	 * Base class for holding data.
+	 * @param type {String}
 	 * @param uuid {String}
 	 * @param data {Object} Optional
 	 */
-	POTATO.Element = function(uuid, data) {
+	POTATO.Element = function(type, uuid, data) {
 		return POTATO.Subject.apply(this, [uuid, function(gene) {
 			/**
 			 * Hold all private properties.
@@ -41,8 +42,8 @@
 			/**
 			 * Map abbreviation dictionaries.
 			 */
-			var ab = POTATO.AB[this._] || {};
-			var ba = POTATO.BA[this._] || {};
+			var ab = POTATO.AB[type] || {};
+			var ba = POTATO.BA[type] || {};
 
 			/**
 			 * Getter.
@@ -108,7 +109,7 @@
 				var send = changes[atom];
 				(1 == count) ? (send = send[i]) : (subject = '_');
 
-				var url = 'i/' + this._ + '/' + this.uuid() + '/' + subject;
+				var url = 'i/' + type + '/' + this.uuid() + '/' + subject;
 				POTATO.post(url, send, function(renewal) {
 					update(renewal);
 					delete changes[atom];
@@ -133,7 +134,7 @@
 					claimer.notify(subject, POTATO.NOTIFY.INSERT, this);
 				}
 				else {
-					var url = 'i/' + this._ + '/' + this.uuid() + '/' + subject;
+					var url = 'i/' + type + '/' + this.uuid() + '/' + subject;
 					POTATO.get(url, update);
 				}
 			};
