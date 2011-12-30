@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function(POTATO) {
 	/**
 	 * Icon table.
 	 */
@@ -58,4 +58,4 @@
 			'tuber' : POTATO.Potato
 		}]);
 	};
-})();
+})(POTATO);

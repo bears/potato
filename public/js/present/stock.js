@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function(POTATO) {
 	function iso8601(time) {
 		return time ? (time.replace(' ', 'T').slice(0, 19) + 'Z') : '';
 	}
@@ -113,4 +113,4 @@
 			'stock' : POTATO.Potato
 		}]);
 	};
-})();
+})(POTATO);

@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function(POTATO) {
 	/**
 	 * Subject for a single chip.
 	 * @param uuid {String}
@@ -18,9 +18,9 @@
 	POTATO.Potato = function(uuid, data) {
 		return POTATO.Element.apply(this, ['potato', uuid, data]);
 	};
-})();
+})(POTATO);
 
-(function() {
+(function(POTATO) {
 	/**
 	 * Subject for chip set.
 	 * @param uuid {String}
@@ -36,4 +36,4 @@
 	POTATO.Potatoes = function(uuid) {
 		return POTATO.Cluster.apply(this, ['Potato', 'potato', uuid]);
 	};
-})();
+})(POTATO);

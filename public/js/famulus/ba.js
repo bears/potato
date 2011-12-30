@@ -3,7 +3,7 @@
 /**
  * Build reverse dictionary.
  */
-(function() {
+(function(POTATO) {
 	POTATO.BA = {};
 	for (var c in POTATO.AB) {
 		var ab_class = POTATO.AB[c];
@@ -20,4 +20,4 @@
 		}
 		POTATO.BA[c] = ba_class;
 	}
-})();
+})(POTATO);

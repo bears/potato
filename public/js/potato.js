@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function(document, POTATO) {
 	/**
 	 * JavaScript files need to be loaded.
 	 */
@@ -64,4 +64,4 @@
 
 	// Start loading sequence.
 	loadSource(0);
-})();
+})(document, POTATO);

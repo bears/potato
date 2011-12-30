@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function(POTATO) {
 	/**
 	 * Instantiate template.
 	 * @param template {String}
@@ -56,4 +56,4 @@
 			'fries' : POTATO.Chip
 		}]);
 	};
-})();
+})(POTATO);

@@ -55,7 +55,7 @@ POTATO.render = function() {
 /**
  * Prepare data.
  */
-(function() {
+(function(POTATO) {
 	// Set internal types.
 	for (var i in POTATO) {
 		('function' == typeof POTATO[i]) && (POTATO[i].$ = i);
@@ -74,4 +74,4 @@ POTATO.render = function() {
 			POTATO.render();
 		});
 	}
-})();
+})(POTATO);

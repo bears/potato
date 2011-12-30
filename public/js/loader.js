@@ -3,7 +3,7 @@
 /**
  * Load profile to determine the next stage.
  */
-(function() {
+(function(window) {
 	// Let cross domain requests bring cookies.
 	$.ajaxSetup({
 		xhrFields : {
@@ -14,7 +14,7 @@
 	/**
 	 * Domain of the service provider.
 	 */
-	var AJAJ_DOMAIN = '//ajaj.' + location.hostname + '/';
+	var AJAJ_DOMAIN = '//ajaj.' + window.location.hostname + '/';
 
 	/**
 	 * Namespace of all global variables of this project.
@@ -32,8 +32,8 @@
 	// Cache configurations.
 	var CACHE_KEY = 'PROFILE';
 	var STORAGES = {
-		CODE : localStorage,
-		USER : sessionStorage
+		CODE : window.localStorage,
+		USER : window.sessionStorage
 	};
 
 	// Try fill profile from local cache.
@@ -75,4 +75,4 @@
 		$('#potato-js').attr('src', 'js/potato' + sign['potato.js'] + '.js');
 		$('#potato-l10n').attr('src', 'js/l10n/' + l10n + sign[l10n] + '.js');
 	});
-})();
+})(window);
