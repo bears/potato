@@ -19,4 +19,15 @@ class stock extends \decoration\individual {
 		'harvest' => false,
 	);
 
+	/**
+	 * Required by parent::trivial().
+	 * @var array
+	 */
+	protected static $cascades = array(
+		'fries' => array(
+			parent::CASCADE_METHOD => '\\aggregate\\chip::get_fries',
+			parent::CASCADE_FORMAT => 'fries',
+		),
+	);
+
 }

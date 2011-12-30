@@ -17,7 +17,8 @@ POTATO.AB = {
 			weight : 'w',
 			variety : 'v',
 			seeding : 'g',
-			harvest : 'h'
+			harvest : 'h',
+			fries : 'f'
 		}
 	},
 	chip : {

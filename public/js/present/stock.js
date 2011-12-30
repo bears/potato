@@ -95,7 +95,9 @@
 						switch (subject) {
 							case 'stock':
 								fillStock(source);
-								(new POTATO.Chips('fries=' + source.uuid())).subscribe('fries', this, '0');
+								var chips = new POTATO.Chips('fries=' + source.uuid());
+								chips.append('fries', 0, source.get('fries', 'stock'));
+								chips.subscribe('fries', this, '0');
 								break;
 							case 'fries':
 								fillFries(source);

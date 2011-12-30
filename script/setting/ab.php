@@ -19,6 +19,7 @@ return array(
 			'variety' => 'v',
 			'seeding' => 'g',
 			'harvest' => 'h',
+			'fries' => 'f',
 		),
 	),
 	'\\chip' => array(

@@ -6,6 +6,9 @@ namespace decoration;
  */
 abstract class individual {
 
+	const CASCADE_METHOD = 'method';
+	const CASCADE_FORMAT = 'format';
+
 	public function __construct( \database\individual $object ) {
 		$this->object = $object;
 	}
@@ -23,7 +26,6 @@ abstract class individual {
 	 * @return array
 	 */
 	public function & content( array &$vessel = array( ) ) {
-		$vessel[\famulus\ab::UUID_KEY] = $this->object->uuid();
 		return self::trivial( $vessel );
 	}
 
@@ -33,13 +35,19 @@ abstract class individual {
 	 * @return array
 	 */
 	protected function & trivial( array &$vessel = array( ) ) {
-		if ( !empty( static::$fields ) ) {
+		$uuid = $this->object->uuid();
+		$vessel[\famulus\ab::UUID_KEY] = $uuid;
+		if ( !(empty( static::$fields ) && empty( static::$cascades )) ) {
 			$data = array( );
 			$ab = self::ab();
 			foreach ( static::$fields as $field => $filter ) {
 				if ( null !== ($value = $this->object->$field) ) {
 					$data[$ab( $field )] = is_callable( $filter, true ) ? call_user_func( $filter, $value ) : $value;
 				}
+			}
+			foreach ( static::$cascades as $field => $cascade ) {
+				$aggregate = call_user_func( $cascade[self::CASCADE_METHOD], $uuid, 0 );
+				$data[$ab( $field )] = $aggregate->decorate( $cascade[self::CASCADE_FORMAT] )->content();
 			}
 			$vessel[$ab->subject()] = $data;
 		}
@@ -62,8 +70,14 @@ abstract class individual {
 
 	/**
 	 * Required by trivial().
-	 * @var array(string)
+	 * @var array
 	 */
 	protected static $fields = array( );
+
+	/**
+	 * Required by trivial().
+	 * @var array
+	 */
+	protected static $cascades = array( );
 
 }
