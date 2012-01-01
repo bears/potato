@@ -19,7 +19,7 @@
 	 * @param uuid {String}
 	 * @param vessel {Element}
 	 */
-	POTATO.Chaw = function(uuid, vessel) {
+	POTATO.derive(POTATO.Present, 'Chaw', function(uuid, vessel) {
 		return POTATO.Present.apply(this, [uuid, function() {
 			/**
 			 * menu items.
@@ -55,5 +55,5 @@
 		}, {
 			'fries' : POTATO.Chip
 		}]);
-	};
+	});
 })(POTATO);

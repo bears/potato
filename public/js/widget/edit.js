@@ -4,7 +4,7 @@
 	/**
 	 * General text editor.
 	 */
-	POTATO.Edit = function(source, subject, field, element) {
+	POTATO.derive(POTATO.Present, 'Edit', function(source, subject, field, element) {
 		var uuid = source.uuid() + '-' + subject + '-' + field;
 		return POTATO.Present.apply(this, [uuid, function(gene) {
 			/**
@@ -83,5 +83,5 @@
 			});
 			$(element).addClass('ui-helper-hidden').after(widget.fadeIn('fast'));
 		}]);
-	};
+	});
 })();

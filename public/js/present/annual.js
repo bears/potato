@@ -4,7 +4,7 @@
 	/**
 	 * Annual panel.
 	 */
-	POTATO.Annual = function(current) {
+	POTATO.derive(POTATO.Present, 'Annual', function(current) {
 		return POTATO.Present.apply(this, [POTATO.SINGLETON, function(gene) {
 			/**
 			 * Hold all private properties.
@@ -97,5 +97,5 @@
 				}
 			};
 		}]);
-	};
+	});
 })(POTATO);

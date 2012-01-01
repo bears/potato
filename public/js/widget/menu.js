@@ -4,7 +4,7 @@
 	/**
 	 * Dynamic menu at top bar.
 	 */
-	POTATO.Menu = function() {
+	POTATO.derive(POTATO.Present, 'Menu', function() {
 		return POTATO.Present.apply(this, [POTATO.SINGLETON, function() {
 			/**
 			 * The element to be operate.
@@ -34,5 +34,5 @@
 				}
 			};
 		}]);
-	};
+	});
 })();

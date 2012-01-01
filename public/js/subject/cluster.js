@@ -7,7 +7,7 @@
 	 * @param type {String}
 	 * @param uuid {String}
 	 */
-	POTATO.Cluster = function(unit, type, uuid) {
+	POTATO.derive(POTATO.Subject, 'Cluster', function(unit, type, uuid) {
 		return POTATO.Subject.apply(this, [uuid, function(gene) {
 			/**
 			 * Hold all private properties.
@@ -71,5 +71,5 @@
 				}
 			};
 		}]);
-	};
+	});
 })(POTATO);

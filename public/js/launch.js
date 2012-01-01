@@ -56,11 +56,6 @@ POTATO.render = function() {
  * Prepare data.
  */
 (function(POTATO) {
-	// Set internal types.
-	for (var i in POTATO) {
-		('function' == typeof POTATO[i]) && (POTATO[i].$ = i);
-	}
-
 	// Load templates.
 	if (undefined === POTATO.TEMPLATE) {
 		var sign = POTATO.PROFILE.CODE.SIGN || {

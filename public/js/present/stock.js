@@ -72,7 +72,7 @@
 	 * Single potato in center panel.
 	 * @param uuid {String}
 	 */
-	POTATO.Stock = function(uuid) {
+	POTATO.derive(POTATO.Present, 'Stock', function(uuid) {
 		return POTATO.Present.apply(this, [uuid, function() {
 			$('#stocks').addClass('loading');
 
@@ -112,5 +112,5 @@
 		}, {
 			'stock' : POTATO.Potato
 		}]);
-	};
+	});
 })(POTATO);

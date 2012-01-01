@@ -16,7 +16,7 @@
 			case 'function':
 				return item.$;
 			case 'object':
-				return item.__proto__.constructor.$;
+				return item.constructor.$;
 			case 'string':
 				return item;
 			default:
@@ -58,7 +58,7 @@
 			var type = getType(item);
 			(type in pool) && (delete pool[type][item.uuid()]);
 		}
-	}
+	};
 
 	/**
 	 * Root class.
@@ -89,6 +89,18 @@
 
 		// Initialize this by deriver.
 		('function' == typeof builder) && builder.apply(this, [gene]);
+	};
+
+	/**
+	 * Define derived class.
+	 * @param foundation {Function}
+	 * @param name {String}
+	 * @param derivative {Function}
+	 */
+	POTATO.derive = function(foundation, name, derivative) {
+		derivative.prototype.__proto__ = foundation.prototype;
+		derivative.$ = name;
+		POTATO[name] = derivative;
 	};
 
 	/**

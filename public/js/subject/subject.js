@@ -21,7 +21,7 @@
 	 * @param uuid {String}
 	 * @param builder {Function}
 	 */
-	POTATO.Subject = function(uuid, builder) {
+	POTATO.derive(POTATO.Object, 'Subject', function(uuid, builder) {
 		return POTATO.Object.apply(this, [uuid, function(gene) {
 			gene.focus = {};
 
@@ -67,5 +67,5 @@
 			// Initialize this by deriver.
 			('function' == typeof builder) && builder.apply(this, [gene]);
 		}]);
-	};
+	});
 })(POTATO);

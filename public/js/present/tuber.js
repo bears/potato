@@ -25,7 +25,7 @@
 	 * @param uuid {String}
 	 * @param target {String}
 	 */
-	POTATO.Tuber = function(uuid, target) {
+	POTATO.derive(POTATO.Present, 'Tuber', function(uuid, target) {
 		return POTATO.Present.apply(this, [uuid, function() {
 			/**
 			 * The element to insert into.
@@ -57,5 +57,5 @@
 		}, {
 			'tuber' : POTATO.Potato
 		}]);
-	};
+	});
 })(POTATO);
