@@ -1,5 +1,6 @@
 'use strict';
 
+// Derivers of Element.
 (function(POTATO) {
 	/**
 	 * Subject for a single chip.
@@ -20,6 +21,7 @@
 	});
 })(POTATO);
 
+// Derivers of Cluster.
 (function(POTATO) {
 	/**
 	 * Subject for chip set.
