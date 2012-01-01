@@ -7,7 +7,7 @@
 	var _SOURCES_ = [
 	'famulus/ab',
 	'famulus/ba',
-	'famulus/pool',
+	'famulus/object',
 	'famulus/l10n',
 	'subject/subject',
 	'subject/element',
