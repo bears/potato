@@ -4,6 +4,7 @@
 		<title>Potato Test Suite</title>
 		<link rel="stylesheet" href="library/qunit/qunit.css" />
 		<script src="library/qunit/qunit.js"></script>
+		<script src="library/qunit/qunit-step.js"></script>
 		<script>
 			'use strict';
 
@@ -37,15 +38,17 @@
 				};
 			})();
 
+			require('library/jquery.ddb84c1587287b2df08966081ef063bf.js');
+
 			/**
 			 * Namespace required by test targets.
 			 */
 			var POTATO = {};
-
-			require('library/jquery.ddb84c1587287b2df08966081ef063bf.js');
 		</script>
 		<script src="famulus/object.js"></script>
 		<script src="subject/subject.js"></script>
+		<script src="subject/element.js"></script>
+		<script src="subject/cluster.js"></script>
 	</head>
 	<body style="width:1024px;margin:auto;">
 		<h1 id="qunit-header">Potato</h1>

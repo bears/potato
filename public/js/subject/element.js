@@ -99,6 +99,10 @@
 			 * @param atom {String}
 			 */
 			this.commit = function(atom) {
+				if (!(atom in changes)) {
+					throw 'inexistent change list #' + atom;
+				}
+
 				var count = 0;
 				var subject;
 				for (var i in changes[atom]) {

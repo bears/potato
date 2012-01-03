@@ -1,76 +1,43 @@
 'use strict';
 
-(function() {
-	require('famulus/ab.js');
-	require('famulus/ba.js');
+(function(POTATO) {
+	module('Subject')
+	require('famulus/ab.js')
+	require('famulus/ba.js')
 	require('subject/subject.js')
-	require('subject/element.js')
-	require('subject/trivia.js')
 
-	var template = {
-		s1: {
-			f1: 2
-		},
-		s2: {
-			f2: '3'
-		}
-	}
+	test('>derive', function() {
+		strictEqual(typeof POTATO.Subject, 'function')
+		strictEqual(typeof POTATO.SX, 'undefined')
 
-	test('new subject', function() {
-		ok((new POTATO.Chip('chip.new')) instanceof POTATO.Chip)
-		ok((new POTATO.Potato('potato.new')) instanceof POTATO.Potato)
-
-		function a() {
-			return new POTATO.Chip('a:chip.new')
-		}
-		ok((new a()) instanceof POTATO.Chip)
-		ok(!((new a()) instanceof a))
-	})
-
-	test('subject.get', function() {
-		var a = new POTATO.Potato('subject.get', template)
-
-		strictEqual(2, a.get('f1', 's1'))
-		strictEqual('3', a.get('f2', 's2'))
-
-		strictEqual(undefined, a.get('f2', 's1'))
-		strictEqual(undefined, a.get('f1', 's2'))
-
-		strictEqual(undefined, a.get('f3'))
-	})
-
-	test('subject.set', function() {
-		var a = new POTATO.Potato('subject.set', template)
-
-		a.set('x', 'f1', 's1')
-		a.set(5, 'f2', 's2')
-		a.set(false, 'f1', 's2')
-
-		strictEqual('x', a.get('f1', 's1'))
-		strictEqual(5, a.get('f2', 's2'))
-		strictEqual(false, a.get('f1', 's2'))
-
-		a.set(true, 'f3')
-		strictEqual(true, a.get('f3'))
-	})
-
-	test('subject.uuid', function() {
-		var a = new POTATO.Potato('subject.uuid#1', {
-			$: 'subject.uuid-2'
+		POTATO.derive(POTATO.Subject, 'SX', function(uuid) {
+			return POTATO.Subject.apply(this, [uuid, function(gene) {
+				gene.subscribe = function(subject, claimer) {
+					strictEqual(subject, 'test')
+					ok('notify', claimer)
+				}
+			}])
 		})
-		var b = new POTATO.Potato('subject.uuid#3')
-
-		equal('subject.uuid#1', a.uuid())
-		equal('subject.uuid#3', b.uuid())
-
-		notEqual(a.uuid(), b.uuid())
 	})
 
-	test('subject.subscribe', function() {
-		//
-	})
+	test('(un)subscribe', 8, function() {
+		var claimer = {
+			notify: function(subject, action, source) {
+				ok(POTATO.SX.prototype.isPrototypeOf(source))
+				strictEqual(subject, 'test')
+				switch (action) {
+					case POTATO.NOTIFY.ATTACH:
+						QUnit.step(1)
+						break;
+					case POTATO.NOTIFY.DETACH:
+						QUnit.step(2)
+						break
+				}
+			}
+		}
 
-	test('subject.unsubscribe', function() {
-		//
+		var x = new POTATO.SX('subscribe')
+		x.subscribe('test', claimer)
+		x.unsubscribe('test', claimer)
 	})
-})()
+})(POTATO)

@@ -1,47 +1,65 @@
 'use strict';
 
-(function() {
-	require('famulus/pool.js');
+(function(POTATO) {
+	module('Object')
+	require('famulus/object.js')
 
-	function X(uuid) {
-		return POTATO.Object.apply(this, [uuid]);
-	}
-	function Y(uuid) {
-		return POTATO.Object.apply(this, [uuid]);
-	}
+	test('~derive', function() {
+		strictEqual(typeof POTATO.Object, 'function')
+		strictEqual(typeof POTATO.OX, 'undefined')
+		strictEqual(typeof POTATO.OY, 'undefined')
 
-	test('typeOf', function() {
-		var a = new X('typeOf')
-		var b = new Y('typeOf')
+		POTATO.derive(POTATO.Object, 'OX', function(uuid) {
+			return POTATO.Object.apply(this, [uuid])
+		})
 
-		equal('X', POTATO.typeOf(a))
-		equal('Y', POTATO.typeOf(b))
-		notEqual(POTATO.typeOf(a), POTATO.typeOf(b))
+		POTATO.derive(POTATO.Object, 'OY', function(uuid) {
+			return POTATO.Object.apply(this, [uuid])
+		})
 	})
 
-	test('{g|s}etObject', function() {
-		var a = new X('xetObject#1')
-		var b = new Y('xetObject#1')
-		var c = new Y('xetObject#2')
+	test('Object.prototype.isPrototypeOf', function() {
+		var x = new POTATO.OX('isPrototypeOf#X')
+		ok(POTATO.OX.prototype.isPrototypeOf(x))
+		ok(POTATO.Object.prototype.isPrototypeOf(x))
 
-		POTATO.setObject(a)
-		POTATO.setObject(b)
-		POTATO.setObject(c)
+		var y = new POTATO.OY('isPrototypeOf#Y')
+		ok(POTATO.OY.prototype.isPrototypeOf(y))
+		ok(POTATO.Object.prototype.isPrototypeOf(y))
 
-		strictEqual(a, POTATO.getObject('X', 'xetObject#1'))
-		strictEqual(b, POTATO.getObject('Y', 'xetObject#1'))
-		strictEqual(c, POTATO.getObject('Y', 'xetObject#2'))
-
-		strictEqual(false, POTATO.getObject('Y', 'xetObject#3'))
-		strictEqual(false, POTATO.getObject('Z', 'xetObject#1'))
+		ok(!POTATO.OX.prototype.isPrototypeOf(y))
 	})
 
-	test('ridObject', function() {
-		strictEqual(false, POTATO.getObject('X', 'ridObject'))
-		var a = new X('ridObject')
-		POTATO.setObject(a)
-		strictEqual(a, POTATO.getObject('X', 'ridObject'))
+	test('uuid', function() {
+		var x = new POTATO.OX('uuid#X')
+		var y = new POTATO.OY('uuid#Y', {
+			$: 'uuid#Z'
+		})
+
+		strictEqual(x.uuid(), 'uuid#X')
+		strictEqual(y.uuid(), 'uuid#Y')
+	})
+
+	test('~getObject', function() {
+		var a = new POTATO.OX('getObject#1')
+		var b = new POTATO.OY('getObject#1')
+		var c = new POTATO.OY('getObject#2')
+
+		strictEqual(POTATO.getObject('OX', 'getObject#1'), a)
+		strictEqual(POTATO.getObject('OY', 'getObject#1'), b)
+		strictEqual(POTATO.getObject('OY', 'getObject#2'), c)
+
+		strictEqual(POTATO.getObject('OY', 'getObject#3'), false)
+		strictEqual(POTATO.getObject('OZ', 'getObject#1'), false)
+	})
+
+	test('~ridObject', function() {
+		strictEqual(POTATO.getObject('OX', 'ridObject'), false)
+
+		var a = new POTATO.OX('ridObject')
+		strictEqual(POTATO.getObject('OX', 'ridObject'), a)
+
 		POTATO.ridObject(a)
-		strictEqual(false, POTATO.getObject('X', 'ridObject'))
+		strictEqual(POTATO.getObject('OX', 'ridObject'), false)
 	})
-})();
+})(POTATO)
