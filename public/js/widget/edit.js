@@ -23,7 +23,7 @@
 			 */
 			var hide = function(callback) {
 				widget.fadeOut('fast', function() {
-					('function' == typeof callback) && callback();
+					('function' === typeof callback) && callback();
 					$(element).removeClass('ui-helper-hidden').click();
 					widget.remove();
 					POTATO.ridObject(gene.SELF);

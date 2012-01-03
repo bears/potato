@@ -88,7 +88,7 @@
 		POTATO.setObject(this);
 
 		// Initialize this by deriver.
-		('function' == typeof builder) && builder.apply(this, [gene]);
+		('function' === typeof builder) && builder.apply(this, [gene]);
 	};
 
 	/**

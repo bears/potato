@@ -44,7 +44,7 @@ POTATO.genialTime = function(iso8601) {
 			for (var next in step) {
 				if (distance < next) {
 					var unit = step[next];
-					if ('string' == typeof unit) {
+					if ('string' === typeof unit) {
 						return l10n['time_' + unit];
 					}
 					else {

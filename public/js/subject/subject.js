@@ -34,7 +34,7 @@
 			gene.broadcast = function(subject, notify, except) {
 				var pool = gene.focus[subject];
 				for (var i in pool) {
-					(pool[i] != except) && pool[i].notify(subject, notify, gene.SELF);
+					(pool[i] !== except) && pool[i].notify(subject, notify, gene.SELF);
 				}
 			};
 
@@ -57,7 +57,7 @@
 			this.unsubscribe = function(subject, claimer) {
 				if (subject in gene.focus) {
 					var index = gene.focus[subject].indexOf(claimer);
-					if (-1 != index) {
+					if (-1 !== index) {
 						gene.focus[subject].splice(index, 1);
 						claimer.notify(subject, POTATO.NOTIFY.DETACH, this);
 					}
@@ -65,7 +65,7 @@
 			};
 
 			// Initialize this by deriver.
-			('function' == typeof builder) && builder.apply(this, [gene]);
+			('function' === typeof builder) && builder.apply(this, [gene]);
 		}]);
 	});
 })(POTATO);

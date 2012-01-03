@@ -48,7 +48,7 @@
 	POTATO.post('!/profile', version, function(update) {
 		// Fill & cache profile.
 		for (var i in STORAGES) {
-			if (version[i] != update[i].LOCK) {
+			if (version[i] !== update[i].LOCK) {
 				profile[i] = update[i];
 				STORAGES[i].clear();
 				STORAGES[i].setItem(CACHE_KEY, JSON.stringify(profile[i]));

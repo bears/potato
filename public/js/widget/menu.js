@@ -21,7 +21,7 @@
 			 * @param callbacks {Object} {label : callback, ...}
 			 */
 			this.setup = function(callbacks) {
-				if (current != callbacks) {
+				if (current !== callbacks) {
 					widget.fadeOut(function() {
 						widget.empty();
 						var l10n = POTATO.getL10n();

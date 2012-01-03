@@ -85,7 +85,7 @@
 			 * @param renewal {Object}
 			 */
 			function update(renewal) {
-				if (renewal.$ != data.$) throw 'expect #' + data.$ + ' but got #' + renewal.$;
+				if (renewal.$ !== data.$) throw 'expect #' + data.$ + ' but got #' + renewal.$;
 				delete renewal.$
 				for (var subject in renewal) {
 					var notify = subject in data ? POTATO.NOTIFY.UPDATE : POTATO.NOTIFY.INSERT;
@@ -107,7 +107,7 @@
 					gene.broadcast(subject, POTATO.NOTIFY.CHANGE);
 				}
 				var send = changes[atom];
-				(1 == count) ? (send = send[i]) : (subject = '_');
+				(1 === count) ? (send = send[i]) : (subject = '_');
 
 				var url = 'i/' + type + '/' + this.uuid() + '/' + subject;
 				POTATO.post(url, send, function(renewal) {
