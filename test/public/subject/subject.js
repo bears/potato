@@ -2,8 +2,6 @@
 
 (function(POTATO) {
 	module('Subject')
-	require('famulus/ab.js')
-	require('famulus/ba.js')
 	require('subject/subject.js')
 
 	test('>derive', function() {
@@ -14,7 +12,7 @@
 			return POTATO.Subject.apply(this, [uuid, function(gene) {
 				gene.subscribe = function(subject, claimer) {
 					strictEqual(subject, 'test')
-					ok('notify', claimer)
+					strictEqual(typeof claimer.notify, 'function')
 				}
 			}])
 		})

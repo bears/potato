@@ -26,20 +26,20 @@ POTATO.getL10n = function() {
 POTATO.genialTime = function(iso8601) {
 	var l10n = POTATO.getL10n();
 	if (iso8601) {
-		var distance = (Date.now() - (new Date(iso8601)).getTime()) / 1000;
+		var distance = (Date.now() - (new Date(iso8601)).getTime()) / 100000;
 		if (0 <= distance) {
 			var step = {
-				'300' : 'just_now',
-				'600' : '5_minutes',
-				'900' : '10_minutes',
-				'1800' : 'quarter',
-				'3600' : 'half_an_hour',
-				'7200' : 'hour',
-				'86400' : ['hours', 3600],
-				'172800' : 'day',
-				'604800' : ['days', 86400],
-				'1209600' : 'week',
-				'1814400' : ['weeks', 604800]
+				'3' : 'just_now',
+				'6' : '5_minutes',
+				'9' : '10_minutes',
+				'18' : 'quarter',
+				'36' : 'half_an_hour',
+				'72' : 'hour',
+				'864' : ['hours', 36],
+				'1728' : 'day',
+				'6048' : ['days', 864],
+				'12096' : 'week',
+				'18144' : ['weeks', 6048]
 			};
 			for (var next in step) {
 				if (distance < next) {
