@@ -1,4 +1,4 @@
-Potato
+Potato ![GPLv3 logo](http://gplv3.fsf.org/gplv3-88x31.png)
 ======
 
 This is a *practice* project for manage tasks simple and funny.
