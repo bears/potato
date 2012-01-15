@@ -1,9 +1,9 @@
 'use strict';
 
-/**
- * Build reverse dictionary.
- */
-(function(POTATO) {
+POTATO.module('ba', ['ab'], function() {
+	/**
+	 * Build reverse dictionary.
+	 */
 	POTATO.BA = {};
 	for (var c in POTATO.AB) {
 		var ab_class = POTATO.AB[c];
@@ -20,4 +20,4 @@
 		}
 		POTATO.BA[c] = ba_class;
 	}
-})(POTATO);
+});

@@ -1,6 +1,6 @@
 'use strict';
 
-(function(POTATO) {
+POTATO.module('present/annual', ['present'], function() {
 	/**
 	 * Annual panel.
 	 */
@@ -98,4 +98,4 @@
 			};
 		}]);
 	});
-})(POTATO);
+});

@@ -1,6 +1,6 @@
 'use strict';
 
-(function(POTATO) {
+POTATO.module('cluster', ['subject'], function() {
 	/**
 	 * Base class for holding list.
 	 * @param unit {String}
@@ -72,4 +72,4 @@
 			};
 		}]);
 	});
-})(POTATO);
+});

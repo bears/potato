@@ -1,6 +1,6 @@
 'use strict';
 
-(function(POTATO) {
+POTATO.module('present/tuber', ['present'], function() {
 	/**
 	 * Icon table.
 	 */
@@ -58,4 +58,4 @@
 			'tuber' : POTATO.Potato
 		}]);
 	});
-})(POTATO);
+});

@@ -1,6 +1,6 @@
 'use strict';
 
-(function(POTATO) {
+POTATO.module('widget/edit', ['present'], function() {
 	/**
 	 * General text editor.
 	 */
@@ -84,4 +84,4 @@
 			$(element).addClass('ui-helper-hidden').after(widget.fadeIn('fast'));
 		}]);
 	});
-})(POTATO);
+});

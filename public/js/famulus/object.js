@@ -1,6 +1,6 @@
 'use strict';
 
-(function(POTATO) {
+POTATO.module('object', [], function() {
 	/**
 	 * Object cache pool.
 	 */
@@ -109,4 +109,4 @@
 	Object.defineProperty(POTATO, 'SINGLETON', {
 		value : '00000000-0000-0000-0000-000000000000'
 	});
-})(POTATO);
+});

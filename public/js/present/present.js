@@ -1,6 +1,6 @@
 'use strict';
 
-(function(POTATO) {
+POTATO.module('present', ['object'], function() {
 	/**
 	 * Base class for showing data.
 	 * @param uuid {String}
@@ -18,4 +18,4 @@
 			}
 		}]);
 	});
-})(POTATO);
+});

@@ -1,6 +1,6 @@
 'use strict';
 
-(function(POTATO) {
+POTATO.module('widget/menu', ['present'], function() {
 	/**
 	 * Dynamic menu at top bar.
 	 */
@@ -35,4 +35,4 @@
 			};
 		}]);
 	});
-})(POTATO);
+});

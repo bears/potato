@@ -1,6 +1,6 @@
 'use strict';
 
-(function(POTATO) {
+POTATO.module('subject', ['object'], function() {
 	/**
 	 * Notify type enumerations.
 	 */
@@ -68,4 +68,4 @@
 			('function' === typeof builder) && builder.apply(this, [gene]);
 		}]);
 	});
-})(POTATO);
+});

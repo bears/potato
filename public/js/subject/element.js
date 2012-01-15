@@ -1,6 +1,6 @@
 'use strict';
 
-(function(POTATO) {
+POTATO.module('element', ['subject'], function() {
 	/**
 	 * Convert key to its abbreviation/intactness form.
 	 * @param map {Object} Abbr. or V.V.
@@ -144,4 +144,4 @@
 			};
 		}]);
 	});
-})(POTATO);
+});
