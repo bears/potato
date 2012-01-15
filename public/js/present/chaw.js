@@ -1,6 +1,6 @@
 'use strict';
 
-POTATO.module('present/chaw', ['present'], function() {
+POTATO.module('present/chaw', ['present', 'html!fries'], function() {
 	/**
 	 * Instantiate template.
 	 * @param template {String}
@@ -26,7 +26,9 @@ POTATO.module('present/chaw', ['present'], function() {
 			 */
 			var actions = {
 				edit : function() {
-					new POTATO.Edit(POTATO.getObject(POTATO.Chip, uuid), 'fries', 'detail', $('#chaw_' + uuid).parent());
+					POTATO.require(['widget/edit'], function() {
+						new POTATO.Edit(POTATO.getObject(POTATO.Chip, uuid), 'fries', 'detail', $('#chaw_' + uuid).parent());
+					});
 				}
 			};
 
@@ -41,7 +43,9 @@ POTATO.module('present/chaw', ['present'], function() {
 					case POTATO.NOTIFY.INSERT:
 						var target = $(mask(POTATO.TEMPLATE[subject], source)).click(function(event) {
 							event.stopPropagation();
-							(new POTATO.Menu()).setup(actions);
+							POTATO.require(['widget/menu'], function() {
+								(new POTATO.Menu()).setup(actions);
+							});
 						}).appendTo(vessel);
 						$('>.shrink', target).click(function(event) {
 							$(this).parent().toggleClass('collapsed');

@@ -82,7 +82,9 @@ POTATO.module('present/annual', ['present'], function() {
 			// Bind menu
 			lists.click(function(event) {
 				event.stopPropagation();
-				(new POTATO.Menu()).setup(actions);
+				POTATO.require(['widget/menu'], function() {
+					(new POTATO.Menu()).setup(actions);
+				});
 			});
 
 			/**

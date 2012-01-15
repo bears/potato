@@ -54,8 +54,6 @@ POTATO.LOAD = [
 	// JS
 	'js!jquery',
 	'js!jquery-ui',
-	'js!jsend',
-	'js!markdown',
 	'famulus/l10n',
 	'ab',
 	'ba',

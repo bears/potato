@@ -1,6 +1,6 @@
 'use strict';
 
-POTATO.module('launch', [], function() {
+POTATO.module('launch', ['html!body'], function() {
 	/**
 	 * Initialize main elements.
 	 */

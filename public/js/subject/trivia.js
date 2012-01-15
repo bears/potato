@@ -22,7 +22,7 @@ POTATO.module('element/trivia', ['element'], function() {
 });
 
 // Derivers of Cluster.
-POTATO.module('cluster/trivia', ['cluster'], function() {
+POTATO.module('cluster/trivia', ['cluster', 'element/trivia'], function() {
 	/**
 	 * Subject for chip set.
 	 * @param uuid {String}

@@ -1,6 +1,6 @@
 'use strict';
 
-POTATO.module('widget/edit', ['present'], function() {
+POTATO.module('widget/edit', ['present', 'html!edit'], function() {
 	/**
 	 * General text editor.
 	 */
@@ -35,7 +35,9 @@ POTATO.module('widget/edit', ['present'], function() {
 			 */
 			var save = function() {
 				hide(function() {
-					source.set(vessel.body.innerHTML, field, subject);
+					POTATO.require(['js!jsend'], function() {
+						source.set(vessel.body.innerHTML, field, subject);
+					});
 				});
 			};
 
@@ -78,7 +80,9 @@ POTATO.module('widget/edit', ['present'], function() {
 					box.removeClass('focus')
 				}).click(function(event) {
 					event.stopPropagation();
-					(new POTATO.Menu()).setup(actions);
+					POTATO.require(['widget/menu'], function() {
+						(new POTATO.Menu()).setup(actions);
+					});
 				}).click();
 			});
 			$(element).addClass('ui-helper-hidden').after(widget.fadeIn('fast'));

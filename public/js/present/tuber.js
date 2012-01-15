@@ -1,6 +1,6 @@
 'use strict';
 
-POTATO.module('present/tuber', ['present'], function() {
+POTATO.module('present/tuber', ['present', 'html!tuber'], function() {
 	/**
 	 * Icon table.
 	 */

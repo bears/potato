@@ -1,6 +1,6 @@
 'use strict';
 
-POTATO.module('present/stock', ['present'], function() {
+POTATO.module('present/stock', ['present', 'html!stock'], function() {
 	function iso8601(time) {
 		return time ? (time.replace(' ', 'T').slice(0, 19) + 'Z') : '';
 	}
@@ -41,7 +41,9 @@ POTATO.module('present/stock', ['present'], function() {
 				target.toggleClass('editable');
 			},
 			craft : function() {
-				new POTATO.Edit(source, 'stock', 'craft', $('.craft', target));
+				POTATO.require(['widget/edit'], function() {
+					new POTATO.Edit(source, 'stock', 'craft', $('.craft', target));
+				});
 			}
 		};
 
@@ -50,7 +52,9 @@ POTATO.module('present/stock', ['present'], function() {
 		.appendTo($('#stocks').removeClass('loading'))
 		.click(function(event) {
 			event.stopPropagation();
-			(new POTATO.Menu()).setup(actions);
+			POTATO.require(['widget/menu'], function() {
+				(new POTATO.Menu()).setup(actions);
+			});
 		}).click();
 		$('legend.shrink', target).click(function() {
 			$(this).parent().toggleClass('collapsed');
