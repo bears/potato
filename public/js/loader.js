@@ -90,12 +90,14 @@
 				var url = POTATO.PATH[id];
 				switch (id.substring(0, id.indexOf('!'))) {
 					case 'html':
-						(function(id) {
-							load.html(url, function() {
-								POTATO.TEMPLATE[id] = this.responseText;
-								POTATO.provide(id);
-							});
-						})(id);
+						load.html(url, function() {
+							var match;
+							var knife = /(<!-- #(\w+)# -->)([\s\S]*)\1/g;
+							while (match = knife.exec(this.responseText)) {
+								POTATO.TEMPLATE[match[2]] = match[3];
+								POTATO.provide('html!' + match[2]);
+							}
+						});
 						break;
 					case 'css':
 						load.css(url);
@@ -259,7 +261,7 @@
 
 			POTATO.LOAD.push('l10n/' + POTATO.PROFILE.l10n);
 			POTATO.require(POTATO.LOAD, function() {
-				console.log('loaded');
+				POTATO.render();
 			});
 		});
 	}

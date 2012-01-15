@@ -1,27 +1,27 @@
-<div id="stock">
-	<article id="stock_{%u%}">
-		<details open="open">
-			<summary class="ui-corner-all ui-state-highlight">
-				<span class="ui-icon ui-icon-{%i%}"></span>
-				<span class="period">
-					<input name="period" value="{%p%}"/>
-					<span>
-						<time datetime="{%s%}" pubdate="pubdate">{%S%}</time>
-						~
-						<time datetime="{%h%}">{%H%}</time>
-					</span>
+<!-- #stock# -->
+<article id="stock_{%u%}">
+	<details open="open">
+		<summary class="ui-corner-all ui-state-highlight">
+			<span class="ui-icon ui-icon-{%i%}"></span>
+			<span class="period">
+				<input name="period" value="{%p%}"/>
+				<span>
+					<time datetime="{%s%}" pubdate="pubdate">{%S%}</time>
+					~
+					<time datetime="{%h%}">{%H%}</time>
 				</span>
-				<input name="label" value="{%l%}"/>
-				<span>{%l%}</span>
-			</summary>
-			<blockquote class="craft">{%c%}</blockquote>
-		</details>
-		<fieldset>
-			<legend class="shrink">
-				<span class="ui-icon ui-icon-triangle-1-s"></span>
-				{%f%}
-			</legend>
-			<div class="fries loading"></div>
-		</fieldset>
-	</article>
-</div>
+			</span>
+			<input name="label" value="{%l%}"/>
+			<span>{%l%}</span>
+		</summary>
+		<blockquote class="craft">{%c%}</blockquote>
+	</details>
+	<fieldset>
+		<legend class="shrink">
+			<span class="ui-icon ui-icon-triangle-1-s"></span>
+			{%f%}
+		</legend>
+		<div class="fries loading"></div>
+	</fieldset>
+</article>
+<!-- #stock# -->
