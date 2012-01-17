@@ -16,7 +16,7 @@ POTATO.module('famulus/l10n', [], function() {
 	 * Localization of current locale.
 	 */
 	POTATO.getL10n = function() {
-		return POTATO[POTATO.PROFILE.l10n];
+		return POTATO[POTATO.PROFILE.L10N];
 	};
 
 	/**

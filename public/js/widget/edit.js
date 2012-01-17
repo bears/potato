@@ -35,9 +35,7 @@ POTATO.module('widget/edit', ['present', 'html!edit'], function() {
 			 */
 			var save = function() {
 				hide(function() {
-					POTATO.require(['js!jsend'], function() {
-						source.set(vessel.body.innerHTML, field, subject);
-					});
+					source.set(vessel.body.innerHTML, field, subject);
 				});
 			};
 

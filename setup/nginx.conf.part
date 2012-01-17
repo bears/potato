@@ -1,27 +1,32 @@
-server
-{
-	listen		80;
-	server_name	potato.bears.home;
+server {
+	listen  80;
+	server_name  potato.major.home;
 
-	location	/
-	{
-		root	../public;
-		index	index.html;
+	location  =  / {
+		root  /<project path>/public;
+		index  index.html;
 	}
 
-	gzip_static	on;
-	gzip_types	text/plain text/css text/xml application/x-javascript;
+	location  =  /index.html {
+		root  /<project path>/public;
+	}
+
+	location  / {
+		include  fastcgi_params;
+		fastcgi_pass  127.0.0.1:9000;
+		fastcgi_param  SCRIPT_FILENAME /<project path>/script/index.php;
+	}
 }
 
-server
-{
-	listen		80;
-	server_name	ajaj.potato.bears.home;
+server {
+	listen  80;
+	server_name  cdn.major.home;
 
-	location ~	/
-	{
-		include			fastcgi_params;
-		fastcgi_pass	127.0.0.1:9000;
-		fastcgi_param	SCRIPT_FILENAME ../script/index.php;
+	location  /potato/ {
+		alias  /<project path>/public/;
+		expires  30s;
 	}
+
+	gzip_static  on;
+	gzip_types  text/plain text/css text/xml application/x-javascript;
 }

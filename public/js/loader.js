@@ -65,7 +65,7 @@
 					}
 				}
 				else {
-					var bind = POTATO.BIND[POTATO.PATH[id]];
+					var bind = POTATO.SETTING.BIND[POTATO.SETTING.PATH[id]];
 					for (var i in bind) {
 						load.module[i] = {
 							status : false,
@@ -87,7 +87,7 @@
 					// Skip duplicated load.
 					continue;
 				}
-				var url = POTATO.PATH[id];
+				var url = POTATO.SETTING.PATH[id];
 				switch (id.substring(0, id.indexOf('!'))) {
 					case 'html':
 						load.html(url, function() {
@@ -121,20 +121,31 @@
 	};
 
 	/**
-	 * Domain of the service provider.
+	 * Origin of the service provider.
 	 */
-	var AJAJ_DOMAIN = '//ajaj.' + location.hostname + '/';
+	var AJAJ_ORIGIN = location.protocol + '//potato.major.home';
 
 	/**
-	 * Cross domain request handler.
+	 * Ajaj request callback pool.
 	 */
-	if ('object' !== typeof XDomainRequest) {
-		window.XDomainRequest = function() {
-			var self = new XMLHttpRequest();
-			self.withCredentials = true;
-			return self;
+	var ajaj_pool = {};
+
+	/**
+	 * Receive proxy request from parent.
+	 */
+	window.addEventListener('message', function(event) {
+		if (AJAJ_ORIGIN === event.origin) {
+			var pass = JSON.parse(event.data);
+			if (pass.tick in ajaj_pool) {
+				try {
+					ajaj_pool[pass.tick](JSON.parse(pass.data));
+				}
+				finally {
+					delete ajaj_pool[pass.tick];
+				}
+			}
 		}
-	}
+	});
 
 	/**
 	 * Asynchronous JavaScript Access JSON.
@@ -144,12 +155,16 @@
 	 * @param data {Object} send to server
 	 */
 	function ajaj(method, url, callback, data) {
-		var xdr = new XDomainRequest();
-		xdr.open(method, AJAJ_DOMAIN + url);
-		xdr.onload = function() {
-			callback(JSON.parse(xdr.responseText));
-		};
-		xdr.send(data);
+		var tick = Date.now() + Math.random();
+		if ('function' === typeof callback) {
+			ajaj_pool[tick] = callback;
+		}
+		window.parent.postMessage(JSON.stringify({
+			tick : tick,
+			method : method,
+			url : url,
+			data : data
+		}), AJAJ_ORIGIN);
 	}
 
 	/**
@@ -247,8 +262,14 @@
 	 * Fetch & cache setting.
 	 */
 	function updateSetting() {
-		load.js('potato' + POTATO.PROFILE.sign, function() {
-			var path = POTATO.PATH;
+		var CACHE_KEY = 'setting';
+		POTATO.SETTING = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
+		var lock = location.search.substring(1);
+		if (POTATO.SETTING.LOCK === lock) {
+			return ready(updateSetting);
+		}
+		load.js('potato' + lock, function() {
+			var path = POTATO.SETTING.PATH;
 			var bind = {};
 			for (var i in path) {
 				var url = path[i];
@@ -257,12 +278,11 @@
 				}
 				bind[url][i] = true;
 			}
-			POTATO.BIND = bind;
-
-			POTATO.LOAD.push('l10n/' + POTATO.PROFILE.l10n);
-			POTATO.require(POTATO.LOAD, function() {
-				POTATO.render();
-			});
+			POTATO.SETTING.BIND = bind;
+			POTATO.SETTING.LOCK = lock;
+			localStorage.clear();
+			localStorage.setItem(CACHE_KEY, JSON.stringify(POTATO.SETTING));
+			ready(updateSetting);
 		});
 	}
 
@@ -271,18 +291,35 @@
 	 */
 	function updateProfile() {
 		var CACHE_KEY = 'profile';
-		var cache = JSON.parse(sessionStorage.getItem(CACHE_KEY) || '{}');
-		POTATO.post('!/profile', cache.lock, function(update) {
-			if (cache.lock !== update.lock) {
-				cache = update;
+		POTATO.PROFILE = JSON.parse(sessionStorage.getItem(CACHE_KEY) || '{}');
+		POTATO.post('!/profile', POTATO.PROFILE.LOCK, function(update) {
+			if (POTATO.PROFILE.LOCK !== update.LOCK) {
+				POTATO.PROFILE = update;
 				sessionStorage.clear();
-				sessionStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+				sessionStorage.setItem(CACHE_KEY, JSON.stringify(POTATO.PROFILE));
 			}
-			POTATO.PROFILE = cache;
-			updateSetting();
+			ready(updateProfile);
 		});
 	}
 
+	/**
+	 * Setting or profile has ready.
+	 * @param source {Function}
+	 */
+	function ready(source) {
+		source.done = true;
+		if (updateSetting.done && updateProfile.done) {
+			POTATO.SETTING.LOAD.push('l10n/' + POTATO.PROFILE.L10N);
+			POTATO.require(POTATO.SETTING.LOAD, function() {
+				POTATO.render();
+			});
+		}
+	}
+
+
 	// Start load chain.
-	updateProfile();
+	// localStorage.clear();
+	setTimeout(updateSetting, 1);
+	// sessionStorage.clear();
+	setTimeout(updateProfile, 1);
 })();

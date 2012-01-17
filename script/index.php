@@ -12,17 +12,14 @@ require_once 'handler/loader.php';
  */
 class subject {
 
-	const SUB_DOMAIN = 'ajaj.';
-
 	/**
 	 * Find derived subject to handle request.
 	 */
 	public static function dispatch() {
-		self::cross_domain();
-
 		@list($rest, $class, $filter, $subject) = explode( '/', trim( $_SERVER['REQUEST_URI'], '/' ) );
 		preg_match( '#^[\\w\\$]+$#', $class ) || trigger_error( 'invalid class', E_USER_ERROR );
 		$class = str_replace( '$', '\\', $class );
+		header( 'Content-Type: application/json' );
 		switch ( $rest ) {
 			case 'a':
 				list($call, $arguments) = explode( '=', $filter, 2 );
@@ -40,23 +37,6 @@ class subject {
 				exit( header( 'Status: 400 Bad Request', true, 400 ) );
 				break;
 		}
-	}
-
-	/**
-	 * Process cross domain request header.
-	 */
-	private static function cross_domain() {
-		isset( $_SERVER['HTTP_ORIGIN'] ) || trigger_error( 'unknown origin', E_USER_ERROR );
-		$protocol = isset( $_SERVER['HTTPS'] ) && 'off' != $_SERVER['HTTPS'] ? 'https://' : 'http://';
-		$accepted = $protocol . str_replace( self::SUB_DOMAIN, '', $_SERVER['SERVER_NAME'] );
-		if ( $_SERVER['HTTP_ORIGIN'] == $accepted ) {
-			header( "Access-Control-Allow-Origin: $accepted" );
-			header( 'Access-Control-Allow-Credentials: true' );
-		}
-		else {
-			trigger_error( 'unacceptable access', E_USER_ERROR );
-		}
-		header( 'Content-Type: application/json' );
 	}
 
 	/**

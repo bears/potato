@@ -6,9 +6,8 @@ namespace subject;
  */
 class profile extends \subject {
 
-	const LOCK_KEY = 'lock';
-	const SIGN_KEY = 'sign';
-	const L10N_KEY = 'l10n';
+	const LOCK_KEY = 'LOCK';
+	const L10N_KEY = 'L10N';
 
 	/**
 	 * @return JSON
@@ -18,7 +17,6 @@ class profile extends \subject {
 		$data = array( self::LOCK_KEY => $lock );
 		if ( file_get_contents( 'php://input' ) !== $lock ) {
 			$data[self::L10N_KEY] = 'en-us';
-			$data[self::SIGN_KEY] = '';
 		}
 		return json_encode( $data );
 	}

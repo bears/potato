@@ -10,9 +10,27 @@
 
 		<link rel="icon" href="p/bears.home.png" type="image/png" />
 
-		<script src="js/loader.js"></script>
+		<script>
+			(function() {
+				var ORIGIN = location.protocol + '//cdn.major.home';
+				window.addEventListener('message', function(event) {
+					if (ORIGIN === event.origin) {
+						var pass = JSON.parse(event.data);
+						var xdr = new XMLHttpRequest();
+						xdr.open(pass.method, pass.url);
+						xdr.onload = function() {
+							event.source.postMessage(JSON.stringify({
+								tick : pass.tick,
+								data : xdr.responseText
+							}), ORIGIN);
+						};
+						xdr.send(JSON.stringify(pass.data));
+					}
+				});
+			})();
+		</script>
 	</head>
 	<body>
-		<img src="p/loading.gif" style="display:block; margin:10em auto 0;" />
+		<iframe src="//cdn.major.home/potato/proxy.html" style="border:none;position:fixed;top:0;height:100%;left:0;width:100%;"></iframe>
 	</body>
 </html>
