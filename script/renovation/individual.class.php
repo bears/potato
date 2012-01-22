@@ -6,7 +6,7 @@ namespace renovation;
  */
 abstract class individual {
 
-	public function __construct( \database\individual $object, \ArrayIterator $update ) {
+	public function __construct( \database\individual $object, \stdClass $update ) {
 		$this->object = $object;
 		$this->update = $update;
 	}
@@ -66,7 +66,7 @@ abstract class individual {
 
 	/**
 	 * The attributes to be applied.
-	 * @var \ArrayIterator
+	 * @var \stdClass
 	 */
 	protected $update;
 

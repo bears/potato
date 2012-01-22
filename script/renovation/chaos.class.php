@@ -16,11 +16,11 @@ abstract class chaos extends individual {
 		$prefix = substr( $type, 0, strrpos( $type, '\\' ) );
 		$format = substr( $prefix, strpos( $prefix, '\\' ) );
 
-		foreach ( $this->update as $label => $values ) {
+		foreach ( $this->update as $label => $child ) {
 			$subject = \famulus\ba::entry( $format, $label );
 			if ( $subject ) {
 				$deriver = "\\$prefix\\$subject";
-				$renovator = new $deriver( $this->object, new \ArrayIterator( $values ) );
+				$renovator = new $deriver( $this->object, $child );
 				$renovator->process( $vessel );
 			}
 		}

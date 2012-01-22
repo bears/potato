@@ -6,7 +6,7 @@ namespace renovation;
  */
 abstract class aggregate {
 
-	public function __construct( \database\aggregate $object, \ArrayIterator $update ) {
+	public function __construct( \database\aggregate $object, \stdClass $update ) {
 		$this->object = $object;
 		$this->update = $update;
 	}
@@ -40,7 +40,7 @@ abstract class aggregate {
 
 	/**
 	 * The attributes to be applied.
-	 * @var \ArrayIterator
+	 * @var \stdClass
 	 */
 	protected $update;
 

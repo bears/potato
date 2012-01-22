@@ -27,10 +27,10 @@ abstract class aggregate implements \IteratorAggregate {
 	/**
 	 * Encapsulate $this into a renovation class.
 	 * @param string $format
-	 * @param \ArrayIterator $update
+	 * @param \stdClass $update
 	 * @return \renovation
 	 */
-	public function renovate( $format, \ArrayIterator $update ) {
+	public function renovate( $format, \stdClass $update ) {
 		$renovator = self::helper( '\\renovation\\', $format );
 		return new $renovator( $this, $update );
 	}
