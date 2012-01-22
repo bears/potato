@@ -14,6 +14,48 @@
 		module : {},
 
 		/**
+		 * Incompatible JS helper.
+		 */
+		queue : {
+			/**
+			 * Pending files.
+			 */
+			tasks : [],
+
+			/**
+			 * Load incompatible JS file.
+			 * @param url {String}
+			 * @param id {String}
+			 */
+			push : function(url, id) {
+				load.queue.tasks.push({
+					id : id,
+					url : url
+				});
+				load.queue.pending || load.queue.next();
+			},
+
+			/**
+			 * Load next JS file.
+			 * @param id {String}
+			 */
+			next : function(id) {
+				undefined !== id && POTATO.provide(id);
+
+				var next = load.queue.tasks.pop();
+				if (undefined !== next) {
+					load.queue.pending = true;
+					load.js(next.url, function() {
+						load.queue.next(next.id);
+					});
+				}
+				else {
+					load.queue.pending = false;
+				}
+			}
+		},
+
+		/**
 		 * Load HTML file.
 		 * @param url {String}
 		 * @param onload {Function}
@@ -104,12 +146,7 @@
 						POTATO.provide(id);
 						break;
 					case 'js':
-						// Incompatible JavaScript.
-						(function(id) {
-							load.js(url, function() {
-								POTATO.provide(id);
-							});
-						})(id);
+						load.queue.push(url, id);
 						break;
 					default:
 						// Compatible JavaScript.
