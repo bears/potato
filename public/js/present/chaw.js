@@ -20,7 +20,7 @@ POTATO.module('present/chaw', ['present', 'html!fries'], function() {
 	 * @param vessel {Element}
 	 */
 	POTATO.derive(POTATO.Present, 'Chaw', function(uuid, vessel) {
-		return POTATO.Present.apply(this, [uuid, function() {
+		return POTATO.Present.call(this, uuid, function() {
 			/**
 			 * menu items.
 			 */
@@ -58,6 +58,6 @@ POTATO.module('present/chaw', ['present', 'html!fries'], function() {
 			};
 		}, {
 			'fries' : POTATO.Chip
-		}]);
+		});
 	});
 });

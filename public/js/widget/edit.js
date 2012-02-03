@@ -6,7 +6,7 @@ POTATO.module('widget/edit', ['present', 'html!edit'], function() {
 	 */
 	POTATO.derive(POTATO.Present, 'Edit', function(source, subject, field, element) {
 		var uuid = source.uuid() + '-' + subject + '-' + field;
-		return POTATO.Present.apply(this, [uuid, function(gene) {
+		return POTATO.Present.call(this, uuid, function(gene) {
 			/**
 			 * The element to be operate.
 			 */
@@ -84,6 +84,6 @@ POTATO.module('widget/edit', ['present', 'html!edit'], function() {
 				}).click();
 			});
 			$(element).addClass('ui-helper-hidden').after(widget.fadeIn('fast'));
-		}]);
+		});
 	});
 });

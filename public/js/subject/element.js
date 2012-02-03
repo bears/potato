@@ -25,7 +25,7 @@ POTATO.module('element', ['subject'], function() {
 	 * @param data {Object} Optional
 	 */
 	POTATO.derive(POTATO.Subject, 'Element', function(type, uuid, data) {
-		return POTATO.Subject.apply(this, [uuid, function(gene) {
+		return POTATO.Subject.call(this, uuid, function(gene) {
 			/**
 			 * Hold all private properties.
 			 */
@@ -142,6 +142,6 @@ POTATO.module('element', ['subject'], function() {
 					POTATO.get(url, update);
 				}
 			};
-		}]);
+		});
 	});
 });

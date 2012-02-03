@@ -26,7 +26,7 @@ POTATO.module('present/tuber', ['present', 'html!tuber'], function() {
 	 * @param target {String}
 	 */
 	POTATO.derive(POTATO.Present, 'Tuber', function(uuid, target) {
-		return POTATO.Present.apply(this, [uuid, function() {
+		return POTATO.Present.call(this, uuid, function() {
 			/**
 			 * The element to insert into.
 			 */
@@ -56,6 +56,6 @@ POTATO.module('present/tuber', ['present', 'html!tuber'], function() {
 			};
 		}, {
 			'tuber' : POTATO.Potato
-		}]);
+		});
 	});
 });

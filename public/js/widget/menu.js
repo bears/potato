@@ -5,7 +5,7 @@ POTATO.module('widget/menu', ['present'], function() {
 	 * Dynamic menu at top bar.
 	 */
 	POTATO.derive(POTATO.Present, 'Menu', function() {
-		return POTATO.Present.apply(this, [POTATO.SINGLETON, function() {
+		return POTATO.Present.call(this, POTATO.SINGLETON, function() {
 			/**
 			 * The element to be operate.
 			 */
@@ -33,6 +33,6 @@ POTATO.module('widget/menu', ['present'], function() {
 					});
 				}
 			};
-		}]);
+		});
 	});
 });

@@ -77,7 +77,7 @@ POTATO.module('present/stock', ['present', 'html!stock'], function() {
 	 * @param uuid {String}
 	 */
 	POTATO.derive(POTATO.Present, 'Stock', function(uuid) {
-		return POTATO.Present.apply(this, [uuid, function() {
+		return POTATO.Present.call(this, uuid, function() {
 			$('#stocks').addClass('loading');
 
 			/**
@@ -115,6 +115,6 @@ POTATO.module('present/stock', ['present', 'html!stock'], function() {
 			};
 		}, {
 			'stock' : POTATO.Potato
-		}]);
+		});
 	});
 });

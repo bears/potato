@@ -8,14 +8,14 @@ POTATO.module('present', ['object'], function() {
 	 * @param sources {Object}
 	 */
 	POTATO.derive(POTATO.Object, 'Present', function(uuid, builder, sources) {
-		return POTATO.Object.apply(this, [uuid, function(gene) {
+		return POTATO.Object.call(this, uuid, function(gene) {
 			// Initialize this by deriver.
-			('function' === typeof builder) && builder.apply(this, [gene]);
+			('function' === typeof builder) && builder.call(this, gene);
 
 			// Subscribe to data sources.
 			for (var subject in sources) {
 				(new sources[subject](uuid)).subscribe(subject, gene.SELF);
 			}
-		}]);
+		});
 	});
 });

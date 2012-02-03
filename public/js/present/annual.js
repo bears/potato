@@ -5,7 +5,7 @@ POTATO.module('present/annual', ['present'], function() {
 	 * Annual panel.
 	 */
 	POTATO.derive(POTATO.Present, 'Annual', function(current) {
-		return POTATO.Present.apply(this, [POTATO.SINGLETON, function(gene) {
+		return POTATO.Present.call(this, POTATO.SINGLETON, function(gene) {
 			/**
 			 * Hold all private properties.
 			 */
@@ -98,6 +98,6 @@ POTATO.module('present/annual', ['present'], function() {
 					alert('Not implement yet!')
 				}
 			};
-		}]);
+		});
 	});
 });

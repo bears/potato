@@ -8,7 +8,7 @@ POTATO.module('cluster', ['subject'], function() {
 	 * @param uuid {String}
 	 */
 	POTATO.derive(POTATO.Subject, 'Cluster', function(unit, type, uuid) {
-		return POTATO.Subject.apply(this, [uuid, function(gene) {
+		return POTATO.Subject.call(this, uuid, function(gene) {
 			/**
 			 * Hold all private properties.
 			 */
@@ -40,7 +40,7 @@ POTATO.module('cluster', ['subject'], function() {
 			this.each = function(subject, callback) {
 				var pool = data[subject];
 				for (var uuid in pool) {
-					callback.apply(pool[uuid], [uuid]);
+					callback.call(pool[uuid], uuid);
 				}
 			};
 
@@ -70,6 +70,6 @@ POTATO.module('cluster', ['subject'], function() {
 					});
 				}
 			};
-		}]);
+		});
 	});
 });

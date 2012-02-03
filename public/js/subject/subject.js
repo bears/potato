@@ -22,7 +22,7 @@ POTATO.module('subject', ['object'], function() {
 	 * @param builder {Function}
 	 */
 	POTATO.derive(POTATO.Object, 'Subject', function(uuid, builder) {
-		return POTATO.Object.apply(this, [uuid, function(gene) {
+		return POTATO.Object.call(this, uuid, function(gene) {
 			gene.focus = {};
 
 			/**
@@ -65,7 +65,7 @@ POTATO.module('subject', ['object'], function() {
 			};
 
 			// Initialize this by deriver.
-			('function' === typeof builder) && builder.apply(this, [gene]);
-		}]);
+			('function' === typeof builder) && builder.call(this, gene);
+		});
 	});
 });
