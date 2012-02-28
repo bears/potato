@@ -12,11 +12,11 @@ POTATO.SETTING = {
 		'html!stock' : 'stock',
 		'html!tuber' : 'tuber',
 		// CSS
-		'css!jquery-ui' : 'library/jquery-ui.start.580ec45131a3f90d3f6ef8fdd3440025',
+		'css!jquery-ui' : 'library/jquery-ui.start.3d692bb34aecab80092cc7690264552d',
 		'css!potato' : 'potato',
 		// JS
 		'js!jquery' : 'library/jquery.ddb84c1587287b2df08966081ef063bf',
-		'js!jquery-ui' : 'library/jquery-ui.65c7c707dddea0c7861714df250d54c4',
+		'js!jquery-ui' : 'library/jquery-ui.ab482777e459017809092a6bf1c0fc71',
 		'js!jsend' : 'library/jsend.b83df7d9112ebdae135fbe7a5db69884',
 		'js!markdown' : 'library/markdown.86afc7e09250097abe9bdb2cbbeed21c',
 		'famulus/l10n' : 'famulus/l10n',
