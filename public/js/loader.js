@@ -303,24 +303,26 @@
 		POTATO.SETTING = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
 		var lock = location.search.substring(1);
 		if (POTATO.SETTING.LOCK === lock) {
-			return ready(updateSetting);
-		}
-		load.js('potato' + lock, function() {
-			var path = POTATO.SETTING.PATH;
-			var bind = {};
-			for (var i in path) {
-				var url = path[i];
-				if (!(url in bind)) {
-					bind[url] = {};
-				}
-				bind[url][i] = true;
-			}
-			POTATO.SETTING.BIND = bind;
-			POTATO.SETTING.LOCK = lock;
-			localStorage.clear();
-			localStorage.setItem(CACHE_KEY, JSON.stringify(POTATO.SETTING));
 			ready(updateSetting);
-		});
+		}
+		else {
+			load.js('potato' + lock, function() {
+				var path = POTATO.SETTING.PATH;
+				var bind = {};
+				for (var i in path) {
+					var url = path[i];
+					if (!(url in bind)) {
+						bind[url] = {};
+					}
+					bind[url][i] = true;
+				}
+				POTATO.SETTING.BIND = bind;
+				POTATO.SETTING.LOCK = lock;
+				localStorage.clear();
+				localStorage.setItem(CACHE_KEY, JSON.stringify(POTATO.SETTING));
+				ready(updateSetting);
+			});
+		}
 	}
 
 	/**

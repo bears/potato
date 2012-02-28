@@ -88,7 +88,7 @@ POTATO.module('object', [], function() {
 		POTATO.setObject(this);
 
 		// Initialize this by deriver.
-		('function' === typeof builder) && builder.call(this, gene);
+		return ('function' === typeof builder) && builder.call(this, gene) || this;
 	};
 
 	/**

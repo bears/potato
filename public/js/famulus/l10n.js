@@ -20,6 +20,23 @@ POTATO.module('famulus/l10n', [], function() {
 	};
 
 	/**
+	 * Steps for generating genial time string.
+	 */
+	var durationStep = {
+		'3' : 'just_now',
+		'6' : '5_minutes',
+		'9' : '10_minutes',
+		'18' : 'quarter',
+		'36' : 'half_an_hour',
+		'72' : 'hour',
+		'864' : ['hours', 36],
+		'1728' : 'day',
+		'6048' : ['days', 864],
+		'12096' : 'week',
+		'18144' : ['weeks', 6048]
+	};
+
+	/**
 	 * Localize an ISO 8601 string to a genial presentation.
 	 * @param iso8601 {String}
 	 * @return {String}
@@ -29,22 +46,9 @@ POTATO.module('famulus/l10n', [], function() {
 		if (iso8601) {
 			var distance = (Date.now() - (new Date(iso8601)).getTime()) / 100000;
 			if (0 <= distance) {
-				var step = {
-					'3' : 'just_now',
-					'6' : '5_minutes',
-					'9' : '10_minutes',
-					'18' : 'quarter',
-					'36' : 'half_an_hour',
-					'72' : 'hour',
-					'864' : ['hours', 36],
-					'1728' : 'day',
-					'6048' : ['days', 864],
-					'12096' : 'week',
-					'18144' : ['weeks', 6048]
-				};
-				for (var next in step) {
+				for (var next in durationStep) {
 					if (distance < next) {
-						var unit = step[next];
+						var unit = durationStep[next];
 						if ('string' === typeof unit) {
 							return l10n['time_' + unit];
 						}

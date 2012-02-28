@@ -54,7 +54,7 @@ POTATO.module('present/chaw', ['present', 'html!fries'], function() {
 
 					case POTATO.NOTIFY.UPDATE:
 						break;
-				};
+				}
 			};
 		}, {
 			'fries' : POTATO.Chip
