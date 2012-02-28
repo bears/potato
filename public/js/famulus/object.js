@@ -7,11 +7,11 @@ POTATO.module('object', [], function() {
 	var pool = {};
 
 	/**
-	 * Get class name.
+	 * Guess class name.
 	 * @param item {Function|Object|String}
 	 * @return {String}
 	 */
-	var getType = function(item) {
+	var guessType = function(item) {
 		switch (typeof item) {
 			case 'function':
 				return item.$;
@@ -31,7 +31,7 @@ POTATO.module('object', [], function() {
 	 * @return {POTATO.Object}
 	 */
 	POTATO.getObject = function(item, uuid) {
-		var type = getType(item);
+		var type = guessType(item);
 		return (type in pool) && pool[type][uuid] || false;
 	};
 
@@ -42,7 +42,7 @@ POTATO.module('object', [], function() {
 	POTATO.setObject = function() {
 		for (var i in arguments) {
 			var item = arguments[i];
-			var type = getType(item);
+			var type = guessType(item);
 			(type in pool) || (pool[type] = {});
 			pool[type][item.uuid()] = item;
 		}
@@ -55,7 +55,7 @@ POTATO.module('object', [], function() {
 	POTATO.ridObject = function() {
 		for (var i in arguments) {
 			var item = arguments[i];
-			var type = getType(item);
+			var type = guessType(item);
 			(type in pool) && (delete pool[type][item.uuid()]);
 		}
 	};
@@ -98,8 +98,18 @@ POTATO.module('object', [], function() {
 	 * @param derivative {Function}
 	 */
 	POTATO.derive = function(foundation, name, derivative) {
-		derivative.prototype.__proto__ = foundation.prototype;
-		derivative.$ = name;
+		Object.defineProperties(derivative, {
+			prototype : {
+				value : Object.create(foundation.prototype, {
+					constructor : {
+						value : derivative
+					}
+				})
+			},
+			$ : {
+				value : name
+			}
+		});
 		POTATO[name] = derivative;
 	};
 
