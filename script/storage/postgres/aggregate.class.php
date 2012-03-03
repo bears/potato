@@ -1,5 +1,5 @@
 <?php
-namespace storage\adapter\postgres;
+namespace storage\postgres;
 
 /**
  * Storage of aggregate using Postgres.
@@ -19,7 +19,7 @@ class aggregate {
 		if ( $query->execute( $arguments ) ) {
 			$objects = array( );
 			foreach ( $query->fetchAll() as $object ) {
-				$objects[] = \database\individual::cache( $object );
+				$objects[] = \element\individual::cache( $object );
 			}
 			return new $class( $objects );
 		}

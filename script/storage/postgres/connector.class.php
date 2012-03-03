@@ -1,5 +1,5 @@
 <?php
-namespace storage\adapter\postgres;
+namespace storage\postgres;
 
 /**
  * Connector of Postgres.

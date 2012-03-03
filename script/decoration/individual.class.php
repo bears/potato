@@ -2,14 +2,14 @@
 namespace decoration;
 
 /**
- * The base class for decorating \database\individual object.
+ * The base class for decorating \element\individual object.
  */
 abstract class individual {
 
 	const CASCADE_METHOD = 'method';
 	const CASCADE_FORMAT = 'format';
 
-	public function __construct( \database\individual $object ) {
+	public function __construct( \element\individual $object ) {
 		$this->object = $object;
 	}
 
@@ -64,7 +64,7 @@ abstract class individual {
 
 	/**
 	 * The object holds the base information.
-	 * @var \database\individual
+	 * @var \element\individual
 	 */
 	protected $object;
 

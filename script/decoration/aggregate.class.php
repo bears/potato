@@ -2,11 +2,11 @@
 namespace decoration;
 
 /**
- * The base class for decorating \database\aggregate object.
+ * The base class for decorating \element\aggregate object.
  */
 abstract class aggregate {
 
-	public function __construct( \database\aggregate $object ) {
+	public function __construct( \element\aggregate $object ) {
 		$this->object = $object;
 	}
 
@@ -33,7 +33,7 @@ abstract class aggregate {
 
 	/**
 	 * The object holds the base information.
-	 * @var \database\individual
+	 * @var \element\individual
 	 */
 	protected $object;
 

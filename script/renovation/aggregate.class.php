@@ -2,11 +2,11 @@
 namespace renovation;
 
 /**
- * The base class for renovating \database\aggregate object.
+ * The base class for renovating \element\aggregate object.
  */
 abstract class aggregate {
 
-	public function __construct( \database\aggregate $object, \stdClass $update ) {
+	public function __construct( \element\aggregate $object, \stdClass $update ) {
 		$this->object = $object;
 		$this->update = $update;
 	}
@@ -34,7 +34,7 @@ abstract class aggregate {
 
 	/**
 	 * The object holds the base information.
-	 * @var \database\aggregate
+	 * @var \element\aggregate
 	 */
 	protected $object;
 

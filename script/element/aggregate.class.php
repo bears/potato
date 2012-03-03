@@ -1,5 +1,5 @@
 <?php
-namespace database;
+namespace element;
 
 /**
  * Manipulate object aggregate with database.
@@ -76,7 +76,7 @@ abstract class aggregate implements \IteratorAggregate {
 	 * @return aggregate
 	 */
 	public static function __callStatic( $method, array $arguments ) {
-		$delegate = '\\storage\\adapter\\postgres\\aggregate';
+		$delegate = '\\storage\\postgres\\aggregate';
 		return $delegate::select( get_called_class(), $method, $arguments );
 	}
 

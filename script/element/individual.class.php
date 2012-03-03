@@ -1,5 +1,5 @@
 <?php
-namespace database;
+namespace element;
 
 /**
  * Manipulate individual object with database.
@@ -52,7 +52,7 @@ abstract class individual {
 	 * Insert/update this object to database.
 	 */
 	public function save() {
-		$delegate = '\\storage\\adapter\\postgres\\individual';
+		$delegate = '\\storage\\postgres\\individual';
 		$properties = get_object_vars( $this );
 		if ( isset( $this->uuid ) ) {
 			$delegate::update( get_called_class(), $properties );
@@ -71,7 +71,7 @@ abstract class individual {
 	 * Delete this object from database.
 	 */
 	public function delete() {
-		$delegate = '\\storage\\adapter\\postgres\\individual';
+		$delegate = '\\storage\\postgres\\individual';
 		$delegate::delete( get_called_class(), $this->uuid, $this->lock );
 		unset( self::$pool[$this->key()] );
 		$this->uuid = null;
@@ -86,7 +86,7 @@ abstract class individual {
 	public static function select( $uuid ) {
 		$key = self::_key( $uuid );
 		if ( !isset( self::$pool[$key] ) ) {
-			$delegate = '\\storage\\adapter\\postgres\\individual';
+			$delegate = '\\storage\\postgres\\individual';
 			self::$pool[$key] = $delegate::select( get_called_class(), $uuid );
 		}
 		return self::$pool[$key];

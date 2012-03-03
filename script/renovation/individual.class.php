@@ -2,11 +2,11 @@
 namespace renovation;
 
 /**
- * The base class for renovating \database\individual object.
+ * The base class for renovating \element\individual object.
  */
 abstract class individual {
 
-	public function __construct( \database\individual $object, \stdClass $update ) {
+	public function __construct( \element\individual $object, \stdClass $update ) {
 		$this->object = $object;
 		$this->update = $update;
 	}
@@ -60,7 +60,7 @@ abstract class individual {
 
 	/**
 	 * The object holds the base information.
-	 * @var \database\individual
+	 * @var \element\individual
 	 */
 	protected $object;
 
