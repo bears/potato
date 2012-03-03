@@ -2,9 +2,9 @@
 namespace element;
 
 /**
- * Manipulate object aggregate with database.
+ * Manipulate object aggregate.
  */
-abstract class aggregate implements \IteratorAggregate {
+abstract class aggregate extends element implements \IteratorAggregate {
 
 	/**
 	 * @param array $objects
@@ -19,27 +19,6 @@ abstract class aggregate implements \IteratorAggregate {
 	 */
 	public function getIterator() {
 		return new \ArrayIterator( $this->objects );
-	}
-
-	/**
-	 * Encapsulate $this into a decoration class.
-	 * @param string $format
-	 * @return \decoration
-	 */
-	public function decorate( $format ) {
-		$decorator = self::helper( '\\decoration\\', $format );
-		return new $decorator( $this );
-	}
-
-	/**
-	 * Encapsulate $this into a renovation class.
-	 * @param string $format
-	 * @param \stdClass $update
-	 * @return \renovation
-	 */
-	public function renovate( $format, \stdClass $update ) {
-		$renovator = self::helper( '\\renovation\\', $format );
-		return new $renovator( $this, $update );
 	}
 
 	/**
@@ -81,16 +60,6 @@ abstract class aggregate implements \IteratorAggregate {
 	}
 
 	/**
-	 * Get helper class name.
-	 * @param string $domain
-	 * @param string $format
-	 * @return string
-	 */
-	private static function helper( $domain, $format ) {
-		return str_replace( '^aggregate\\', $domain, '^' . get_called_class() ) . "\\$format\\aggregate";
-	}
-
-	/**
 	 * Generate an index for cache
 	 * @param string $key
 	 * @return string
@@ -110,5 +79,7 @@ abstract class aggregate implements \IteratorAggregate {
 	 * @var array(aggregate)
 	 */
 	private static $pool = array( );
+
+	const HELPER_SUFFIX = '\\aggregate'; ///< Required by get_helper().
 
 }

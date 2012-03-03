@@ -2,9 +2,9 @@
 namespace element;
 
 /**
- * Manipulate individual object with database.
+ * Manipulate individual object.
  */
-abstract class individual {
+abstract class individual extends element {
 
 	public function __clone() {
 		$this->uuid = null;
@@ -25,27 +25,6 @@ abstract class individual {
 	 */
 	public function lock() {
 		return $this->lock;
-	}
-
-	/**
-	 * Encapsulate $this into a decoration class.
-	 * @param string $format
-	 * @return \decoration
-	 */
-	public function decorate( $format ) {
-		$decorator = self::helper( '\\decoration\\', $format );
-		return new $decorator( $this );
-	}
-
-	/**
-	 * Encapsulate $this into a renovation class.
-	 * @param string $format
-	 * @param \stdClass $update
-	 * @return \renovation
-	 */
-	public function renovate( $format, \stdClass $update ) {
-		$renovator = self::helper( '\\renovation\\', $format );
-		return new $renovator( $this, $update );
 	}
 
 	/**
@@ -139,16 +118,6 @@ abstract class individual {
 		assert( "'$uuid'" );
 
 		return get_called_class() . "#$uuid";
-	}
-
-	/**
-	 * Get helper class name.
-	 * @param string $domain
-	 * @param string $format
-	 * @return string
-	 */
-	private static function helper( $domain, $format ) {
-		return str_replace( '^individual\\', $domain, '^' . get_called_class() ) . "\\$format";
 	}
 
 	/**
