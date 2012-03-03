@@ -28,14 +28,23 @@ abstract class element {
 	}
 
 	/**
+	 * Get title name from full class name.
+	 * (remove the 1st section)
+	 * @return string
+	 */
+	public static function get_title() {
+		$class = get_called_class();
+		return substr( $class, strpos( $class, '\\' ) + 1 );
+	}
+
+	/**
 	 * Get helper class name.
 	 * @param string $label
 	 * @param string $format
 	 * @return string
 	 */
 	private static function get_helper( $label, $format ) {
-		$class = get_called_class();
-		$title = substr( $class, strpos( $class, '\\' ) + 1 );
+		$title = self::get_title();
 		return "$label\\$title\\$format" . static::HELPER_SUFFIX;
 	}
 

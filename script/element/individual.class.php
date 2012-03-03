@@ -34,11 +34,11 @@ abstract class individual extends element {
 		$delegate = '\\storage\\postgres\\individual';
 		$properties = get_object_vars( $this );
 		if ( isset( $this->uuid ) ) {
-			$delegate::update( get_called_class(), $properties );
+			$delegate::update( parent::get_title(), $properties );
 			++$this->lock;
 		}
 		else {
-			$reload = $delegate::insert( get_called_class(), $properties );
+			$reload = $delegate::insert( parent::get_title(), $properties );
 			foreach ( $reload as $field => $value ) {
 				$this->$field = $value;
 			}
@@ -51,7 +51,7 @@ abstract class individual extends element {
 	 */
 	public function delete() {
 		$delegate = '\\storage\\postgres\\individual';
-		$delegate::delete( get_called_class(), $this->uuid, $this->lock );
+		$delegate::delete( parent::get_title(), $this->uuid, $this->lock );
 		unset( self::$pool[$this->key()] );
 		$this->uuid = null;
 		$this->lock = null;
@@ -66,7 +66,7 @@ abstract class individual extends element {
 		$key = self::_key( $uuid );
 		if ( !isset( self::$pool[$key] ) ) {
 			$delegate = '\\storage\\postgres\\individual';
-			self::$pool[$key] = $delegate::select( get_called_class(), $uuid );
+			self::$pool[$key] = $delegate::select( parent::get_title(), $uuid );
 		}
 		return self::$pool[$key];
 	}

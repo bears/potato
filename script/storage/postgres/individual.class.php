@@ -8,11 +8,10 @@ class individual {
 
 	/**
 	 * Insert individual object to database.
-	 * @param string $class
+	 * @param string $title
 	 * @param array $properties
 	 */
-	public static function insert( $class, array &$properties ) {
-		$title = \storage\factory::get_title( $class );
+	public static function insert( $title, array &$properties ) {
 		self::discrete( $properties, $names, $values );
 		$query = self::insert_query( $title, $names );
 		$values[':uuid'] = md5( uniqid( $title ) );
@@ -25,11 +24,10 @@ class individual {
 
 	/**
 	 * Update individual object to database.
-	 * @param string $class
+	 * @param string $title
 	 * @param array $properties
 	 */
-	public static function update( $class, array &$properties ) {
-		$title = \storage\factory::get_title( $class );
+	public static function update( $title, array &$properties ) {
 		self::discrete( $properties, $names, $values );
 		$query = self::update_query( $title, $names );
 		self::save( 'updating', $query, $values );
@@ -37,12 +35,11 @@ class individual {
 
 	/**
 	 * Delete individual object from database.
-	 * @param string $class
+	 * @param string $title
 	 * @param string $uuid
 	 * @param integer $lock
 	 */
-	public static function delete( $class, $uuid, $lock ) {
-		$title = \storage\factory::get_title( $class );
+	public static function delete( $title, $uuid, $lock ) {
 		$query = self::delete_query( $title );
 		$arguments = array( ':uuid' => $uuid, ':lock' => $lock );
 		if ( !($query->execute( $arguments ) && $query->rowCount()) ) {
@@ -53,12 +50,11 @@ class individual {
 
 	/**
 	 * Select individual object from database.
-	 * @param string $class
+	 * @param string $title
 	 * @param string $uuid
 	 * @return \element\aggregate derived class.
 	 */
-	public static function select( $class, $uuid ) {
-		$title = \storage\factory::get_title( $class );
+	public static function select( $title, $uuid ) {
 		$query = self::select_query( $title );
 		if ( $query->execute( array( ':uuid' => $uuid ) ) ) {
 			$data = $query->fetch();

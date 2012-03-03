@@ -8,20 +8,19 @@ class aggregate {
 
 	/**
 	 * Fetch an aggregate.
-	 * @param string $class
+	 * @param string $title
 	 * @param string $method
 	 * @param array $arguments
 	 * @return \element\aggregate
 	 */
-	public static function select( $class, $method, array &$arguments ) {
-		$title = \storage\factory::get_title( $class );
+	public static function select( $title, $method, array &$arguments ) {
 		$query = self::select_query( $title, $method, $arguments );
 		if ( $query->execute( $arguments ) ) {
 			$objects = array( );
 			foreach ( $query->fetchAll() as $object ) {
 				$objects[] = \element\individual::cache( $object );
 			}
-			return new $class( $objects );
+			return $objects;
 		}
 		else {
 			$error = $query->errorInfo();

@@ -7,13 +7,6 @@ namespace element;
 abstract class aggregate extends element implements \IteratorAggregate {
 
 	/**
-	 * @param array $objects
-	 */
-	public function __construct( array &$objects ) {
-		$this->objects = $objects;
-	}
-
-	/**
 	 * Required by \IteratorAggregate.
 	 * @return \ArrayIterator
 	 */
@@ -56,7 +49,10 @@ abstract class aggregate extends element implements \IteratorAggregate {
 	 */
 	public static function __callStatic( $method, array $arguments ) {
 		$delegate = '\\storage\\postgres\\aggregate';
-		return $delegate::select( get_called_class(), $method, $arguments );
+		$class = get_called_class();
+		$instance = new $class();
+		$instance->objects = $delegate::select( parent::get_title(), $method, $arguments );
+		return $instance;
 	}
 
 	/**
