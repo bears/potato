@@ -1,5 +1,5 @@
 <?php
-namespace setting;
+namespace setting\dsn;
 
 /*
  * Database connection settings.

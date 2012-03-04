@@ -12,7 +12,7 @@ class connector {
 	 */
 	public static function get_pdo() {
 		if ( !is_a( self::$pdo, 'PDO' ) ) {
-			$dsn = require 'setting/database.php';
+			$dsn = require 'setting/dsn/postgres.php';
 			$opt = array( \PDO::ATTR_PERSISTENT => true );
 			self::$pdo = new \PDO( $dsn, null, null, $opt );
 		}
