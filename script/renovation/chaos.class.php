@@ -11,7 +11,7 @@ abstract class chaos extends individual {
 	 * @param array $vessel [IN|OUT]
 	 * @return array
 	 */
-	public function process( array &$vessel = array( ) ) {
+	public function & content( array &$vessel = array( ) ) {
 		$type = get_called_class();
 		$prefix = substr( $type, 0, strrpos( $type, '\\' ) );
 		$format = substr( $prefix, strpos( $prefix, '\\' ) );
@@ -20,8 +20,9 @@ abstract class chaos extends individual {
 			$subject = \famulus\ba::entry( $format, $label );
 			if ( $subject ) {
 				$deriver = "\\$prefix\\$subject";
-				$renovator = new $deriver( $this->object, $child );
-				$renovator->process( $vessel );
+				$renovator = new $deriver( $this->object );
+				$renovator->initialize( $child );
+				$renovator->content( $vessel );
 			}
 		}
 		return $vessel;

@@ -4,39 +4,23 @@ namespace renovation;
 /**
  * The base class for renovating \element\aggregate object.
  */
-abstract class aggregate {
+abstract class aggregate extends \element\assistant {
 
-	public function __construct( \element\aggregate $object, \stdClass $update ) {
-		$this->object = $object;
+	/**
+	 * The 2nd step of construction.
+	 * @param \stdClass $update
+	 */
+	public function initialize( \stdClass $update ) {
 		$this->update = $update;
 	}
 
 	/**
-	 * @return JSON
+	 * Initialize a unit object.
+	 * @param type $unit
 	 */
-	public function __toString() {
-		return json_encode( $this->process() );
+	protected function initialize_unit( $unit ) {
+		$unit->initialize( $this->update );
 	}
-
-	/**
-	 * Gather content of each unit inside aggregate.
-	 * @param array $vessel
-	 * @return array
-	 */
-	public function process( array &$vessel = array( ) ) {
-		$helper = str_replace( '\\aggregate$', '', get_called_class() . '$' );
-		foreach ( $this->object as $unit ) {
-			$renovator = new $helper( $unit, $this->update );
-			$vessel[] = $renovator->process();
-		}
-		return $vessel;
-	}
-
-	/**
-	 * The object holds the base information.
-	 * @var \element\aggregate
-	 */
-	protected $object;
 
 	/**
 	 * The attributes to be applied.

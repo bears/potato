@@ -4,37 +4,17 @@ namespace decoration;
 /**
  * The base class for decorating \element\individual object.
  */
-abstract class individual {
+abstract class individual extends \element\assistant {
 
 	const CASCADE_METHOD = 'method';
 	const CASCADE_FORMAT = 'format';
-
-	public function __construct( \element\individual $object ) {
-		$this->object = $object;
-	}
-
-	/**
-	 * @return JSON
-	 */
-	public function __toString() {
-		return json_encode( $this->content() );
-	}
-
-	/**
-	 * Override this method to customize.
-	 * @param array $vessel [IN|OUT]
-	 * @return array
-	 */
-	public function & content( array &$vessel = array( ) ) {
-		return self::trivial( $vessel );
-	}
 
 	/**
 	 * Default/common way to append data in the final result.
 	 * @param array $vessel [IN|OUT]
 	 * @return array
 	 */
-	protected function & trivial( array &$vessel = array( ) ) {
+	public function & trivial( array &$vessel = array( ) ) {
 		$uuid = $this->object->uuid();
 		$vessel[\famulus\ab::UUID_KEY] = $uuid;
 		if ( !(empty( static::$fields ) && empty( static::$cascades )) ) {
@@ -61,12 +41,6 @@ abstract class individual {
 	protected static function ab() {
 		return \famulus\ab::instance( strstr( get_called_class(), '\\' ) );
 	}
-
-	/**
-	 * The object holds the base information.
-	 * @var \element\individual
-	 */
-	protected $object;
 
 	/**
 	 * Required by trivial().

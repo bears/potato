@@ -12,19 +12,16 @@ abstract class element {
 	 * @return \decoration
 	 */
 	public function decorate( $format ) {
-		$decorator = self::get_helper( 'decoration', $format );
-		return new $decorator( $this );
+		return self::get_assistant( 'decoration', $format );
 	}
 
 	/**
 	 * Encapsulate $this into a renovation class.
 	 * @param string $format
-	 * @param \stdClass $update
 	 * @return \renovation
 	 */
-	public function renovate( $format, \stdClass $update ) {
-		$renovator = self::get_helper( 'renovation', $format );
-		return new $renovator( $this, $update );
+	public function renovate( $format ) {
+		return self::get_assistant( 'renovation', $format );
 	}
 
 	/**
@@ -38,16 +35,17 @@ abstract class element {
 	}
 
 	/**
-	 * Get helper class name.
+	 * Get assistant class name.
 	 * @param string $label
 	 * @param string $format
 	 * @return string
 	 */
-	private static function get_helper( $label, $format ) {
+	private function get_assistant( $label, $format ) {
 		$title = self::get_title();
-		return "$label\\$title\\$format" . static::HELPER_SUFFIX;
+		$class = "$label\\$title\\$format" . static::ASSISTANT_SUFFIX;
+		return new $class( $this );
 	}
 
-	const HELPER_SUFFIX = ''; ///< Required by get_helper().
+	const ASSISTANT_SUFFIX = ''; ///< Required by get_assistant().
 
 }

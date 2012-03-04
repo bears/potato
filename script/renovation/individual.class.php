@@ -4,34 +4,22 @@ namespace renovation;
 /**
  * The base class for renovating \element\individual object.
  */
-abstract class individual {
+abstract class individual extends \element\assistant {
 
-	public function __construct( \element\individual $object, \stdClass $update ) {
-		$this->object = $object;
+	/**
+	 * The 2nd step of construction.
+	 * @param \stdClass $update
+	 */
+	public function initialize( \stdClass $update ) {
 		$this->update = $update;
 	}
 
 	/**
-	 * @return JSON
-	 */
-	public function __toString() {
-		return json_encode( $this->process() );
-	}
-
-	/**
-	 * Override this method to customize.
+	 * Default/common way to walk through the update.
 	 * @param array $vessel [IN|OUT]
 	 * @return array
 	 */
-	public function process( array &$vessel = array( ) ) {
-		return $this->trivial()->content( $vessel );
-	}
-
-	/**
-	 * Default/common way to walk through the update.
-	 * @return \decoration\individual
-	 */
-	protected function trivial() {
+	public function & trivial( array &$vessel = array( ) ) {
 		$count = 0;
 		$ba = self::ba();
 		foreach ( $this->update as $key => $value ) {
@@ -47,7 +35,7 @@ abstract class individual {
 		$type = get_called_class();
 		$split = strrpos( $type, '\\' ) + 1;
 		$format = substr( $type, $split );
-		return $this->object->decorate( $format );
+		return $this->object->decorate( $format )->content( $vessel );
 	}
 
 	/**
@@ -57,12 +45,6 @@ abstract class individual {
 	protected static function ba() {
 		return \famulus\ba::instance( strstr( get_called_class(), '\\' ) );
 	}
-
-	/**
-	 * The object holds the base information.
-	 * @var \element\individual
-	 */
-	protected $object;
 
 	/**
 	 * The attributes to be applied.

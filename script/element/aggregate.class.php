@@ -76,6 +76,6 @@ abstract class aggregate extends element implements \IteratorAggregate {
 	 */
 	private static $pool = array( );
 
-	const HELPER_SUFFIX = '\\aggregate'; ///< Required by get_helper().
+	const ASSISTANT_SUFFIX = '\\aggregate'; ///< Required by get_assistant().
 
 }

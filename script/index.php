@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Entry point of the application.
  */
@@ -50,7 +49,14 @@ class subject {
 	private static function do_rest( $type, $call, $pass, $subject, $post ) {
 		$data = call_user_func_array( array( $type, $call ), $pass );
 		preg_match( '#^\w+$#', $subject ) || trigger_error( 'invalid subject', E_USER_ERROR );
-		exit( null === $post ? $data->decorate( $subject ) : $data->renovate( $subject, $post )  );
+		if ( null === $post ) {
+			$assistant = $data->decorate( $subject );
+		}
+		else {
+			$assistant = $data->renovate( $subject );
+			$assistant->initialize( $post );
+		}
+		exit( $assistant );
 	}
 
 }
