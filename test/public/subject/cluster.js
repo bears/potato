@@ -1,15 +1,14 @@
 'use strict';
 
-(function(POTATO) {
+(function() {
 	module('Cluster')
-	require('subject/cluster.js')
 
 	test('>derive', function() {
 		strictEqual(typeof POTATO.Cluster, 'function')
 		strictEqual(typeof POTATO.CX, 'undefined')
 
 		POTATO.derive(POTATO.Cluster, 'CX', function(uuid) {
-			return POTATO.Cluster.apply(this, ['EX', 'x', uuid])
+			return POTATO.Cluster.call(this, 'EX', 'x', uuid)
 		})
 	})
 
@@ -35,4 +34,4 @@
 			ok(POTATO.EX.prototype.isPrototypeOf(this))
 		})
 	})
-})(POTATO)
+})()

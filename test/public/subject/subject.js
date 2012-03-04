@@ -1,20 +1,19 @@
 'use strict';
 
-(function(POTATO) {
+(function() {
 	module('Subject')
-	require('subject/subject.js')
 
 	test('>derive', function() {
 		strictEqual(typeof POTATO.Subject, 'function')
 		strictEqual(typeof POTATO.SX, 'undefined')
 
 		POTATO.derive(POTATO.Subject, 'SX', function(uuid) {
-			return POTATO.Subject.apply(this, [uuid, function(gene) {
+			return POTATO.Subject.call(this, uuid, function(gene) {
 				gene.subscribe = function(subject, claimer) {
 					strictEqual(subject, 'test')
 					strictEqual(typeof claimer.notify, 'function')
 				}
-			}])
+			})
 		})
 	})
 
@@ -38,4 +37,4 @@
 		x.subscribe('test', claimer)
 		x.unsubscribe('test', claimer)
 	})
-})(POTATO)
+})()

@@ -1,9 +1,7 @@
 'use strict';
 
-(function(POTATO) {
+(function() {
 	module('ABBA')
-	require('famulus/ab.js')
-	require('famulus/ba.js')
 
 	test('match', function() {
 		for (var i in POTATO.AB) {
@@ -22,4 +20,4 @@
 			}
 		}
 	})
-})(POTATO)
+})()

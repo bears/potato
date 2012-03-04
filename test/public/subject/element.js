@@ -1,8 +1,7 @@
 'use strict';
 
-(function(POTATO) {
+(function() {
 	module('Element')
-	require('subject/element.js')
 
 	var template = {
 		s1: {
@@ -18,7 +17,7 @@
 		strictEqual(typeof POTATO.EX, 'undefined')
 
 		POTATO.derive(POTATO.Element, 'EX', function(uuid, data) {
-			return POTATO.Element.apply(this, ['x', uuid, data])
+			return POTATO.Element.call(this, 'x', uuid, data)
 		})
 	})
 
@@ -119,4 +118,4 @@
 			x.commit(t)
 		}, new RegExp(t))
 	})
-})(POTATO)
+})()

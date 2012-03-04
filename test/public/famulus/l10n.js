@@ -1,14 +1,8 @@
 'use strict';
 
-(function(POTATO) {
+(function() {
 	module('L10n')
-	require('famulus/l10n.js')
 
-	POTATO['PROFILE'] = {
-		USER : {
-			L10N : 'te-st'
-		}
-	}
 	POTATO['te-st'] = {
 		time_present : 'p',
 		time_just_now : 'j',
@@ -22,6 +16,9 @@
 		time_days : '{%n%}ds',
 		time_week : '1w',
 		time_weeks : '{%n%}ws'
+	}
+	POTATO.PROFILE = {
+		L10N : 'te-st'
 	}
 
 	test('replace', function() {
@@ -72,4 +69,4 @@
 		strictEqual(POTATO.genialTime(dt(-1209600)), '2ws')
 		strictEqual(POTATO.genialTime(dt(-1814399)), '2ws')
 	})
-})(POTATO)
+})()

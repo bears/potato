@@ -5,52 +5,56 @@
 		<link rel="stylesheet" href="library/qunit/qunit.css" />
 		<script src="library/qunit/qunit.js"></script>
 		<script src="library/qunit/qunit-step.js"></script>
+		<script src="../js/library/jquery.ddb84c1587287b2df08966081ef063bf.js"></script>
 		<script>
 			'use strict';
 
-			(function() {
-				var list = {};
-
+			(function(list) {
 				/**
-				 * Load a script (only once)
+				 * Load a script.
 				 * @param path {String}
+				 * @param done {Function}
 				 */
-				window.require = function(path) {
-					if (path in list) return;
-					list[path] = false;
+				function load(path, done) {
 					var script = document.createElement('script');
-					script.src = '../../public/js/' + path;
-					script.onload = function() {
-						list[path] = true;
-					};
+					if ('function' === typeof done) {
+						script.onload = done;
+					}
+					script.src = path;
 					document.head.appendChild(script);
-				};
+				}
 
 				/**
-				 * [CALLBACK] Report failed loads.
+				 * Go through each test in list.
 				 */
-				window.onload = function() {
-					for (var path in list) {
-						if (!list[path]) {
-							console.warn('Failed to load ' + path)
-						}
-					}
-				};
-			})();
+				(function iterate() {
+					var path = list.shift();
+					path && load(path, iterate);
+				})();
+			})([
+				'../js/loader.js',
+				'loader.js',
 
-			require('library/jquery.ddb84c1587287b2df08966081ef063bf.js');
+				'../js/famulus/ab.js',
+				'../js/famulus/ba.js',
+				'famulus/abba.js',
 
-			/**
-			 * Namespace required by test targets.
-			 */
-			var POTATO = {};
+				'../js/famulus/l10n.js',
+				'famulus/l10n.js',
+
+				'../js/famulus/object.js',
+				'famulus/object.js',
+
+				'../js/subject/subject.js',
+				'subject/subject.js',
+
+				'../js/subject/element.js',
+				'subject/element.js',
+
+				'../js/subject/cluster.js',
+				'subject/cluster.js'
+			]);
 		</script>
-		<script src="famulus/abba.js"></script>
-		<script src="famulus/l10n.js"></script>
-		<script src="famulus/object.js"></script>
-		<script src="subject/subject.js"></script>
-		<script src="subject/element.js"></script>
-		<script src="subject/cluster.js"></script>
 	</head>
 	<body style="width:1024px;margin:auto;">
 		<h1 id="qunit-header">Potato</h1>

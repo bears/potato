@@ -22,6 +22,10 @@ server {
 	listen  80;
 	server_name  cdn.major.home;
 
+	location  /potato/test/ {
+		alias  /<project path>/test/public/;
+	}
+
 	location  /potato/ {
 		alias  /<project path>/public/;
 		expires  30s;

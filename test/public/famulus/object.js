@@ -1,8 +1,7 @@
 'use strict';
 
-(function(POTATO) {
+(function() {
 	module('Object')
-	require('famulus/object.js')
 
 	test('~derive', function() {
 		strictEqual(typeof POTATO.Object, 'function')
@@ -10,11 +9,11 @@
 		strictEqual(typeof POTATO.OY, 'undefined')
 
 		POTATO.derive(POTATO.Object, 'OX', function(uuid) {
-			return POTATO.Object.apply(this, [uuid])
+			return POTATO.Object.call(this, uuid)
 		})
 
 		POTATO.derive(POTATO.Object, 'OY', function(uuid) {
-			return POTATO.Object.apply(this, [uuid])
+			return POTATO.Object.call(this, uuid)
 		})
 	})
 
@@ -62,4 +61,4 @@
 		POTATO.ridObject(a)
 		strictEqual(POTATO.getObject('OX', 'ridObject'), false)
 	})
-})(POTATO)
+})()

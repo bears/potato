@@ -355,10 +355,9 @@
 		}
 	}
 
-
 	// Start load chain.
-	// localStorage.clear();
-	setTimeout(updateSetting, 1);
-	// sessionStorage.clear();
-	setTimeout(updateProfile, 1);
+	if (window.parent !== window) {
+		setTimeout(updateSetting, 1);
+		setTimeout(updateProfile, 1);
+	}
 })();
