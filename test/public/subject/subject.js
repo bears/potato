@@ -3,18 +3,19 @@
 (function() {
 	module('Subject')
 
-	test('>derive', function() {
-		strictEqual(typeof POTATO.Subject, 'function')
-		strictEqual(typeof POTATO.SX, 'undefined')
-
-		POTATO.derive(POTATO.Subject, 'SX', function(uuid) {
-			return POTATO.Subject.call(this, uuid, function(gene) {
-				gene.subscribe = function(subject, claimer) {
-					strictEqual(subject, 'test')
-					strictEqual(typeof claimer.notify, 'function')
-				}
-			})
+	POTATO.derive(POTATO.Subject, 'SX', function(uuid) {
+		return POTATO.Subject.call(this, uuid, function(gene) {
+			gene.subscribe = function(subject, claimer) {
+				strictEqual(subject, 'test')
+				strictEqual(typeof claimer.notify, 'function')
+			}
 		})
+	})
+
+	test('>derive', function() {
+		var x = new POTATO.SX('derive')
+		ok(x instanceof POTATO.SX)
+		ok(x instanceof POTATO.Subject)
 	})
 
 	test('(un)subscribe', 8, function() {

@@ -5,28 +5,27 @@
 
 	test('~derive', function() {
 		strictEqual(typeof POTATO.Object, 'function')
-		strictEqual(typeof POTATO.OX, 'undefined')
-		strictEqual(typeof POTATO.OY, 'undefined')
 
+		strictEqual(typeof POTATO.OX, 'undefined')
 		POTATO.derive(POTATO.Object, 'OX', function(uuid) {
 			return POTATO.Object.call(this, uuid)
 		})
+		strictEqual(typeof POTATO.OX, 'function')
+		var x = new POTATO.OX('isPrototypeOf#X')
+		ok(x instanceof POTATO.OX)
+		ok(x instanceof POTATO.Object)
 
+		strictEqual(typeof POTATO.OY, 'undefined')
 		POTATO.derive(POTATO.Object, 'OY', function(uuid) {
 			return POTATO.Object.call(this, uuid)
 		})
-	})
-
-	test('Object.prototype.isPrototypeOf', function() {
-		var x = new POTATO.OX('isPrototypeOf#X')
-		ok(POTATO.OX.prototype.isPrototypeOf(x))
-		ok(POTATO.Object.prototype.isPrototypeOf(x))
-
+		strictEqual(typeof POTATO.OY, 'function')
 		var y = new POTATO.OY('isPrototypeOf#Y')
-		ok(POTATO.OY.prototype.isPrototypeOf(y))
-		ok(POTATO.Object.prototype.isPrototypeOf(y))
+		ok(y instanceof POTATO.OY)
+		ok(y instanceof POTATO.Object)
 
-		ok(!POTATO.OX.prototype.isPrototypeOf(y))
+		ok(!(x instanceof POTATO.OY))
+		ok(!(y instanceof POTATO.OX))
 	})
 
 	test('uuid', function() {

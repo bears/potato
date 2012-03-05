@@ -12,13 +12,14 @@
 		}
 	}
 
-	test('>derive', function() {
-		strictEqual(typeof POTATO.Element, 'function')
-		strictEqual(typeof POTATO.EX, 'undefined')
+	POTATO.derive(POTATO.Element, 'EX', function(uuid, data) {
+		return POTATO.Element.call(this, 'x', uuid, data)
+	})
 
-		POTATO.derive(POTATO.Element, 'EX', function(uuid, data) {
-			return POTATO.Element.call(this, 'x', uuid, data)
-		})
+	test('>derive', function() {
+		var x = new POTATO.EX('derive', template)
+		ok(x instanceof POTATO.EX)
+		ok(x instanceof POTATO.Element)
 	})
 
 	test('get', function() {
