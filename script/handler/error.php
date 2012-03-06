@@ -18,14 +18,13 @@ function log_error( $type, $code, $message, $file, $line, &$context, &$trace ) {
 	$uuid = uniqid();
 	if ( constant( "\\setting\\IS_LOG_{$type}" ) ) {
 		$path = \setting\LOG_PATH . date( '/o/m/d' );
-		is_dir( $path ) || mkdir( $path, \setting\LOG_MODE, true );
-
-		$log = date( 'c' ) . " [$type #$uuid] $file($line): $message";
-		error_log( "$log\n", 3, "$path/error.log" );
-
-		if ( constant( "\\setting\\IS_LOG_{$type}_DUMP" ) ) {
-			$dump = json_encode( array( 'log' => $log, 'env' => $context, 'trace' => $trace ) );
-			error_log( $dump, 3, "$path/$uuid.dump" );
+		if ( (is_dir( $path ) || mkdir( $path, \setting\LOG_MODE, true )) && is_writable( $path ) ) {
+			$log = date( 'c' ) . " [$type #$uuid] $file($line): $message";
+			error_log( "$log\n", 3, "$path/error.log" );
+			if ( constant( "\\setting\\IS_LOG_{$type}_DUMP" ) ) {
+				$dump = json_encode( array( 'log' => $log, 'env' => $context, 'trace' => $trace ) );
+				error_log( $dump, 3, "$path/$uuid.dump" );
+			}
 		}
 	}
 	return constant( "\\setting\\IS_LOG_{$type}_RETURN" ) || die( header( "X-Error: $code-$uuid", true, 500 ) );
