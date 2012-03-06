@@ -49,8 +49,7 @@ abstract class aggregate extends element implements \IteratorAggregate {
 	 */
 	public static function __callStatic( $method, array $arguments ) {
 		$delegate = '\\storage\\postgres\\aggregate';
-		$class = get_called_class();
-		$instance = new $class();
+		$instance = new static();
 		$instance->objects = $delegate::select( parent::get_title(), $method, $arguments );
 		return $instance;
 	}

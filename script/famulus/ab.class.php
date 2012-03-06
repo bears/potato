@@ -38,8 +38,7 @@ class ab {
 	 */
 	public static function instance( $path ) {
 		if ( !isset( static::$object_pool[$path] ) ) {
-			$class = get_called_class();
-			static::$object_pool[$path] = new $class( $path );
+			static::$object_pool[$path] = new static( $path );
 		}
 		return static::$object_pool[$path];
 	}
