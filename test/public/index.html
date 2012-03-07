@@ -3,6 +3,29 @@
 	<head>
 		<title>Potato Test Suite</title>
 		<link rel="stylesheet" href="library/qunit/qunit/qunit.css" />
+		<style>
+			body {
+				width:90em;
+				margin:auto;
+			}
+			#qunit-tests {
+				-moz-column-count:3;
+				-moz-column-gap:1em;
+				-moz-column-rule:3px double #EEE;
+				-webkit-column-count:3;
+				-webkit-column-gap:1em;
+				-webkit-column-rule:3px double #EEE;
+			}
+			#qunit-tests > .pass, #qunit-testresult {
+				background-color:#EEE;
+			}
+			#qunit-tests > li {
+				overflow:auto;
+			}
+			#qunit-tests > li:last-child {
+				border-radius:inherit;
+			}
+		</style>
 		<script src="library/qunit/qunit/qunit.js"></script>
 		<script src="library/qunit/addons/step/qunit-step.js"></script>
 		<script src="../js/library/jquery.ddb84c1587287b2df08966081ef063bf.js"></script>
@@ -56,12 +79,12 @@
 			]);
 		</script>
 	</head>
-	<body style="width:1024px;margin:auto;">
+	<body>
 		<h1 id="qunit-header">Potato</h1>
 		<h2 id="qunit-banner"></h2>
+		<ol id="qunit-tests"></ol>
 		<div id="qunit-testrunner-toolbar"></div>
 		<h2 id="qunit-userAgent"></h2>
-		<ol id="qunit-tests"></ol>
 		<div id="qunit-fixture"></div>
 	</body>
 </html>

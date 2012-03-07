@@ -22,7 +22,7 @@ POTATO.module('famulus/l10n', [], function() {
 	/**
 	 * Steps for generating genial time string.
 	 */
-	var durationStep = {
+	var DURATION_STEP = {
 		'3' : 'just_now',
 		'6' : '5_minutes',
 		'9' : '10_minutes',
@@ -46,9 +46,9 @@ POTATO.module('famulus/l10n', [], function() {
 		if (iso8601) {
 			var distance = (Date.now() - (new Date(iso8601)).getTime()) / 100000;
 			if (0 <= distance) {
-				for (var next in durationStep) {
+				for (var next in DURATION_STEP) {
 					if (distance < next) {
-						var unit = durationStep[next];
+						var unit = DURATION_STEP[next];
 						if ('string' === typeof unit) {
 							return l10n['time_' + unit];
 						}
