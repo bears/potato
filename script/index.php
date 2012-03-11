@@ -15,22 +15,36 @@ class subject {
 	 * Find derived subject to handle request.
 	 */
 	public static function dispatch() {
-		@list($rest, $class, $filter, $subject) = explode( '/', trim( $_SERVER['REQUEST_URI'], '/' ) );
-		preg_match( '#^[\\w\\$]+$#', $class ) ? ($class = str_replace( '$', '\\', $class )) : trigger_error( 'invalid class', E_USER_ERROR );
-		$post = json_decode( file_get_contents( 'php://input' ) );
 		header( 'Content-Type: application/json' );
+
+		$segments = explode( '/', trim( $_SERVER['REQUEST_URI'], '/' ) );
+		list($rest, $class, $filter, $subject) = array_pad( $segments, 4, null );
+		if ( preg_match( '#^[\\w\\$]+$#', $class ) ) {
+			$class = str_replace( '$', '\\', $class );
+		}
+		else {
+			trigger_error( 'invalid class', E_USER_ERROR );
+		}
+		$addition = json_decode( file_get_contents( 'php://input' ) );
+
 		switch ( $rest ) {
 			case 'a':
 				list($call, $arguments) = explode( '=', $filter, 2 );
-				preg_match( '#^\\w+$#', $call ) || trigger_error( 'invalid method', E_USER_ERROR );
-				self::do_rest( "\\aggregate\\$class", "get_$call", explode( ',', $arguments ), $subject, $post );
+				if ( !preg_match( '#^\\w+$#', $call ) ) {
+					trigger_error( 'invalid method', E_USER_ERROR );
+				}
+				$fetch = array( "\\aggregate\\$class", "get_$call" );
+				$filter = explode( ',', $arguments );
+				self::do_rest( $fetch, $filter, $subject, $addition );
 				break;
 			case 'i':
-				self::do_rest( "\\individual\\$class", 'select', array( $filter ), $subject, $post );
+				$fetch = array( "\\individual\\$class", 'select' );
+				$filter = array( $filter );
+				self::do_rest( $fetch, $filter, $subject, $addition );
 				break;
 			case '!':
 				$secondary = "\\subject\\$class";
-				exit( new $secondary( $post ) );
+				exit( new $secondary( $addition ) );
 				break;
 			default:
 				exit( header( 'Status: 400 Bad Request', true, 400 ) );
@@ -40,21 +54,22 @@ class subject {
 
 	/**
 	 * Process GET/PUT request.
-	 * @param string $type
-	 * @param string $call
-	 * @param array $pass
+	 * @param array $fetch
+	 * @param array $filter
 	 * @param string $subject
-	 * @param stdClass $post
+	 * @param stdClass $addition
 	 */
-	private static function do_rest( $type, $call, $pass, $subject, $post ) {
-		$data = call_user_func_array( array( $type, $call ), $pass );
-		preg_match( '#^\w+$#', $subject ) || trigger_error( 'invalid subject', E_USER_ERROR );
-		if ( null === $post ) {
-			$assistant = $data->decorate( $subject );
+	private static function do_rest( array &$fetch, array &$filter, $subject, $addition ) {
+		if ( !preg_match( '#^\w+$#', $subject ) ) {
+			trigger_error( 'invalid subject', E_USER_ERROR );
+		}
+		$element = call_user_func_array( $fetch, $filter );
+		if ( null === $addition ) {
+			$assistant = $element->decorate( $subject );
 		}
 		else {
-			$assistant = $data->renovate( $subject );
-			$assistant->initialize( $post );
+			$assistant = $element->renovate( $subject );
+			$assistant->initialize( $addition );
 		}
 		exit( $assistant );
 	}
