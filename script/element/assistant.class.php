@@ -33,13 +33,15 @@ abstract class assistant {
 	 * @return array
 	 */
 	public function & trivial( array &$vessel = array( ) ) {
-		$class = get_called_class();
-		$member = substr( $class, 0, strrpos( $class, '\\' ) );
-		$further = method_exists( $this, 'initialize_unit' );
-		foreach ( $this->object as $unit ) {
-			$assistant = new $member( $unit );
-			$further && $this->initialize_unit( $assistant );
-			$vessel[] = $assistant->content();
+		if ( $this->object instanceof \Traversable ) {
+			$class = get_called_class();
+			$member = substr( $class, 0, strrpos( $class, '\\' ) );
+			$further = method_exists( $this, 'initialize_unit' );
+			foreach ( $this->object as $unit ) {
+				$assistant = new $member( $unit );
+				$further && $this->initialize_unit( $assistant );
+				$vessel[] = $assistant->content();
+			}
 		}
 		return $vessel;
 	}
