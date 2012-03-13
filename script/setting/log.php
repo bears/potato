@@ -1,99 +1,141 @@
 <?php
 namespace setting;
 
-/*
- * Error handler settings.
- */
-
 /**
- * @name Path
+ * Settings of error log.
  */
-const LOG_PATH = '/var/log/ajaj.bears.home';
+class log {
 
-/**
- * @name File mode
- */
-const LOG_MODE = 0777;
+	/**
+	 * Get the triple switches of a $type.
+	 * @param string $type
+	 * @return array
+	 */
+	public static function get_triple( $type ) {
+		if ( !isset( self::$known_types[$type] ) ) {
+			$type = 'UNKNOWN';
+		}
+		return array(
+			constant( "self::TO_LOG_{$type}" ),
+			constant( "self::TO_DUMP_{$type}" ),
+			constant( "self::TO_RETURN_{$type}" ),
+		);
+	}
 
-/*
- * Switch
- */
+	/**
+	 * Path root
+	 */
+	const PATH = '/var/log/ajaj.bears.home';
 
-/**
- * @name Error
- */
-//@{
-const IS_LOG_ERROR = true; ///< For recoverable error
-const IS_LOG_ERROR_DUMP = true;
-const IS_LOG_ERROR_RETURN = false;
+	/**
+	 * File mode
+	 */
+	const MODE = 0777;
 
-const IS_LOG_USER_ERROR = true;
-const IS_LOG_USER_ERROR_DUMP = true;
-const IS_LOG_USER_ERROR_RETURN = false;
-//@}
+	/**
+	 *  E_ERROR = 1
+	 */
+	const TO_LOG_1 = true;
+	const TO_DUMP_1 = true;
+	const TO_RETURN_1 = false;
 
-/**
- * @name Warning
- */
-//@{
-const IS_LOG_WARNING = true;
-const IS_LOG_WARNING_DUMP = true;
-const IS_LOG_WARNING_RETURN = true;
+	/**
+	 * E_WARNING = 2
+	 */
+	const TO_LOG_2 = true;
+	const TO_DUMP_2 = true;
+	const TO_RETURN_2 = true;
 
-const IS_LOG_USER_WARNING = true;
-const IS_LOG_USER_WARNING_DUMP = true;
-const IS_LOG_USER_WARNING_RETURN = true;
-//@}
+	/**
+	 * E_NOTICE = 8
+	 */
+	const TO_LOG_8 = true;
+	const TO_DUMP_8 = false;
+	const TO_RETURN_8 = true;
 
-/**
- * @name Notice
- */
-//@{
-const IS_LOG_NOTICE = true;
-const IS_LOG_NOTICE_DUMP = false;
-const IS_LOG_NOTICE_RETURN = true;
+	/**
+	 * E_USER_ERROR = 256
+	 */
+	const TO_LOG_256 = true;
+	const TO_DUMP_256 = true;
+	const TO_RETURN_256 = false;
 
-const IS_LOG_USER_NOTICE = true;
-const IS_LOG_USER_NOTICE_DUMP = false;
-const IS_LOG_USER_NOTICE_RETURN = true;
-//@}
+	/**
+	 * E_USER_WARNING = 512
+	 */
+	const TO_LOG_512 = true;
+	const TO_DUMP_512 = true;
+	const TO_RETURN_512 = true;
 
-/**
- * @name Deprecated
- */
-//@{
-const IS_LOG_DEPRECATED = true;
-const IS_LOG_DEPRECATED_DUMP = false;
-const IS_LOG_DEPRECATED_RETURN = true;
+	/**
+	 * E_USER_NOTICE = 1024
+	 */
+	const TO_LOG_1024 = true;
+	const TO_DUMP_1024 = false;
+	const TO_RETURN_1024 = true;
 
-const IS_LOG_USER_DEPRECATED = true;
-const IS_LOG_USER_DEPRECATED_DUMP = false;
-const IS_LOG_USER_DEPRECATED_RETURN = true;
-//@}
+	/**
+	 * E_STRICT = 2048
+	 */
+	const TO_LOG_2048 = true;
+	const TO_DUMP_2048 = false;
+	const TO_RETURN_2048 = true;
 
-/**
- * @name Strict
- */
-//@{
-const IS_LOG_STRICT = true;
-const IS_LOG_STRICT_DUMP = false;
-const IS_LOG_STRICT_RETURN = true;
-//@}
+	/**
+	 * E_RECOVERABLE_ERROR = 4096
+	 */
+	const TO_LOG_4096 = true;
+	const TO_DUMP_4096 = true;
+	const TO_RETURN_4096 = false;
 
-/**
- * @name Unknown
- */
-//@{
-const IS_LOG_UNKNOWN = true;
-const IS_LOG_UNKNOWN_DUMP = false;
-const IS_LOG_UNKNOWN_RETURN = true;
-//@}
+	/**
+	 * E_DEPRECATED = 8192
+	 */
+	const TO_LOG_8192 = true;
+	const TO_DUMP_8192 = false;
+	const TO_RETURN_8192 = true;
 
-/**
- * @name Exception
- */
-//@{
-const IS_LOG_EXCEPTION = true;
-const IS_LOG_EXCEPTION_DUMP = true;
-const IS_LOG_EXCEPTION_RETURN = false;
-//@}
+	/**
+	 * E_USER_DEPRECATED = 16384
+	 */
+	const TO_LOG_16384 = true;
+	const TO_DUMP_16384 = false;
+	const TO_RETURN_16384 = true;
+
+	/**
+	 * Exception
+	 */
+	const TO_LOG_EXCEPTION = true;
+	const TO_DUMP_EXCEPTION = true;
+	const TO_RETURN_EXCEPTION = false;
+
+	/**
+	 * Unknown
+	 */
+	const TO_LOG_UNKNOWN = true;
+	const TO_DUMP_UNKNOWN = true;
+	const TO_RETURN_UNKNOWN = false;
+
+	/**
+	 * Types have TO_LOG_*
+	 */
+	private static $known_types = array(
+		E_ERROR => true,
+		E_WARNING => true,
+		/* E_PARSE */
+		E_NOTICE => true,
+		/* E_CORE_ERROR */
+		/* E_CORE_WARNING */
+		/* E_COMPILE_ERROR */
+		/* E_COMPILE_WARNING */
+		E_USER_ERROR => true,
+		E_USER_WARNING => true,
+		E_USER_NOTICE => true,
+		E_STRICT => true,
+		E_RECOVERABLE_ERROR => true,
+		E_DEPRECATED => true,
+		E_USER_DEPRECATED => true,
+		'EXCEPTION' => true,
+	);
+
+}

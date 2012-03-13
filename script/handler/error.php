@@ -5,89 +5,63 @@ require_once 'setting/log.php';
 
 /**
  * Write error message to log file.
- * @param string $type
+ * @param boolean $isException
  * @param integer $code
  * @param string $message
  * @param string $file
  * @param integer $line
- * @param array $context
- * @param array $trace
+ * @param array $extra
  * @return boolean
  */
-function log_error( $type, $code, $message, $file, $line, &$context, &$trace ) {
+function log_error( $isException, $code, $message, $file, $line, &$extra ) {
 	$uuid = uniqid();
-	if ( constant( "\\setting\\IS_LOG_{$type}" ) ) {
-		$path = \setting\LOG_PATH . date( '/o/m/d' );
-		if ( (is_dir( $path ) || mkdir( $path, \setting\LOG_MODE, true )) && is_writable( $path ) ) {
+	$type = $isException ? 'EXCEPTION' : $code;
+	list($toLog, $toDump, $toReturn) = \setting\log::get_triple( $type );
+
+	if ( $toLog ) {
+		$path = \setting\log::PATH . date( '/o/m/d' );
+		if ( (is_dir( $path ) || mkdir( $path, \setting\log::MODE, true )) && is_writable( $path ) ) {
 			$log = date( 'c' ) . " [$type #$uuid] $file($line): $message";
-			error_log( "$log\n", 3, "$path/error.log" );
-			if ( constant( "\\setting\\IS_LOG_{$type}_DUMP" ) ) {
-				$dump = json_encode( array( 'log' => $log, 'env' => $context, 'trace' => $trace ) );
-				error_log( $dump, 3, "$path/$uuid.dump" );
+			error_log( $log . PHP_EOL, 3, "$path/error.log" );
+			if ( $toDump ) {
+				$dump = array( 'log' => $log );
+				if ( $isException ) {
+					$dump['trace'] = $extra;
+				}
+				else {
+					$trace = debug_backtrace();
+					array_shift( $trace );
+					$dump['trace'] = $trace;
+					$dump['env'] = $extra;
+				}
+				error_log( json_encode( $dump ), 3, "$path/$uuid.dump" );
 			}
 		}
 	}
-	return constant( "\\setting\\IS_LOG_{$type}_RETURN" ) || die( header( "X-Error: $code-$uuid", true, 500 ) );
+
+	return $toReturn || die( header( "X-Error: $code-$uuid", true, 500 ) );
 }
 
 /**
  * Set default error callback.
  */
 set_error_handler( function ($code, $message, $file, $line, $context) {
-	switch ( $code ) {
-		case E_USER_ERROR:
-			$is_user = true;
-		case E_RECOVERABLE_ERROR:
-			$key = 'ERROR';
-			break;
-
-		case E_USER_WARNING:
-			$is_user = true;
-		case E_WARNING:
-			$key = 'WARNING';
-			break;
-
-		case E_USER_NOTICE:
-			$is_user = true;
-		case E_NOTICE:
-			$key = 'NOTICE';
-			break;
-
-		case E_USER_DEPRECATED:
-			$is_user = true;
-		case E_DEPRECATED:
-			$key = 'DEPRECATED';
-			break;
-
-		case E_STRICT:
-			$key = 'STRICT';
-			break;
-
-		default:
-			$key = 'UNKNOWN';
-			break;
-	}
-
-	$type = (isset( $is_user ) ? 'USER_' : '') . $key;
-	if ( constant( "\\setting\\IS_LOG_{$type}_DUMP" ) ) {
-		$trace = debug_backtrace();
-		array_shift( $trace );
-	}
-	return log_error( $type, $code, $message, $file, $line, $context, $trace );
+	return log_error( false, $code, $message, $file, $line, $context );
 } );
 
 /**
  * Set default exception callback.
  */
-set_exception_handler( function ($exception) {
-	$type = 'EXCEPTION';
-	$code = $exception->getCode();
-	$message = $exception->getMessage();
-	$file = $exception->getFile();
-	$line = $exception->getLine();
-	$context = 'UNKNOWN';
-	if ( constant( "\\setting\\IS_LOG_{$type}_DUMP" ) ) {
-		$trace = $exception->getTrace();
+set_exception_handler( function ($e) {
+	return log_error( true, $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine(), $e->getTrace() );
+} );
+
+/**
+ * Set shutdown callback for fatal error.
+ */
+register_shutdown_function( function () {
+	$e = error_get_last();
+	if ( null !== $e ) {
+		log_error( false, $e['code'], $e['message'], $e['file'], $e['line'] );
 	}
-	return log_error( $type, $code, $message, $file, $line, $context, $trace );
 } );
