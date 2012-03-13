@@ -78,7 +78,7 @@ abstract class individual extends element {
 	 */
 	public static function cache( individual $object ) {
 		$key = $object->key();
-		if ( isset( self::$pool[$key] ) ) {
+		if ( isset( self::$pool[$key] ) && self::$pool[$key] ) {
 			$cache = self::$pool[$key];
 			if ( ($object->lock != $cache->lock ) ) {
 				trigger_error( 'cache expired', E_USER_ERROR );
@@ -115,8 +115,6 @@ abstract class individual extends element {
 	 * @return string
 	 */
 	private static function _key( $uuid ) {
-		assert( "'$uuid'" );
-
 		return get_called_class() . "#$uuid";
 	}
 
