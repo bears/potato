@@ -1,10 +1,10 @@
 <?php
-namespace setting;
+namespace setting\log;
 
 /**
  * Settings of error log.
  */
-class log {
+class error {
 
 	/**
 	 * Get the triple switches of a $type.
@@ -31,13 +31,6 @@ class log {
 	 * File mode
 	 */
 	const MODE = 0777;
-
-	/**
-	 *  E_ERROR = 1
-	 */
-	const TO_LOG_1 = true;
-	const TO_DUMP_1 = true;
-	const TO_RETURN_1 = false;
 
 	/**
 	 * E_WARNING = 2
@@ -120,7 +113,7 @@ class log {
 	 * Types have TO_LOG_*
 	 */
 	private static $known_types = array(
-		E_ERROR => true,
+		/* E_ERROR */
 		E_WARNING => true,
 		/* E_PARSE */
 		E_NOTICE => true,
