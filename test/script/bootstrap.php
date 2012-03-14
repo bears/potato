@@ -4,7 +4,6 @@ namespace test;
 /**
  * Setup include/load path for unit test.
  */
-chdir( dirname( __FILE__ ) . '/../../script' );
+chdir( __DIR__ . '/../../script' );
 require_once 'setting/profile.php';
-require_once 'handler/error.php';
 require_once 'handler/loader.php';

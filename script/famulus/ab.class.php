@@ -9,7 +9,7 @@ class ab {
 	const UUID_KEY = '$';
 
 	/**
-	 * Translate the key to the other half.
+	 * Translate the key to its opposite.
 	 * @param string $key
 	 * @return string
 	 */
@@ -47,7 +47,7 @@ class ab {
 	 * Load the whole map.
 	 */
 	public static function load( $map ) {
-		static::$map_pool = require "setting/$map.php";
+		static::$map_pool = $map;
 	}
 
 	protected function __construct( $path ) {
@@ -85,4 +85,4 @@ class ab {
 }
 
 // Initialize static data.
-ab::load( 'ab' );
+ab::load( require 'setting/ab.php' );
