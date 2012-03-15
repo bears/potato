@@ -166,16 +166,23 @@ namespace test\element {
 
 		public static function setUpBeforeClass() {
 			self::get_pdo()->exec( <<<SQL
-CREATE TEMPORARY TABLE IF NOT EXISTS "test" (
+-- Table
+CREATE TEMPORARY TABLE IF NOT EXISTS "test"
+(
 	"uuid" uuid PRIMARY KEY,
 	"lock" integer NOT NULL,
 	"test" text NOT NULL
 );
-INSERT INTO "test" VALUES (
-	'00000000-0000-0000-0000-000000000000', '0', 'hello'
-);
+
+-- Data
+INSERT INTO "test" VALUES
+	('00000000-0000-0000-0000-000000000000', '0', 'hello');
 SQL
 			);
+		}
+
+		public static function tearDownAfterClass() {
+			self::get_pdo()->exec( 'DROP TABLE "test" CASCADE' );
 		}
 
 		protected static function hard_copy( $origin ) {

@@ -131,26 +131,7 @@ class individual {
 	 * @param array $values
 	 */
 	private static function save( $action, $query, array &$values ) {
-		foreach ( $values as $bind => $value ) {
-			switch ( gettype( $value ) ) {
-				case 'boolean':
-					$type = \PDO::PARAM_BOOL;
-					break;
-				case 'integer':
-					$type = \PDO::PARAM_INT;
-					break;
-				case 'NULL':
-					$type = \PDO::PARAM_NULL;
-					break;
-				case 'string':
-				case 'double':
-					$type = \PDO::PARAM_STR;
-					break;
-				default:
-					trigger_error( '', E_USER_ERROR );
-			}
-			$query->bindValue( $bind, $value, $type );
-		}
+		connector::set_input($query, $values);
 		if ( !($query->execute() && $query->rowCount()) ) {
 			$error = $query->errorInfo();
 			trigger_error( "$action failed", E_USER_ERROR );

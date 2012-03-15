@@ -38,6 +38,35 @@ class connector {
 	}
 
 	/**
+	 * Bind parameters by type.
+	 * @param \PDOStatement $query
+	 * @param array $values 
+	 */
+	public static function set_input( $query, array &$values ) {
+		foreach ( $values as $bind => $value ) {
+			switch ( gettype( $value ) ) {
+				case 'boolean':
+					$type = \PDO::PARAM_BOOL;
+					break;
+				case 'integer':
+					$type = \PDO::PARAM_INT;
+					break;
+				case 'NULL':
+					$type = \PDO::PARAM_NULL;
+					break;
+				case 'string':
+				case 'double':
+					$type = \PDO::PARAM_STR;
+					break;
+				default:
+					trigger_error( 'invalid SQL argument', E_USER_ERROR );
+			}
+			$entry = is_numeric( $bind ) ? ($bind + 1) : $bind;
+			$query->bindValue( $entry, $value, $type );
+		}
+	}
+
+	/**
 	 * Unique connection.
 	 * @var \PDO
 	 */

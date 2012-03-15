@@ -20,11 +20,10 @@ abstract class aggregate extends element implements \IteratorAggregate {
 	 * @param aggregate $value
 	 */
 	public static function cache( $key, aggregate $value ) {
-		assert( 'get_called_class()=="' . get_class( $value ) . '"' );
-
-		$index = self::index( $key );
-		if ( isset( self::$pool[$index] ) ) {
-			trigger_error( 'cache conflict', E_USER_WARNING );
+		$class = get_class( $value );
+		$index = "$class#$key";
+		if ( isset( self::$pool[$index] ) && (self::$pool[$index] !== $value) ) {
+			trigger_error( 'override cache' );
 		}
 		self::$pool[$index] = $value;
 	}
@@ -35,9 +34,13 @@ abstract class aggregate extends element implements \IteratorAggregate {
 	 * @return aggregate
 	 */
 	public static function fetch( $key ) {
-		$index = self::index( $key );
+		$class = get_called_class();
+		$index = "$class#$key";
 		if ( isset( self::$pool[$index] ) ) {
 			return self::$pool[$index];
+		}
+		else {
+			trigger_error( 'inexistent cache' );
 		}
 	}
 
@@ -52,15 +55,6 @@ abstract class aggregate extends element implements \IteratorAggregate {
 		$instance = new static();
 		$instance->objects = $delegate::select( parent::get_title(), $method, $arguments );
 		return $instance;
-	}
-
-	/**
-	 * Generate an index for cache
-	 * @param string $key
-	 * @return string
-	 */
-	private static function index( $key ) {
-		return get_called_class() . "#$key";
 	}
 
 	/**

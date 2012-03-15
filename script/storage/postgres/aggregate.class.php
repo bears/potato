@@ -15,7 +15,8 @@ class aggregate {
 	 */
 	public static function select( $title, $method, array &$arguments ) {
 		$query = self::select_query( $title, $method, $arguments );
-		if ( $query->execute( $arguments ) ) {
+		connector::set_input( $query, $arguments );
+		if ( $query->execute() ) {
 			$objects = array( );
 			foreach ( $query->fetchAll() as $object ) {
 				$objects[] = \element\individual::cache( $object );
