@@ -15,7 +15,7 @@ class aggregate {
 	 */
 	public static function select( $title, $method, array &$arguments ) {
 		$query = self::select_query( $title, $method, $arguments );
-		connector::set_input( $query, $arguments );
+		connector::set_indexed_input( $query, $arguments );
 		if ( $query->execute() ) {
 			$objects = array( );
 			foreach ( $query->fetchAll() as $object ) {

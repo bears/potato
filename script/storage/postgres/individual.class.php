@@ -131,7 +131,7 @@ class individual {
 	 * @param array $values
 	 */
 	private static function save( $action, $query, array &$values ) {
-		connector::set_input($query, $values);
+		connector::set_labeled_input($query, $values);
 		if ( !($query->execute() && $query->rowCount()) ) {
 			$error = $query->errorInfo();
 			trigger_error( "$action failed", E_USER_ERROR );

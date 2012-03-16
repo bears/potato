@@ -38,31 +38,52 @@ class connector {
 	}
 
 	/**
-	 * Bind parameters by type.
-	 * @param \PDOStatement $query
-	 * @param array $values 
+	 * Get \PDO::PARAM_* from PHP type.
+	 * @param string $type
+	 * @return enum
 	 */
-	public static function set_input( $query, array &$values ) {
+	public static function get_pdo_type( $type ) {
+		switch ( $type ) {
+			case 'boolean':
+				$type = \PDO::PARAM_BOOL;
+				break;
+			case 'integer':
+				$type = \PDO::PARAM_INT;
+				break;
+			case 'NULL':
+				$type = \PDO::PARAM_NULL;
+				break;
+			case 'string':
+			case 'double':
+				$type = \PDO::PARAM_STR;
+				break;
+			default:
+				trigger_error( 'invalid SQL argument', E_USER_ERROR );
+		}
+		return $type;
+	}
+
+	/**
+	 * Bind labeled (:name) parameters by type.
+	 * @param \PDOStatement $query
+	 * @param array $values
+	 */
+	public static function set_labeled_input( $query, array &$values ) {
 		foreach ( $values as $bind => $value ) {
-			switch ( gettype( $value ) ) {
-				case 'boolean':
-					$type = \PDO::PARAM_BOOL;
-					break;
-				case 'integer':
-					$type = \PDO::PARAM_INT;
-					break;
-				case 'NULL':
-					$type = \PDO::PARAM_NULL;
-					break;
-				case 'string':
-				case 'double':
-					$type = \PDO::PARAM_STR;
-					break;
-				default:
-					trigger_error( 'invalid SQL argument', E_USER_ERROR );
-			}
-			$entry = is_numeric( $bind ) ? ($bind + 1) : $bind;
-			$query->bindValue( $entry, $value, $type );
+			$type = self::get_pdo_type( gettype( $value ) );
+			$query->bindValue( $bind, $value, $type );
+		}
+	}
+
+	/**
+	 * Bind indexed (?) parameters by type.
+	 * @param \PDOStatement $query
+	 * @param array $values
+	 */
+	public static function set_indexed_input( $query, array &$values ) {
+		foreach ( $values as $bind => $value ) {
+			$type = self::get_pdo_type( gettype( $value ) );
+			$query->bindValue( $bind + 1, $value, $type );
 		}
 	}
 
