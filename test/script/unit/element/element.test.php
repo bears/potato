@@ -57,7 +57,25 @@ namespace test\element {
 	class element extends \PHPUnit_Framework_TestCase {
 
 		/**
-		 * @covers element\element::decorate
+		 * @var \element\pure_derive
+		 */
+		private $fixture1;
+
+		/**
+		 * @var \element\with_suffix
+		 */
+		private $fixture2;
+
+		/**
+		 * Sets up the fixtures.
+		 */
+		protected function setUp() {
+			$this->fixture1 = new \element\pure_derive();
+			$this->fixture2 = new \element\with_suffix();
+		}
+
+		/**
+		 * @covers \element\element::decorate
 		 */
 		public function test_decorate() {
 			$deco1 = $this->fixture1->decorate( \element\TEST_FORMAT );
@@ -68,7 +86,7 @@ namespace test\element {
 		}
 
 		/**
-		 * @covers element\element::renovate
+		 * @covers \element\element::renovate
 		 */
 		public function test_renovate() {
 			$reno1 = $this->fixture1->renovate( \element\TEST_FORMAT );
@@ -79,7 +97,7 @@ namespace test\element {
 		}
 
 		/**
-		 * @covers element\element::get_title
+		 * @covers \element\element::get_title
 		 */
 		public function test_get_title() {
 			$title1 = $this->fixture1->get_title();
@@ -88,24 +106,6 @@ namespace test\element {
 			$title2 = $this->fixture2->get_title();
 			$this->assertEquals( 'with_suffix', $title2 );
 		}
-
-		/**
-		 * Sets up the fixtures.
-		 */
-		public function setUp() {
-			$this->fixture1 = new \element\pure_derive();
-			$this->fixture2 = new \element\with_suffix();
-		}
-
-		/**
-		 * @var \element\pure_derive
-		 */
-		private $fixture1;
-
-		/**
-		 * @var \element\with_suffix
-		 */
-		private $fixture2;
 
 	}
 

@@ -32,14 +32,27 @@ namespace test\element {
 	class assistant extends \PHPUnit_Framework_TestCase {
 
 		/**
-		 * @covers element\assistant::__toString
+		 * @var \element\helper
+		 */
+		private $fixture;
+
+		/**
+		 * Sets up the fixture.
+		 */
+		protected function setUp() {
+			$origin = new \element\origin();
+			$this->fixture = new \element\helper( $origin );
+		}
+
+		/**
+		 * @covers \element\assistant::__toString
 		 */
 		public function test__toString() {
 			$this->assertEquals( '{"check":"value"}', "{$this->fixture}" );
 		}
 
 		/**
-		 * @covers element\assistant::content
+		 * @covers \element\assistant::content
 		 */
 		public function test_content() {
 			$content = $this->fixture->content();
@@ -48,26 +61,13 @@ namespace test\element {
 		}
 
 		/**
-		 * @covers element\assistant::trivial
+		 * @covers \element\assistant::trivial
 		 */
 		public function test_trivial() {
 			$trivial = $this->fixture->trivial();
 			$this->assertInternalType( 'array', $trivial );
 			$this->assertEmpty( $trivial );
 		}
-
-		/**
-		 * Sets up the fixture.
-		 */
-		public function setUp() {
-			$origin = new \element\origin();
-			$this->fixture = new \element\helper( $origin );
-		}
-
-		/**
-		 * @var \element\helper
-		 */
-		private $fixture;
 
 	}
 
