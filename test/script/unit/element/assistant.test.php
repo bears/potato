@@ -6,16 +6,41 @@ namespace element {
 
 	class origin extends element {
 
-		public $check = 'value';
+		public $check;
+
+		public function __construct( $value ) {
+			$this->check = $value;
+		}
 
 	}
 
 	class helper extends assistant {
 
 		public function & content( array &$vessel = array( ) ) {
-			$vessel['check'] = $this->object->check;
+			$vessel['c'] = $this->object->check;
 			return $vessel;
 		}
+
+	}
+
+}
+namespace element\origin {
+
+	class aggregate extends \element\aggregate {
+
+		public function __construct() {
+			$this->objects = array(
+				new \element\origin( 123 ),
+				new \element\origin( 'x' ),
+			);
+		}
+
+	}
+
+}
+namespace element\helper {
+
+	class aggregate extends \element\assistant {
 
 	}
 
@@ -40,33 +65,39 @@ namespace test\element {
 		 * Sets up the fixture.
 		 */
 		protected function setUp() {
-			$origin = new \element\origin();
-			$this->fixture = new \element\helper( $origin );
+			$origin = new \element\origin\aggregate();
+			$this->fixture = new \element\helper\aggregate( $origin );
 		}
 
 		/**
 		 * @covers \element\assistant::__toString
 		 */
 		public function test__toString() {
-			$this->assertEquals( '{"check":"value"}', "{$this->fixture}" );
+			$this->assertEquals( '[{"c":123},{"c":"x"}]', "{$this->fixture}" );
 		}
 
 		/**
 		 * @covers \element\assistant::content
 		 */
 		public function test_content() {
-			$content = $this->fixture->content();
-			$this->assertInternalType( 'array', $content );
-			$this->assertArrayHasKey( 'check', $content );
+			$vessel = array( 'x' => 'y' );
+			$content = $this->fixture->content( $vessel );
+			$this->assertSame( $vessel, $content );
+			$this->assertCount( 3, $content );
 		}
 
 		/**
 		 * @covers \element\assistant::trivial
 		 */
 		public function test_trivial() {
-			$trivial = $this->fixture->trivial();
-			$this->assertInternalType( 'array', $trivial );
-			$this->assertEmpty( $trivial );
+			$content = $this->fixture->content();
+			$this->assertCount( 2, $content );
+
+			$this->assertArrayHasKey( 'c', $content[0] );
+			$this->assertSame( 123, $content[0]['c'] );
+
+			$this->assertArrayHasKey( 'c', $content[1] );
+			$this->assertSame( 'x', $content[1]['c'] );
 		}
 
 	}
