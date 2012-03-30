@@ -1,6 +1,6 @@
 server {
 	listen  80;
-	server_name  potato.major.home;
+	server_name  <project domain>;
 
 	location  =  / {
 		root  /<project path>/public;
@@ -20,7 +20,7 @@ server {
 
 server {
 	listen  80;
-	server_name  cdn.major.home;
+	server_name  <project CDN>;
 
 	location  /potato/test/ {
 		alias  /<project path>/test/public/;
